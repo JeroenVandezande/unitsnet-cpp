@@ -110,6 +110,18 @@ cmake -S . -B build
 cmake --build build --target unitsnet_cpp_compile_check
 ```
 
+## Tests
+
+The test suite covers representative linear and affine conversions, enum-based conversion, arithmetic, comparisons, and invalid-unit handling. It uses CTest and has no third-party test-framework dependency.
+
+Tests are enabled by default when building `unitsnet-cpp` directly and disabled by default when it is included as a dependency through CPM. To build and run them explicitly:
+
+```sh
+cmake -S . -B build -DUNITSNET_CPP_BUILD_TESTS=ON
+cmake --build build --target unitsnet_cpp_tests
+ctest --test-dir build --output-on-failure
+```
+
 ## Code generation
 
 The quantity headers are generated from the JSON definitions in [UnitsNet's `Common/UnitDefinitions` directory](https://github.com/angularsen/UnitsNet/tree/master/Common/UnitDefinitions). Each definition describes a quantity's base unit, supported units, prefixes, conversion expressions, and metadata.

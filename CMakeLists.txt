@@ -145,3 +145,53 @@ else ()
             -Wpedantic
     )
 endif ()
+
+# ---------------------------------------------------------------------------
+# Tests
+#
+# Tests are enabled for standalone builds and disabled when unitsnet-cpp is
+# included as a dependency (for example through CPM.cmake).
+# ---------------------------------------------------------------------------
+
+option(
+        UNITSNET_CPP_BUILD_TESTS
+        "Build the unitsnet-cpp unit tests"
+        ${PROJECT_IS_TOP_LEVEL}
+)
+
+if (UNITSNET_CPP_BUILD_TESTS)
+    enable_testing()
+
+    add_executable(
+            unitsnet_cpp_tests
+            tests/unitsnet_tests.cpp
+    )
+
+    target_link_libraries(
+            unitsnet_cpp_tests
+            PRIVATE
+            UnitsNet::UnitsNet
+    )
+
+    if (MSVC)
+        target_compile_options(
+                unitsnet_cpp_tests
+                PRIVATE
+                /W4
+                /permissive-
+        )
+    else ()
+        target_compile_options(
+                unitsnet_cpp_tests
+                PRIVATE
+                -Wall
+                -Wextra
+                -Wpedantic
+        )
+    endif ()
+
+    add_test(
+            NAME unitsnet_cpp.unit_tests
+            COMMAND unitsnet_cpp_tests
+    )
+endif ()
