@@ -23,16 +23,21 @@ A header-only C++20 port of [UnitsNet](https://github.com/angularsen/UnitsNet), 
 
 ## Add with CPM.cmake
 
-The intended way to consume `unitsnet-cpp` is with [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake). After adding `CPM.cmake` to your project, fetch the library and link its interface target:
+The intended way to consume `unitsnet-cpp` is with [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake). This example downloads a fixed CPM version, adds `unitsnet-cpp` 1.0.0, and links its interface target:
 
 ```cmake
-include(cmake/CPM.cmake)
-
-CPMAddPackage(
-    NAME unitsnet_cpp
-    GIT_REPOSITORY https://github.com/JeroenVandezande/unitsnet-cpp.git
-    GIT_TAG main
+# Download CPM.cmake
+set(CPM_VERSION 0.42.0)
+message("Downloading CPM Package Manager version ${CPM_VERSION}")
+file(
+    DOWNLOAD
+    https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_VERSION}/CPM.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake
 )
+include("${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake")
+
+# Include unitsnet-cpp
+CPMAddPackage("gh:JeroenVandezande/unitsnet-cpp@1.0.0")
 
 target_link_libraries(your_target
     PRIVATE
@@ -42,11 +47,7 @@ target_link_libraries(your_target
 
 CPM downloads and configures the repository during CMake configuration. Linking `UnitsNet::UnitsNet` supplies the generated include directory and enables C++20 for the consuming target; there is no binary library to build or install.
 
-`main` is appropriate while the library is in early development. For reproducible builds, replace it with a release tag or an immutable commit hash once available:
-
-```cmake
-GIT_TAG <commit-hash>
-```
+The `@1.0.0` suffix selects the `v1.0.0` Git tag, keeping dependency resolution reproducible. Update that version explicitly when adopting a newer release.
 
 ## Usage
 
