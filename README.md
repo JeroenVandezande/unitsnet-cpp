@@ -14,12 +14,39 @@ A header-only C++20 port of [UnitsNet](https://github.com/angularsen/UnitsNet), 
 - `constexpr` construction, conversion, arithmetic, and comparison
 - Named factories and accessors such as `Length::from_kilometers()` and `Length::miles()`
 - Generic conversion through each quantity's unit enum
-- Header-only CMake target with no runtime dependencies
+- CPM-ready, header-only CMake target with no runtime dependencies
 
 ## Requirements
 
 - A C++20-compatible compiler
 - CMake 3.31.6 or newer when using the supplied CMake project
+
+## Add with CPM.cmake
+
+The intended way to consume `unitsnet-cpp` is with [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake). After adding `CPM.cmake` to your project, fetch the library and link its interface target:
+
+```cmake
+include(cmake/CPM.cmake)
+
+CPMAddPackage(
+    NAME unitsnet_cpp
+    GIT_REPOSITORY https://github.com/JeroenVandezande/unitsnet-cpp.git
+    GIT_TAG main
+)
+
+target_link_libraries(your_target
+    PRIVATE
+        UnitsNet::UnitsNet
+)
+```
+
+CPM downloads and configures the repository during CMake configuration. Linking `UnitsNet::UnitsNet` supplies the generated include directory and enables C++20 for the consuming target; there is no binary library to build or install.
+
+`main` is appropriate while the library is in early development. For reproducible builds, replace it with a release tag or an immutable commit hash once available:
+
+```cmake
+GIT_TAG <commit-hash>
+```
 
 ## Usage
 
@@ -62,9 +89,9 @@ constexpr auto base = distance.base_value();              // SI/base-unit value
 
 Quantities of the same type support `+`, `-`, multiplication and division by a scalar, equality, and less-than comparison.
 
-## CMake integration
+## Local CMake integration
 
-Add the repository to your project and link the interface target:
+When developing against a local checkout instead of CPM, add the repository directly and link the same interface target:
 
 ```cmake
 add_subdirectory(path/to/unitsnet-cpp)
@@ -75,8 +102,6 @@ target_link_libraries(your_target
 )
 ```
 
-The target supplies the generated include directory and enables C++20 for consumers.
-
 To compile-check every generated header:
 
 ```sh
@@ -84,11 +109,25 @@ cmake -S . -B build
 cmake --build build --target unitsnet_cpp_compile_check
 ```
 
+## Code generation
+
+The quantity headers are generated from the JSON definitions in [UnitsNet's `Common/UnitDefinitions` directory](https://github.com/angularsen/UnitsNet/tree/master/Common/UnitDefinitions). Each definition describes a quantity's base unit, supported units, prefixes, conversion expressions, and metadata.
+
+The generator in [`codegen`](codegen) is a small C# console application targeting .NET 10. It:
+
+1. Downloads the current JSON definitions from the upstream UnitsNet `master` branch.
+2. Deserializes each quantity definition and expands its supported metric and binary prefixes.
+3. Translates the UnitsNet conversion expressions into C++ expressions.
+4. Renders the [`unit.hpp.scriban`](codegen/Templates/unit.hpp.scriban) template using [Scriban](https://github.com/scriban/scriban).
+5. Writes one C++ header per quantity into [`src/generated`](src/generated).
+
+The C# generator is a maintainer tool only. It is not configured, built, or executed when this library is added through CPM. All generated C++ headers are committed to the repository, so consumers need only CMake and a C++20 compiler—no .NET SDK, C# runtime, Scriban package, or network access is required to compile the library after CPM has fetched it.
+
+Maintainers who want to update the generated headers need the .NET 10 SDK. NuGet restores the generator's Scriban dependency from [`codegen.csproj`](codegen/codegen.csproj).
+
 ## Project status
 
 The current release focuses on generated quantity types, conversions, same-quantity arithmetic, and comparisons. Some functionality available in UnitsNet—such as string parsing, formatting, localization, runtime quantity discovery, serialization, and cross-quantity operators—is not yet implemented.
-
-Generated headers live in [`src/generated`](src/generated). The generator lives in [`codegen`](codegen) and consumes the unit definitions from the upstream UnitsNet repository.
 
 ## Acknowledgements
 
