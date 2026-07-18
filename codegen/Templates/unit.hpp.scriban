@@ -1,0 +1,108 @@
+#pragma once
+
+#include <cstdint>
+#include <numbers>
+#include <stdexcept>
+
+namespace unitsnet_cpp
+{
+    enum class {{ name }}Unit : std::uint16_t
+    {
+    {{~ for unit in units ~}}
+        {{ unit.enum_name }},
+    {{~ end ~}}
+    };
+
+    /// <summary>{{ xml_doc_summary }}</summary>
+    class {{ name }}
+    {
+    public:
+        constexpr explicit {{ name }}(
+            double value,
+            {{ name }}Unit unit = {{ name }}Unit::{{ base_unit }})
+            : value_(convert_to_base(value, unit))
+        {
+        }
+
+        [[nodiscard]] constexpr double base_value() const noexcept
+        {
+            return value_;
+        }
+
+        [[nodiscard]] constexpr double value({{ name }}Unit unit) const
+        {
+            return convert_from_base(unit);
+        }
+
+        [[nodiscard]] constexpr {{ name }} operator+({{ name }} other) const noexcept
+        {
+            return {{ name }}(value_ + other.value_);
+        }
+
+        [[nodiscard]] constexpr {{ name }} operator-({{ name }} other) const noexcept
+        {
+            return {{ name }}(value_ - other.value_);
+        }
+
+        [[nodiscard]] constexpr {{ name }} operator*(double scalar) const noexcept
+        {
+            return {{ name }}(value_ * scalar);
+        }
+
+        [[nodiscard]] constexpr {{ name }} operator/(double scalar) const noexcept
+        {
+            return {{ name }}(value_ / scalar);
+        }
+
+        [[nodiscard]] constexpr bool operator==({{ name }} other) const noexcept
+        {
+            return value_ == other.value_;
+        }
+
+        [[nodiscard]] constexpr bool operator<({{ name }} other) const noexcept
+        {
+            return value_ < other.value_;
+        }
+
+    {{~ for unit in units }}
+        [[nodiscard]] constexpr double {{ unit.method_name }}() const
+        {
+            return convert_from_base({{ name }}Unit::{{ unit.enum_name }});
+        }
+
+        [[nodiscard]] static constexpr {{ name }} from_{{ unit.method_name }}(double value)
+        {
+            return {{ name }}(value, {{ name }}Unit::{{ unit.enum_name }});
+        }
+
+    {{~ end }}
+    private:
+        [[nodiscard]] static constexpr double convert_to_base(double value, {{ name }}Unit unit)
+        {
+            switch (unit)
+            {
+            {{~ for unit in units }}
+            case {{ name }}Unit::{{ unit.enum_name }}:
+                return {{ unit.to_base_expression }};
+            {{~ end }}
+            }
+
+            throw std::invalid_argument("Unknown {{ name }} unit.");
+        }
+
+        [[nodiscard]] constexpr double convert_from_base({{ name }}Unit unit) const
+        {
+            switch (unit)
+            {
+            {{~ for unit in units }}
+            case {{ name }}Unit::{{ unit.enum_name }}:
+                return {{ unit.from_base_expression }};
+            {{~ end }}
+            }
+
+            throw std::invalid_argument("Unknown {{ name }} unit.");
+        }
+
+        double value_;
+    };
+}
