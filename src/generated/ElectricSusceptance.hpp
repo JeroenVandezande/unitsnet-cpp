@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -28,39 +29,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Electrical susceptance is the imaginary part of admittance, where the real part is conductance.</summary>
-    class ElectricSusceptance
+    class ElectricSusceptance : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricSusceptance(
             const un_scalar_t value,
             const ElectricSusceptanceUnit unit = ElectricSusceptanceUnit::Siemens)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricSusceptanceUnit::Siemens)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricSusceptance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricSusceptanceUnit unit) const
@@ -68,39 +75,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricSusceptance operator+(const ElectricSusceptance other) const noexcept
+        [[nodiscard]] constexpr ElectricSusceptance operator+(const ElectricSusceptance& other) const noexcept
         {
-            return ElectricSusceptance(value_ + other.value_);
+            return ElectricSusceptance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricSusceptance operator-(const ElectricSusceptance other) const noexcept
+        [[nodiscard]] constexpr ElectricSusceptance operator-(const ElectricSusceptance& other)const noexcept
         {
-            return ElectricSusceptance(value_ - other.value_);
+            return ElectricSusceptance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricSusceptance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricSusceptance(value_ * scalar);
+            return ElectricSusceptance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricSusceptance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricSusceptance(value_ / scalar);
+            return ElectricSusceptance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricSusceptance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricSusceptance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricSusceptance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricSusceptance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricSusceptance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricSusceptance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -285,8 +292,7 @@ namespace unitsnet_cpp
             return ElectricSusceptance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricSusceptanceUnit unit)
         {
             switch (unit)
@@ -347,56 +353,63 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricSusceptanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricSusceptanceUnit::Siemens:
-                return value_;
+                return base_value_;
 
             case ElectricSusceptanceUnit::Nanosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricSusceptanceUnit::Microsiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricSusceptanceUnit::Millisiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricSusceptanceUnit::Kilosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricSusceptanceUnit::Megasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricSusceptanceUnit::Gigasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricSusceptanceUnit::Terasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case ElectricSusceptanceUnit::Mhos:
-                return value_;
+                return base_value_;
 
             case ElectricSusceptanceUnit::Nanomhos:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricSusceptanceUnit::Micromhos:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricSusceptanceUnit::Millimhos:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricSusceptanceUnit::Kilomhos:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricSusceptanceUnit::Megamhos:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricSusceptanceUnit::Gigamhos:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricSusceptanceUnit::Teramhos:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -404,5 +417,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricSusceptanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

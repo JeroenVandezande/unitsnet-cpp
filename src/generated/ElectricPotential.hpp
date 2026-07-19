@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -18,39 +19,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In classical electromagnetism, the electric potential (a scalar quantity denoted by Φ, ΦE or V and also called the electric field potential or the electrostatic potential) at a point is the amount of electric potential energy that a unitary point charge would have when located at that point.</summary>
-    class ElectricPotential
+    class ElectricPotential : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricPotential(
             const un_scalar_t value,
             const ElectricPotentialUnit unit = ElectricPotentialUnit::Volts)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricPotentialUnit::Volts)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricPotential(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricPotentialUnit unit) const
@@ -58,39 +65,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator+(const ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator+(const ElectricPotential& other) const noexcept
         {
-            return ElectricPotential(value_ + other.value_);
+            return ElectricPotential(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator-(const ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator-(const ElectricPotential& other)const noexcept
         {
-            return ElectricPotential(value_ - other.value_);
+            return ElectricPotential(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricPotential operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricPotential(value_ * scalar);
+            return ElectricPotential(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricPotential operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricPotential(value_ / scalar);
+            return ElectricPotential(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricPotential& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricPotential& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricPotential& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -165,8 +172,7 @@ namespace unitsnet_cpp
             return ElectricPotential(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricPotentialUnit unit)
         {
             switch (unit)
@@ -197,26 +203,33 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricPotentialUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricPotentialUnit::Volts:
-                return value_;
+                return base_value_;
 
             case ElectricPotentialUnit::Nanovolts:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricPotentialUnit::Microvolts:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialUnit::Millivolts:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialUnit::Kilovolts:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialUnit::Megavolts:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -224,5 +237,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricPotentialUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -62,39 +63,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Pressure (symbol: P or p) is the ratio of force to the area over which that force is distributed. Pressure is force per unit area applied in a direction perpendicular to the surface of an object. Gauge pressure (also spelled gage pressure)[a] is the pressure relative to the local atmospheric or ambient pressure. Pressure is measured in any unit of force divided by any unit of area. The SI unit of pressure is the newton per square metre, which is called the pascal (Pa) after the seventeenth-century philosopher and scientist Blaise Pascal. A pressure of 1 Pa is small; it approximately equals the pressure exerted by a dollar bill resting flat on a table. Everyday pressures are often stated in kilopascals (1 kPa = 1000 Pa).</summary>
-    class Pressure
+    class Pressure : public UnitsNetBase
     {
     public:
         constexpr explicit Pressure(
             const un_scalar_t value,
             const PressureUnit unit = PressureUnit::Pascals)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == PressureUnit::Pascals)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Pressure(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PressureUnit unit) const
@@ -102,39 +109,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Pressure operator+(const Pressure other) const noexcept
+        [[nodiscard]] constexpr Pressure operator+(const Pressure& other) const noexcept
         {
-            return Pressure(value_ + other.value_);
+            return Pressure(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Pressure operator-(const Pressure other) const noexcept
+        [[nodiscard]] constexpr Pressure operator-(const Pressure& other)const noexcept
         {
-            return Pressure(value_ - other.value_);
+            return Pressure(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Pressure operator*(const un_scalar_t scalar) const noexcept
         {
-            return Pressure(value_ * scalar);
+            return Pressure(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Pressure operator/(const un_scalar_t scalar) const noexcept
         {
-            return Pressure(value_ / scalar);
+            return Pressure(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Pressure other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Pressure& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Pressure other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Pressure& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Pressure other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Pressure& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -729,8 +736,7 @@ namespace unitsnet_cpp
             return Pressure(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PressureUnit unit)
         {
             switch (unit)
@@ -893,158 +899,165 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const PressureUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case PressureUnit::Pascals:
-                return value_;
+                return base_value_;
 
             case PressureUnit::Micropascals:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case PressureUnit::Millipascals:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::Decapascals:
-                return (value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value_) / static_cast<un_scalar_t>(1e1);
 
             case PressureUnit::Hectopascals:
-                return (value_) / static_cast<un_scalar_t>(1e2);
+                return (base_value_) / static_cast<un_scalar_t>(1e2);
 
             case PressureUnit::Kilopascals:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::Megapascals:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::Gigapascals:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case PressureUnit::Atmospheres:
-                return value_ / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
+                return base_value_ / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
 
             case PressureUnit::Bars:
-                return value_ / static_cast<un_scalar_t>(1e5);
+                return base_value_ / static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Microbars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-6);
 
             case PressureUnit::Millibars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::Centibars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::Decibars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-1);
 
             case PressureUnit::Kilobars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::Megabars:
-                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilogramsForcePerSquareMeter:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case PressureUnit::KilogramsForcePerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e4);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::KilogramsForcePerSquareMillimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e6);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e6);
 
             case PressureUnit::NewtonsPerSquareMeter:
-                return value_;
+                return base_value_;
 
             case PressureUnit::KilonewtonsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::MeganewtonsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::NewtonsPerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(1e4);
+                return base_value_ / static_cast<un_scalar_t>(1e4);
 
             case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::NewtonsPerSquareMillimeter:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TechnicalAtmospheres:
-                return value_ / static_cast<un_scalar_t>(9.80665e4);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::Torrs:
-                return value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325);
+                return base_value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325);
 
             case PressureUnit::Millitorrs:
-                return (value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::PoundsForcePerSquareInch:
-                return value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareInch:
-                return (value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareMil:
-                return value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareMil:
-                return (value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareFoot:
-                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareFoot:
-                return (value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TonnesForcePerSquareMillimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e9);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e9);
 
             case PressureUnit::TonnesForcePerSquareMeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MetersOfHead:
-                return value_ / static_cast<un_scalar_t>(9804.139432);
+                return base_value_ / static_cast<un_scalar_t>(9804.139432);
 
             case PressureUnit::TonnesForcePerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e7);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e7);
 
             case PressureUnit::FeetOfHead:
-                return value_ / (static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048));
+                return base_value_ / (static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048));
 
             case PressureUnit::MillimetersOfMercury:
-                return value_ / static_cast<un_scalar_t>(133.322387415);
+                return base_value_ / static_cast<un_scalar_t>(133.322387415);
 
             case PressureUnit::InchesOfMercury:
-                return value_ / (static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415));
+                return base_value_ / (static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415));
 
             case PressureUnit::DynesPerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(1.0e-1);
+                return base_value_ / static_cast<un_scalar_t>(1.0e-1);
 
             case PressureUnit::PoundsPerInchSecondSquared:
-                return value_ * static_cast<un_scalar_t>(386.0886) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
+                return base_value_ * static_cast<un_scalar_t>(386.0886) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
 
             case PressureUnit::MetersOfWaterColumn:
-                return value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MillimetersOfWaterColumn:
-                return (value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::CentimetersOfWaterColumn:
-                return (value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::InchesOfWaterColumn:
-                return value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3));
+                return base_value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3));
 
             case PressureUnit::MilligramsForcePerSquareMeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e-6);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-6);
 
             case PressureUnit::MilligramsForcePerSquareFoot:
-                return value_ / static_cast<un_scalar_t>(9.80665e-6) * static_cast<un_scalar_t>(9.290304e-2);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-6) * static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -1052,5 +1065,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        PressureUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

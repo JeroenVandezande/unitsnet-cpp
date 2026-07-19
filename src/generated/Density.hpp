@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -68,39 +69,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The density, or more precisely, the volumetric mass density, of a substance is its mass per unit volume.</summary>
-    class Density
+    class Density : public UnitsNetBase
     {
     public:
         constexpr explicit Density(
             const un_scalar_t value,
             const DensityUnit unit = DensityUnit::KilogramsPerCubicMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == DensityUnit::KilogramsPerCubicMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Density(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const DensityUnit unit) const
@@ -108,39 +115,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Density operator+(const Density other) const noexcept
+        [[nodiscard]] constexpr Density operator+(const Density& other) const noexcept
         {
-            return Density(value_ + other.value_);
+            return Density(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Density operator-(const Density other) const noexcept
+        [[nodiscard]] constexpr Density operator-(const Density& other)const noexcept
         {
-            return Density(value_ - other.value_);
+            return Density(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Density operator*(const un_scalar_t scalar) const noexcept
         {
-            return Density(value_ * scalar);
+            return Density(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Density operator/(const un_scalar_t scalar) const noexcept
         {
-            return Density(value_ / scalar);
+            return Density(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Density other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Density& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Density other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Density& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Density other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Density& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -769,8 +776,7 @@ namespace unitsnet_cpp
             return Density(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, DensityUnit unit)
         {
             switch (unit)
@@ -951,176 +957,183 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const DensityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case DensityUnit::GramsPerCubicMillimeter:
-                return value_ * static_cast<un_scalar_t>(1e-6);
+                return base_value_ * static_cast<un_scalar_t>(1e-6);
 
             case DensityUnit::KilogramsPerCubicMillimeter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::GramsPerCubicCentimeter:
-                return value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value_ * static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::KilogramsPerCubicCentimeter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::GramsPerCubicMeter:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::KilogramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::MilligramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::MicrogramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case DensityUnit::PoundsPerCubicInch:
-                return value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::KilopoundsPerCubicInch:
-                return (value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::PoundsPerCubicFoot:
-                return value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::KilopoundsPerCubicFoot:
-                return (value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::PoundsPerCubicYard:
-                return value_ * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::KilopoundsPerCubicYard:
-                return (value_ * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::TonnesPerCubicMillimeter:
-                return value_ * static_cast<un_scalar_t>(1e-12);
+                return base_value_ * static_cast<un_scalar_t>(1e-12);
 
             case DensityUnit::TonnesPerCubicCentimeter:
-                return value_ * static_cast<un_scalar_t>(1e-9);
+                return base_value_ * static_cast<un_scalar_t>(1e-9);
 
             case DensityUnit::TonnesPerCubicMeter:
-                return value_ * static_cast<un_scalar_t>(0.001);
+                return base_value_ * static_cast<un_scalar_t>(0.001);
 
             case DensityUnit::SlugsPerCubicFoot:
-                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case DensityUnit::GramsPerLiter:
-                return value_ * static_cast<un_scalar_t>(1);
+                return base_value_ * static_cast<un_scalar_t>(1);
 
             case DensityUnit::FemtogramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-15);
 
             case DensityUnit::PicogramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-12);
 
             case DensityUnit::NanogramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-9);
 
             case DensityUnit::MicrogramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-6);
 
             case DensityUnit::MilligramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::CentigramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-2);
 
             case DensityUnit::DecigramsPerLiter:
-                return (value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1)) / static_cast<un_scalar_t>(1e-1);
 
             case DensityUnit::GramsPerDeciliter:
-                return value_ * static_cast<un_scalar_t>(1e-1);
+                return base_value_ * static_cast<un_scalar_t>(1e-1);
 
             case DensityUnit::FemtogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-15);
 
             case DensityUnit::PicogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-12);
 
             case DensityUnit::NanogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-9);
 
             case DensityUnit::MicrogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
             case DensityUnit::MilligramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::CentigramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-2);
 
             case DensityUnit::DecigramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
 
             case DensityUnit::GramsPerMilliliter:
-                return value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value_ * static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::FemtogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-15);
 
             case DensityUnit::PicogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
             case DensityUnit::NanogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
             case DensityUnit::MicrogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case DensityUnit::MilligramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case DensityUnit::CentigramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
             case DensityUnit::DecigramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
             case DensityUnit::PoundsPerUSGallon:
-                return value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::PoundsPerImperialGallon:
-                return value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::KilogramsPerLiter:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case DensityUnit::TonnesPerCubicFoot:
-                return value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(1000);
 
             case DensityUnit::TonnesPerCubicInch:
-                return value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(1000);
 
             case DensityUnit::GramsPerCubicFoot:
-                return value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.001);
+                return base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.001);
 
             case DensityUnit::GramsPerCubicInch:
-                return value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.001);
+                return base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.001);
 
             case DensityUnit::PoundsPerCubicMeter:
-                return value_ / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ / static_cast<un_scalar_t>(0.45359237);
 
             case DensityUnit::PoundsPerCubicCentimeter:
-                return value_ / static_cast<un_scalar_t>(0.45359237e6);
+                return base_value_ / static_cast<un_scalar_t>(0.45359237e6);
 
             case DensityUnit::PoundsPerCubicMillimeter:
-                return value_ / static_cast<un_scalar_t>(0.45359237e9);
+                return base_value_ / static_cast<un_scalar_t>(0.45359237e9);
 
             case DensityUnit::SlugsPerCubicMeter:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case DensityUnit::SlugsPerCubicCentimeter:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237e6) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237e6) * static_cast<un_scalar_t>(9.80665));
 
             case DensityUnit::SlugsPerCubicMillimeter:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237e9) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237e9) * static_cast<un_scalar_t>(9.80665));
 
             case DensityUnit::SlugsPerCubicInch:
-                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(1.6387064e-5)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(1.6387064e-5)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             }
 
@@ -1128,5 +1141,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        DensityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

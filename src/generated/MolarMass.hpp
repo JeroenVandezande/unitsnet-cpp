@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -25,39 +26,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In chemistry, the molar mass M is a physical property defined as the mass of a given substance (chemical element or chemical compound) divided by the amount of substance.</summary>
-    class MolarMass
+    class MolarMass : public UnitsNetBase
     {
     public:
         constexpr explicit MolarMass(
             const un_scalar_t value,
             const MolarMassUnit unit = MolarMassUnit::KilogramsPerMole)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MolarMassUnit::KilogramsPerMole)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit MolarMass(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MolarMassUnit unit) const
@@ -65,39 +72,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MolarMass operator+(const MolarMass other) const noexcept
+        [[nodiscard]] constexpr MolarMass operator+(const MolarMass& other) const noexcept
         {
-            return MolarMass(value_ + other.value_);
+            return MolarMass(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr MolarMass operator-(const MolarMass other) const noexcept
+        [[nodiscard]] constexpr MolarMass operator-(const MolarMass& other)const noexcept
         {
-            return MolarMass(value_ - other.value_);
+            return MolarMass(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr MolarMass operator*(const un_scalar_t scalar) const noexcept
         {
-            return MolarMass(value_ * scalar);
+            return MolarMass(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr MolarMass operator/(const un_scalar_t scalar) const noexcept
         {
-            return MolarMass(value_ / scalar);
+            return MolarMass(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const MolarMass other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MolarMass& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const MolarMass other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MolarMass& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const MolarMass other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const MolarMass& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -249,8 +256,7 @@ namespace unitsnet_cpp
             return MolarMass(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MolarMassUnit unit)
         {
             switch (unit)
@@ -302,47 +308,54 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MolarMassUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MolarMassUnit::GramsPerMole:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::NanogramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MolarMassUnit::MicrogramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MolarMassUnit::MilligramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarMassUnit::CentigramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MolarMassUnit::DecigramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MolarMassUnit::DecagramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MolarMassUnit::HectogramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MolarMassUnit::KilogramsPerMole:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::KilogramsPerKilomole:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::PoundsPerMole:
-                return value_ / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ / static_cast<un_scalar_t>(0.45359237);
 
             case MolarMassUnit::KilopoundsPerMole:
-                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::MegapoundsPerMole:
-                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -350,5 +363,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MolarMassUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

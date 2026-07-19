@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -24,39 +25,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The number of occurrences of a repeating event per unit time.</summary>
-    class Frequency
+    class Frequency : public UnitsNetBase
     {
     public:
         constexpr explicit Frequency(
             const un_scalar_t value,
             const FrequencyUnit unit = FrequencyUnit::Hertz)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == FrequencyUnit::Hertz)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Frequency(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const FrequencyUnit unit) const
@@ -64,39 +71,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Frequency operator+(const Frequency other) const noexcept
+        [[nodiscard]] constexpr Frequency operator+(const Frequency& other) const noexcept
         {
-            return Frequency(value_ + other.value_);
+            return Frequency(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Frequency operator-(const Frequency other) const noexcept
+        [[nodiscard]] constexpr Frequency operator-(const Frequency& other)const noexcept
         {
-            return Frequency(value_ - other.value_);
+            return Frequency(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Frequency operator*(const un_scalar_t scalar) const noexcept
         {
-            return Frequency(value_ * scalar);
+            return Frequency(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Frequency operator/(const un_scalar_t scalar) const noexcept
         {
-            return Frequency(value_ / scalar);
+            return Frequency(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Frequency other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Frequency& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Frequency other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Frequency& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Frequency other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Frequency& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -239,8 +246,7 @@ namespace unitsnet_cpp
             return Frequency(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, FrequencyUnit unit)
         {
             switch (unit)
@@ -289,44 +295,51 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const FrequencyUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case FrequencyUnit::Hertz:
-                return value_;
+                return base_value_;
 
             case FrequencyUnit::Microhertz:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case FrequencyUnit::Millihertz:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case FrequencyUnit::Kilohertz:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case FrequencyUnit::Megahertz:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case FrequencyUnit::Gigahertz:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case FrequencyUnit::Terahertz:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case FrequencyUnit::RadiansPerSecond:
-                return value_ * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
+                return base_value_ * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
-                return value_ * static_cast<un_scalar_t>(60);
+                return base_value_ * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::CyclesPerHour:
-                return value_ * static_cast<un_scalar_t>(3600);
+                return base_value_ * static_cast<un_scalar_t>(3600);
 
             case FrequencyUnit::BeatsPerMinute:
-                return value_ * static_cast<un_scalar_t>(60);
+                return base_value_ * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:
-                return value_;
+                return base_value_;
 
             }
 
@@ -334,5 +347,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        FrequencyUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

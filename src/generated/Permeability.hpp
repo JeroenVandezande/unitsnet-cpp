@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -13,39 +14,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In electromagnetism, permeability is the measure of the ability of a material to support the formation of a magnetic field within itself.</summary>
-    class Permeability
+    class Permeability : public UnitsNetBase
     {
     public:
         constexpr explicit Permeability(
             const un_scalar_t value,
             const PermeabilityUnit unit = PermeabilityUnit::HenriesPerMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == PermeabilityUnit::HenriesPerMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Permeability(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PermeabilityUnit unit) const
@@ -53,39 +60,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Permeability operator+(const Permeability other) const noexcept
+        [[nodiscard]] constexpr Permeability operator+(const Permeability& other) const noexcept
         {
-            return Permeability(value_ + other.value_);
+            return Permeability(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Permeability operator-(const Permeability other) const noexcept
+        [[nodiscard]] constexpr Permeability operator-(const Permeability& other)const noexcept
         {
-            return Permeability(value_ - other.value_);
+            return Permeability(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Permeability operator*(const un_scalar_t scalar) const noexcept
         {
-            return Permeability(value_ * scalar);
+            return Permeability(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Permeability operator/(const un_scalar_t scalar) const noexcept
         {
-            return Permeability(value_ / scalar);
+            return Permeability(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Permeability other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Permeability& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Permeability other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Permeability& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Permeability other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Permeability& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -105,8 +112,7 @@ namespace unitsnet_cpp
             return Permeability(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PermeabilityUnit unit)
         {
             switch (unit)
@@ -122,11 +128,18 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const PermeabilityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case PermeabilityUnit::HenriesPerMeter:
-                return value_;
+                return base_value_;
 
             }
 
@@ -134,5 +147,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        PermeabilityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

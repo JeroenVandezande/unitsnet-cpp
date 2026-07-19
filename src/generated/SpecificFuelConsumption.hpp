@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -16,39 +17,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>SFC is the fuel efficiency of an engine design with respect to thrust output</summary>
-    class SpecificFuelConsumption
+    class SpecificFuelConsumption : public UnitsNetBase
     {
     public:
         constexpr explicit SpecificFuelConsumption(
             const un_scalar_t value,
             const SpecificFuelConsumptionUnit unit = SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit SpecificFuelConsumption(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpecificFuelConsumptionUnit unit) const
@@ -56,39 +63,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr SpecificFuelConsumption operator+(const SpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr SpecificFuelConsumption operator+(const SpecificFuelConsumption& other) const noexcept
         {
-            return SpecificFuelConsumption(value_ + other.value_);
+            return SpecificFuelConsumption(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr SpecificFuelConsumption operator-(const SpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr SpecificFuelConsumption operator-(const SpecificFuelConsumption& other)const noexcept
         {
-            return SpecificFuelConsumption(value_ - other.value_);
+            return SpecificFuelConsumption(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr SpecificFuelConsumption operator*(const un_scalar_t scalar) const noexcept
         {
-            return SpecificFuelConsumption(value_ * scalar);
+            return SpecificFuelConsumption(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr SpecificFuelConsumption operator/(const un_scalar_t scalar) const noexcept
         {
-            return SpecificFuelConsumption(value_ / scalar);
+            return SpecificFuelConsumption(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const SpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const SpecificFuelConsumption& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const SpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const SpecificFuelConsumption& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const SpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const SpecificFuelConsumption& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -141,8 +148,7 @@ namespace unitsnet_cpp
             return SpecificFuelConsumption(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SpecificFuelConsumptionUnit unit)
         {
             switch (unit)
@@ -167,20 +173,27 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const SpecificFuelConsumptionUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
-                return value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
-                return value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
-                return value_;
+                return base_value_;
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -188,5 +201,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        SpecificFuelConsumptionUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

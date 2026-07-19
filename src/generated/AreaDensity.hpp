@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -17,39 +18,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The area density of a two-dimensional object is calculated as the mass per unit area. For paper this is also called grammage.</summary>
-    class AreaDensity
+    class AreaDensity : public UnitsNetBase
     {
     public:
         constexpr explicit AreaDensity(
             const un_scalar_t value,
             const AreaDensityUnit unit = AreaDensityUnit::KilogramsPerSquareMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == AreaDensityUnit::KilogramsPerSquareMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit AreaDensity(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AreaDensityUnit unit) const
@@ -57,39 +64,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr AreaDensity operator+(const AreaDensity other) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator+(const AreaDensity& other) const noexcept
         {
-            return AreaDensity(value_ + other.value_);
+            return AreaDensity(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr AreaDensity operator-(const AreaDensity other) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator-(const AreaDensity& other)const noexcept
         {
-            return AreaDensity(value_ - other.value_);
+            return AreaDensity(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr AreaDensity operator*(const un_scalar_t scalar) const noexcept
         {
-            return AreaDensity(value_ * scalar);
+            return AreaDensity(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr AreaDensity operator/(const un_scalar_t scalar) const noexcept
         {
-            return AreaDensity(value_ / scalar);
+            return AreaDensity(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const AreaDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const AreaDensity& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const AreaDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const AreaDensity& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const AreaDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const AreaDensity& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -155,8 +162,7 @@ namespace unitsnet_cpp
             return AreaDensity(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AreaDensityUnit unit)
         {
             switch (unit)
@@ -184,23 +190,30 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const AreaDensityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case AreaDensityUnit::KilogramsPerSquareMeter:
-                return value_;
+                return base_value_;
 
             case AreaDensityUnit::GramsPerSquareMeter:
-                return value_ * static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(1000);
 
             case AreaDensityUnit::MilligramsPerSquareMeter:
-                return value_ * static_cast<un_scalar_t>(1000000);
+                return base_value_ * static_cast<un_scalar_t>(1000000);
 
             case AreaDensityUnit::PoundsPerSquareFoot:
-                return value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
+                return base_value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
 
             case AreaDensityUnit::PoundsPerThousandSquareFeet:
-                return value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) * static_cast<un_scalar_t>(1000);
+                return base_value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) * static_cast<un_scalar_t>(1000);
 
             }
 
@@ -208,5 +221,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        AreaDensityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -93,7 +93,7 @@ class Program
         var factor = prefix is null ? "1.0" : PrefixFactors[prefix];
         var valueExpression = prefix is null ? "value" : $"(value * {factor})";
         var toBaseExpression = ToCppExpression(unit.FromUnitToBaseFunc, valueExpression);
-        var fromBaseExpression = ToCppExpression(unit.FromBaseToUnitFunc, "value_");
+        var fromBaseExpression = ToCppExpression(unit.FromBaseToUnitFunc, "base_value_");
 
         if (prefix is not null)
         {

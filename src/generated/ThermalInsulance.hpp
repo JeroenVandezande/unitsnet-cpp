@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -19,39 +20,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Thermal insulance (R-value) is a measure of a material's resistance to the heat current. It quantifies how effectively a material can resist the transfer of heat through conduction, convection, and radiation. It has the units square metre kelvins per watt (m2⋅K/W) in SI units or square foot degree Fahrenheit–hours per British thermal unit (ft2⋅°F⋅h/Btu) in imperial units. The higher the thermal insulance, the better a material insulates against heat transfer. It is commonly used in construction to assess the insulation properties of materials such as walls, roofs, and insulation products.</summary>
-    class ThermalInsulance
+    class ThermalInsulance : public UnitsNetBase
     {
     public:
         constexpr explicit ThermalInsulance(
             const un_scalar_t value,
             const ThermalInsulanceUnit unit = ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ThermalInsulance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ThermalInsulanceUnit unit) const
@@ -59,39 +66,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator+(const ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator+(const ThermalInsulance& other) const noexcept
         {
-            return ThermalInsulance(value_ + other.value_);
+            return ThermalInsulance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator-(const ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator-(const ThermalInsulance& other)const noexcept
         {
-            return ThermalInsulance(value_ - other.value_);
+            return ThermalInsulance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ThermalInsulance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ThermalInsulance(value_ * scalar);
+            return ThermalInsulance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ThermalInsulance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ThermalInsulance(value_ / scalar);
+            return ThermalInsulance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ThermalInsulance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ThermalInsulance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ThermalInsulance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -177,8 +184,7 @@ namespace unitsnet_cpp
             return ThermalInsulance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ThermalInsulanceUnit unit)
         {
             switch (unit)
@@ -212,29 +218,36 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ThermalInsulanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt:
-                return value_;
+                return base_value_;
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerWatt:
-                return value_ / static_cast<un_scalar_t>(1000);
+                return base_value_ / static_cast<un_scalar_t>(1000);
 
             case ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt:
-                return value_ / static_cast<un_scalar_t>(1000.0);
+                return base_value_ / static_cast<un_scalar_t>(1000.0);
 
             case ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt:
-                return value_ / static_cast<un_scalar_t>(0.1);
+                return base_value_ / static_cast<un_scalar_t>(0.1);
 
             case ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt:
-                return value_ / static_cast<un_scalar_t>(0.001);
+                return base_value_ / static_cast<un_scalar_t>(0.001);
 
             case ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie:
-                return value_ * static_cast<un_scalar_t>(4.184) / (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600));
+                return base_value_ * static_cast<un_scalar_t>(4.184) / (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600));
 
             case ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu:
-                return value_ * (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
+                return base_value_ * (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
 
             }
 
@@ -242,5 +255,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ThermalInsulanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

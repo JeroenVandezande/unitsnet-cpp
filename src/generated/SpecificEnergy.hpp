@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -42,39 +43,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The SpecificEnergy</summary>
-    class SpecificEnergy
+    class SpecificEnergy : public UnitsNetBase
     {
     public:
         constexpr explicit SpecificEnergy(
             const un_scalar_t value,
             const SpecificEnergyUnit unit = SpecificEnergyUnit::JoulesPerKilogram)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == SpecificEnergyUnit::JoulesPerKilogram)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit SpecificEnergy(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpecificEnergyUnit unit) const
@@ -82,39 +89,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr SpecificEnergy operator+(const SpecificEnergy other) const noexcept
+        [[nodiscard]] constexpr SpecificEnergy operator+(const SpecificEnergy& other) const noexcept
         {
-            return SpecificEnergy(value_ + other.value_);
+            return SpecificEnergy(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr SpecificEnergy operator-(const SpecificEnergy other) const noexcept
+        [[nodiscard]] constexpr SpecificEnergy operator-(const SpecificEnergy& other)const noexcept
         {
-            return SpecificEnergy(value_ - other.value_);
+            return SpecificEnergy(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr SpecificEnergy operator*(const un_scalar_t scalar) const noexcept
         {
-            return SpecificEnergy(value_ * scalar);
+            return SpecificEnergy(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr SpecificEnergy operator/(const un_scalar_t scalar) const noexcept
         {
-            return SpecificEnergy(value_ / scalar);
+            return SpecificEnergy(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const SpecificEnergy other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const SpecificEnergy& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const SpecificEnergy other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const SpecificEnergy& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const SpecificEnergy other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const SpecificEnergy& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -453,8 +460,7 @@ namespace unitsnet_cpp
             return SpecificEnergy(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SpecificEnergyUnit unit)
         {
             switch (unit)
@@ -557,98 +563,105 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const SpecificEnergyUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case SpecificEnergyUnit::JoulesPerKilogram:
-                return value_;
+                return base_value_;
 
             case SpecificEnergyUnit::KilojoulesPerKilogram:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegajoulesPerKilogram:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::MegajoulesPerTonne:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::CaloriesPerGram:
-                return value_ / static_cast<un_scalar_t>(4.184e3);
+                return base_value_ / static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEnergyUnit::KilocaloriesPerGram:
-                return (value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::WattHoursPerKilogram:
-                return value_ / static_cast<un_scalar_t>(3.6e3);
+                return base_value_ / static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::KilowattHoursPerKilogram:
-                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerKilogram:
-                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerKilogram:
-                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::WattDaysPerKilogram:
-                return value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
+                return base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::KilowattDaysPerKilogram:
-                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerKilogram:
-                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerKilogram:
-                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerKilogram:
-                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerTonne:
-                return value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
+                return base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::KilowattDaysPerTonne:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerTonne:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerTonne:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerTonne:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerShortTon:
-                return value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
+                return base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::KilowattDaysPerShortTon:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerShortTon:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerShortTon:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerShortTon:
-                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattHoursPerPound:
-                return value_ / static_cast<un_scalar_t>(7.93664e3);
+                return base_value_ / static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::KilowattHoursPerPound:
-                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerPound:
-                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerPound:
-                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::BtuPerPound:
-                return value_ * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value_ * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1055.05585262);
 
             }
 
@@ -656,5 +669,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        SpecificEnergyUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

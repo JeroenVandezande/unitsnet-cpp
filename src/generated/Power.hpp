@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -39,39 +40,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In physics, power is the rate of doing work. It is equivalent to an amount of energy consumed per unit time.</summary>
-    class Power
+    class Power : public UnitsNetBase
     {
     public:
         constexpr explicit Power(
             const un_scalar_t value,
             const PowerUnit unit = PowerUnit::Watts)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == PowerUnit::Watts)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Power(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PowerUnit unit) const
@@ -79,39 +86,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Power operator+(const Power other) const noexcept
+        [[nodiscard]] constexpr Power operator+(const Power& other) const noexcept
         {
-            return Power(value_ + other.value_);
+            return Power(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Power operator-(const Power other) const noexcept
+        [[nodiscard]] constexpr Power operator-(const Power& other)const noexcept
         {
-            return Power(value_ - other.value_);
+            return Power(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Power operator*(const un_scalar_t scalar) const noexcept
         {
-            return Power(value_ * scalar);
+            return Power(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Power operator/(const un_scalar_t scalar) const noexcept
         {
-            return Power(value_ / scalar);
+            return Power(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Power other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Power& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Power other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Power& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Power other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Power& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -427,8 +434,7 @@ namespace unitsnet_cpp
             return Power(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PowerUnit unit)
         {
             switch (unit)
@@ -522,89 +528,96 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const PowerUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case PowerUnit::Watts:
-                return value_;
+                return base_value_;
 
             case PowerUnit::Femtowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_) / static_cast<un_scalar_t>(1e-15);
 
             case PowerUnit::Picowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case PowerUnit::Nanowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case PowerUnit::Microwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case PowerUnit::Milliwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case PowerUnit::Deciwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case PowerUnit::Decawatts:
-                return (value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value_) / static_cast<un_scalar_t>(1e1);
 
             case PowerUnit::Kilowatts:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case PowerUnit::Megawatts:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case PowerUnit::Gigawatts:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case PowerUnit::Terawatts:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case PowerUnit::Petawatts:
-                return (value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value_) / static_cast<un_scalar_t>(1e15);
 
             case PowerUnit::MechanicalHorsepower:
-                return value_ / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665));
 
             case PowerUnit::MetricHorsepower:
-                return value_ / (static_cast<un_scalar_t>(75) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ / (static_cast<un_scalar_t>(75) * static_cast<un_scalar_t>(9.80665));
 
             case PowerUnit::ElectricalHorsepower:
-                return value_ / static_cast<un_scalar_t>(746);
+                return base_value_ / static_cast<un_scalar_t>(746);
 
             case PowerUnit::BoilerHorsepower:
-                return value_ / static_cast<un_scalar_t>(9812.5);
+                return base_value_ / static_cast<un_scalar_t>(9812.5);
 
             case PowerUnit::HydraulicHorsepower:
-                return value_ / static_cast<un_scalar_t>(745.69987158227022);
+                return base_value_ / static_cast<un_scalar_t>(745.69987158227022);
 
             case PowerUnit::BritishThermalUnitsPerHour:
-                return value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262);
 
             case PowerUnit::KilobritishThermalUnitsPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             case PowerUnit::MegabritishThermalUnitsPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e6);
 
             case PowerUnit::JoulesPerHour:
-                return value_ * static_cast<un_scalar_t>(3600);
+                return base_value_ * static_cast<un_scalar_t>(3600);
 
             case PowerUnit::MillijoulesPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case PowerUnit::KilojoulesPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case PowerUnit::MegajoulesPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             case PowerUnit::GigajoulesPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e9);
 
             case PowerUnit::TonsOfRefrigeration:
-                return value_ / static_cast<un_scalar_t>(3516.853);
+                return base_value_ / static_cast<un_scalar_t>(3516.853);
 
             }
 
@@ -612,5 +625,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        PowerUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

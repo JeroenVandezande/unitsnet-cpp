@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -31,39 +32,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Fluid Resistance is a force acting opposite to the relative motion of any object moving with respect to a surrounding fluid. Fluid Resistance is sometimes referred to as drag or fluid friction.</summary>
-    class FluidResistance
+    class FluidResistance : public UnitsNetBase
     {
     public:
         constexpr explicit FluidResistance(
             const un_scalar_t value,
             const FluidResistanceUnit unit = FluidResistanceUnit::PascalSecondsPerCubicMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == FluidResistanceUnit::PascalSecondsPerCubicMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit FluidResistance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const FluidResistanceUnit unit) const
@@ -71,39 +78,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr FluidResistance operator+(const FluidResistance other) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator+(const FluidResistance& other) const noexcept
         {
-            return FluidResistance(value_ + other.value_);
+            return FluidResistance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr FluidResistance operator-(const FluidResistance other) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator-(const FluidResistance& other)const noexcept
         {
-            return FluidResistance(value_ - other.value_);
+            return FluidResistance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr FluidResistance operator*(const un_scalar_t scalar) const noexcept
         {
-            return FluidResistance(value_ * scalar);
+            return FluidResistance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr FluidResistance operator/(const un_scalar_t scalar) const noexcept
         {
-            return FluidResistance(value_ / scalar);
+            return FluidResistance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const FluidResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const FluidResistance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const FluidResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const FluidResistance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const FluidResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const FluidResistance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -321,8 +328,7 @@ namespace unitsnet_cpp
             return FluidResistance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, FluidResistanceUnit unit)
         {
             switch (unit)
@@ -392,65 +398,72 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const FluidResistanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case FluidResistanceUnit::PascalSecondsPerLiter:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case FluidResistanceUnit::PascalMinutesPerLiter:
-                return value_ / static_cast<un_scalar_t>(6e4);
+                return base_value_ / static_cast<un_scalar_t>(6e4);
 
             case FluidResistanceUnit::PascalSecondsPerMilliliter:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerMilliliter:
-                return value_ / static_cast<un_scalar_t>(6e7);
+                return base_value_ / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::PascalSecondsPerCubicMeter:
-                return value_;
+                return base_value_;
 
             case FluidResistanceUnit::MegapascalSecondsPerCubicMeter:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
-                return value_ / static_cast<un_scalar_t>(60);
+                return base_value_ / static_cast<un_scalar_t>(60);
 
             case FluidResistanceUnit::PascalSecondsPerCubicCentimeter:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicCentimeter:
-                return value_ / static_cast<un_scalar_t>(6e7);
+                return base_value_ / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth:
-                return value_ / static_cast<un_scalar_t>(1e5);
+                return base_value_ / static_cast<un_scalar_t>(1e5);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerLiter:
-                return value_ / static_cast<un_scalar_t>(1.33322368e5);
+                return base_value_ / static_cast<un_scalar_t>(1.33322368e5);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerLiter:
-                return value_ / static_cast<un_scalar_t>(7.99934208e6);
+                return base_value_ / static_cast<un_scalar_t>(7.99934208e6);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter:
-                return value_ / static_cast<un_scalar_t>(1.33322368e8);
+                return base_value_ / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter:
-                return value_ / static_cast<un_scalar_t>(7.99934208e9);
+                return base_value_ / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter:
-                return value_ / static_cast<un_scalar_t>(1.33322368e8);
+                return base_value_ / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter:
-                return value_ / static_cast<un_scalar_t>(7.99934208e9);
+                return base_value_ / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter:
-                return value_ / static_cast<un_scalar_t>(133.322368);
+                return base_value_ / static_cast<un_scalar_t>(133.322368);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter:
-                return value_ / static_cast<un_scalar_t>(7.99934208e3);
+                return base_value_ / static_cast<un_scalar_t>(7.99934208e3);
 
             case FluidResistanceUnit::WoodUnits:
-                return value_ / static_cast<un_scalar_t>(7.99934208e6);
+                return base_value_ / static_cast<un_scalar_t>(7.99934208e6);
 
             }
 
@@ -458,5 +471,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        FluidResistanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

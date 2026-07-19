@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -50,39 +51,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The magnitude of force per unit length.</summary>
-    class ForcePerLength
+    class ForcePerLength : public UnitsNetBase
     {
     public:
         constexpr explicit ForcePerLength(
             const un_scalar_t value,
             const ForcePerLengthUnit unit = ForcePerLengthUnit::NewtonsPerMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ForcePerLengthUnit::NewtonsPerMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ForcePerLength(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ForcePerLengthUnit unit) const
@@ -90,39 +97,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ForcePerLength operator+(const ForcePerLength other) const noexcept
+        [[nodiscard]] constexpr ForcePerLength operator+(const ForcePerLength& other) const noexcept
         {
-            return ForcePerLength(value_ + other.value_);
+            return ForcePerLength(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ForcePerLength operator-(const ForcePerLength other) const noexcept
+        [[nodiscard]] constexpr ForcePerLength operator-(const ForcePerLength& other)const noexcept
         {
-            return ForcePerLength(value_ - other.value_);
+            return ForcePerLength(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ForcePerLength operator*(const un_scalar_t scalar) const noexcept
         {
-            return ForcePerLength(value_ * scalar);
+            return ForcePerLength(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ForcePerLength operator/(const un_scalar_t scalar) const noexcept
         {
-            return ForcePerLength(value_ / scalar);
+            return ForcePerLength(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ForcePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ForcePerLength& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ForcePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ForcePerLength& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ForcePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ForcePerLength& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -549,8 +556,7 @@ namespace unitsnet_cpp
             return ForcePerLength(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ForcePerLengthUnit unit)
         {
             switch (unit)
@@ -677,122 +683,129 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ForcePerLengthUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ForcePerLengthUnit::NewtonsPerMeter:
-                return value_;
+                return base_value_;
 
             case ForcePerLengthUnit::NanonewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ForcePerLengthUnit::MicronewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ForcePerLengthUnit::MillinewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ForcePerLengthUnit::CentinewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case ForcePerLengthUnit::DecinewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case ForcePerLengthUnit::DecanewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value_) / static_cast<un_scalar_t>(1e1);
 
             case ForcePerLengthUnit::KilonewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerMeter:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::NewtonsPerCentimeter:
-                return value_ / static_cast<un_scalar_t>(1e2);
+                return base_value_ / static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::NanonewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-9);
 
             case ForcePerLengthUnit::MicronewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-6);
 
             case ForcePerLengthUnit::MillinewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
 
             case ForcePerLengthUnit::CentinewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-2);
 
             case ForcePerLengthUnit::DecinewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-1);
 
             case ForcePerLengthUnit::DecanewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e1);
 
             case ForcePerLengthUnit::KilonewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::NewtonsPerMillimeter:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::NanonewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case ForcePerLengthUnit::MicronewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case ForcePerLengthUnit::MillinewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case ForcePerLengthUnit::CentinewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case ForcePerLengthUnit::DecinewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case ForcePerLengthUnit::DecanewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case ForcePerLengthUnit::KilonewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerMillimeter:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::KilogramsForcePerMeter:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case ForcePerLengthUnit::KilogramsForcePerCentimeter:
-                return value_ / static_cast<un_scalar_t>(980.665);
+                return base_value_ / static_cast<un_scalar_t>(980.665);
 
             case ForcePerLengthUnit::KilogramsForcePerMillimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerMeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerCentimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e5);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e5);
 
             case ForcePerLengthUnit::TonnesForcePerMillimeter:
-                return value_ / static_cast<un_scalar_t>(9.80665e6);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e6);
 
             case ForcePerLengthUnit::PoundsForcePerFoot:
-                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::PoundsForcePerInch:
-                return value_ * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::PoundsForcePerYard:
-                return value_ * static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::KilopoundsForcePerFoot:
-                return value_ * static_cast<un_scalar_t>(0.3048e-3) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(0.3048e-3) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::KilopoundsForcePerInch:
-                return value_ * static_cast<un_scalar_t>(2.54e-5) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value_ * static_cast<un_scalar_t>(2.54e-5) / static_cast<un_scalar_t>(4.4482216152605);
 
             }
 
@@ -800,5 +813,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ForcePerLengthUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -54,39 +55,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Many different units of length have been used around the world. The main units in modern use are U.S. customary units in the United States and the Metric system elsewhere. British Imperial units are still used for some purposes in the United Kingdom and some other countries. The metric system is sub-divided into SI and non-SI units.</summary>
-    class Length
+    class Length : public UnitsNetBase
     {
     public:
         constexpr explicit Length(
             const un_scalar_t value,
             const LengthUnit unit = LengthUnit::Meters)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == LengthUnit::Meters)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Length(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LengthUnit unit) const
@@ -94,39 +101,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Length operator+(const Length other) const noexcept
+        [[nodiscard]] constexpr Length operator+(const Length& other) const noexcept
         {
-            return Length(value_ + other.value_);
+            return Length(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Length operator-(const Length other) const noexcept
+        [[nodiscard]] constexpr Length operator-(const Length& other)const noexcept
         {
-            return Length(value_ - other.value_);
+            return Length(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Length operator*(const un_scalar_t scalar) const noexcept
         {
-            return Length(value_ * scalar);
+            return Length(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Length operator/(const un_scalar_t scalar) const noexcept
         {
-            return Length(value_ / scalar);
+            return Length(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Length other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Length& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Length other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Length& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Length other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Length& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -645,8 +652,7 @@ namespace unitsnet_cpp
             return Length(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LengthUnit unit)
         {
             switch (unit)
@@ -785,134 +791,141 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const LengthUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case LengthUnit::Meters:
-                return value_;
+                return base_value_;
 
             case LengthUnit::Femtometers:
-                return (value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_) / static_cast<un_scalar_t>(1e-15);
 
             case LengthUnit::Picometers:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case LengthUnit::Nanometers:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case LengthUnit::Micrometers:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case LengthUnit::Millimeters:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case LengthUnit::Centimeters:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case LengthUnit::Decimeters:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case LengthUnit::Decameters:
-                return (value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value_) / static_cast<un_scalar_t>(1e1);
 
             case LengthUnit::Hectometers:
-                return (value_) / static_cast<un_scalar_t>(1e2);
+                return (base_value_) / static_cast<un_scalar_t>(1e2);
 
             case LengthUnit::Kilometers:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megameters:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::Gigameters:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case LengthUnit::Miles:
-                return value_ / static_cast<un_scalar_t>(1609.344);
+                return base_value_ / static_cast<un_scalar_t>(1609.344);
 
             case LengthUnit::Yards:
-                return value_ / static_cast<un_scalar_t>(0.9144);
+                return base_value_ / static_cast<un_scalar_t>(0.9144);
 
             case LengthUnit::Kiloyards:
-                return (value_ / static_cast<un_scalar_t>(0.9144)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(0.9144)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Feet:
-                return value_ / static_cast<un_scalar_t>(0.3048);
+                return base_value_ / static_cast<un_scalar_t>(0.3048);
 
             case LengthUnit::Kilofeet:
-                return (value_ / static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::UsSurveyFeet:
-                return value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
+                return base_value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case LengthUnit::Inches:
-                return value_ / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Mils:
-                return value_ / static_cast<un_scalar_t>(2.54e-5);
+                return base_value_ / static_cast<un_scalar_t>(2.54e-5);
 
             case LengthUnit::NauticalMiles:
-                return value_ / static_cast<un_scalar_t>(1852);
+                return base_value_ / static_cast<un_scalar_t>(1852);
 
             case LengthUnit::Fathoms:
-                return value_ / static_cast<un_scalar_t>(1.8288);
+                return base_value_ / static_cast<un_scalar_t>(1.8288);
 
             case LengthUnit::Shackles:
-                return value_ / static_cast<un_scalar_t>(27.432);
+                return base_value_ / static_cast<un_scalar_t>(27.432);
 
             case LengthUnit::Microinches:
-                return value_ / static_cast<un_scalar_t>(2.54e-8);
+                return base_value_ / static_cast<un_scalar_t>(2.54e-8);
 
             case LengthUnit::PrinterPoints:
-                return value_ * static_cast<un_scalar_t>(72.27) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ * static_cast<un_scalar_t>(72.27) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::DtpPoints:
-                return value_ * static_cast<un_scalar_t>(72) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ * static_cast<un_scalar_t>(72) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::PrinterPicas:
-                return value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409));
+                return base_value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409));
 
             case LengthUnit::DtpPicas:
-                return value_ * static_cast<un_scalar_t>(6) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ * static_cast<un_scalar_t>(6) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Twips:
-                return value_ * static_cast<un_scalar_t>(1440) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ * static_cast<un_scalar_t>(1440) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Hands:
-                return value_ / static_cast<un_scalar_t>(1.016e-1);
+                return base_value_ / static_cast<un_scalar_t>(1.016e-1);
 
             case LengthUnit::AstronomicalUnits:
-                return value_ / static_cast<un_scalar_t>(1.4959787070e11);
+                return base_value_ / static_cast<un_scalar_t>(1.4959787070e11);
 
             case LengthUnit::Parsecs:
-                return value_ / static_cast<un_scalar_t>(3.08567758128e16);
+                return base_value_ / static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::Kiloparsecs:
-                return (value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megaparsecs:
-                return (value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::LightYears:
-                return value_ / static_cast<un_scalar_t>(9.46073047258e15);
+                return base_value_ / static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::KilolightYears:
-                return (value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::MegalightYears:
-                return (value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::SolarRadiuses:
-                return value_ / static_cast<un_scalar_t>(6.95700e8);
+                return base_value_ / static_cast<un_scalar_t>(6.95700e8);
 
             case LengthUnit::Chains:
-                return value_ / static_cast<un_scalar_t>(20.1168);
+                return base_value_ / static_cast<un_scalar_t>(20.1168);
 
             case LengthUnit::Angstroms:
-                return value_ / static_cast<un_scalar_t>(1e-10);
+                return base_value_ / static_cast<un_scalar_t>(1e-10);
 
             case LengthUnit::DataMiles:
-                return value_ / static_cast<un_scalar_t>(1828.8);
+                return base_value_ / static_cast<un_scalar_t>(1828.8);
 
             }
 
@@ -920,5 +933,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        LengthUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

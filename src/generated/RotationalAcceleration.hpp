@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -16,39 +17,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Angular acceleration is the rate of change of rotational speed.</summary>
-    class RotationalAcceleration
+    class RotationalAcceleration : public UnitsNetBase
     {
     public:
         constexpr explicit RotationalAcceleration(
             const un_scalar_t value,
             const RotationalAccelerationUnit unit = RotationalAccelerationUnit::RadiansPerSecondSquared)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == RotationalAccelerationUnit::RadiansPerSecondSquared)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit RotationalAcceleration(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RotationalAccelerationUnit unit) const
@@ -56,39 +63,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator+(const RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator+(const RotationalAcceleration& other) const noexcept
         {
-            return RotationalAcceleration(value_ + other.value_);
+            return RotationalAcceleration(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator-(const RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator-(const RotationalAcceleration& other)const noexcept
         {
-            return RotationalAcceleration(value_ - other.value_);
+            return RotationalAcceleration(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr RotationalAcceleration operator*(const un_scalar_t scalar) const noexcept
         {
-            return RotationalAcceleration(value_ * scalar);
+            return RotationalAcceleration(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr RotationalAcceleration operator/(const un_scalar_t scalar) const noexcept
         {
-            return RotationalAcceleration(value_ / scalar);
+            return RotationalAcceleration(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RotationalAcceleration& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RotationalAcceleration& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const RotationalAcceleration& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -141,8 +148,7 @@ namespace unitsnet_cpp
             return RotationalAcceleration(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RotationalAccelerationUnit unit)
         {
             switch (unit)
@@ -167,20 +173,27 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const RotationalAccelerationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case RotationalAccelerationUnit::RadiansPerSecondSquared:
-                return value_;
+                return base_value_;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_;
+                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * base_value_;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return (static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * value_;
+                return (static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value_;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (static_cast<un_scalar_t>(1) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * value_;
+                return (static_cast<un_scalar_t>(1) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value_;
 
             }
 
@@ -188,5 +201,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        RotationalAccelerationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

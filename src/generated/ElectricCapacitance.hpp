@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -19,39 +20,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Capacitance is the capacity of a material object or device to store electric charge.</summary>
-    class ElectricCapacitance
+    class ElectricCapacitance : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricCapacitance(
             const un_scalar_t value,
             const ElectricCapacitanceUnit unit = ElectricCapacitanceUnit::Farads)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricCapacitanceUnit::Farads)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricCapacitance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricCapacitanceUnit unit) const
@@ -59,39 +66,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator+(const ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator+(const ElectricCapacitance& other) const noexcept
         {
-            return ElectricCapacitance(value_ + other.value_);
+            return ElectricCapacitance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator-(const ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator-(const ElectricCapacitance& other)const noexcept
         {
-            return ElectricCapacitance(value_ - other.value_);
+            return ElectricCapacitance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricCapacitance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricCapacitance(value_ * scalar);
+            return ElectricCapacitance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricCapacitance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricCapacitance(value_ / scalar);
+            return ElectricCapacitance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCapacitance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCapacitance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricCapacitance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -177,8 +184,7 @@ namespace unitsnet_cpp
             return ElectricCapacitance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCapacitanceUnit unit)
         {
             switch (unit)
@@ -212,29 +218,36 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCapacitanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricCapacitanceUnit::Farads:
-                return value_;
+                return base_value_;
 
             case ElectricCapacitanceUnit::Picofarads:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricCapacitanceUnit::Nanofarads:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricCapacitanceUnit::Microfarads:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricCapacitanceUnit::Millifarads:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCapacitanceUnit::Kilofarads:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricCapacitanceUnit::Megafarads:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -242,5 +255,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricCapacitanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

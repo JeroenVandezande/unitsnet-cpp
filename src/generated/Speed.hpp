@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -45,39 +46,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In everyday use and in kinematics, the speed of an object is the magnitude of its velocity (the rate of change of its position); it is thus a scalar quantity.[1] The average speed of an object in an interval of time is the distance travelled by the object divided by the duration of the interval;[2] the instantaneous speed is the limit of the average speed as the duration of the time interval approaches zero.</summary>
-    class Speed
+    class Speed : public UnitsNetBase
     {
     public:
         constexpr explicit Speed(
             const un_scalar_t value,
             const SpeedUnit unit = SpeedUnit::MetersPerSecond)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == SpeedUnit::MetersPerSecond)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Speed(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpeedUnit unit) const
@@ -85,39 +92,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Speed operator+(const Speed other) const noexcept
+        [[nodiscard]] constexpr Speed operator+(const Speed& other) const noexcept
         {
-            return Speed(value_ + other.value_);
+            return Speed(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Speed operator-(const Speed other) const noexcept
+        [[nodiscard]] constexpr Speed operator-(const Speed& other)const noexcept
         {
-            return Speed(value_ - other.value_);
+            return Speed(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Speed operator*(const un_scalar_t scalar) const noexcept
         {
-            return Speed(value_ * scalar);
+            return Speed(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Speed operator/(const un_scalar_t scalar) const noexcept
         {
-            return Speed(value_ / scalar);
+            return Speed(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Speed other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Speed& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Speed other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Speed& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Speed other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Speed& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -491,8 +498,7 @@ namespace unitsnet_cpp
             return Speed(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SpeedUnit unit)
         {
             switch (unit)
@@ -604,107 +610,114 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const SpeedUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case SpeedUnit::MetersPerSecond:
-                return value_;
+                return base_value_;
 
             case SpeedUnit::NanometersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case SpeedUnit::MicrometersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case SpeedUnit::MillimetersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::DecimetersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case SpeedUnit::KilometersPerSecond:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerMinute:
-                return value_ * static_cast<un_scalar_t>(60);
+                return base_value_ * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::NanometersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-9);
 
             case SpeedUnit::MicrometersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-6);
 
             case SpeedUnit::MillimetersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::DecimetersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-1);
 
             case SpeedUnit::KilometersPerMinute:
-                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerHour:
-                return value_ * static_cast<un_scalar_t>(3600);
+                return base_value_ * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::MillimetersPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::KilometersPerHour:
-                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::FeetPerSecond:
-                return value_ / static_cast<un_scalar_t>(0.3048);
+                return base_value_ / static_cast<un_scalar_t>(0.3048);
 
             case SpeedUnit::FeetPerMinute:
-                return value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60);
+                return base_value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::FeetPerHour:
-                return value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600);
+                return base_value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::UsSurveyFeetPerSecond:
-                return value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
+                return base_value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case SpeedUnit::UsSurveyFeetPerMinute:
-                return (value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(60);
+                return (base_value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::UsSurveyFeetPerHour:
-                return (value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(3600);
+                return (base_value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::InchesPerSecond:
-                return value_ / static_cast<un_scalar_t>(2.54e-2);
+                return base_value_ / static_cast<un_scalar_t>(2.54e-2);
 
             case SpeedUnit::InchesPerMinute:
-                return (value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(60);
+                return (base_value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::InchesPerHour:
-                return (value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(3600);
+                return (base_value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::YardsPerSecond:
-                return value_ / static_cast<un_scalar_t>(0.9144);
+                return base_value_ / static_cast<un_scalar_t>(0.9144);
 
             case SpeedUnit::YardsPerMinute:
-                return value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(60);
+                return base_value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::YardsPerHour:
-                return value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(3600);
+                return base_value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::Knots:
-                return value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case SpeedUnit::MilesPerHour:
-                return value_ / static_cast<un_scalar_t>(0.44704);
+                return base_value_ / static_cast<un_scalar_t>(0.44704);
 
             case SpeedUnit::Mach:
-                return value_ / static_cast<un_scalar_t>(340.29);
+                return base_value_ / static_cast<un_scalar_t>(340.29);
 
             }
 
@@ -712,5 +725,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        SpeedUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

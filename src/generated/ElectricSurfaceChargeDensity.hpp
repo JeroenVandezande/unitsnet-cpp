@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -15,39 +16,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In electromagnetism, surface charge density is a measure of the amount of electric charge per surface area.</summary>
-    class ElectricSurfaceChargeDensity
+    class ElectricSurfaceChargeDensity : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricSurfaceChargeDensity(
             const un_scalar_t value,
             const ElectricSurfaceChargeDensityUnit unit = ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricSurfaceChargeDensity(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricSurfaceChargeDensityUnit unit) const
@@ -55,39 +62,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator+(const ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator+(const ElectricSurfaceChargeDensity& other) const noexcept
         {
-            return ElectricSurfaceChargeDensity(value_ + other.value_);
+            return ElectricSurfaceChargeDensity(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator-(const ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator-(const ElectricSurfaceChargeDensity& other)const noexcept
         {
-            return ElectricSurfaceChargeDensity(value_ - other.value_);
+            return ElectricSurfaceChargeDensity(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricSurfaceChargeDensity(value_ * scalar);
+            return ElectricSurfaceChargeDensity(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricSurfaceChargeDensity(value_ / scalar);
+            return ElectricSurfaceChargeDensity(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricSurfaceChargeDensity& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricSurfaceChargeDensity& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricSurfaceChargeDensity& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -129,8 +136,7 @@ namespace unitsnet_cpp
             return ElectricSurfaceChargeDensity(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricSurfaceChargeDensityUnit unit)
         {
             switch (unit)
@@ -152,17 +158,24 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricSurfaceChargeDensityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter:
-                return value_;
+                return base_value_;
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(1.0e4);
+                return base_value_ / static_cast<un_scalar_t>(1.0e4);
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareInch:
-                return value_ * static_cast<un_scalar_t>(0.00064516);
+                return base_value_ * static_cast<un_scalar_t>(0.00064516);
 
             }
 
@@ -170,5 +183,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricSurfaceChargeDensityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

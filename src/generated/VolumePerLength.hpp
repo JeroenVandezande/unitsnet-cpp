@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -21,39 +22,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Volume, typically of fluid, that a container can hold within a unit of length.</summary>
-    class VolumePerLength
+    class VolumePerLength : public UnitsNetBase
     {
     public:
         constexpr explicit VolumePerLength(
             const un_scalar_t value,
             const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMetersPerMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == VolumePerLengthUnit::CubicMetersPerMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit VolumePerLength(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const VolumePerLengthUnit unit) const
@@ -61,39 +68,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator+(const VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator+(const VolumePerLength& other) const noexcept
         {
-            return VolumePerLength(value_ + other.value_);
+            return VolumePerLength(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator-(const VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator-(const VolumePerLength& other)const noexcept
         {
-            return VolumePerLength(value_ - other.value_);
+            return VolumePerLength(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr VolumePerLength operator*(const un_scalar_t scalar) const noexcept
         {
-            return VolumePerLength(value_ * scalar);
+            return VolumePerLength(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr VolumePerLength operator/(const un_scalar_t scalar) const noexcept
         {
-            return VolumePerLength(value_ / scalar);
+            return VolumePerLength(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const VolumePerLength& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const VolumePerLength& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const VolumePerLength& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -201,8 +208,7 @@ namespace unitsnet_cpp
             return VolumePerLength(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, VolumePerLengthUnit unit)
         {
             switch (unit)
@@ -242,35 +248,42 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const VolumePerLengthUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case VolumePerLengthUnit::CubicMetersPerMeter:
-                return value_;
+                return base_value_;
 
             case VolumePerLengthUnit::LitersPerMeter:
-                return value_ * static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(1000);
 
             case VolumePerLengthUnit::LitersPerKilometer:
-                return value_ * static_cast<un_scalar_t>(1e6);
+                return base_value_ * static_cast<un_scalar_t>(1e6);
 
             case VolumePerLengthUnit::LitersPerMillimeter:
-                return value_;
+                return base_value_;
 
             case VolumePerLengthUnit::OilBarrelsPerFoot:
-                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.158987294928);
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumePerLengthUnit::CubicYardsPerFoot:
-                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.764554857984);
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
-                return value_ * static_cast<un_scalar_t>(1200) / (static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937));
+                return base_value_ * static_cast<un_scalar_t>(1200) / (static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937));
 
             case VolumePerLengthUnit::UsGallonsPerMile:
-                return value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.003785411784);
+                return base_value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumePerLengthUnit::ImperialGallonsPerMile:
-                return value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.00454609);
+                return base_value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.00454609);
 
             }
 
@@ -278,5 +291,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        VolumePerLengthUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

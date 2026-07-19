@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -43,39 +44,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In physics, mass (from Greek μᾶζα "barley cake, lump [of dough]") is a property of a physical system or body, giving rise to the phenomena of the body's resistance to being accelerated by a force and the strength of its mutual gravitational attraction with other bodies. Instruments such as mass balances or scales use those phenomena to measure mass. The SI unit of mass is the kilogram (kg).</summary>
-    class Mass
+    class Mass : public UnitsNetBase
     {
     public:
         constexpr explicit Mass(
             const un_scalar_t value,
             const MassUnit unit = MassUnit::Kilograms)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MassUnit::Kilograms)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Mass(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassUnit unit) const
@@ -83,39 +90,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Mass operator+(const Mass other) const noexcept
+        [[nodiscard]] constexpr Mass operator+(const Mass& other) const noexcept
         {
-            return Mass(value_ + other.value_);
+            return Mass(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Mass operator-(const Mass other) const noexcept
+        [[nodiscard]] constexpr Mass operator-(const Mass& other)const noexcept
         {
-            return Mass(value_ - other.value_);
+            return Mass(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Mass operator*(const un_scalar_t scalar) const noexcept
         {
-            return Mass(value_ * scalar);
+            return Mass(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Mass operator/(const un_scalar_t scalar) const noexcept
         {
-            return Mass(value_ / scalar);
+            return Mass(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Mass other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Mass& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Mass other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Mass& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Mass other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Mass& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -505,8 +512,7 @@ namespace unitsnet_cpp
             return Mass(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MassUnit unit)
         {
             switch (unit)
@@ -612,101 +618,108 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MassUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MassUnit::Grams:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Femtograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-15);
 
             case MassUnit::Picograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-12);
 
             case MassUnit::Nanograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassUnit::Micrograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassUnit::Milligrams:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassUnit::Centigrams:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassUnit::Decigrams:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassUnit::Decagrams:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MassUnit::Hectograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MassUnit::Kilograms:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Tonnes:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Kilotonnes:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megatonnes:
-                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::ShortTons:
-                return value_ / static_cast<un_scalar_t>(907.18474);
+                return base_value_ / static_cast<un_scalar_t>(907.18474);
 
             case MassUnit::LongTons:
-                return value_ / static_cast<un_scalar_t>(1016.0469088);
+                return base_value_ / static_cast<un_scalar_t>(1016.0469088);
 
             case MassUnit::Pounds:
-                return value_ / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ / static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Kilopounds:
-                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megapounds:
-                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Ounces:
-                return value_ / static_cast<un_scalar_t>(0.028349523125);
+                return base_value_ / static_cast<un_scalar_t>(0.028349523125);
 
             case MassUnit::Slugs:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case MassUnit::Stone:
-                return value_ / static_cast<un_scalar_t>(6.35029318);
+                return base_value_ / static_cast<un_scalar_t>(6.35029318);
 
             case MassUnit::ShortHundredweight:
-                return value_ / static_cast<un_scalar_t>(45.359237);
+                return base_value_ / static_cast<un_scalar_t>(45.359237);
 
             case MassUnit::LongHundredweight:
-                return value_ / static_cast<un_scalar_t>(50.80234544);
+                return base_value_ / static_cast<un_scalar_t>(50.80234544);
 
             case MassUnit::Grains:
-                return value_ / static_cast<un_scalar_t>(64.79891e-6);
+                return base_value_ / static_cast<un_scalar_t>(64.79891e-6);
 
             case MassUnit::SolarMasses:
-                return value_ / static_cast<un_scalar_t>(1.98947e30);
+                return base_value_ / static_cast<un_scalar_t>(1.98947e30);
 
             case MassUnit::EarthMasses:
-                return value_ / static_cast<un_scalar_t>(5.9722E+24);
+                return base_value_ / static_cast<un_scalar_t>(5.9722E+24);
 
             case MassUnit::Daltons:
-                return value_ /  static_cast<un_scalar_t>(1.66053906660e-27);
+                return base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Kilodaltons:
-                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megadaltons:
-                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Gigadaltons:
-                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e9);
 
             }
 
@@ -714,5 +727,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MassUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -26,39 +27,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Irradiance is the intensity of ultraviolet (UV) or visible light incident on a surface.</summary>
-    class Irradiance
+    class Irradiance : public UnitsNetBase
     {
     public:
         constexpr explicit Irradiance(
             const un_scalar_t value,
             const IrradianceUnit unit = IrradianceUnit::WattsPerSquareMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == IrradianceUnit::WattsPerSquareMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Irradiance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const IrradianceUnit unit) const
@@ -66,39 +73,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Irradiance operator+(const Irradiance other) const noexcept
+        [[nodiscard]] constexpr Irradiance operator+(const Irradiance& other) const noexcept
         {
-            return Irradiance(value_ + other.value_);
+            return Irradiance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Irradiance operator-(const Irradiance other) const noexcept
+        [[nodiscard]] constexpr Irradiance operator-(const Irradiance& other)const noexcept
         {
-            return Irradiance(value_ - other.value_);
+            return Irradiance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Irradiance operator*(const un_scalar_t scalar) const noexcept
         {
-            return Irradiance(value_ * scalar);
+            return Irradiance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Irradiance operator/(const un_scalar_t scalar) const noexcept
         {
-            return Irradiance(value_ / scalar);
+            return Irradiance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Irradiance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Irradiance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Irradiance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Irradiance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Irradiance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Irradiance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -261,8 +268,7 @@ namespace unitsnet_cpp
             return Irradiance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, IrradianceUnit unit)
         {
             switch (unit)
@@ -317,50 +323,57 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const IrradianceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case IrradianceUnit::WattsPerSquareMeter:
-                return value_;
+                return base_value_;
 
             case IrradianceUnit::PicowattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case IrradianceUnit::NanowattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case IrradianceUnit::MicrowattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case IrradianceUnit::MilliwattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case IrradianceUnit::KilowattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case IrradianceUnit::MegawattsPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case IrradianceUnit::WattsPerSquareCentimeter:
-                return value_ * static_cast<un_scalar_t>(0.0001);
+                return base_value_ * static_cast<un_scalar_t>(0.0001);
 
             case IrradianceUnit::PicowattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-12);
 
             case IrradianceUnit::NanowattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-9);
 
             case IrradianceUnit::MicrowattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-6);
 
             case IrradianceUnit::MilliwattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradianceUnit::KilowattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e3);
 
             case IrradianceUnit::MegawattsPerSquareCentimeter:
-                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -368,5 +381,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        IrradianceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

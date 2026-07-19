@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -15,39 +16,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Molar entropy is amount of energy required to increase temperature of 1 mole substance by 1 Kelvin.</summary>
-    class MolarEntropy
+    class MolarEntropy : public UnitsNetBase
     {
     public:
         constexpr explicit MolarEntropy(
             const un_scalar_t value,
             const MolarEntropyUnit unit = MolarEntropyUnit::JoulesPerMoleKelvin)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MolarEntropyUnit::JoulesPerMoleKelvin)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit MolarEntropy(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MolarEntropyUnit unit) const
@@ -55,39 +62,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MolarEntropy operator+(const MolarEntropy other) const noexcept
+        [[nodiscard]] constexpr MolarEntropy operator+(const MolarEntropy& other) const noexcept
         {
-            return MolarEntropy(value_ + other.value_);
+            return MolarEntropy(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr MolarEntropy operator-(const MolarEntropy other) const noexcept
+        [[nodiscard]] constexpr MolarEntropy operator-(const MolarEntropy& other)const noexcept
         {
-            return MolarEntropy(value_ - other.value_);
+            return MolarEntropy(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr MolarEntropy operator*(const un_scalar_t scalar) const noexcept
         {
-            return MolarEntropy(value_ * scalar);
+            return MolarEntropy(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr MolarEntropy operator/(const un_scalar_t scalar) const noexcept
         {
-            return MolarEntropy(value_ / scalar);
+            return MolarEntropy(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const MolarEntropy other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MolarEntropy& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const MolarEntropy other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MolarEntropy& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const MolarEntropy other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const MolarEntropy& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -129,8 +136,7 @@ namespace unitsnet_cpp
             return MolarEntropy(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MolarEntropyUnit unit)
         {
             switch (unit)
@@ -152,17 +158,24 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MolarEntropyUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MolarEntropyUnit::JoulesPerMoleKelvin:
-                return value_;
+                return base_value_;
 
             case MolarEntropyUnit::KilojoulesPerMoleKelvin:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case MolarEntropyUnit::MegajoulesPerMoleKelvin:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -170,5 +183,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MolarEntropyUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

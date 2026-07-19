@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -37,39 +38,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Torque, moment or moment of force (see the terminology below), is the tendency of a force to rotate an object about an axis,[1] fulcrum, or pivot. Just as a force is a push or a pull, a torque can be thought of as a twist to an object. Mathematically, torque is defined as the cross product of the lever-arm distance and force, which tends to produce rotation. Loosely speaking, torque is a measure of the turning force on an object such as a bolt or a flywheel. For example, pushing or pulling the handle of a wrench connected to a nut or bolt produces a torque (turning force) that loosens or tightens the nut or bolt.</summary>
-    class Torque
+    class Torque : public UnitsNetBase
     {
     public:
         constexpr explicit Torque(
             const un_scalar_t value,
             const TorqueUnit unit = TorqueUnit::NewtonMeters)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == TorqueUnit::NewtonMeters)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Torque(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const TorqueUnit unit) const
@@ -77,39 +84,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Torque operator+(const Torque other) const noexcept
+        [[nodiscard]] constexpr Torque operator+(const Torque& other) const noexcept
         {
-            return Torque(value_ + other.value_);
+            return Torque(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Torque operator-(const Torque other) const noexcept
+        [[nodiscard]] constexpr Torque operator-(const Torque& other)const noexcept
         {
-            return Torque(value_ - other.value_);
+            return Torque(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Torque operator*(const un_scalar_t scalar) const noexcept
         {
-            return Torque(value_ * scalar);
+            return Torque(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Torque operator/(const un_scalar_t scalar) const noexcept
         {
-            return Torque(value_ / scalar);
+            return Torque(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Torque other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Torque& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Torque other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Torque& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Torque other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Torque& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -393,8 +400,7 @@ namespace unitsnet_cpp
             return Torque(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, TorqueUnit unit)
         {
             switch (unit)
@@ -482,83 +488,90 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const TorqueUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case TorqueUnit::NewtonMillimeters:
-                return value_ * static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(1000);
 
             case TorqueUnit::KilonewtonMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonCentimeters:
-                return value_ * static_cast<un_scalar_t>(100);
+                return base_value_ * static_cast<un_scalar_t>(100);
 
             case TorqueUnit::KilonewtonCentimeters:
-                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonCentimeters:
-                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonMeters:
-                return value_;
+                return base_value_;
 
             case TorqueUnit::KilonewtonMeters:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonMeters:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundalFeet:
-                return value_ / (static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048));
+                return base_value_ / (static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::PoundForceInches:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2));
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2));
 
             case TorqueUnit::KilopoundForceInches:
-                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceInches:
-                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundForceFeet:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::KilopoundForceFeet:
-                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceFeet:
-                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::GramForceMillimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e-6);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-6);
 
             case TorqueUnit::GramForceCentimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e-5);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-5);
 
             case TorqueUnit::GramForceMeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e-3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceMillimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e-3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceCentimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e-2);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e-2);
 
             case TorqueUnit::KilogramForceMeters:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceMillimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceCentimeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e1);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e1);
 
             case TorqueUnit::TonneForceMeters:
-                return value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
 
             }
 
@@ -566,5 +579,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        TorqueUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

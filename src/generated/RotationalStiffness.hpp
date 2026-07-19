@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -46,39 +47,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>https://en.wikipedia.org/wiki/Stiffness#Rotational_stiffness</summary>
-    class RotationalStiffness
+    class RotationalStiffness : public UnitsNetBase
     {
     public:
         constexpr explicit RotationalStiffness(
             const un_scalar_t value,
             const RotationalStiffnessUnit unit = RotationalStiffnessUnit::NewtonMetersPerRadian)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == RotationalStiffnessUnit::NewtonMetersPerRadian)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit RotationalStiffness(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RotationalStiffnessUnit unit) const
@@ -86,39 +93,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RotationalStiffness operator+(const RotationalStiffness other) const noexcept
+        [[nodiscard]] constexpr RotationalStiffness operator+(const RotationalStiffness& other) const noexcept
         {
-            return RotationalStiffness(value_ + other.value_);
+            return RotationalStiffness(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr RotationalStiffness operator-(const RotationalStiffness other) const noexcept
+        [[nodiscard]] constexpr RotationalStiffness operator-(const RotationalStiffness& other)const noexcept
         {
-            return RotationalStiffness(value_ - other.value_);
+            return RotationalStiffness(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr RotationalStiffness operator*(const un_scalar_t scalar) const noexcept
         {
-            return RotationalStiffness(value_ * scalar);
+            return RotationalStiffness(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr RotationalStiffness operator/(const un_scalar_t scalar) const noexcept
         {
-            return RotationalStiffness(value_ / scalar);
+            return RotationalStiffness(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const RotationalStiffness other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RotationalStiffness& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const RotationalStiffness other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RotationalStiffness& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const RotationalStiffness other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const RotationalStiffness& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -501,8 +508,7 @@ namespace unitsnet_cpp
             return RotationalStiffness(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RotationalStiffnessUnit unit)
         {
             switch (unit)
@@ -617,110 +623,117 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const RotationalStiffnessUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case RotationalStiffnessUnit::NewtonMetersPerRadian:
-                return value_;
+                return base_value_;
 
             case RotationalStiffnessUnit::KilonewtonMetersPerRadian:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessUnit::MeganewtonMetersPerRadian:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessUnit::PoundForceFeetPerDegrees:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessUnit::KilopoundForceFeetPerDegrees:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessUnit::NewtonMillimetersPerDegree:
-                return value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000);
+                return base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000);
 
             case RotationalStiffnessUnit::NanonewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalStiffnessUnit::MicronewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalStiffnessUnit::MillinewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalStiffnessUnit::CentinewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
 
             case RotationalStiffnessUnit::DecinewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
 
             case RotationalStiffnessUnit::DecanewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
 
             case RotationalStiffnessUnit::KilonewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessUnit::MeganewtonMillimetersPerDegree:
-                return (value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(180) * std::numbers::pi_v<un_scalar_t> * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessUnit::NewtonMetersPerDegree:
-                return value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
+                return base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessUnit::NanonewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalStiffnessUnit::MicronewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalStiffnessUnit::MillinewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalStiffnessUnit::CentinewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-2);
 
             case RotationalStiffnessUnit::DecinewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e-1);
 
             case RotationalStiffnessUnit::DecanewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e1);
 
             case RotationalStiffnessUnit::KilonewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessUnit::MeganewtonMetersPerDegree:
-                return (value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>)) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessUnit::NewtonMillimetersPerRadian:
-                return value_ * static_cast<un_scalar_t>(1000);
+                return base_value_ * static_cast<un_scalar_t>(1000);
 
             case RotationalStiffnessUnit::NanonewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalStiffnessUnit::MicronewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalStiffnessUnit::MillinewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalStiffnessUnit::CentinewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
 
             case RotationalStiffnessUnit::DecinewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
 
             case RotationalStiffnessUnit::DecanewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
 
             case RotationalStiffnessUnit::KilonewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessUnit::MeganewtonMillimetersPerRadian:
-                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessUnit::PoundForceFeetPerRadian:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
 
             case RotationalStiffnessUnit::KilopoundForceFeetPerRadian:
-                return value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(0.3048));
+                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(0.3048));
 
             }
 
@@ -728,5 +741,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        RotationalStiffnessUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

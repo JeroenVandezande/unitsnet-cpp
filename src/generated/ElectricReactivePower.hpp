@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -16,39 +17,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In electric power transmission and distribution, volt-ampere reactive (var) is a unit of measurement of reactive power. Reactive power exists in an AC circuit when the current and voltage are not in phase.</summary>
-    class ElectricReactivePower
+    class ElectricReactivePower : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricReactivePower(
             const un_scalar_t value,
             const ElectricReactivePowerUnit unit = ElectricReactivePowerUnit::VoltamperesReactive)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricReactivePowerUnit::VoltamperesReactive)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricReactivePower(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricReactivePowerUnit unit) const
@@ -56,39 +63,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator+(const ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator+(const ElectricReactivePower& other) const noexcept
         {
-            return ElectricReactivePower(value_ + other.value_);
+            return ElectricReactivePower(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator-(const ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator-(const ElectricReactivePower& other)const noexcept
         {
-            return ElectricReactivePower(value_ - other.value_);
+            return ElectricReactivePower(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricReactivePower operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricReactivePower(value_ * scalar);
+            return ElectricReactivePower(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricReactivePower operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricReactivePower(value_ / scalar);
+            return ElectricReactivePower(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricReactivePower& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricReactivePower& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricReactivePower& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -141,8 +148,7 @@ namespace unitsnet_cpp
             return ElectricReactivePower(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricReactivePowerUnit unit)
         {
             switch (unit)
@@ -167,20 +173,27 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricReactivePowerUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricReactivePowerUnit::VoltamperesReactive:
-                return value_;
+                return base_value_;
 
             case ElectricReactivePowerUnit::KilovoltamperesReactive:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricReactivePowerUnit::MegavoltamperesReactive:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricReactivePowerUnit::GigavoltamperesReactive:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             }
 
@@ -188,5 +201,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricReactivePowerUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

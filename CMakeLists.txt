@@ -42,6 +42,23 @@ endforeach ()
 # Header-only library
 # ---------------------------------------------------------------------------
 
+# Download CPM.cmake
+set(CPM_VERSION 0.42.0)
+message("Downloading CPM Package Manager version ${CPM_VERSION}")
+file(
+        DOWNLOAD
+        https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_VERSION}/CPM.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake
+)
+include("${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake")
+
+CPMAddPackage(
+        NAME frozen
+        GITHUB_REPOSITORY cesanta/frozen
+        GIT_TAG 1.7
+        DOWNLOAD_ONLY YES
+)
+
 add_library(unitsnet_cpp INTERFACE)
 
 add_library(

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -18,39 +19,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>A geometric property of an area that is used to determine the warping stress.</summary>
-    class WarpingMomentOfInertia
+    class WarpingMomentOfInertia : public UnitsNetBase
     {
     public:
         constexpr explicit WarpingMomentOfInertia(
             const un_scalar_t value,
             const WarpingMomentOfInertiaUnit unit = WarpingMomentOfInertiaUnit::MetersToTheSixth)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == WarpingMomentOfInertiaUnit::MetersToTheSixth)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit WarpingMomentOfInertia(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const WarpingMomentOfInertiaUnit unit) const
@@ -58,39 +65,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr WarpingMomentOfInertia operator+(const WarpingMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr WarpingMomentOfInertia operator+(const WarpingMomentOfInertia& other) const noexcept
         {
-            return WarpingMomentOfInertia(value_ + other.value_);
+            return WarpingMomentOfInertia(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr WarpingMomentOfInertia operator-(const WarpingMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr WarpingMomentOfInertia operator-(const WarpingMomentOfInertia& other)const noexcept
         {
-            return WarpingMomentOfInertia(value_ - other.value_);
+            return WarpingMomentOfInertia(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr WarpingMomentOfInertia operator*(const un_scalar_t scalar) const noexcept
         {
-            return WarpingMomentOfInertia(value_ * scalar);
+            return WarpingMomentOfInertia(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr WarpingMomentOfInertia operator/(const un_scalar_t scalar) const noexcept
         {
-            return WarpingMomentOfInertia(value_ / scalar);
+            return WarpingMomentOfInertia(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const WarpingMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const WarpingMomentOfInertia& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const WarpingMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const WarpingMomentOfInertia& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const WarpingMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const WarpingMomentOfInertia& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -165,8 +172,7 @@ namespace unitsnet_cpp
             return WarpingMomentOfInertia(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, WarpingMomentOfInertiaUnit unit)
         {
             switch (unit)
@@ -197,26 +203,33 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const WarpingMomentOfInertiaUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case WarpingMomentOfInertiaUnit::MetersToTheSixth:
-                return value_;
+                return base_value_;
 
             case WarpingMomentOfInertiaUnit::DecimetersToTheSixth:
-                return value_ * static_cast<un_scalar_t>(1e6);
+                return base_value_ * static_cast<un_scalar_t>(1e6);
 
             case WarpingMomentOfInertiaUnit::CentimetersToTheSixth:
-                return value_ * static_cast<un_scalar_t>(1e12);
+                return base_value_ * static_cast<un_scalar_t>(1e12);
 
             case WarpingMomentOfInertiaUnit::MillimetersToTheSixth:
-                return value_ * static_cast<un_scalar_t>(1e18);
+                return base_value_ * static_cast<un_scalar_t>(1e18);
 
             case WarpingMomentOfInertiaUnit::FeetToTheSixth:
-                return value_ / static_cast<un_scalar_t>(0.000801843800914862014464);
+                return base_value_ / static_cast<un_scalar_t>(0.000801843800914862014464);
 
             case WarpingMomentOfInertiaUnit::InchesToTheSixth:
-                return value_ / static_cast<un_scalar_t>(0.000000000268535866540096);
+                return base_value_ / static_cast<un_scalar_t>(0.000000000268535866540096);
 
             }
 
@@ -224,5 +237,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        WarpingMomentOfInertiaUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

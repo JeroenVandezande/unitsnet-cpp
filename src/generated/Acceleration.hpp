@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -26,39 +27,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Acceleration, in physics, is the rate at which the velocity of an object changes over time. An object's acceleration is the net result of any and all forces acting on the object, as described by Newton's Second Law. The SI unit for acceleration is the Meter per second squared (m/s²). Accelerations are vector quantities (they have magnitude and direction) and add according to the parallelogram law. As a vector, the calculated net force is equal to the product of the object's mass (a scalar quantity) and the acceleration.</summary>
-    class Acceleration
+    class Acceleration : public UnitsNetBase
     {
     public:
         constexpr explicit Acceleration(
             const un_scalar_t value,
             const AccelerationUnit unit = AccelerationUnit::MetersPerSecondSquared)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == AccelerationUnit::MetersPerSecondSquared)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Acceleration(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AccelerationUnit unit) const
@@ -66,39 +73,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Acceleration operator+(const Acceleration other) const noexcept
+        [[nodiscard]] constexpr Acceleration operator+(const Acceleration& other) const noexcept
         {
-            return Acceleration(value_ + other.value_);
+            return Acceleration(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Acceleration operator-(const Acceleration other) const noexcept
+        [[nodiscard]] constexpr Acceleration operator-(const Acceleration& other)const noexcept
         {
-            return Acceleration(value_ - other.value_);
+            return Acceleration(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Acceleration operator*(const un_scalar_t scalar) const noexcept
         {
-            return Acceleration(value_ * scalar);
+            return Acceleration(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Acceleration operator/(const un_scalar_t scalar) const noexcept
         {
-            return Acceleration(value_ / scalar);
+            return Acceleration(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Acceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Acceleration& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Acceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Acceleration& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Acceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Acceleration& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -265,8 +272,7 @@ namespace unitsnet_cpp
             return Acceleration(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AccelerationUnit unit)
         {
             switch (unit)
@@ -321,50 +327,57 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const AccelerationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case AccelerationUnit::MetersPerSecondSquared:
-                return value_;
+                return base_value_;
 
             case AccelerationUnit::NanometersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case AccelerationUnit::MicrometersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case AccelerationUnit::MillimetersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case AccelerationUnit::CentimetersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case AccelerationUnit::DecimetersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case AccelerationUnit::KilometersPerSecondSquared:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case AccelerationUnit::InchesPerSecondSquared:
-                return value_ / static_cast<un_scalar_t>(0.0254);
+                return base_value_ / static_cast<un_scalar_t>(0.0254);
 
             case AccelerationUnit::FeetPerSecondSquared:
-                return value_ / static_cast<un_scalar_t>(0.304800);
+                return base_value_ / static_cast<un_scalar_t>(0.304800);
 
             case AccelerationUnit::KnotsPerSecond:
-                return value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerMinute:
-                return value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerHour:
-                return value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::StandardGravity:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case AccelerationUnit::MillistandardGravity:
-                return (value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -372,5 +385,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        AccelerationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

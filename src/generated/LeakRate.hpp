@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -16,39 +17,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>A leakage rate of QL = 1 Pa-m³/s is given when the pressure in a closed, evacuated container with a volume of 1 m³ rises by 1 Pa per second or when the pressure in the container drops by 1 Pa in the event of overpressure.</summary>
-    class LeakRate
+    class LeakRate : public UnitsNetBase
     {
     public:
         constexpr explicit LeakRate(
             const un_scalar_t value,
             const LeakRateUnit unit = LeakRateUnit::PascalCubicMetersPerSecond)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == LeakRateUnit::PascalCubicMetersPerSecond)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit LeakRate(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LeakRateUnit unit) const
@@ -56,39 +63,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr LeakRate operator+(const LeakRate other) const noexcept
+        [[nodiscard]] constexpr LeakRate operator+(const LeakRate& other) const noexcept
         {
-            return LeakRate(value_ + other.value_);
+            return LeakRate(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr LeakRate operator-(const LeakRate other) const noexcept
+        [[nodiscard]] constexpr LeakRate operator-(const LeakRate& other)const noexcept
         {
-            return LeakRate(value_ - other.value_);
+            return LeakRate(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr LeakRate operator*(const un_scalar_t scalar) const noexcept
         {
-            return LeakRate(value_ * scalar);
+            return LeakRate(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr LeakRate operator/(const un_scalar_t scalar) const noexcept
         {
-            return LeakRate(value_ / scalar);
+            return LeakRate(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const LeakRate other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const LeakRate& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const LeakRate other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const LeakRate& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const LeakRate other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const LeakRate& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -141,8 +148,7 @@ namespace unitsnet_cpp
             return LeakRate(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LeakRateUnit unit)
         {
             switch (unit)
@@ -167,20 +173,27 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const LeakRateUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case LeakRateUnit::PascalCubicMetersPerSecond:
-                return value_;
+                return base_value_;
 
             case LeakRateUnit::MillibarLitersPerSecond:
-                return value_ * static_cast<un_scalar_t>(10);
+                return base_value_ * static_cast<un_scalar_t>(10);
 
             case LeakRateUnit::TorrLitersPerSecond:
-                return value_ * static_cast<un_scalar_t>(7.5);
+                return base_value_ * static_cast<un_scalar_t>(7.5);
 
             case LeakRateUnit::AtmCubicCentimetersPerSecond:
-                return value_ * (static_cast<un_scalar_t>(1e6) / static_cast<un_scalar_t>(101325));
+                return base_value_ * (static_cast<un_scalar_t>(1e6) / static_cast<un_scalar_t>(101325));
 
             }
 
@@ -188,5 +201,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        LeakRateUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

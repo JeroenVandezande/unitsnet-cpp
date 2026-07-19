@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -15,39 +16,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>{{ xml_doc_summary }}</summary>
-    class {{ name }}
+    class {{ name }} : public UnitsNetBase
     {
     public:
         constexpr explicit {{ name }}(
             const un_scalar_t value,
             const {{ name }}Unit unit = {{ name }}Unit::{{ base_unit }})
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == {{ name }}Unit::{{ base_unit }})
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit {{ name }}(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const {{ name }}Unit unit) const
@@ -55,39 +62,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr {{ name }} operator+(const {{ name }} other) const noexcept
+        [[nodiscard]] constexpr {{ name }} operator+(const {{ name }}& other) const noexcept
         {
-            return {{ name }}(value_ + other.value_);
+            return {{ name }}(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr {{ name }} operator-(const {{ name }} other) const noexcept
+        [[nodiscard]] constexpr {{ name }} operator-(const {{ name }}& other)const noexcept
         {
-            return {{ name }}(value_ - other.value_);
+            return {{ name }}(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr {{ name }} operator*(const un_scalar_t scalar) const noexcept
         {
-            return {{ name }}(value_ * scalar);
+            return {{ name }}(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr {{ name }} operator/(const un_scalar_t scalar) const noexcept
         {
-            return {{ name }}(value_ / scalar);
+            return {{ name }}(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const {{ name }} other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const {{ name }}& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const {{ name }} other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const {{ name }}& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const {{ name }} other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const {{ name }}& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
     {{~ for unit in units }}
@@ -113,8 +120,7 @@ namespace unitsnet_cpp
             return {{ name }}(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, {{ name }}Unit unit)
         {
             switch (unit)
@@ -130,6 +136,13 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const {{ name }}Unit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
             {{~ for unit in units }}
@@ -142,5 +155,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        {{ name }}Unit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

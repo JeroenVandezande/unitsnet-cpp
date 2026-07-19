@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -40,39 +41,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>A property of body reflects how its mass is distributed with regard to an axis.</summary>
-    class MassMomentOfInertia
+    class MassMomentOfInertia : public UnitsNetBase
     {
     public:
         constexpr explicit MassMomentOfInertia(
             const un_scalar_t value,
             const MassMomentOfInertiaUnit unit = MassMomentOfInertiaUnit::KilogramSquareMeters)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MassMomentOfInertiaUnit::KilogramSquareMeters)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit MassMomentOfInertia(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassMomentOfInertiaUnit unit) const
@@ -80,39 +87,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MassMomentOfInertia operator+(const MassMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr MassMomentOfInertia operator+(const MassMomentOfInertia& other) const noexcept
         {
-            return MassMomentOfInertia(value_ + other.value_);
+            return MassMomentOfInertia(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr MassMomentOfInertia operator-(const MassMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr MassMomentOfInertia operator-(const MassMomentOfInertia& other)const noexcept
         {
-            return MassMomentOfInertia(value_ - other.value_);
+            return MassMomentOfInertia(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr MassMomentOfInertia operator*(const un_scalar_t scalar) const noexcept
         {
-            return MassMomentOfInertia(value_ * scalar);
+            return MassMomentOfInertia(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr MassMomentOfInertia operator/(const un_scalar_t scalar) const noexcept
         {
-            return MassMomentOfInertia(value_ / scalar);
+            return MassMomentOfInertia(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const MassMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MassMomentOfInertia& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const MassMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MassMomentOfInertia& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const MassMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const MassMomentOfInertia& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -429,8 +436,7 @@ namespace unitsnet_cpp
             return MassMomentOfInertia(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MassMomentOfInertiaUnit unit)
         {
             switch (unit)
@@ -527,92 +533,99 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MassMomentOfInertiaUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MassMomentOfInertiaUnit::GramSquareMeters:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::MilligramSquareMeters:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassMomentOfInertiaUnit::KilogramSquareMeters:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::GramSquareDecimeters:
-                return value_ * static_cast<un_scalar_t>(1e5);
+                return base_value_ * static_cast<un_scalar_t>(1e5);
 
             case MassMomentOfInertiaUnit::MilligramSquareDecimeters:
-                return (value_ * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
             case MassMomentOfInertiaUnit::KilogramSquareDecimeters:
-                return (value_ * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::GramSquareCentimeters:
-                return value_ * static_cast<un_scalar_t>(1e7);
+                return base_value_ * static_cast<un_scalar_t>(1e7);
 
             case MassMomentOfInertiaUnit::MilligramSquareCentimeters:
-                return (value_ * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e-3);
 
             case MassMomentOfInertiaUnit::KilogramSquareCentimeters:
-                return (value_ * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::GramSquareMillimeters:
-                return value_ * static_cast<un_scalar_t>(1e9);
+                return base_value_ * static_cast<un_scalar_t>(1e9);
 
             case MassMomentOfInertiaUnit::MilligramSquareMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e-3);
 
             case MassMomentOfInertiaUnit::KilogramSquareMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::TonneSquareMeters:
-                return value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value_ * static_cast<un_scalar_t>(1e-3);
 
             case MassMomentOfInertiaUnit::KilotonneSquareMeters:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::MegatonneSquareMeters:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e6);
 
             case MassMomentOfInertiaUnit::TonneSquareDecimeters:
-                return value_ * static_cast<un_scalar_t>(1e-1);
+                return base_value_ * static_cast<un_scalar_t>(1e-1);
 
             case MassMomentOfInertiaUnit::KilotonneSquareDecimeters:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::MegatonneSquareDecimeters:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e6);
 
             case MassMomentOfInertiaUnit::TonneSquareCentimeters:
-                return value_ * static_cast<un_scalar_t>(1e1);
+                return base_value_ * static_cast<un_scalar_t>(1e1);
 
             case MassMomentOfInertiaUnit::KilotonneSquareCentimeters:
-                return (value_ * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::MegatonneSquareCentimeters:
-                return (value_ * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e6);
 
             case MassMomentOfInertiaUnit::TonneSquareMillimeters:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::KilotonneSquareMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassMomentOfInertiaUnit::MegatonneSquareMillimeters:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case MassMomentOfInertiaUnit::PoundSquareFeet:
-                return value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2));
+                return base_value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2));
 
             case MassMomentOfInertiaUnit::PoundSquareInches:
-                return value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516));
+                return base_value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516));
 
             case MassMomentOfInertiaUnit::SlugSquareFeet:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2) * static_cast<un_scalar_t>(9.80665));
 
             case MassMomentOfInertiaUnit::SlugSquareInches:
-                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516) * static_cast<un_scalar_t>(9.80665));
 
             }
 
@@ -620,5 +633,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MassMomentOfInertiaUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

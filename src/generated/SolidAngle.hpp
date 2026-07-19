@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -13,39 +14,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In geometry, a solid angle is the two-dimensional angle in three-dimensional space that an object subtends at a point.</summary>
-    class SolidAngle
+    class SolidAngle : public UnitsNetBase
     {
     public:
         constexpr explicit SolidAngle(
             const un_scalar_t value,
             const SolidAngleUnit unit = SolidAngleUnit::Steradians)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == SolidAngleUnit::Steradians)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit SolidAngle(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SolidAngleUnit unit) const
@@ -53,39 +60,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr SolidAngle operator+(const SolidAngle other) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator+(const SolidAngle& other) const noexcept
         {
-            return SolidAngle(value_ + other.value_);
+            return SolidAngle(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr SolidAngle operator-(const SolidAngle other) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator-(const SolidAngle& other)const noexcept
         {
-            return SolidAngle(value_ - other.value_);
+            return SolidAngle(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr SolidAngle operator*(const un_scalar_t scalar) const noexcept
         {
-            return SolidAngle(value_ * scalar);
+            return SolidAngle(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr SolidAngle operator/(const un_scalar_t scalar) const noexcept
         {
-            return SolidAngle(value_ / scalar);
+            return SolidAngle(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const SolidAngle other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const SolidAngle& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const SolidAngle other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const SolidAngle& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const SolidAngle other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const SolidAngle& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -105,8 +112,7 @@ namespace unitsnet_cpp
             return SolidAngle(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SolidAngleUnit unit)
         {
             switch (unit)
@@ -122,11 +128,18 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const SolidAngleUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case SolidAngleUnit::Steradians:
-                return value_;
+                return base_value_;
 
             }
 
@@ -134,5 +147,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        SolidAngleUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

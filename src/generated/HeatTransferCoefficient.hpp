@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -18,39 +19,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The heat transfer coefficient or film coefficient, or film effectiveness, in thermodynamics and in mechanics is the proportionality constant between the heat flux and the thermodynamic driving force for the flow of heat (i.e., the temperature difference, ΔT)</summary>
-    class HeatTransferCoefficient
+    class HeatTransferCoefficient : public UnitsNetBase
     {
     public:
         constexpr explicit HeatTransferCoefficient(
             const un_scalar_t value,
             const HeatTransferCoefficientUnit unit = HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit HeatTransferCoefficient(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const HeatTransferCoefficientUnit unit) const
@@ -58,39 +65,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr HeatTransferCoefficient operator+(const HeatTransferCoefficient other) const noexcept
+        [[nodiscard]] constexpr HeatTransferCoefficient operator+(const HeatTransferCoefficient& other) const noexcept
         {
-            return HeatTransferCoefficient(value_ + other.value_);
+            return HeatTransferCoefficient(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr HeatTransferCoefficient operator-(const HeatTransferCoefficient other) const noexcept
+        [[nodiscard]] constexpr HeatTransferCoefficient operator-(const HeatTransferCoefficient& other)const noexcept
         {
-            return HeatTransferCoefficient(value_ - other.value_);
+            return HeatTransferCoefficient(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr HeatTransferCoefficient operator*(const un_scalar_t scalar) const noexcept
         {
-            return HeatTransferCoefficient(value_ * scalar);
+            return HeatTransferCoefficient(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr HeatTransferCoefficient operator/(const un_scalar_t scalar) const noexcept
         {
-            return HeatTransferCoefficient(value_ / scalar);
+            return HeatTransferCoefficient(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const HeatTransferCoefficient other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const HeatTransferCoefficient& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const HeatTransferCoefficient other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const HeatTransferCoefficient& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const HeatTransferCoefficient other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const HeatTransferCoefficient& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -165,8 +172,7 @@ namespace unitsnet_cpp
             return HeatTransferCoefficient(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, HeatTransferCoefficientUnit unit)
         {
             switch (unit)
@@ -197,26 +203,33 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const HeatTransferCoefficientUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin:
-                return value_;
+                return base_value_;
 
             case HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius:
-                return value_;
+                return base_value_;
 
             case HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit:
-                return value_ / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
+                return base_value_ / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
 
             case HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit:
-                return value_ / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2))) * static_cast<un_scalar_t>(1.8));
+                return base_value_ / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2))) * static_cast<un_scalar_t>(1.8));
 
             case HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius:
-                return (value_ / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600);
+                return (base_value_ / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600);
 
             case HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius:
-                return ((value_ / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
+                return ((base_value_ / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -224,5 +237,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        HeatTransferCoefficientUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

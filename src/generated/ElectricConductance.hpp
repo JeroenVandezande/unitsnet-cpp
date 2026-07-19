@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -28,39 +29,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The electrical conductance of an object is a measure of the ease with which an electric current passes. Along with susceptance, it is one of two elements of admittance. Its reciprocal quantity is electrical resistance.</summary>
-    class ElectricConductance
+    class ElectricConductance : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricConductance(
             const un_scalar_t value,
             const ElectricConductanceUnit unit = ElectricConductanceUnit::Siemens)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricConductanceUnit::Siemens)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricConductance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricConductanceUnit unit) const
@@ -68,39 +75,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricConductance operator+(const ElectricConductance other) const noexcept
+        [[nodiscard]] constexpr ElectricConductance operator+(const ElectricConductance& other) const noexcept
         {
-            return ElectricConductance(value_ + other.value_);
+            return ElectricConductance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricConductance operator-(const ElectricConductance other) const noexcept
+        [[nodiscard]] constexpr ElectricConductance operator-(const ElectricConductance& other)const noexcept
         {
-            return ElectricConductance(value_ - other.value_);
+            return ElectricConductance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricConductance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricConductance(value_ * scalar);
+            return ElectricConductance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricConductance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricConductance(value_ / scalar);
+            return ElectricConductance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricConductance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricConductance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricConductance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricConductance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricConductance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricConductance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -285,8 +292,7 @@ namespace unitsnet_cpp
             return ElectricConductance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricConductanceUnit unit)
         {
             switch (unit)
@@ -347,56 +353,63 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricConductanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricConductanceUnit::Siemens:
-                return value_;
+                return base_value_;
 
             case ElectricConductanceUnit::Nanosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricConductanceUnit::Microsiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricConductanceUnit::Millisiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricConductanceUnit::Kilosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricConductanceUnit::Megasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricConductanceUnit::Gigasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricConductanceUnit::Terasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case ElectricConductanceUnit::Mhos:
-                return value_;
+                return base_value_;
 
             case ElectricConductanceUnit::Nanomhos:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricConductanceUnit::Micromhos:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricConductanceUnit::Millimhos:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricConductanceUnit::Kilomhos:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricConductanceUnit::Megamhos:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricConductanceUnit::Gigamhos:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricConductanceUnit::Teramhos:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -404,5 +417,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricConductanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -51,39 +52,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In computing and telecommunications, a unit of information is the capacity of some standard data storage system or communication channel, used to measure the capacities of other systems and channels. In information theory, units of information are also used to measure the information contents or entropy of random variables.</summary>
-    class Information
+    class Information : public UnitsNetBase
     {
     public:
         constexpr explicit Information(
             const un_scalar_t value,
             const InformationUnit unit = InformationUnit::Bits)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == InformationUnit::Bits)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Information(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const InformationUnit unit) const
@@ -91,39 +98,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Information operator+(const Information other) const noexcept
+        [[nodiscard]] constexpr Information operator+(const Information& other) const noexcept
         {
-            return Information(value_ + other.value_);
+            return Information(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Information operator-(const Information other) const noexcept
+        [[nodiscard]] constexpr Information operator-(const Information& other)const noexcept
         {
-            return Information(value_ - other.value_);
+            return Information(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Information operator*(const un_scalar_t scalar) const noexcept
         {
-            return Information(value_ * scalar);
+            return Information(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Information operator/(const un_scalar_t scalar) const noexcept
         {
-            return Information(value_ / scalar);
+            return Information(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Information other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Information& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Information other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Information& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Information other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Information& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -561,8 +568,7 @@ namespace unitsnet_cpp
             return Information(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, InformationUnit unit)
         {
             switch (unit)
@@ -692,125 +698,132 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const InformationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case InformationUnit::Bytes:
-                return value_ / static_cast<un_scalar_t>(8);
+                return base_value_ / static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilobytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megabytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigabytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Terabytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petabytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exabytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbibytes:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Octets:
-                return value_ / static_cast<un_scalar_t>(8);
+                return base_value_ / static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilooctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megaoctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigaoctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Teraoctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petaoctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exaoctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbioctets:
-                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
+                return (base_value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Bits:
-                return value_;
+                return base_value_;
 
             case InformationUnit::Kilobits:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megabits:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigabits:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Terabits:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petabits:
-                return (value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value_) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exabits:
-                return (value_) / static_cast<un_scalar_t>(1e18);
+                return (base_value_) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibibits:
-                return (value_) / static_cast<un_scalar_t>(1024.0);
+                return (base_value_) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebibits:
-                return (value_) / static_cast<un_scalar_t>(1048576.0);
+                return (base_value_) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibibits:
-                return (value_) / static_cast<un_scalar_t>(1073741824.0);
+                return (base_value_) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebibits:
-                return (value_) / static_cast<un_scalar_t>(1099511627776.0);
+                return (base_value_) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebibits:
-                return (value_) / static_cast<un_scalar_t>(1125899906842624.0);
+                return (base_value_) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbibits:
-                return (value_) / static_cast<un_scalar_t>(1152921504606846976.0);
+                return (base_value_) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             }
 
@@ -818,5 +831,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        InformationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

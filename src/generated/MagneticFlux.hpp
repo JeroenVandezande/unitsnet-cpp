@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -13,39 +14,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In physics, specifically electromagnetism, the magnetic flux through a surface is the surface integral of the normal component of the magnetic field B passing through that surface.</summary>
-    class MagneticFlux
+    class MagneticFlux : public UnitsNetBase
     {
     public:
         constexpr explicit MagneticFlux(
             const un_scalar_t value,
             const MagneticFluxUnit unit = MagneticFluxUnit::Webers)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MagneticFluxUnit::Webers)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit MagneticFlux(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MagneticFluxUnit unit) const
@@ -53,39 +60,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator+(const MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator+(const MagneticFlux& other) const noexcept
         {
-            return MagneticFlux(value_ + other.value_);
+            return MagneticFlux(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator-(const MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator-(const MagneticFlux& other)const noexcept
         {
-            return MagneticFlux(value_ - other.value_);
+            return MagneticFlux(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr MagneticFlux operator*(const un_scalar_t scalar) const noexcept
         {
-            return MagneticFlux(value_ * scalar);
+            return MagneticFlux(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr MagneticFlux operator/(const un_scalar_t scalar) const noexcept
         {
-            return MagneticFlux(value_ / scalar);
+            return MagneticFlux(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MagneticFlux& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MagneticFlux& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const MagneticFlux& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -105,8 +112,7 @@ namespace unitsnet_cpp
             return MagneticFlux(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MagneticFluxUnit unit)
         {
             switch (unit)
@@ -122,11 +128,18 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MagneticFluxUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MagneticFluxUnit::Webers:
-                return value_;
+                return base_value_;
 
             }
 
@@ -134,5 +147,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MagneticFluxUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

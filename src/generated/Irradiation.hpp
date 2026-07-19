@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -21,39 +22,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Irradiation is the process by which an object is exposed to radiation. The exposure can originate from various sources, including natural sources.</summary>
-    class Irradiation
+    class Irradiation : public UnitsNetBase
     {
     public:
         constexpr explicit Irradiation(
             const un_scalar_t value,
             const IrradiationUnit unit = IrradiationUnit::JoulesPerSquareMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == IrradiationUnit::JoulesPerSquareMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Irradiation(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const IrradiationUnit unit) const
@@ -61,39 +68,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Irradiation operator+(const Irradiation other) const noexcept
+        [[nodiscard]] constexpr Irradiation operator+(const Irradiation& other) const noexcept
         {
-            return Irradiation(value_ + other.value_);
+            return Irradiation(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Irradiation operator-(const Irradiation other) const noexcept
+        [[nodiscard]] constexpr Irradiation operator-(const Irradiation& other)const noexcept
         {
-            return Irradiation(value_ - other.value_);
+            return Irradiation(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Irradiation operator*(const un_scalar_t scalar) const noexcept
         {
-            return Irradiation(value_ * scalar);
+            return Irradiation(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Irradiation operator/(const un_scalar_t scalar) const noexcept
         {
-            return Irradiation(value_ / scalar);
+            return Irradiation(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Irradiation other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Irradiation& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Irradiation other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Irradiation& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Irradiation other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Irradiation& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -201,8 +208,7 @@ namespace unitsnet_cpp
             return Irradiation(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, IrradiationUnit unit)
         {
             switch (unit)
@@ -242,35 +248,42 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const IrradiationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case IrradiationUnit::JoulesPerSquareMeter:
-                return value_;
+                return base_value_;
 
             case IrradiationUnit::KilojoulesPerSquareMeter:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::JoulesPerSquareCentimeter:
-                return value_ / static_cast<un_scalar_t>(1e4);
+                return base_value_ / static_cast<un_scalar_t>(1e4);
 
             case IrradiationUnit::MillijoulesPerSquareCentimeter:
-                return (value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradiationUnit::JoulesPerSquareMillimeter:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case IrradiationUnit::WattHoursPerSquareMeter:
-                return value_ / static_cast<un_scalar_t>(3600.0);
+                return base_value_ / static_cast<un_scalar_t>(3600.0);
 
             case IrradiationUnit::KilowattHoursPerSquareMeter:
-                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::BtusPerSquareFoot:
-                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262);
 
             case IrradiationUnit::KilobtusPerSquareFoot:
-                return (value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -278,5 +291,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        IrradiationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

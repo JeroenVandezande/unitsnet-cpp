@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -14,39 +15,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Thermal resistance (R) measures the opposition to the heat current in a material or system. It is measured in units of kelvins per watt (K/W) and indicates how much temperature difference (in kelvins) is required to transfer a unit of heat current (in watts) through the material or object. It is essential to optimize the building insulation, evaluate the efficiency of electronic devices, and enhance the performance of heat sinks in various applications.</summary>
-    class ThermalResistance
+    class ThermalResistance : public UnitsNetBase
     {
     public:
         constexpr explicit ThermalResistance(
             const un_scalar_t value,
             const ThermalResistanceUnit unit = ThermalResistanceUnit::KelvinsPerWatt)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ThermalResistanceUnit::KelvinsPerWatt)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ThermalResistance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ThermalResistanceUnit unit) const
@@ -54,39 +61,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator+(const ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator+(const ThermalResistance& other) const noexcept
         {
-            return ThermalResistance(value_ + other.value_);
+            return ThermalResistance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator-(const ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator-(const ThermalResistance& other)const noexcept
         {
-            return ThermalResistance(value_ - other.value_);
+            return ThermalResistance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ThermalResistance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ThermalResistance(value_ * scalar);
+            return ThermalResistance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ThermalResistance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ThermalResistance(value_ / scalar);
+            return ThermalResistance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ThermalResistance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ThermalResistance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ThermalResistance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -117,8 +124,7 @@ namespace unitsnet_cpp
             return ThermalResistance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ThermalResistanceUnit unit)
         {
             switch (unit)
@@ -137,14 +143,21 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ThermalResistanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ThermalResistanceUnit::KelvinsPerWatt:
-                return value_;
+                return base_value_;
 
             case ThermalResistanceUnit::DegreesCelsiusPerWatt:
-                return value_;
+                return base_value_;
 
             }
 
@@ -152,5 +165,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ThermalResistanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

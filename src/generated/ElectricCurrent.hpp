@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -21,39 +22,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>An electric current is a flow of electric charge. In electric circuits this charge is often carried by moving electrons in a wire. It can also be carried by ions in an electrolyte, or by both ions and electrons such as in a plasma.</summary>
-    class ElectricCurrent
+    class ElectricCurrent : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricCurrent(
             const un_scalar_t value,
             const ElectricCurrentUnit unit = ElectricCurrentUnit::Amperes)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricCurrentUnit::Amperes)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricCurrent(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricCurrentUnit unit) const
@@ -61,39 +68,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator+(const ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator+(const ElectricCurrent& other) const noexcept
         {
-            return ElectricCurrent(value_ + other.value_);
+            return ElectricCurrent(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator-(const ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator-(const ElectricCurrent& other)const noexcept
         {
-            return ElectricCurrent(value_ - other.value_);
+            return ElectricCurrent(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricCurrent operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricCurrent(value_ * scalar);
+            return ElectricCurrent(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricCurrent operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricCurrent(value_ / scalar);
+            return ElectricCurrent(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCurrent& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCurrent& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricCurrent& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -201,8 +208,7 @@ namespace unitsnet_cpp
             return ElectricCurrent(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCurrentUnit unit)
         {
             switch (unit)
@@ -242,35 +248,42 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCurrentUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricCurrentUnit::Amperes:
-                return value_;
+                return base_value_;
 
             case ElectricCurrentUnit::Femtoamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_) / static_cast<un_scalar_t>(1e-15);
 
             case ElectricCurrentUnit::Picoamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricCurrentUnit::Nanoamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricCurrentUnit::Microamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricCurrentUnit::Milliamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentUnit::Centiamperes:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case ElectricCurrentUnit::Kiloamperes:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricCurrentUnit::Megaamperes:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -278,5 +291,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricCurrentUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

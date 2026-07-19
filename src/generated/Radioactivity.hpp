@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -41,39 +42,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Amount of ionizing radiation released when an element spontaneously emits energy as a result of the radioactive decay of an unstable atom per unit time.</summary>
-    class Radioactivity
+    class Radioactivity : public UnitsNetBase
     {
     public:
         constexpr explicit Radioactivity(
             const un_scalar_t value,
             const RadioactivityUnit unit = RadioactivityUnit::Becquerels)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == RadioactivityUnit::Becquerels)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Radioactivity(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RadioactivityUnit unit) const
@@ -81,39 +88,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Radioactivity operator+(const Radioactivity other) const noexcept
+        [[nodiscard]] constexpr Radioactivity operator+(const Radioactivity& other) const noexcept
         {
-            return Radioactivity(value_ + other.value_);
+            return Radioactivity(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Radioactivity operator-(const Radioactivity other) const noexcept
+        [[nodiscard]] constexpr Radioactivity operator-(const Radioactivity& other)const noexcept
         {
-            return Radioactivity(value_ - other.value_);
+            return Radioactivity(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Radioactivity operator*(const un_scalar_t scalar) const noexcept
         {
-            return Radioactivity(value_ * scalar);
+            return Radioactivity(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Radioactivity operator/(const un_scalar_t scalar) const noexcept
         {
-            return Radioactivity(value_ / scalar);
+            return Radioactivity(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Radioactivity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Radioactivity& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Radioactivity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Radioactivity& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Radioactivity other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Radioactivity& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -481,8 +488,7 @@ namespace unitsnet_cpp
             return Radioactivity(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RadioactivityUnit unit)
         {
             switch (unit)
@@ -582,95 +588,102 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const RadioactivityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case RadioactivityUnit::Becquerels:
-                return value_;
+                return base_value_;
 
             case RadioactivityUnit::Picobecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanobecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microbecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millibecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilobecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megabecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigabecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Terabecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case RadioactivityUnit::Petabecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value_) / static_cast<un_scalar_t>(1e15);
 
             case RadioactivityUnit::Exabecquerels:
-                return (value_) / static_cast<un_scalar_t>(1e18);
+                return (base_value_) / static_cast<un_scalar_t>(1e18);
 
             case RadioactivityUnit::Curies:
-                return value_ / static_cast<un_scalar_t>(3.7e10);
+                return base_value_ / static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Picocuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanocuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microcuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millicuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilocuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megacuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigacuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Teracuries:
-                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e12);
 
             case RadioactivityUnit::Rutherfords:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Picorutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanorutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microrutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millirutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilorutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megarutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigarutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e9);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Terarutherfords:
-                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e12);
+                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -678,5 +691,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        RadioactivityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

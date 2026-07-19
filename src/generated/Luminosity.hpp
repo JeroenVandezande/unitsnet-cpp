@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -26,39 +27,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Luminosity is an absolute measure of radiated electromagnetic power (light), the radiant power emitted by a light-emitting object.</summary>
-    class Luminosity
+    class Luminosity : public UnitsNetBase
     {
     public:
         constexpr explicit Luminosity(
             const un_scalar_t value,
             const LuminosityUnit unit = LuminosityUnit::Watts)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == LuminosityUnit::Watts)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Luminosity(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LuminosityUnit unit) const
@@ -66,39 +73,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Luminosity operator+(const Luminosity other) const noexcept
+        [[nodiscard]] constexpr Luminosity operator+(const Luminosity& other) const noexcept
         {
-            return Luminosity(value_ + other.value_);
+            return Luminosity(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Luminosity operator-(const Luminosity other) const noexcept
+        [[nodiscard]] constexpr Luminosity operator-(const Luminosity& other)const noexcept
         {
-            return Luminosity(value_ - other.value_);
+            return Luminosity(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Luminosity operator*(const un_scalar_t scalar) const noexcept
         {
-            return Luminosity(value_ * scalar);
+            return Luminosity(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Luminosity operator/(const un_scalar_t scalar) const noexcept
         {
-            return Luminosity(value_ / scalar);
+            return Luminosity(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Luminosity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Luminosity& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Luminosity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Luminosity& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Luminosity other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Luminosity& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -263,8 +270,7 @@ namespace unitsnet_cpp
             return Luminosity(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LuminosityUnit unit)
         {
             switch (unit)
@@ -319,50 +325,57 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const LuminosityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case LuminosityUnit::Watts:
-                return value_;
+                return base_value_;
 
             case LuminosityUnit::Femtowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_) / static_cast<un_scalar_t>(1e-15);
 
             case LuminosityUnit::Picowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case LuminosityUnit::Nanowatts:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case LuminosityUnit::Microwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case LuminosityUnit::Milliwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case LuminosityUnit::Deciwatts:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case LuminosityUnit::Decawatts:
-                return (value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value_) / static_cast<un_scalar_t>(1e1);
 
             case LuminosityUnit::Kilowatts:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case LuminosityUnit::Megawatts:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case LuminosityUnit::Gigawatts:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case LuminosityUnit::Terawatts:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case LuminosityUnit::Petawatts:
-                return (value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value_) / static_cast<un_scalar_t>(1e15);
 
             case LuminosityUnit::SolarLuminosities:
-                return value_ / static_cast<un_scalar_t>(3.828e26);
+                return base_value_ / static_cast<un_scalar_t>(3.828e26);
 
             }
 
@@ -370,5 +383,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        LuminosityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

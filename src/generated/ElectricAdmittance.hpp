@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -28,39 +29,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Electric admittance is a measure of how easily a circuit or device will allow a current to flow by the combined effect of conductance and susceptance in a circuit. It is defined as the inverse of impedance. The SI unit of admittance is the siemens (symbol S).</summary>
-    class ElectricAdmittance
+    class ElectricAdmittance : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricAdmittance(
             const un_scalar_t value,
             const ElectricAdmittanceUnit unit = ElectricAdmittanceUnit::Siemens)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricAdmittanceUnit::Siemens)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricAdmittance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricAdmittanceUnit unit) const
@@ -68,39 +75,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator+(const ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator+(const ElectricAdmittance& other) const noexcept
         {
-            return ElectricAdmittance(value_ + other.value_);
+            return ElectricAdmittance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator-(const ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator-(const ElectricAdmittance& other)const noexcept
         {
-            return ElectricAdmittance(value_ - other.value_);
+            return ElectricAdmittance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricAdmittance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricAdmittance(value_ * scalar);
+            return ElectricAdmittance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricAdmittance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricAdmittance(value_ / scalar);
+            return ElectricAdmittance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricAdmittance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricAdmittance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricAdmittance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -285,8 +292,7 @@ namespace unitsnet_cpp
             return ElectricAdmittance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricAdmittanceUnit unit)
         {
             switch (unit)
@@ -347,56 +353,63 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricAdmittanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricAdmittanceUnit::Siemens:
-                return value_;
+                return base_value_;
 
             case ElectricAdmittanceUnit::Nanosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricAdmittanceUnit::Microsiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricAdmittanceUnit::Millisiemens:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricAdmittanceUnit::Kilosiemens:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricAdmittanceUnit::Megasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricAdmittanceUnit::Gigasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricAdmittanceUnit::Terasiemens:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case ElectricAdmittanceUnit::Mhos:
-                return value_;
+                return base_value_;
 
             case ElectricAdmittanceUnit::Nanomhos:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricAdmittanceUnit::Micromhos:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricAdmittanceUnit::Millimhos:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricAdmittanceUnit::Kilomhos:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricAdmittanceUnit::Megamhos:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricAdmittanceUnit::Gigamhos:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricAdmittanceUnit::Teramhos:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -404,5 +417,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricAdmittanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

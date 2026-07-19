@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -26,39 +27,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Area is a quantity that expresses the extent of a two-dimensional surface or shape, or planar lamina, in the plane. Area can be understood as the amount of material with a given thickness that would be necessary to fashion a model of the shape, or the amount of paint necessary to cover the surface with a single coat.[1] It is the two-dimensional analog of the length of a curve (a one-dimensional concept) or the volume of a solid (a three-dimensional concept).</summary>
-    class Area
+    class Area : public UnitsNetBase
     {
     public:
         constexpr explicit Area(
             const un_scalar_t value,
             const AreaUnit unit = AreaUnit::SquareMeters)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == AreaUnit::SquareMeters)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Area(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AreaUnit unit) const
@@ -66,39 +73,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Area operator+(const Area other) const noexcept
+        [[nodiscard]] constexpr Area operator+(const Area& other) const noexcept
         {
-            return Area(value_ + other.value_);
+            return Area(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Area operator-(const Area other) const noexcept
+        [[nodiscard]] constexpr Area operator-(const Area& other)const noexcept
         {
-            return Area(value_ - other.value_);
+            return Area(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Area operator*(const un_scalar_t scalar) const noexcept
         {
-            return Area(value_ * scalar);
+            return Area(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Area operator/(const un_scalar_t scalar) const noexcept
         {
-            return Area(value_ / scalar);
+            return Area(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Area other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Area& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Area other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Area& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Area other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Area& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -269,8 +276,7 @@ namespace unitsnet_cpp
             return Area(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AreaUnit unit)
         {
             switch (unit)
@@ -325,50 +331,57 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const AreaUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case AreaUnit::SquareKilometers:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case AreaUnit::SquareMeters:
-                return value_;
+                return base_value_;
 
             case AreaUnit::SquareDecimeters:
-                return value_ / static_cast<un_scalar_t>(1e-2);
+                return base_value_ / static_cast<un_scalar_t>(1e-2);
 
             case AreaUnit::SquareCentimeters:
-                return value_ / static_cast<un_scalar_t>(1e-4);
+                return base_value_ / static_cast<un_scalar_t>(1e-4);
 
             case AreaUnit::SquareMillimeters:
-                return value_ / static_cast<un_scalar_t>(1e-6);
+                return base_value_ / static_cast<un_scalar_t>(1e-6);
 
             case AreaUnit::SquareMicrometers:
-                return value_ / static_cast<un_scalar_t>(1e-12);
+                return base_value_ / static_cast<un_scalar_t>(1e-12);
 
             case AreaUnit::SquareMiles:
-                return value_ / static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(1609.344);
+                return base_value_ / static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(1609.344);
 
             case AreaUnit::SquareYards:
-                return value_ / static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(0.9144);
+                return base_value_ / static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(0.9144);
 
             case AreaUnit::SquareFeet:
-                return value_ / static_cast<un_scalar_t>(9.290304e-2);
+                return base_value_ / static_cast<un_scalar_t>(9.290304e-2);
 
             case AreaUnit::UsSurveySquareFeet:
-                return value_ / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
+                return base_value_ / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case AreaUnit::SquareInches:
-                return value_ / static_cast<un_scalar_t>(0.00064516);
+                return base_value_ / static_cast<un_scalar_t>(0.00064516);
 
             case AreaUnit::Acres:
-                return value_ / static_cast<un_scalar_t>(4046.8564224);
+                return base_value_ / static_cast<un_scalar_t>(4046.8564224);
 
             case AreaUnit::Hectares:
-                return value_ / static_cast<un_scalar_t>(1e4);
+                return base_value_ / static_cast<un_scalar_t>(1e4);
 
             case AreaUnit::SquareNauticalMiles:
-                return value_ / static_cast<un_scalar_t>(3429904);
+                return base_value_ / static_cast<un_scalar_t>(3429904);
 
             }
 
@@ -376,5 +389,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        AreaUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

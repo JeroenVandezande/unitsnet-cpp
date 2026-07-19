@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -15,39 +16,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Brake specific fuel consumption (BSFC) is a measure of the fuel efficiency of any prime mover that burns fuel and produces rotational, or shaft, power. It is typically used for comparing the efficiency of internal combustion engines with a shaft output.</summary>
-    class BrakeSpecificFuelConsumption
+    class BrakeSpecificFuelConsumption : public UnitsNetBase
     {
     public:
         constexpr explicit BrakeSpecificFuelConsumption(
             const un_scalar_t value,
             const BrakeSpecificFuelConsumptionUnit unit = BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit BrakeSpecificFuelConsumption(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const BrakeSpecificFuelConsumptionUnit unit) const
@@ -55,39 +62,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator+(const BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator+(const BrakeSpecificFuelConsumption& other) const noexcept
         {
-            return BrakeSpecificFuelConsumption(value_ + other.value_);
+            return BrakeSpecificFuelConsumption(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator-(const BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator-(const BrakeSpecificFuelConsumption& other)const noexcept
         {
-            return BrakeSpecificFuelConsumption(value_ - other.value_);
+            return BrakeSpecificFuelConsumption(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator*(const un_scalar_t scalar) const noexcept
         {
-            return BrakeSpecificFuelConsumption(value_ * scalar);
+            return BrakeSpecificFuelConsumption(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator/(const un_scalar_t scalar) const noexcept
         {
-            return BrakeSpecificFuelConsumption(value_ / scalar);
+            return BrakeSpecificFuelConsumption(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const BrakeSpecificFuelConsumption& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const BrakeSpecificFuelConsumption& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const BrakeSpecificFuelConsumption& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -131,8 +138,7 @@ namespace unitsnet_cpp
             return BrakeSpecificFuelConsumption(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, BrakeSpecificFuelConsumptionUnit unit)
         {
             switch (unit)
@@ -154,17 +160,24 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const BrakeSpecificFuelConsumptionUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour:
-                return value_ * static_cast<un_scalar_t>(3.6e9);
+                return base_value_ * static_cast<un_scalar_t>(3.6e9);
 
             case BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule:
-                return value_;
+                return base_value_;
 
             case BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour:
-                return value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)));
+                return base_value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)));
 
             }
 
@@ -172,5 +185,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        BrakeSpecificFuelConsumptionUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

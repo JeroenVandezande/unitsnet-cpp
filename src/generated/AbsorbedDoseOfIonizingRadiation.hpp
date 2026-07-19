@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -29,39 +30,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Absorbed dose is a dose quantity which is the measure of the energy deposited in matter by ionizing radiation per unit mass.</summary>
-    class AbsorbedDoseOfIonizingRadiation
+    class AbsorbedDoseOfIonizingRadiation : public UnitsNetBase
     {
     public:
         constexpr explicit AbsorbedDoseOfIonizingRadiation(
             const un_scalar_t value,
             const AbsorbedDoseOfIonizingRadiationUnit unit = AbsorbedDoseOfIonizingRadiationUnit::Grays)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == AbsorbedDoseOfIonizingRadiationUnit::Grays)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit AbsorbedDoseOfIonizingRadiation(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AbsorbedDoseOfIonizingRadiationUnit unit) const
@@ -69,39 +76,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator+(const AbsorbedDoseOfIonizingRadiation other) const noexcept
+        [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator+(const AbsorbedDoseOfIonizingRadiation& other) const noexcept
         {
-            return AbsorbedDoseOfIonizingRadiation(value_ + other.value_);
+            return AbsorbedDoseOfIonizingRadiation(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator-(const AbsorbedDoseOfIonizingRadiation other) const noexcept
+        [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator-(const AbsorbedDoseOfIonizingRadiation& other)const noexcept
         {
-            return AbsorbedDoseOfIonizingRadiation(value_ - other.value_);
+            return AbsorbedDoseOfIonizingRadiation(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator*(const un_scalar_t scalar) const noexcept
         {
-            return AbsorbedDoseOfIonizingRadiation(value_ * scalar);
+            return AbsorbedDoseOfIonizingRadiation(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr AbsorbedDoseOfIonizingRadiation operator/(const un_scalar_t scalar) const noexcept
         {
-            return AbsorbedDoseOfIonizingRadiation(value_ / scalar);
+            return AbsorbedDoseOfIonizingRadiation(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const AbsorbedDoseOfIonizingRadiation other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const AbsorbedDoseOfIonizingRadiation& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const AbsorbedDoseOfIonizingRadiation other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const AbsorbedDoseOfIonizingRadiation& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const AbsorbedDoseOfIonizingRadiation other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const AbsorbedDoseOfIonizingRadiation& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -331,8 +338,7 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AbsorbedDoseOfIonizingRadiationUnit unit)
         {
             switch (unit)
@@ -396,59 +402,66 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const AbsorbedDoseOfIonizingRadiationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case AbsorbedDoseOfIonizingRadiationUnit::Grays:
-                return value_;
+                return base_value_;
 
             case AbsorbedDoseOfIonizingRadiationUnit::Femtograys:
-                return (value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value_) / static_cast<un_scalar_t>(1e-15);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Picograys:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Nanograys:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Micrograys:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Milligrays:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Centigrays:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Decigrays:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilograys:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megagrays:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Gigagrays:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Teragrays:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Petagrays:
-                return (value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value_) / static_cast<un_scalar_t>(1e15);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Rads:
-                return value_ * static_cast<un_scalar_t>(100);
+                return base_value_ * static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Millirads:
-                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilorads:
-                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megarads:
-                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
+                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -456,5 +469,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        AbsorbedDoseOfIonizingRadiationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

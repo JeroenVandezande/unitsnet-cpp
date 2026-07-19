@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -20,39 +21,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>Electric impedance is the opposition to alternating current presented by the combined effect of resistance and reactance in a circuit. It is defined as the inverse of admittance. The SI unit of impedance is the ohm (symbol Ω).</summary>
-    class ElectricImpedance
+    class ElectricImpedance : public UnitsNetBase
     {
     public:
         constexpr explicit ElectricImpedance(
             const un_scalar_t value,
             const ElectricImpedanceUnit unit = ElectricImpedanceUnit::Ohms)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == ElectricImpedanceUnit::Ohms)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit ElectricImpedance(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricImpedanceUnit unit) const
@@ -60,39 +67,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricImpedance operator+(const ElectricImpedance other) const noexcept
+        [[nodiscard]] constexpr ElectricImpedance operator+(const ElectricImpedance& other) const noexcept
         {
-            return ElectricImpedance(value_ + other.value_);
+            return ElectricImpedance(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr ElectricImpedance operator-(const ElectricImpedance other) const noexcept
+        [[nodiscard]] constexpr ElectricImpedance operator-(const ElectricImpedance& other)const noexcept
         {
-            return ElectricImpedance(value_ - other.value_);
+            return ElectricImpedance(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr ElectricImpedance operator*(const un_scalar_t scalar) const noexcept
         {
-            return ElectricImpedance(value_ * scalar);
+            return ElectricImpedance(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr ElectricImpedance operator/(const un_scalar_t scalar) const noexcept
         {
-            return ElectricImpedance(value_ / scalar);
+            return ElectricImpedance(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const ElectricImpedance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricImpedance& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const ElectricImpedance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricImpedance& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const ElectricImpedance other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ElectricImpedance& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -189,8 +196,7 @@ namespace unitsnet_cpp
             return ElectricImpedance(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricImpedanceUnit unit)
         {
             switch (unit)
@@ -227,32 +233,39 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricImpedanceUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case ElectricImpedanceUnit::Ohms:
-                return value_;
+                return base_value_;
 
             case ElectricImpedanceUnit::Nanoohms:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricImpedanceUnit::Microohms:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricImpedanceUnit::Milliohms:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricImpedanceUnit::Kiloohms:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricImpedanceUnit::Megaohms:
-                return (value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricImpedanceUnit::Gigaohms:
-                return (value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricImpedanceUnit::Teraohms:
-                return (value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -260,5 +273,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        ElectricImpedanceUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

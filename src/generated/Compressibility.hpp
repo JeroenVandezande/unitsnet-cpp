@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -19,39 +20,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary></summary>
-    class Compressibility
+    class Compressibility : public UnitsNetBase
     {
     public:
         constexpr explicit Compressibility(
             const un_scalar_t value,
             const CompressibilityUnit unit = CompressibilityUnit::InversePascals)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == CompressibilityUnit::InversePascals)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Compressibility(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const CompressibilityUnit unit) const
@@ -59,39 +66,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Compressibility operator+(const Compressibility other) const noexcept
+        [[nodiscard]] constexpr Compressibility operator+(const Compressibility& other) const noexcept
         {
-            return Compressibility(value_ + other.value_);
+            return Compressibility(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Compressibility operator-(const Compressibility other) const noexcept
+        [[nodiscard]] constexpr Compressibility operator-(const Compressibility& other)const noexcept
         {
-            return Compressibility(value_ - other.value_);
+            return Compressibility(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Compressibility operator*(const un_scalar_t scalar) const noexcept
         {
-            return Compressibility(value_ * scalar);
+            return Compressibility(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Compressibility operator/(const un_scalar_t scalar) const noexcept
         {
-            return Compressibility(value_ / scalar);
+            return Compressibility(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Compressibility other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Compressibility& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Compressibility other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Compressibility& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Compressibility other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Compressibility& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -177,8 +184,7 @@ namespace unitsnet_cpp
             return Compressibility(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, CompressibilityUnit unit)
         {
             switch (unit)
@@ -212,29 +218,36 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const CompressibilityUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case CompressibilityUnit::InversePascals:
-                return value_;
+                return base_value_;
 
             case CompressibilityUnit::InverseKilopascals:
-                return value_ / static_cast<un_scalar_t>(1e3);
+                return base_value_ / static_cast<un_scalar_t>(1e3);
 
             case CompressibilityUnit::InverseMegapascals:
-                return value_ / static_cast<un_scalar_t>(1e6);
+                return base_value_ / static_cast<un_scalar_t>(1e6);
 
             case CompressibilityUnit::InverseAtmospheres:
-                return value_ / static_cast<un_scalar_t>(101325);
+                return base_value_ / static_cast<un_scalar_t>(101325);
 
             case CompressibilityUnit::InverseMillibars:
-                return value_ / static_cast<un_scalar_t>(100);
+                return base_value_ / static_cast<un_scalar_t>(100);
 
             case CompressibilityUnit::InverseBars:
-                return value_ / static_cast<un_scalar_t>(1e5);
+                return base_value_ / static_cast<un_scalar_t>(1e5);
 
             case CompressibilityUnit::InversePoundsForcePerSquareInch:
-                return value_ / static_cast<un_scalar_t>(6.894757293168361e3);
+                return base_value_ / static_cast<un_scalar_t>(6.894757293168361e3);
 
             }
 
@@ -242,5 +255,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        CompressibilityUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

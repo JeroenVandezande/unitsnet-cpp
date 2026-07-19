@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -23,39 +24,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary></summary>
-    class Jerk
+    class Jerk : public UnitsNetBase
     {
     public:
         constexpr explicit Jerk(
             const un_scalar_t value,
             const JerkUnit unit = JerkUnit::MetersPerSecondCubed)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == JerkUnit::MetersPerSecondCubed)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit Jerk(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const JerkUnit unit) const
@@ -63,39 +70,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Jerk operator+(const Jerk other) const noexcept
+        [[nodiscard]] constexpr Jerk operator+(const Jerk& other) const noexcept
         {
-            return Jerk(value_ + other.value_);
+            return Jerk(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr Jerk operator-(const Jerk other) const noexcept
+        [[nodiscard]] constexpr Jerk operator-(const Jerk& other)const noexcept
         {
-            return Jerk(value_ - other.value_);
+            return Jerk(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr Jerk operator*(const un_scalar_t scalar) const noexcept
         {
-            return Jerk(value_ * scalar);
+            return Jerk(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr Jerk operator/(const un_scalar_t scalar) const noexcept
         {
-            return Jerk(value_ / scalar);
+            return Jerk(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const Jerk other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Jerk& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const Jerk other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Jerk& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const Jerk other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const Jerk& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -225,8 +232,7 @@ namespace unitsnet_cpp
             return Jerk(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, JerkUnit unit)
         {
             switch (unit)
@@ -272,41 +278,48 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const JerkUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case JerkUnit::MetersPerSecondCubed:
-                return value_;
+                return base_value_;
 
             case JerkUnit::NanometersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case JerkUnit::MicrometersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case JerkUnit::MillimetersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case JerkUnit::CentimetersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case JerkUnit::DecimetersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case JerkUnit::KilometersPerSecondCubed:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case JerkUnit::InchesPerSecondCubed:
-                return value_ / static_cast<un_scalar_t>(0.0254);
+                return base_value_ / static_cast<un_scalar_t>(0.0254);
 
             case JerkUnit::FeetPerSecondCubed:
-                return value_ / static_cast<un_scalar_t>(0.304800);
+                return base_value_ / static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:
-                return value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value_ / static_cast<un_scalar_t>(9.80665);
 
             case JerkUnit::MillistandardGravitiesPerSecond:
-                return (value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -314,5 +327,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        JerkUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -14,39 +15,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>The change in ratio per unit of time.</summary>
-    class RatioChangeRate
+    class RatioChangeRate : public UnitsNetBase
     {
     public:
         constexpr explicit RatioChangeRate(
             const un_scalar_t value,
             const RatioChangeRateUnit unit = RatioChangeRateUnit::DecimalFractionsPerSecond)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == RatioChangeRateUnit::DecimalFractionsPerSecond)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit RatioChangeRate(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RatioChangeRateUnit unit) const
@@ -54,39 +61,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator+(const RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator+(const RatioChangeRate& other) const noexcept
         {
-            return RatioChangeRate(value_ + other.value_);
+            return RatioChangeRate(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator-(const RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator-(const RatioChangeRate& other)const noexcept
         {
-            return RatioChangeRate(value_ - other.value_);
+            return RatioChangeRate(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr RatioChangeRate operator*(const un_scalar_t scalar) const noexcept
         {
-            return RatioChangeRate(value_ * scalar);
+            return RatioChangeRate(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr RatioChangeRate operator/(const un_scalar_t scalar) const noexcept
         {
-            return RatioChangeRate(value_ / scalar);
+            return RatioChangeRate(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RatioChangeRate& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RatioChangeRate& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const RatioChangeRate& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -117,8 +124,7 @@ namespace unitsnet_cpp
             return RatioChangeRate(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RatioChangeRateUnit unit)
         {
             switch (unit)
@@ -137,14 +143,21 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const RatioChangeRateUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case RatioChangeRateUnit::PercentsPerSecond:
-                return value_ * static_cast<un_scalar_t>(1e2);
+                return base_value_ * static_cast<un_scalar_t>(1e2);
 
             case RatioChangeRateUnit::DecimalFractionsPerSecond:
-                return value_;
+                return base_value_;
 
             }
 
@@ -152,5 +165,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        RatioChangeRateUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }

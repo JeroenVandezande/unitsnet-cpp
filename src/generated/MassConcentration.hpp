@@ -4,6 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 #include "UnitsNetConfig.h"
+#include "UnitsNetBase.h"
 
 namespace unitsnet_cpp
 {
@@ -61,39 +62,45 @@ namespace unitsnet_cpp
     };
 
     /// <summary>In chemistry, the mass concentration ρi (or γi) is defined as the mass of a constituent mi divided by the volume of the mixture V</summary>
-    class MassConcentration
+    class MassConcentration : public UnitsNetBase
     {
     public:
         constexpr explicit MassConcentration(
             const un_scalar_t value,
             const MassConcentrationUnit unit = MassConcentrationUnit::KilogramsPerCubicMeter)
-            : value_(convert_to_base(value, unit))
         {
+            value_ = value;
+            value_unit_type_ = unit;
+            if(unit == MassConcentrationUnit::KilogramsPerCubicMeter)
+            {
+                base_value_ = value;
+                base_value_exists_ = true;
+            }
+            else
+            {
+                base_value_ = 0;
+                base_value_exists_ = false;
+            }
         }
         
-        constexpr explicit MassConcentration(const bool isValid)
+        constexpr void create_base_value_if_needed() const noexcept
         {
-            _isInvalid = !isValid;
+            if(base_value_exists_)
+            {
+                return;
+            }
+            else
+            {
+                base_value_ = convert_to_base(value_, value_unit_type_);
+                base_value_exists_ = true;
+                return;
+            }
         }
-        
-        void SetValueAsInvalid()
-        {
-            _isInvalid = true;
-        }
-        
-        void SetValueAsValid()
-        {
-            _isInvalid = false;
-        }
-        
-        [[nodiscard]] bool GetValueIsValid() const
-        {
-            return _isInvalid;
-        }
-
+                
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            return value_;
+            create_base_value_if_needed();    
+            return base_value_;    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassConcentrationUnit unit) const
@@ -101,39 +108,39 @@ namespace unitsnet_cpp
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MassConcentration operator+(const MassConcentration other) const noexcept
+        [[nodiscard]] constexpr MassConcentration operator+(const MassConcentration& other) const noexcept
         {
-            return MassConcentration(value_ + other.value_);
+            return MassConcentration(base_value() + other.base_value());
         }
 
-        [[nodiscard]] constexpr MassConcentration operator-(const MassConcentration other) const noexcept
+        [[nodiscard]] constexpr MassConcentration operator-(const MassConcentration& other)const noexcept
         {
-            return MassConcentration(value_ - other.value_);
+            return MassConcentration(base_value() - other.base_value());
         }
 
         [[nodiscard]] constexpr MassConcentration operator*(const un_scalar_t scalar) const noexcept
         {
-            return MassConcentration(value_ * scalar);
+            return MassConcentration(base_value() * scalar);
         }
 
         [[nodiscard]] constexpr MassConcentration operator/(const un_scalar_t scalar) const noexcept
         {
-            return MassConcentration(value_ / scalar);
+            return MassConcentration(base_value() / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(const MassConcentration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MassConcentration& other) const noexcept
         {
-            return value_ == other.value_;
+            return base_value() == other.base_value();
         }
 
-        [[nodiscard]] constexpr bool operator<(const MassConcentration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MassConcentration& other) const noexcept
         {
-            return value_ < other.value_;
+            return base_value() < other.base_value();
         }
         
-        [[nodiscard]] constexpr bool operator>(const MassConcentration other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const MassConcentration& other) const noexcept
         {
-            return value_ > other.value_;
+            return base_value() > other.base_value();
         }
 
 
@@ -681,8 +688,7 @@ namespace unitsnet_cpp
             return MassConcentration(false);
         }
     private:
-        bool _isInvalid = false;
-    
+            
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MassConcentrationUnit unit)
         {
             switch (unit)
@@ -842,155 +848,162 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t convert_from_base(const MassConcentrationUnit unit) const
         {
+            if(unit == value_unit_type_)
+            {
+                return value_;
+            }
+            
+            create_base_value_if_needed();
+            
             switch (unit)
             {
 
             case MassConcentrationUnit::GramsPerCubicMillimeter:
-                return value_ * static_cast<un_scalar_t>(1e-6);
+                return base_value_ * static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::KilogramsPerCubicMillimeter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::GramsPerCubicCentimeter:
-                return value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value_ * static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::KilogramsPerCubicCentimeter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::GramsPerCubicMeter:
-                return value_ * static_cast<un_scalar_t>(1e3);
+                return base_value_ * static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::KilogramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::MilligramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::MicrogramsPerCubicMeter:
-                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::GramsPerMicroliter:
-                return value_ * static_cast<un_scalar_t>(1e-6);
+                return base_value_ * static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::PicogramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-12);
 
             case MassConcentrationUnit::NanogramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
 
             case MassConcentrationUnit::MicrogramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::MilligramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::CentigramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
 
             case MassConcentrationUnit::DecigramsPerMicroliter:
-                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
 
             case MassConcentrationUnit::GramsPerMilliliter:
-                return value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value_ * static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::PicogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
             case MassConcentrationUnit::NanogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassConcentrationUnit::MicrogramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::MilligramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::CentigramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassConcentrationUnit::DecigramsPerMilliliter:
-                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassConcentrationUnit::GramsPerDeciliter:
-                return value_ * static_cast<un_scalar_t>(1e-1);
+                return base_value_ * static_cast<un_scalar_t>(1e-1);
 
             case MassConcentrationUnit::PicogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-12);
 
             case MassConcentrationUnit::NanogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-9);
 
             case MassConcentrationUnit::MicrogramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::MilligramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::CentigramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-2);
 
             case MassConcentrationUnit::DecigramsPerDeciliter:
-                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
 
             case MassConcentrationUnit::GramsPerLiter:
-                return value_;
+                return base_value_;
 
             case MassConcentrationUnit::PicogramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value_) / static_cast<un_scalar_t>(1e-12);
 
             case MassConcentrationUnit::NanogramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value_) / static_cast<un_scalar_t>(1e-9);
 
             case MassConcentrationUnit::MicrogramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value_) / static_cast<un_scalar_t>(1e-6);
 
             case MassConcentrationUnit::MilligramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value_) / static_cast<un_scalar_t>(1e-3);
 
             case MassConcentrationUnit::CentigramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value_) / static_cast<un_scalar_t>(1e-2);
 
             case MassConcentrationUnit::DecigramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value_) / static_cast<un_scalar_t>(1e-1);
 
             case MassConcentrationUnit::KilogramsPerLiter:
-                return (value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value_) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::TonnesPerCubicMillimeter:
-                return value_ * static_cast<un_scalar_t>(1e-12);
+                return base_value_ * static_cast<un_scalar_t>(1e-12);
 
             case MassConcentrationUnit::TonnesPerCubicCentimeter:
-                return value_ * static_cast<un_scalar_t>(1e-9);
+                return base_value_ * static_cast<un_scalar_t>(1e-9);
 
             case MassConcentrationUnit::TonnesPerCubicMeter:
-                return value_ * static_cast<un_scalar_t>(0.001);
+                return base_value_ * static_cast<un_scalar_t>(0.001);
 
             case MassConcentrationUnit::PoundsPerCubicInch:
-                return value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237);
 
             case MassConcentrationUnit::KilopoundsPerCubicInch:
-                return (value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::PoundsPerCubicFoot:
-                return value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
 
             case MassConcentrationUnit::KilopoundsPerCubicFoot:
-                return (value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MassConcentrationUnit::SlugsPerCubicFoot:
-                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case MassConcentrationUnit::PoundsPerUSGallon:
-                return value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.45359237);
 
             case MassConcentrationUnit::OuncesPerUSGallon:
-                return value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.028349523125);
+                return base_value_ * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.028349523125);
 
             case MassConcentrationUnit::OuncesPerImperialGallon:
-                return value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.028349523125);
+                return base_value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.028349523125);
 
             case MassConcentrationUnit::PoundsPerImperialGallon:
-                return value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.45359237);
+                return base_value_ * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.45359237);
 
             }
 
@@ -998,5 +1011,9 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
+        MassConcentrationUnit value_unit_type_;
+        mutable un_scalar_t base_value_;
+        mutable bool base_value_exists_ = false;
+       
     };
 }
