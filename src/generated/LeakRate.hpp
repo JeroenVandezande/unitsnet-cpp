@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class LeakRateUnit : std::uint16_t
+    enum class LeakRateUnit : std::uint8_t
     {
         PascalCubicMetersPerSecond,
         MillibarLitersPerSecond,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit LeakRate(
-            double value,
-            LeakRateUnit unit = LeakRateUnit::PascalCubicMetersPerSecond)
+            const un_scalar_t value,
+            const LeakRateUnit unit = LeakRateUnit::PascalCubicMetersPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(LeakRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const LeakRateUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr LeakRate operator+(LeakRate other) const noexcept
+        [[nodiscard]] constexpr LeakRate operator+(const LeakRate other) const noexcept
         {
             return LeakRate(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr LeakRate operator-(LeakRate other) const noexcept
+        [[nodiscard]] constexpr LeakRate operator-(const LeakRate other) const noexcept
         {
             return LeakRate(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr LeakRate operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr LeakRate operator*(const un_scalar_t scalar) const noexcept
         {
             return LeakRate(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr LeakRate operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr LeakRate operator/(const un_scalar_t scalar) const noexcept
         {
             return LeakRate(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(LeakRate other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const LeakRate other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(LeakRate other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const LeakRate other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double pascal_cubic_meters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t pascal_cubic_meters_per_second() const
         {
             return convert_from_base(LeakRateUnit::PascalCubicMetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr LeakRate from_pascal_cubic_meters_per_second(double value)
+        [[nodiscard]] static constexpr LeakRate from_pascal_cubic_meters_per_second(const un_scalar_t value)
         {
             return LeakRate(value, LeakRateUnit::PascalCubicMetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double millibar_liters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t millibar_liters_per_second() const
         {
             return convert_from_base(LeakRateUnit::MillibarLitersPerSecond);
         }
 
-        [[nodiscard]] static constexpr LeakRate from_millibar_liters_per_second(double value)
+        [[nodiscard]] static constexpr LeakRate from_millibar_liters_per_second(const un_scalar_t value)
         {
             return LeakRate(value, LeakRateUnit::MillibarLitersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double torr_liters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t torr_liters_per_second() const
         {
             return convert_from_base(LeakRateUnit::TorrLitersPerSecond);
         }
 
-        [[nodiscard]] static constexpr LeakRate from_torr_liters_per_second(double value)
+        [[nodiscard]] static constexpr LeakRate from_torr_liters_per_second(const un_scalar_t value)
         {
             return LeakRate(value, LeakRateUnit::TorrLitersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double atm_cubic_centimeters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t atm_cubic_centimeters_per_second() const
         {
             return convert_from_base(LeakRateUnit::AtmCubicCentimetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr LeakRate from_atm_cubic_centimeters_per_second(double value)
+        [[nodiscard]] static constexpr LeakRate from_atm_cubic_centimeters_per_second(const un_scalar_t value)
         {
             return LeakRate(value, LeakRateUnit::AtmCubicCentimetersPerSecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, LeakRateUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LeakRateUnit unit)
         {
             switch (unit)
             {
@@ -133,7 +134,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LeakRate unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(LeakRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const LeakRateUnit unit) const
         {
             switch (unit)
             {
@@ -155,6 +156,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LeakRate unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AngleUnit : std::uint16_t
+    enum class AngleUnit : std::uint8_t
     {
         Radians,
         Nanoradians,
@@ -30,220 +31,220 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Angle(
-            double value,
-            AngleUnit unit = AngleUnit::Radians)
+            const un_scalar_t value,
+            const AngleUnit unit = AngleUnit::Radians)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AngleUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AngleUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Angle operator+(Angle other) const noexcept
+        [[nodiscard]] constexpr Angle operator+(const Angle other) const noexcept
         {
             return Angle(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Angle operator-(Angle other) const noexcept
+        [[nodiscard]] constexpr Angle operator-(const Angle other) const noexcept
         {
             return Angle(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Angle operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Angle operator*(const un_scalar_t scalar) const noexcept
         {
             return Angle(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Angle operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Angle operator/(const un_scalar_t scalar) const noexcept
         {
             return Angle(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Angle other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Angle other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Angle other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Angle other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double radians() const
+        [[nodiscard]] constexpr un_scalar_t radians() const
         {
             return convert_from_base(AngleUnit::Radians);
         }
 
-        [[nodiscard]] static constexpr Angle from_radians(double value)
+        [[nodiscard]] static constexpr Angle from_radians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Radians);
         }
 
 
-        [[nodiscard]] constexpr double nanoradians() const
+        [[nodiscard]] constexpr un_scalar_t nanoradians() const
         {
             return convert_from_base(AngleUnit::Nanoradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_nanoradians(double value)
+        [[nodiscard]] static constexpr Angle from_nanoradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Nanoradians);
         }
 
 
-        [[nodiscard]] constexpr double microradians() const
+        [[nodiscard]] constexpr un_scalar_t microradians() const
         {
             return convert_from_base(AngleUnit::Microradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_microradians(double value)
+        [[nodiscard]] static constexpr Angle from_microradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Microradians);
         }
 
 
-        [[nodiscard]] constexpr double milliradians() const
+        [[nodiscard]] constexpr un_scalar_t milliradians() const
         {
             return convert_from_base(AngleUnit::Milliradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_milliradians(double value)
+        [[nodiscard]] static constexpr Angle from_milliradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Milliradians);
         }
 
 
-        [[nodiscard]] constexpr double centiradians() const
+        [[nodiscard]] constexpr un_scalar_t centiradians() const
         {
             return convert_from_base(AngleUnit::Centiradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_centiradians(double value)
+        [[nodiscard]] static constexpr Angle from_centiradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Centiradians);
         }
 
 
-        [[nodiscard]] constexpr double deciradians() const
+        [[nodiscard]] constexpr un_scalar_t deciradians() const
         {
             return convert_from_base(AngleUnit::Deciradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_deciradians(double value)
+        [[nodiscard]] static constexpr Angle from_deciradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Deciradians);
         }
 
 
-        [[nodiscard]] constexpr double degrees() const
+        [[nodiscard]] constexpr un_scalar_t degrees() const
         {
             return convert_from_base(AngleUnit::Degrees);
         }
 
-        [[nodiscard]] static constexpr Angle from_degrees(double value)
+        [[nodiscard]] static constexpr Angle from_degrees(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Degrees);
         }
 
 
-        [[nodiscard]] constexpr double nanodegrees() const
+        [[nodiscard]] constexpr un_scalar_t nanodegrees() const
         {
             return convert_from_base(AngleUnit::Nanodegrees);
         }
 
-        [[nodiscard]] static constexpr Angle from_nanodegrees(double value)
+        [[nodiscard]] static constexpr Angle from_nanodegrees(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Nanodegrees);
         }
 
 
-        [[nodiscard]] constexpr double microdegrees() const
+        [[nodiscard]] constexpr un_scalar_t microdegrees() const
         {
             return convert_from_base(AngleUnit::Microdegrees);
         }
 
-        [[nodiscard]] static constexpr Angle from_microdegrees(double value)
+        [[nodiscard]] static constexpr Angle from_microdegrees(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Microdegrees);
         }
 
 
-        [[nodiscard]] constexpr double millidegrees() const
+        [[nodiscard]] constexpr un_scalar_t millidegrees() const
         {
             return convert_from_base(AngleUnit::Millidegrees);
         }
 
-        [[nodiscard]] static constexpr Angle from_millidegrees(double value)
+        [[nodiscard]] static constexpr Angle from_millidegrees(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Millidegrees);
         }
 
 
-        [[nodiscard]] constexpr double arcminutes() const
+        [[nodiscard]] constexpr un_scalar_t arcminutes() const
         {
             return convert_from_base(AngleUnit::Arcminutes);
         }
 
-        [[nodiscard]] static constexpr Angle from_arcminutes(double value)
+        [[nodiscard]] static constexpr Angle from_arcminutes(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Arcminutes);
         }
 
 
-        [[nodiscard]] constexpr double arcseconds() const
+        [[nodiscard]] constexpr un_scalar_t arcseconds() const
         {
             return convert_from_base(AngleUnit::Arcseconds);
         }
 
-        [[nodiscard]] static constexpr Angle from_arcseconds(double value)
+        [[nodiscard]] static constexpr Angle from_arcseconds(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Arcseconds);
         }
 
 
-        [[nodiscard]] constexpr double gradians() const
+        [[nodiscard]] constexpr un_scalar_t gradians() const
         {
             return convert_from_base(AngleUnit::Gradians);
         }
 
-        [[nodiscard]] static constexpr Angle from_gradians(double value)
+        [[nodiscard]] static constexpr Angle from_gradians(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Gradians);
         }
 
 
-        [[nodiscard]] constexpr double nato_mils() const
+        [[nodiscard]] constexpr un_scalar_t nato_mils() const
         {
             return convert_from_base(AngleUnit::NatoMils);
         }
 
-        [[nodiscard]] static constexpr Angle from_nato_mils(double value)
+        [[nodiscard]] static constexpr Angle from_nato_mils(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::NatoMils);
         }
 
 
-        [[nodiscard]] constexpr double revolutions() const
+        [[nodiscard]] constexpr un_scalar_t revolutions() const
         {
             return convert_from_base(AngleUnit::Revolutions);
         }
 
-        [[nodiscard]] static constexpr Angle from_revolutions(double value)
+        [[nodiscard]] static constexpr Angle from_revolutions(const un_scalar_t value)
         {
             return Angle(value, AngleUnit::Revolutions);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AngleUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AngleUnit unit)
         {
             switch (unit)
             {
@@ -252,53 +253,53 @@ namespace unitsnet_cpp
                 return value;
 
             case AngleUnit::Nanoradians:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case AngleUnit::Microradians:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case AngleUnit::Milliradians:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case AngleUnit::Centiradians:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case AngleUnit::Deciradians:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case AngleUnit::Degrees:
-                return value * std::numbers::pi / 180;
+                return value * std::numbers::pi_v<un_scalar_t> / 180;
 
             case AngleUnit::Nanodegrees:
-                return (value * 1e-9) * std::numbers::pi / 180;
+                return (value * static_cast<un_scalar_t>(1e-9)) * std::numbers::pi_v<un_scalar_t> / 180;
 
             case AngleUnit::Microdegrees:
-                return (value * 1e-6) * std::numbers::pi / 180;
+                return (value * static_cast<un_scalar_t>(1e-6)) * std::numbers::pi_v<un_scalar_t> / 180;
 
             case AngleUnit::Millidegrees:
-                return (value * 1e-3) * std::numbers::pi / 180;
+                return (value * static_cast<un_scalar_t>(1e-3)) * std::numbers::pi_v<un_scalar_t> / 180;
 
             case AngleUnit::Arcminutes:
-                return value * std::numbers::pi / (60 * 180);
+                return value * std::numbers::pi_v<un_scalar_t> / (60 * 180);
 
             case AngleUnit::Arcseconds:
-                return value * std::numbers::pi / (3600 * 180);
+                return value * std::numbers::pi_v<un_scalar_t> / (3600 * 180);
 
             case AngleUnit::Gradians:
-                return value * std::numbers::pi / 200;
+                return value * std::numbers::pi_v<un_scalar_t> / 200;
 
             case AngleUnit::NatoMils:
-                return value * std::numbers::pi / 3200;
+                return value * std::numbers::pi_v<un_scalar_t> / 3200;
 
             case AngleUnit::Revolutions:
-                return value * 2 * std::numbers::pi;
+                return value * 2 * std::numbers::pi_v<un_scalar_t>;
 
             }
 
             throw std::invalid_argument("Unknown Angle unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AngleUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AngleUnit unit) const
         {
             switch (unit)
             {
@@ -307,52 +308,52 @@ namespace unitsnet_cpp
                 return value_;
 
             case AngleUnit::Nanoradians:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case AngleUnit::Microradians:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case AngleUnit::Milliradians:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case AngleUnit::Centiradians:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case AngleUnit::Deciradians:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case AngleUnit::Degrees:
-                return value_ * 180 / std::numbers::pi;
+                return value_ * 180 / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Nanodegrees:
-                return (value_ * 180 / std::numbers::pi) / 1e-9;
+                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-9);
 
             case AngleUnit::Microdegrees:
-                return (value_ * 180 / std::numbers::pi) / 1e-6;
+                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-6);
 
             case AngleUnit::Millidegrees:
-                return (value_ * 180 / std::numbers::pi) / 1e-3;
+                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-3);
 
             case AngleUnit::Arcminutes:
-                return value_ * 60 * 180 / std::numbers::pi;
+                return value_ * 60 * 180 / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Arcseconds:
-                return value_ * 3600 * 180 / std::numbers::pi;
+                return value_ * 3600 * 180 / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Gradians:
-                return value_ * 200 / std::numbers::pi;
+                return value_ * 200 / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::NatoMils:
-                return value_ * 3200 / std::numbers::pi;
+                return value_ * 3200 / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Revolutions:
-                return value_ / (2 * std::numbers::pi);
+                return value_ / (2 * std::numbers::pi_v<un_scalar_t>);
 
             }
 
             throw std::invalid_argument("Unknown Angle unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

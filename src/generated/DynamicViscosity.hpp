@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class DynamicViscosityUnit : std::uint16_t
+    enum class DynamicViscosityUnit : std::uint8_t
     {
         NewtonSecondsPerMeterSquared,
         PascalSeconds,
@@ -25,165 +26,165 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit DynamicViscosity(
-            double value,
-            DynamicViscosityUnit unit = DynamicViscosityUnit::NewtonSecondsPerMeterSquared)
+            const un_scalar_t value,
+            const DynamicViscosityUnit unit = DynamicViscosityUnit::NewtonSecondsPerMeterSquared)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(DynamicViscosityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const DynamicViscosityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr DynamicViscosity operator+(DynamicViscosity other) const noexcept
+        [[nodiscard]] constexpr DynamicViscosity operator+(const DynamicViscosity other) const noexcept
         {
             return DynamicViscosity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr DynamicViscosity operator-(DynamicViscosity other) const noexcept
+        [[nodiscard]] constexpr DynamicViscosity operator-(const DynamicViscosity other) const noexcept
         {
             return DynamicViscosity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr DynamicViscosity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr DynamicViscosity operator*(const un_scalar_t scalar) const noexcept
         {
             return DynamicViscosity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr DynamicViscosity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr DynamicViscosity operator/(const un_scalar_t scalar) const noexcept
         {
             return DynamicViscosity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(DynamicViscosity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const DynamicViscosity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(DynamicViscosity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const DynamicViscosity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double newton_seconds_per_meter_squared() const
+        [[nodiscard]] constexpr un_scalar_t newton_seconds_per_meter_squared() const
         {
             return convert_from_base(DynamicViscosityUnit::NewtonSecondsPerMeterSquared);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_newton_seconds_per_meter_squared(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_newton_seconds_per_meter_squared(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::NewtonSecondsPerMeterSquared);
         }
 
 
-        [[nodiscard]] constexpr double pascal_seconds() const
+        [[nodiscard]] constexpr un_scalar_t pascal_seconds() const
         {
             return convert_from_base(DynamicViscosityUnit::PascalSeconds);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_pascal_seconds(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_pascal_seconds(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::PascalSeconds);
         }
 
 
-        [[nodiscard]] constexpr double millipascal_seconds() const
+        [[nodiscard]] constexpr un_scalar_t millipascal_seconds() const
         {
             return convert_from_base(DynamicViscosityUnit::MillipascalSeconds);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_millipascal_seconds(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_millipascal_seconds(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::MillipascalSeconds);
         }
 
 
-        [[nodiscard]] constexpr double micropascal_seconds() const
+        [[nodiscard]] constexpr un_scalar_t micropascal_seconds() const
         {
             return convert_from_base(DynamicViscosityUnit::MicropascalSeconds);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_micropascal_seconds(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_micropascal_seconds(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::MicropascalSeconds);
         }
 
 
-        [[nodiscard]] constexpr double poise() const
+        [[nodiscard]] constexpr un_scalar_t poise() const
         {
             return convert_from_base(DynamicViscosityUnit::Poise);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_poise(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_poise(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::Poise);
         }
 
 
-        [[nodiscard]] constexpr double centipoise() const
+        [[nodiscard]] constexpr un_scalar_t centipoise() const
         {
             return convert_from_base(DynamicViscosityUnit::Centipoise);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_centipoise(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_centipoise(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::Centipoise);
         }
 
 
-        [[nodiscard]] constexpr double reyns() const
+        [[nodiscard]] constexpr un_scalar_t reyns() const
         {
             return convert_from_base(DynamicViscosityUnit::Reyns);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_reyns(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_reyns(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::Reyns);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_second_per_square_inch() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_second_per_square_inch() const
         {
             return convert_from_base(DynamicViscosityUnit::PoundsForceSecondPerSquareInch);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_pounds_force_second_per_square_inch(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_pounds_force_second_per_square_inch(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsForceSecondPerSquareInch);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_second_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_second_per_square_foot() const
         {
             return convert_from_base(DynamicViscosityUnit::PoundsForceSecondPerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_pounds_force_second_per_square_foot(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_pounds_force_second_per_square_foot(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsForceSecondPerSquareFoot);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_foot_second() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_foot_second() const
         {
             return convert_from_base(DynamicViscosityUnit::PoundsPerFootSecond);
         }
 
-        [[nodiscard]] static constexpr DynamicViscosity from_pounds_per_foot_second(double value)
+        [[nodiscard]] static constexpr DynamicViscosity from_pounds_per_foot_second(const un_scalar_t value)
         {
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsPerFootSecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, DynamicViscosityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, DynamicViscosityUnit unit)
         {
             switch (unit)
             {
@@ -195,16 +196,16 @@ namespace unitsnet_cpp
                 return value;
 
             case DynamicViscosityUnit::MillipascalSeconds:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case DynamicViscosityUnit::MicropascalSeconds:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case DynamicViscosityUnit::Poise:
                 return value / 10;
 
             case DynamicViscosityUnit::Centipoise:
-                return (value * 1e-2) / 10;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 10;
 
             case DynamicViscosityUnit::Reyns:
                 return value * 4.4482216152605 / 0.00064516;
@@ -223,7 +224,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown DynamicViscosity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(DynamicViscosityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const DynamicViscosityUnit unit) const
         {
             switch (unit)
             {
@@ -235,16 +236,16 @@ namespace unitsnet_cpp
                 return value_;
 
             case DynamicViscosityUnit::MillipascalSeconds:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case DynamicViscosityUnit::MicropascalSeconds:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case DynamicViscosityUnit::Poise:
                 return value_ * 10;
 
             case DynamicViscosityUnit::Centipoise:
-                return (value_ * 10) / 1e-2;
+                return (value_ * 10) / static_cast<un_scalar_t>(1e-2);
 
             case DynamicViscosityUnit::Reyns:
                 return value_ * 0.00064516 / 4.4482216152605;
@@ -263,6 +264,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown DynamicViscosity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

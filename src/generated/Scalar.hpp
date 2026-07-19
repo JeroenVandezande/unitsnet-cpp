@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ScalarUnit : std::uint16_t
+    enum class ScalarUnit : std::uint8_t
     {
         Amount,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Scalar(
-            double value,
-            ScalarUnit unit = ScalarUnit::Amount)
+            const un_scalar_t value,
+            const ScalarUnit unit = ScalarUnit::Amount)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ScalarUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ScalarUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Scalar operator+(Scalar other) const noexcept
+        [[nodiscard]] constexpr Scalar operator+(const Scalar other) const noexcept
         {
             return Scalar(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Scalar operator-(Scalar other) const noexcept
+        [[nodiscard]] constexpr Scalar operator-(const Scalar other) const noexcept
         {
             return Scalar(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Scalar operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Scalar operator*(const un_scalar_t scalar) const noexcept
         {
             return Scalar(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Scalar operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Scalar operator/(const un_scalar_t scalar) const noexcept
         {
             return Scalar(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Scalar other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Scalar other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Scalar other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Scalar other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double amount() const
+        [[nodiscard]] constexpr un_scalar_t amount() const
         {
             return convert_from_base(ScalarUnit::Amount);
         }
 
-        [[nodiscard]] static constexpr Scalar from_amount(double value)
+        [[nodiscard]] static constexpr Scalar from_amount(const un_scalar_t value)
         {
             return Scalar(value, ScalarUnit::Amount);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ScalarUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ScalarUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Scalar unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ScalarUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ScalarUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Scalar unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

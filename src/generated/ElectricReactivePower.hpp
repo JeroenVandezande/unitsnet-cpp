@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricReactivePowerUnit : std::uint16_t
+    enum class ElectricReactivePowerUnit : std::uint8_t
     {
         VoltamperesReactive,
         KilovoltamperesReactive,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricReactivePower(
-            double value,
-            ElectricReactivePowerUnit unit = ElectricReactivePowerUnit::VoltamperesReactive)
+            const un_scalar_t value,
+            const ElectricReactivePowerUnit unit = ElectricReactivePowerUnit::VoltamperesReactive)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricReactivePowerUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricReactivePowerUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator+(ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator+(const ElectricReactivePower other) const noexcept
         {
             return ElectricReactivePower(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator-(ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator-(const ElectricReactivePower other) const noexcept
         {
             return ElectricReactivePower(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactivePower(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricReactivePower operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactivePower operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactivePower(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricReactivePower other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricReactivePower other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricReactivePower other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double voltamperes_reactive() const
+        [[nodiscard]] constexpr un_scalar_t voltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::VoltamperesReactive);
         }
 
-        [[nodiscard]] static constexpr ElectricReactivePower from_voltamperes_reactive(double value)
+        [[nodiscard]] static constexpr ElectricReactivePower from_voltamperes_reactive(const un_scalar_t value)
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::VoltamperesReactive);
         }
 
 
-        [[nodiscard]] constexpr double kilovoltamperes_reactive() const
+        [[nodiscard]] constexpr un_scalar_t kilovoltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::KilovoltamperesReactive);
         }
 
-        [[nodiscard]] static constexpr ElectricReactivePower from_kilovoltamperes_reactive(double value)
+        [[nodiscard]] static constexpr ElectricReactivePower from_kilovoltamperes_reactive(const un_scalar_t value)
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::KilovoltamperesReactive);
         }
 
 
-        [[nodiscard]] constexpr double megavoltamperes_reactive() const
+        [[nodiscard]] constexpr un_scalar_t megavoltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::MegavoltamperesReactive);
         }
 
-        [[nodiscard]] static constexpr ElectricReactivePower from_megavoltamperes_reactive(double value)
+        [[nodiscard]] static constexpr ElectricReactivePower from_megavoltamperes_reactive(const un_scalar_t value)
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::MegavoltamperesReactive);
         }
 
 
-        [[nodiscard]] constexpr double gigavoltamperes_reactive() const
+        [[nodiscard]] constexpr un_scalar_t gigavoltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::GigavoltamperesReactive);
         }
 
-        [[nodiscard]] static constexpr ElectricReactivePower from_gigavoltamperes_reactive(double value)
+        [[nodiscard]] static constexpr ElectricReactivePower from_gigavoltamperes_reactive(const un_scalar_t value)
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::GigavoltamperesReactive);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricReactivePowerUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricReactivePowerUnit unit)
         {
             switch (unit)
             {
@@ -120,20 +121,20 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricReactivePowerUnit::KilovoltamperesReactive:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricReactivePowerUnit::MegavoltamperesReactive:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricReactivePowerUnit::GigavoltamperesReactive:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactivePower unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricReactivePowerUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricReactivePowerUnit unit) const
         {
             switch (unit)
             {
@@ -142,19 +143,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricReactivePowerUnit::KilovoltamperesReactive:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricReactivePowerUnit::MegavoltamperesReactive:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricReactivePowerUnit::GigavoltamperesReactive:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactivePower unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

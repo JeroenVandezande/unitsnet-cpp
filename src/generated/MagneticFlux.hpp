@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class MagneticFluxUnit : std::uint16_t
+    enum class MagneticFluxUnit : std::uint8_t
     {
         Webers,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit MagneticFlux(
-            double value,
-            MagneticFluxUnit unit = MagneticFluxUnit::Webers)
+            const un_scalar_t value,
+            const MagneticFluxUnit unit = MagneticFluxUnit::Webers)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(MagneticFluxUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const MagneticFluxUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator+(MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator+(const MagneticFlux other) const noexcept
         {
             return MagneticFlux(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator-(MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator-(const MagneticFlux other) const noexcept
         {
             return MagneticFlux(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator*(const un_scalar_t scalar) const noexcept
         {
             return MagneticFlux(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr MagneticFlux operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr MagneticFlux operator/(const un_scalar_t scalar) const noexcept
         {
             return MagneticFlux(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MagneticFlux other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(MagneticFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MagneticFlux other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double webers() const
+        [[nodiscard]] constexpr un_scalar_t webers() const
         {
             return convert_from_base(MagneticFluxUnit::Webers);
         }
 
-        [[nodiscard]] static constexpr MagneticFlux from_webers(double value)
+        [[nodiscard]] static constexpr MagneticFlux from_webers(const un_scalar_t value)
         {
             return MagneticFlux(value, MagneticFluxUnit::Webers);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, MagneticFluxUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MagneticFluxUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown MagneticFlux unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(MagneticFluxUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const MagneticFluxUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown MagneticFlux unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

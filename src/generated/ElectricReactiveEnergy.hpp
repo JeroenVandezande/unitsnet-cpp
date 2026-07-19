@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricReactiveEnergyUnit : std::uint16_t
+    enum class ElectricReactiveEnergyUnit : std::uint8_t
     {
         VoltampereReactiveHours,
         KilovoltampereReactiveHours,
@@ -18,88 +19,88 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricReactiveEnergy(
-            double value,
-            ElectricReactiveEnergyUnit unit = ElectricReactiveEnergyUnit::VoltampereReactiveHours)
+            const un_scalar_t value,
+            const ElectricReactiveEnergyUnit unit = ElectricReactiveEnergyUnit::VoltampereReactiveHours)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricReactiveEnergyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricReactiveEnergyUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricReactiveEnergy operator+(ElectricReactiveEnergy other) const noexcept
+        [[nodiscard]] constexpr ElectricReactiveEnergy operator+(const ElectricReactiveEnergy other) const noexcept
         {
             return ElectricReactiveEnergy(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactiveEnergy operator-(ElectricReactiveEnergy other) const noexcept
+        [[nodiscard]] constexpr ElectricReactiveEnergy operator-(const ElectricReactiveEnergy other) const noexcept
         {
             return ElectricReactiveEnergy(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactiveEnergy operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactiveEnergy operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactiveEnergy(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricReactiveEnergy operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactiveEnergy operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactiveEnergy(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricReactiveEnergy other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricReactiveEnergy other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricReactiveEnergy other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricReactiveEnergy other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double voltampere_reactive_hours() const
+        [[nodiscard]] constexpr un_scalar_t voltampere_reactive_hours() const
         {
             return convert_from_base(ElectricReactiveEnergyUnit::VoltampereReactiveHours);
         }
 
-        [[nodiscard]] static constexpr ElectricReactiveEnergy from_voltampere_reactive_hours(double value)
+        [[nodiscard]] static constexpr ElectricReactiveEnergy from_voltampere_reactive_hours(const un_scalar_t value)
         {
             return ElectricReactiveEnergy(value, ElectricReactiveEnergyUnit::VoltampereReactiveHours);
         }
 
 
-        [[nodiscard]] constexpr double kilovoltampere_reactive_hours() const
+        [[nodiscard]] constexpr un_scalar_t kilovoltampere_reactive_hours() const
         {
             return convert_from_base(ElectricReactiveEnergyUnit::KilovoltampereReactiveHours);
         }
 
-        [[nodiscard]] static constexpr ElectricReactiveEnergy from_kilovoltampere_reactive_hours(double value)
+        [[nodiscard]] static constexpr ElectricReactiveEnergy from_kilovoltampere_reactive_hours(const un_scalar_t value)
         {
             return ElectricReactiveEnergy(value, ElectricReactiveEnergyUnit::KilovoltampereReactiveHours);
         }
 
 
-        [[nodiscard]] constexpr double megavoltampere_reactive_hours() const
+        [[nodiscard]] constexpr un_scalar_t megavoltampere_reactive_hours() const
         {
             return convert_from_base(ElectricReactiveEnergyUnit::MegavoltampereReactiveHours);
         }
 
-        [[nodiscard]] static constexpr ElectricReactiveEnergy from_megavoltampere_reactive_hours(double value)
+        [[nodiscard]] static constexpr ElectricReactiveEnergy from_megavoltampere_reactive_hours(const un_scalar_t value)
         {
             return ElectricReactiveEnergy(value, ElectricReactiveEnergyUnit::MegavoltampereReactiveHours);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricReactiveEnergyUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricReactiveEnergyUnit unit)
         {
             switch (unit)
             {
@@ -108,17 +109,17 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricReactiveEnergyUnit::KilovoltampereReactiveHours:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricReactiveEnergyUnit::MegavoltampereReactiveHours:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactiveEnergy unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricReactiveEnergyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricReactiveEnergyUnit unit) const
         {
             switch (unit)
             {
@@ -127,16 +128,16 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricReactiveEnergyUnit::KilovoltampereReactiveHours:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricReactiveEnergyUnit::MegavoltampereReactiveHours:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactiveEnergy unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

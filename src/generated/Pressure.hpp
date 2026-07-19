@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class PressureUnit : std::uint16_t
+    enum class PressureUnit : std::uint8_t
     {
         Pascals,
         Micropascals,
@@ -65,605 +66,605 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Pressure(
-            double value,
-            PressureUnit unit = PressureUnit::Pascals)
+            const un_scalar_t value,
+            const PressureUnit unit = PressureUnit::Pascals)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(PressureUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const PressureUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Pressure operator+(Pressure other) const noexcept
+        [[nodiscard]] constexpr Pressure operator+(const Pressure other) const noexcept
         {
             return Pressure(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Pressure operator-(Pressure other) const noexcept
+        [[nodiscard]] constexpr Pressure operator-(const Pressure other) const noexcept
         {
             return Pressure(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Pressure operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Pressure operator*(const un_scalar_t scalar) const noexcept
         {
             return Pressure(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Pressure operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Pressure operator/(const un_scalar_t scalar) const noexcept
         {
             return Pressure(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Pressure other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Pressure other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Pressure other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Pressure other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double pascals() const
+        [[nodiscard]] constexpr un_scalar_t pascals() const
         {
             return convert_from_base(PressureUnit::Pascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_pascals(double value)
+        [[nodiscard]] static constexpr Pressure from_pascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Pascals);
         }
 
 
-        [[nodiscard]] constexpr double micropascals() const
+        [[nodiscard]] constexpr un_scalar_t micropascals() const
         {
             return convert_from_base(PressureUnit::Micropascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_micropascals(double value)
+        [[nodiscard]] static constexpr Pressure from_micropascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Micropascals);
         }
 
 
-        [[nodiscard]] constexpr double millipascals() const
+        [[nodiscard]] constexpr un_scalar_t millipascals() const
         {
             return convert_from_base(PressureUnit::Millipascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_millipascals(double value)
+        [[nodiscard]] static constexpr Pressure from_millipascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Millipascals);
         }
 
 
-        [[nodiscard]] constexpr double decapascals() const
+        [[nodiscard]] constexpr un_scalar_t decapascals() const
         {
             return convert_from_base(PressureUnit::Decapascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_decapascals(double value)
+        [[nodiscard]] static constexpr Pressure from_decapascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Decapascals);
         }
 
 
-        [[nodiscard]] constexpr double hectopascals() const
+        [[nodiscard]] constexpr un_scalar_t hectopascals() const
         {
             return convert_from_base(PressureUnit::Hectopascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_hectopascals(double value)
+        [[nodiscard]] static constexpr Pressure from_hectopascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Hectopascals);
         }
 
 
-        [[nodiscard]] constexpr double kilopascals() const
+        [[nodiscard]] constexpr un_scalar_t kilopascals() const
         {
             return convert_from_base(PressureUnit::Kilopascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilopascals(double value)
+        [[nodiscard]] static constexpr Pressure from_kilopascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Kilopascals);
         }
 
 
-        [[nodiscard]] constexpr double megapascals() const
+        [[nodiscard]] constexpr un_scalar_t megapascals() const
         {
             return convert_from_base(PressureUnit::Megapascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_megapascals(double value)
+        [[nodiscard]] static constexpr Pressure from_megapascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Megapascals);
         }
 
 
-        [[nodiscard]] constexpr double gigapascals() const
+        [[nodiscard]] constexpr un_scalar_t gigapascals() const
         {
             return convert_from_base(PressureUnit::Gigapascals);
         }
 
-        [[nodiscard]] static constexpr Pressure from_gigapascals(double value)
+        [[nodiscard]] static constexpr Pressure from_gigapascals(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Gigapascals);
         }
 
 
-        [[nodiscard]] constexpr double atmospheres() const
+        [[nodiscard]] constexpr un_scalar_t atmospheres() const
         {
             return convert_from_base(PressureUnit::Atmospheres);
         }
 
-        [[nodiscard]] static constexpr Pressure from_atmospheres(double value)
+        [[nodiscard]] static constexpr Pressure from_atmospheres(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Atmospheres);
         }
 
 
-        [[nodiscard]] constexpr double bars() const
+        [[nodiscard]] constexpr un_scalar_t bars() const
         {
             return convert_from_base(PressureUnit::Bars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_bars(double value)
+        [[nodiscard]] static constexpr Pressure from_bars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Bars);
         }
 
 
-        [[nodiscard]] constexpr double microbars() const
+        [[nodiscard]] constexpr un_scalar_t microbars() const
         {
             return convert_from_base(PressureUnit::Microbars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_microbars(double value)
+        [[nodiscard]] static constexpr Pressure from_microbars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Microbars);
         }
 
 
-        [[nodiscard]] constexpr double millibars() const
+        [[nodiscard]] constexpr un_scalar_t millibars() const
         {
             return convert_from_base(PressureUnit::Millibars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_millibars(double value)
+        [[nodiscard]] static constexpr Pressure from_millibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Millibars);
         }
 
 
-        [[nodiscard]] constexpr double centibars() const
+        [[nodiscard]] constexpr un_scalar_t centibars() const
         {
             return convert_from_base(PressureUnit::Centibars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_centibars(double value)
+        [[nodiscard]] static constexpr Pressure from_centibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Centibars);
         }
 
 
-        [[nodiscard]] constexpr double decibars() const
+        [[nodiscard]] constexpr un_scalar_t decibars() const
         {
             return convert_from_base(PressureUnit::Decibars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_decibars(double value)
+        [[nodiscard]] static constexpr Pressure from_decibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Decibars);
         }
 
 
-        [[nodiscard]] constexpr double kilobars() const
+        [[nodiscard]] constexpr un_scalar_t kilobars() const
         {
             return convert_from_base(PressureUnit::Kilobars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilobars(double value)
+        [[nodiscard]] static constexpr Pressure from_kilobars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Kilobars);
         }
 
 
-        [[nodiscard]] constexpr double megabars() const
+        [[nodiscard]] constexpr un_scalar_t megabars() const
         {
             return convert_from_base(PressureUnit::Megabars);
         }
 
-        [[nodiscard]] static constexpr Pressure from_megabars(double value)
+        [[nodiscard]] static constexpr Pressure from_megabars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Megabars);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_meter() const
         {
             return convert_from_base(PressureUnit::KilogramsForcePerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilogramsForcePerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::KilogramsForcePerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilogramsForcePerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_square_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_millimeter() const
         {
             return convert_from_base(PressureUnit::KilogramsForcePerSquareMillimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_millimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_millimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilogramsForcePerSquareMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_square_meter() const
         {
             return convert_from_base(PressureUnit::NewtonsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_newtons_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_newtons_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::NewtonsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_meter() const
         {
             return convert_from_base(PressureUnit::KilonewtonsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilonewtonsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double meganewtons_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t meganewtons_per_square_meter() const
         {
             return convert_from_base(PressureUnit::MeganewtonsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_meganewtons_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_meganewtons_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MeganewtonsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::NewtonsPerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_newtons_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_newtons_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::NewtonsPerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::KilonewtonsPerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilonewtonsPerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_square_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_square_millimeter() const
         {
             return convert_from_base(PressureUnit::NewtonsPerSquareMillimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_newtons_per_square_millimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_newtons_per_square_millimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::NewtonsPerSquareMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_square_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_millimeter() const
         {
             return convert_from_base(PressureUnit::KilonewtonsPerSquareMillimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_millimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_millimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilonewtonsPerSquareMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double technical_atmospheres() const
+        [[nodiscard]] constexpr un_scalar_t technical_atmospheres() const
         {
             return convert_from_base(PressureUnit::TechnicalAtmospheres);
         }
 
-        [[nodiscard]] static constexpr Pressure from_technical_atmospheres(double value)
+        [[nodiscard]] static constexpr Pressure from_technical_atmospheres(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::TechnicalAtmospheres);
         }
 
 
-        [[nodiscard]] constexpr double torrs() const
+        [[nodiscard]] constexpr un_scalar_t torrs() const
         {
             return convert_from_base(PressureUnit::Torrs);
         }
 
-        [[nodiscard]] static constexpr Pressure from_torrs(double value)
+        [[nodiscard]] static constexpr Pressure from_torrs(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Torrs);
         }
 
 
-        [[nodiscard]] constexpr double millitorrs() const
+        [[nodiscard]] constexpr un_scalar_t millitorrs() const
         {
             return convert_from_base(PressureUnit::Millitorrs);
         }
 
-        [[nodiscard]] static constexpr Pressure from_millitorrs(double value)
+        [[nodiscard]] static constexpr Pressure from_millitorrs(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Millitorrs);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_per_square_inch() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_inch() const
         {
             return convert_from_base(PressureUnit::PoundsForcePerSquareInch);
         }
 
-        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_inch(double value)
+        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_inch(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::PoundsForcePerSquareInch);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force_per_square_inch() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_inch() const
         {
             return convert_from_base(PressureUnit::KilopoundsForcePerSquareInch);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_inch(double value)
+        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_inch(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilopoundsForcePerSquareInch);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_per_square_mil() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_mil() const
         {
             return convert_from_base(PressureUnit::PoundsForcePerSquareMil);
         }
 
-        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_mil(double value)
+        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_mil(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::PoundsForcePerSquareMil);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force_per_square_mil() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_mil() const
         {
             return convert_from_base(PressureUnit::KilopoundsForcePerSquareMil);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_mil(double value)
+        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_mil(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilopoundsForcePerSquareMil);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_foot() const
         {
             return convert_from_base(PressureUnit::PoundsForcePerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_foot(double value)
+        [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_foot(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::PoundsForcePerSquareFoot);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_foot() const
         {
             return convert_from_base(PressureUnit::KilopoundsForcePerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_foot(double value)
+        [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_foot(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilopoundsForcePerSquareFoot);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_square_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_millimeter() const
         {
             return convert_from_base(PressureUnit::TonnesForcePerSquareMillimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_millimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_millimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::TonnesForcePerSquareMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_meter() const
         {
             return convert_from_base(PressureUnit::TonnesForcePerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::TonnesForcePerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double meters_of_head() const
+        [[nodiscard]] constexpr un_scalar_t meters_of_head() const
         {
             return convert_from_base(PressureUnit::MetersOfHead);
         }
 
-        [[nodiscard]] static constexpr Pressure from_meters_of_head(double value)
+        [[nodiscard]] static constexpr Pressure from_meters_of_head(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MetersOfHead);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::TonnesForcePerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::TonnesForcePerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double feet_of_head() const
+        [[nodiscard]] constexpr un_scalar_t feet_of_head() const
         {
             return convert_from_base(PressureUnit::FeetOfHead);
         }
 
-        [[nodiscard]] static constexpr Pressure from_feet_of_head(double value)
+        [[nodiscard]] static constexpr Pressure from_feet_of_head(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::FeetOfHead);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_of_mercury() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_of_mercury() const
         {
             return convert_from_base(PressureUnit::MillimetersOfMercury);
         }
 
-        [[nodiscard]] static constexpr Pressure from_millimeters_of_mercury(double value)
+        [[nodiscard]] static constexpr Pressure from_millimeters_of_mercury(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MillimetersOfMercury);
         }
 
 
-        [[nodiscard]] constexpr double inches_of_mercury() const
+        [[nodiscard]] constexpr un_scalar_t inches_of_mercury() const
         {
             return convert_from_base(PressureUnit::InchesOfMercury);
         }
 
-        [[nodiscard]] static constexpr Pressure from_inches_of_mercury(double value)
+        [[nodiscard]] static constexpr Pressure from_inches_of_mercury(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::InchesOfMercury);
         }
 
 
-        [[nodiscard]] constexpr double dynes_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t dynes_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::DynesPerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_dynes_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr Pressure from_dynes_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::DynesPerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_inch_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_inch_second_squared() const
         {
             return convert_from_base(PressureUnit::PoundsPerInchSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Pressure from_pounds_per_inch_second_squared(double value)
+        [[nodiscard]] static constexpr Pressure from_pounds_per_inch_second_squared(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::PoundsPerInchSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double meters_of_water_column() const
+        [[nodiscard]] constexpr un_scalar_t meters_of_water_column() const
         {
             return convert_from_base(PressureUnit::MetersOfWaterColumn);
         }
 
-        [[nodiscard]] static constexpr Pressure from_meters_of_water_column(double value)
+        [[nodiscard]] static constexpr Pressure from_meters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MetersOfWaterColumn);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_of_water_column() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_of_water_column() const
         {
             return convert_from_base(PressureUnit::MillimetersOfWaterColumn);
         }
 
-        [[nodiscard]] static constexpr Pressure from_millimeters_of_water_column(double value)
+        [[nodiscard]] static constexpr Pressure from_millimeters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MillimetersOfWaterColumn);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_of_water_column() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_of_water_column() const
         {
             return convert_from_base(PressureUnit::CentimetersOfWaterColumn);
         }
 
-        [[nodiscard]] static constexpr Pressure from_centimeters_of_water_column(double value)
+        [[nodiscard]] static constexpr Pressure from_centimeters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::CentimetersOfWaterColumn);
         }
 
 
-        [[nodiscard]] constexpr double inches_of_water_column() const
+        [[nodiscard]] constexpr un_scalar_t inches_of_water_column() const
         {
             return convert_from_base(PressureUnit::InchesOfWaterColumn);
         }
 
-        [[nodiscard]] static constexpr Pressure from_inches_of_water_column(double value)
+        [[nodiscard]] static constexpr Pressure from_inches_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::InchesOfWaterColumn);
         }
 
 
-        [[nodiscard]] constexpr double milligrams_force_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t milligrams_force_per_square_meter() const
         {
             return convert_from_base(PressureUnit::MilligramsForcePerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_meter(double value)
+        [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_meter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MilligramsForcePerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double milligrams_force_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t milligrams_force_per_square_foot() const
         {
             return convert_from_base(PressureUnit::MilligramsForcePerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_foot(double value)
+        [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_foot(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MilligramsForcePerSquareFoot);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, PressureUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PressureUnit unit)
         {
             switch (unit)
             {
@@ -672,25 +673,25 @@ namespace unitsnet_cpp
                 return value;
 
             case PressureUnit::Micropascals:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case PressureUnit::Millipascals:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case PressureUnit::Decapascals:
-                return (value * 1e1);
+                return (value * static_cast<un_scalar_t>(1e1));
 
             case PressureUnit::Hectopascals:
-                return (value * 1e2);
+                return (value * static_cast<un_scalar_t>(1e2));
 
             case PressureUnit::Kilopascals:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case PressureUnit::Megapascals:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case PressureUnit::Gigapascals:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case PressureUnit::Atmospheres:
                 return value * 1.01325 * 1e5;
@@ -699,22 +700,22 @@ namespace unitsnet_cpp
                 return value * 1e5;
 
             case PressureUnit::Microbars:
-                return (value * 1e-6) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-6)) * 1e5;
 
             case PressureUnit::Millibars:
-                return (value * 1e-3) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 1e5;
 
             case PressureUnit::Centibars:
-                return (value * 1e-2) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-2)) * 1e5;
 
             case PressureUnit::Decibars:
-                return (value * 1e-1) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-1)) * 1e5;
 
             case PressureUnit::Kilobars:
-                return (value * 1e3) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e3)) * 1e5;
 
             case PressureUnit::Megabars:
-                return (value * 1e6) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e6)) * 1e5;
 
             case PressureUnit::KilogramsForcePerSquareMeter:
                 return value * 9.80665;
@@ -729,22 +730,22 @@ namespace unitsnet_cpp
                 return value;
 
             case PressureUnit::KilonewtonsPerSquareMeter:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case PressureUnit::MeganewtonsPerSquareMeter:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case PressureUnit::NewtonsPerSquareCentimeter:
                 return value * 1e4;
 
             case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return (value * 1e3) * 1e4;
+                return (value * static_cast<un_scalar_t>(1e3)) * 1e4;
 
             case PressureUnit::NewtonsPerSquareMillimeter:
                 return value * 1e6;
 
             case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return (value * 1e3) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e3)) * 1e6;
 
             case PressureUnit::TechnicalAtmospheres:
                 return value * 9.80665e4;
@@ -753,25 +754,25 @@ namespace unitsnet_cpp
                 return value * 101325 / 760;
 
             case PressureUnit::Millitorrs:
-                return (value * 1e-3) * 101325 / 760;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 101325 / 760;
 
             case PressureUnit::PoundsForcePerSquareInch:
                 return value * 4.4482216152605 / 0.00064516;
 
             case PressureUnit::KilopoundsForcePerSquareInch:
-                return (value * 1e3) * 4.4482216152605 / 0.00064516;
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 0.00064516;
 
             case PressureUnit::PoundsForcePerSquareMil:
                 return value * 4.4482216152605 / (2.54e-5 * 2.54e-5);
 
             case PressureUnit::KilopoundsForcePerSquareMil:
-                return (value * 1e3) * 4.4482216152605 / (2.54e-5 * 2.54e-5);
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / (2.54e-5 * 2.54e-5);
 
             case PressureUnit::PoundsForcePerSquareFoot:
                 return value * 4.4482216152605 / 9.290304e-2;
 
             case PressureUnit::KilopoundsForcePerSquareFoot:
-                return (value * 1e3) * 4.4482216152605 / 9.290304e-2;
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 9.290304e-2;
 
             case PressureUnit::TonnesForcePerSquareMillimeter:
                 return value * 9.80665e9;
@@ -804,10 +805,10 @@ namespace unitsnet_cpp
                 return value * 9.80665e3;
 
             case PressureUnit::MillimetersOfWaterColumn:
-                return (value * 1e-3) * 9.80665e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 9.80665e3;
 
             case PressureUnit::CentimetersOfWaterColumn:
-                return (value * 1e-2) * 9.80665e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) * 9.80665e3;
 
             case PressureUnit::InchesOfWaterColumn:
                 return value * 2.54e-2 * 9.80665e3;
@@ -823,7 +824,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Pressure unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(PressureUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const PressureUnit unit) const
         {
             switch (unit)
             {
@@ -832,25 +833,25 @@ namespace unitsnet_cpp
                 return value_;
 
             case PressureUnit::Micropascals:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case PressureUnit::Millipascals:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::Decapascals:
-                return (value_) / 1e1;
+                return (value_) / static_cast<un_scalar_t>(1e1);
 
             case PressureUnit::Hectopascals:
-                return (value_) / 1e2;
+                return (value_) / static_cast<un_scalar_t>(1e2);
 
             case PressureUnit::Kilopascals:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::Megapascals:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::Gigapascals:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case PressureUnit::Atmospheres:
                 return value_ / (1.01325 * 1e5);
@@ -859,22 +860,22 @@ namespace unitsnet_cpp
                 return value_ / 1e5;
 
             case PressureUnit::Microbars:
-                return (value_ / 1e5) / 1e-6;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-6);
 
             case PressureUnit::Millibars:
-                return (value_ / 1e5) / 1e-3;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::Centibars:
-                return (value_ / 1e5) / 1e-2;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::Decibars:
-                return (value_ / 1e5) / 1e-1;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-1);
 
             case PressureUnit::Kilobars:
-                return (value_ / 1e5) / 1e3;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::Megabars:
-                return (value_ / 1e5) / 1e6;
+                return (value_ / 1e5) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilogramsForcePerSquareMeter:
                 return value_ / 9.80665;
@@ -889,22 +890,22 @@ namespace unitsnet_cpp
                 return value_;
 
             case PressureUnit::KilonewtonsPerSquareMeter:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::MeganewtonsPerSquareMeter:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::NewtonsPerSquareCentimeter:
                 return value_ / 1e4;
 
             case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return (value_ / 1e4) / 1e3;
+                return (value_ / 1e4) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::NewtonsPerSquareMillimeter:
                 return value_ / 1e6;
 
             case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return (value_ / 1e6) / 1e3;
+                return (value_ / 1e6) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TechnicalAtmospheres:
                 return value_ / 9.80665e4;
@@ -913,25 +914,25 @@ namespace unitsnet_cpp
                 return value_ * 760 / 101325;
 
             case PressureUnit::Millitorrs:
-                return (value_ * 760 / 101325) / 1e-3;
+                return (value_ * 760 / 101325) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::PoundsForcePerSquareInch:
                 return value_ * 0.00064516 / 4.4482216152605;
 
             case PressureUnit::KilopoundsForcePerSquareInch:
-                return (value_ * 0.00064516 / 4.4482216152605) / 1e3;
+                return (value_ * 0.00064516 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareMil:
                 return value_ * (2.54e-5 * 2.54e-5) / 4.4482216152605;
 
             case PressureUnit::KilopoundsForcePerSquareMil:
-                return (value_ * (2.54e-5 * 2.54e-5) / 4.4482216152605) / 1e3;
+                return (value_ * (2.54e-5 * 2.54e-5) / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareFoot:
                 return value_ * 9.290304e-2 / 4.4482216152605;
 
             case PressureUnit::KilopoundsForcePerSquareFoot:
-                return (value_ * 9.290304e-2 / 4.4482216152605) / 1e3;
+                return (value_ * 9.290304e-2 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TonnesForcePerSquareMillimeter:
                 return value_ / 9.80665e9;
@@ -964,10 +965,10 @@ namespace unitsnet_cpp
                 return value_ / 9.80665e3;
 
             case PressureUnit::MillimetersOfWaterColumn:
-                return (value_ / 9.80665e3) / 1e-3;
+                return (value_ / 9.80665e3) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::CentimetersOfWaterColumn:
-                return (value_ / 9.80665e3) / 1e-2;
+                return (value_ / 9.80665e3) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::InchesOfWaterColumn:
                 return value_ / (2.54e-2 * 9.80665e3);
@@ -983,6 +984,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Pressure unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

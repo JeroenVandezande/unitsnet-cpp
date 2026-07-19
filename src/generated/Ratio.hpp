@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RatioUnit : std::uint16_t
+    enum class RatioUnit : std::uint8_t
     {
         DecimalFractions,
         Percent,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Ratio(
-            double value,
-            RatioUnit unit = RatioUnit::DecimalFractions)
+            const un_scalar_t value,
+            const RatioUnit unit = RatioUnit::DecimalFractions)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RatioUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Ratio operator+(Ratio other) const noexcept
+        [[nodiscard]] constexpr Ratio operator+(const Ratio other) const noexcept
         {
             return Ratio(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Ratio operator-(Ratio other) const noexcept
+        [[nodiscard]] constexpr Ratio operator-(const Ratio other) const noexcept
         {
             return Ratio(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Ratio operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Ratio operator*(const un_scalar_t scalar) const noexcept
         {
             return Ratio(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Ratio operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Ratio operator/(const un_scalar_t scalar) const noexcept
         {
             return Ratio(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Ratio other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Ratio other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Ratio other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Ratio other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double decimal_fractions() const
+        [[nodiscard]] constexpr un_scalar_t decimal_fractions() const
         {
             return convert_from_base(RatioUnit::DecimalFractions);
         }
 
-        [[nodiscard]] static constexpr Ratio from_decimal_fractions(double value)
+        [[nodiscard]] static constexpr Ratio from_decimal_fractions(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::DecimalFractions);
         }
 
 
-        [[nodiscard]] constexpr double percent() const
+        [[nodiscard]] constexpr un_scalar_t percent() const
         {
             return convert_from_base(RatioUnit::Percent);
         }
 
-        [[nodiscard]] static constexpr Ratio from_percent(double value)
+        [[nodiscard]] static constexpr Ratio from_percent(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::Percent);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_thousand() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_thousand() const
         {
             return convert_from_base(RatioUnit::PartsPerThousand);
         }
 
-        [[nodiscard]] static constexpr Ratio from_parts_per_thousand(double value)
+        [[nodiscard]] static constexpr Ratio from_parts_per_thousand(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::PartsPerThousand);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_million() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_million() const
         {
             return convert_from_base(RatioUnit::PartsPerMillion);
         }
 
-        [[nodiscard]] static constexpr Ratio from_parts_per_million(double value)
+        [[nodiscard]] static constexpr Ratio from_parts_per_million(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::PartsPerMillion);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_billion() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_billion() const
         {
             return convert_from_base(RatioUnit::PartsPerBillion);
         }
 
-        [[nodiscard]] static constexpr Ratio from_parts_per_billion(double value)
+        [[nodiscard]] static constexpr Ratio from_parts_per_billion(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::PartsPerBillion);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_trillion() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_trillion() const
         {
             return convert_from_base(RatioUnit::PartsPerTrillion);
         }
 
-        [[nodiscard]] static constexpr Ratio from_parts_per_trillion(double value)
+        [[nodiscard]] static constexpr Ratio from_parts_per_trillion(const un_scalar_t value)
         {
             return Ratio(value, RatioUnit::PartsPerTrillion);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RatioUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RatioUnit unit)
         {
             switch (unit)
             {
@@ -163,7 +164,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Ratio unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RatioUnit unit) const
         {
             switch (unit)
             {
@@ -191,6 +192,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Ratio unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

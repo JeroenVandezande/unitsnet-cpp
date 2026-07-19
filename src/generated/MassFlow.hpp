@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class MassFlowUnit : std::uint16_t
+    enum class MassFlowUnit : std::uint8_t
     {
         GramsPerSecond,
         NanogramsPerSecond,
@@ -48,418 +49,418 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit MassFlow(
-            double value,
-            MassFlowUnit unit = MassFlowUnit::GramsPerSecond)
+            const un_scalar_t value,
+            const MassFlowUnit unit = MassFlowUnit::GramsPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(MassFlowUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const MassFlowUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MassFlow operator+(MassFlow other) const noexcept
+        [[nodiscard]] constexpr MassFlow operator+(const MassFlow other) const noexcept
         {
             return MassFlow(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr MassFlow operator-(MassFlow other) const noexcept
+        [[nodiscard]] constexpr MassFlow operator-(const MassFlow other) const noexcept
         {
             return MassFlow(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr MassFlow operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr MassFlow operator*(const un_scalar_t scalar) const noexcept
         {
             return MassFlow(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr MassFlow operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr MassFlow operator/(const un_scalar_t scalar) const noexcept
         {
             return MassFlow(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(MassFlow other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MassFlow other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(MassFlow other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MassFlow other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double grams_per_second() const
+        [[nodiscard]] constexpr un_scalar_t grams_per_second() const
         {
             return convert_from_base(MassFlowUnit::GramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_grams_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_grams_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::GramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double nanograms_per_second() const
+        [[nodiscard]] constexpr un_scalar_t nanograms_per_second() const
         {
             return convert_from_base(MassFlowUnit::NanogramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_nanograms_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_nanograms_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::NanogramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double micrograms_per_second() const
+        [[nodiscard]] constexpr un_scalar_t micrograms_per_second() const
         {
             return convert_from_base(MassFlowUnit::MicrogramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_micrograms_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_micrograms_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MicrogramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double milligrams_per_second() const
+        [[nodiscard]] constexpr un_scalar_t milligrams_per_second() const
         {
             return convert_from_base(MassFlowUnit::MilligramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_milligrams_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_milligrams_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MilligramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double centigrams_per_second() const
+        [[nodiscard]] constexpr un_scalar_t centigrams_per_second() const
         {
             return convert_from_base(MassFlowUnit::CentigramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_centigrams_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_centigrams_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::CentigramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decigrams_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decigrams_per_second() const
         {
             return convert_from_base(MassFlowUnit::DecigramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_decigrams_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_decigrams_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::DecigramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decagrams_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decagrams_per_second() const
         {
             return convert_from_base(MassFlowUnit::DecagramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_decagrams_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_decagrams_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::DecagramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double hectograms_per_second() const
+        [[nodiscard]] constexpr un_scalar_t hectograms_per_second() const
         {
             return convert_from_base(MassFlowUnit::HectogramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_hectograms_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_hectograms_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::HectogramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_second() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_second() const
         {
             return convert_from_base(MassFlowUnit::KilogramsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_kilograms_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_kilograms_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::KilogramsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double grams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t grams_per_day() const
         {
             return convert_from_base(MassFlowUnit::GramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_grams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_grams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::GramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double nanograms_per_day() const
+        [[nodiscard]] constexpr un_scalar_t nanograms_per_day() const
         {
             return convert_from_base(MassFlowUnit::NanogramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_nanograms_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_nanograms_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::NanogramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double micrograms_per_day() const
+        [[nodiscard]] constexpr un_scalar_t micrograms_per_day() const
         {
             return convert_from_base(MassFlowUnit::MicrogramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_micrograms_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_micrograms_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MicrogramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double milligrams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t milligrams_per_day() const
         {
             return convert_from_base(MassFlowUnit::MilligramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_milligrams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_milligrams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MilligramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double centigrams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t centigrams_per_day() const
         {
             return convert_from_base(MassFlowUnit::CentigramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_centigrams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_centigrams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::CentigramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double decigrams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t decigrams_per_day() const
         {
             return convert_from_base(MassFlowUnit::DecigramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_decigrams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_decigrams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::DecigramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double decagrams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t decagrams_per_day() const
         {
             return convert_from_base(MassFlowUnit::DecagramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_decagrams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_decagrams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::DecagramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double hectograms_per_day() const
+        [[nodiscard]] constexpr un_scalar_t hectograms_per_day() const
         {
             return convert_from_base(MassFlowUnit::HectogramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_hectograms_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_hectograms_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::HectogramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_day() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_day() const
         {
             return convert_from_base(MassFlowUnit::KilogramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_kilograms_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_kilograms_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::KilogramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double megagrams_per_day() const
+        [[nodiscard]] constexpr un_scalar_t megagrams_per_day() const
         {
             return convert_from_base(MassFlowUnit::MegagramsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_megagrams_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_megagrams_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MegagramsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double grams_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t grams_per_hour() const
         {
             return convert_from_base(MassFlowUnit::GramsPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_grams_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_grams_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::GramsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_hour() const
         {
             return convert_from_base(MassFlowUnit::KilogramsPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_kilograms_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_kilograms_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::KilogramsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_minute() const
         {
             return convert_from_base(MassFlowUnit::KilogramsPerMinute);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_kilograms_per_minute(double value)
+        [[nodiscard]] static constexpr MassFlow from_kilograms_per_minute(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::KilogramsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_per_hour() const
         {
             return convert_from_base(MassFlowUnit::TonnesPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_tonnes_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_tonnes_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::TonnesPerHour);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_day() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_day() const
         {
             return convert_from_base(MassFlowUnit::PoundsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_pounds_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_pounds_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::PoundsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double megapounds_per_day() const
+        [[nodiscard]] constexpr un_scalar_t megapounds_per_day() const
         {
             return convert_from_base(MassFlowUnit::MegapoundsPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_megapounds_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_megapounds_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MegapoundsPerDay);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_hour() const
         {
             return convert_from_base(MassFlowUnit::PoundsPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_pounds_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_pounds_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::PoundsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double megapounds_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t megapounds_per_hour() const
         {
             return convert_from_base(MassFlowUnit::MegapoundsPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_megapounds_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_megapounds_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MegapoundsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_minute() const
         {
             return convert_from_base(MassFlowUnit::PoundsPerMinute);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_pounds_per_minute(double value)
+        [[nodiscard]] static constexpr MassFlow from_pounds_per_minute(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::PoundsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double megapounds_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t megapounds_per_minute() const
         {
             return convert_from_base(MassFlowUnit::MegapoundsPerMinute);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_megapounds_per_minute(double value)
+        [[nodiscard]] static constexpr MassFlow from_megapounds_per_minute(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MegapoundsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_second() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_second() const
         {
             return convert_from_base(MassFlowUnit::PoundsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_pounds_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_pounds_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::PoundsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double megapounds_per_second() const
+        [[nodiscard]] constexpr un_scalar_t megapounds_per_second() const
         {
             return convert_from_base(MassFlowUnit::MegapoundsPerSecond);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_megapounds_per_second(double value)
+        [[nodiscard]] static constexpr MassFlow from_megapounds_per_second(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::MegapoundsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_per_day() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_per_day() const
         {
             return convert_from_base(MassFlowUnit::TonnesPerDay);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_tonnes_per_day(double value)
+        [[nodiscard]] static constexpr MassFlow from_tonnes_per_day(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::TonnesPerDay);
         }
 
 
-        [[nodiscard]] constexpr double short_tons_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t short_tons_per_hour() const
         {
             return convert_from_base(MassFlowUnit::ShortTonsPerHour);
         }
 
-        [[nodiscard]] static constexpr MassFlow from_short_tons_per_hour(double value)
+        [[nodiscard]] static constexpr MassFlow from_short_tons_per_hour(const un_scalar_t value)
         {
             return MassFlow(value, MassFlowUnit::ShortTonsPerHour);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, MassFlowUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MassFlowUnit unit)
         {
             switch (unit)
             {
@@ -468,58 +469,58 @@ namespace unitsnet_cpp
                 return value;
 
             case MassFlowUnit::NanogramsPerSecond:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case MassFlowUnit::MicrogramsPerSecond:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case MassFlowUnit::MilligramsPerSecond:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case MassFlowUnit::CentigramsPerSecond:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case MassFlowUnit::DecigramsPerSecond:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case MassFlowUnit::DecagramsPerSecond:
-                return (value * 1e1);
+                return (value * static_cast<un_scalar_t>(1e1));
 
             case MassFlowUnit::HectogramsPerSecond:
-                return (value * 1e2);
+                return (value * static_cast<un_scalar_t>(1e2));
 
             case MassFlowUnit::KilogramsPerSecond:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case MassFlowUnit::GramsPerDay:
                 return value / 86400;
 
             case MassFlowUnit::NanogramsPerDay:
-                return (value * 1e-9) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-9)) / 86400;
 
             case MassFlowUnit::MicrogramsPerDay:
-                return (value * 1e-6) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-6)) / 86400;
 
             case MassFlowUnit::MilligramsPerDay:
-                return (value * 1e-3) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 86400;
 
             case MassFlowUnit::CentigramsPerDay:
-                return (value * 1e-2) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 86400;
 
             case MassFlowUnit::DecigramsPerDay:
-                return (value * 1e-1) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-1)) / 86400;
 
             case MassFlowUnit::DecagramsPerDay:
-                return (value * 1e1) / 86400;
+                return (value * static_cast<un_scalar_t>(1e1)) / 86400;
 
             case MassFlowUnit::HectogramsPerDay:
-                return (value * 1e2) / 86400;
+                return (value * static_cast<un_scalar_t>(1e2)) / 86400;
 
             case MassFlowUnit::KilogramsPerDay:
-                return (value * 1e3) / 86400;
+                return (value * static_cast<un_scalar_t>(1e3)) / 86400;
 
             case MassFlowUnit::MegagramsPerDay:
-                return (value * 1e6) / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) / 86400;
 
             case MassFlowUnit::GramsPerHour:
                 return value / 3600;
@@ -537,25 +538,25 @@ namespace unitsnet_cpp
                 return value * 453.59237 / 86400;
 
             case MassFlowUnit::MegapoundsPerDay:
-                return (value * 1e6) * 453.59237 / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 86400;
 
             case MassFlowUnit::PoundsPerHour:
                 return value * 453.59237 / 3600;
 
             case MassFlowUnit::MegapoundsPerHour:
-                return (value * 1e6) * 453.59237 / 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 3600;
 
             case MassFlowUnit::PoundsPerMinute:
                 return value * 453.59237 / 60;
 
             case MassFlowUnit::MegapoundsPerMinute:
-                return (value * 1e6) * 453.59237 / 60;
+                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 60;
 
             case MassFlowUnit::PoundsPerSecond:
                 return value * 453.59237;
 
             case MassFlowUnit::MegapoundsPerSecond:
-                return (value * 1e6) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237;
 
             case MassFlowUnit::TonnesPerDay:
                 return value / 0.0864000;
@@ -568,7 +569,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown MassFlow unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(MassFlowUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const MassFlowUnit unit) const
         {
             switch (unit)
             {
@@ -577,58 +578,58 @@ namespace unitsnet_cpp
                 return value_;
 
             case MassFlowUnit::NanogramsPerSecond:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case MassFlowUnit::MicrogramsPerSecond:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case MassFlowUnit::MilligramsPerSecond:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case MassFlowUnit::CentigramsPerSecond:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case MassFlowUnit::DecigramsPerSecond:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case MassFlowUnit::DecagramsPerSecond:
-                return (value_) / 1e1;
+                return (value_) / static_cast<un_scalar_t>(1e1);
 
             case MassFlowUnit::HectogramsPerSecond:
-                return (value_) / 1e2;
+                return (value_) / static_cast<un_scalar_t>(1e2);
 
             case MassFlowUnit::KilogramsPerSecond:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case MassFlowUnit::GramsPerDay:
                 return value_ * 86400;
 
             case MassFlowUnit::NanogramsPerDay:
-                return (value_ * 86400) / 1e-9;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e-9);
 
             case MassFlowUnit::MicrogramsPerDay:
-                return (value_ * 86400) / 1e-6;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e-6);
 
             case MassFlowUnit::MilligramsPerDay:
-                return (value_ * 86400) / 1e-3;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e-3);
 
             case MassFlowUnit::CentigramsPerDay:
-                return (value_ * 86400) / 1e-2;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e-2);
 
             case MassFlowUnit::DecigramsPerDay:
-                return (value_ * 86400) / 1e-1;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e-1);
 
             case MassFlowUnit::DecagramsPerDay:
-                return (value_ * 86400) / 1e1;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e1);
 
             case MassFlowUnit::HectogramsPerDay:
-                return (value_ * 86400) / 1e2;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e2);
 
             case MassFlowUnit::KilogramsPerDay:
-                return (value_ * 86400) / 1e3;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e3);
 
             case MassFlowUnit::MegagramsPerDay:
-                return (value_ * 86400) / 1e6;
+                return (value_ * 86400) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::GramsPerHour:
                 return value_ * 3600;
@@ -646,25 +647,25 @@ namespace unitsnet_cpp
                 return value_ * 86400 / 453.59237;
 
             case MassFlowUnit::MegapoundsPerDay:
-                return (value_ * 86400 / 453.59237) / 1e6;
+                return (value_ * 86400 / 453.59237) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerHour:
                 return value_ * 3600 / 453.59237;
 
             case MassFlowUnit::MegapoundsPerHour:
-                return (value_ * 3600 / 453.59237) / 1e6;
+                return (value_ * 3600 / 453.59237) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerMinute:
                 return value_ * 60 / 453.59237;
 
             case MassFlowUnit::MegapoundsPerMinute:
-                return (value_ * 60 / 453.59237) / 1e6;
+                return (value_ * 60 / 453.59237) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerSecond:
                 return value_ / 453.59237;
 
             case MassFlowUnit::MegapoundsPerSecond:
-                return (value_ / 453.59237) / 1e6;
+                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::TonnesPerDay:
                 return value_ * 0.0864000;
@@ -677,6 +678,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown MassFlow unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

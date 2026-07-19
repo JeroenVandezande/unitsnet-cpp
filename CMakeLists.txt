@@ -58,15 +58,26 @@ target_compile_features(
 target_include_directories(
         unitsnet_cpp
         INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${UNITSNET_GENERATED_DIR}>
         $<INSTALL_INTERFACE:include>
+)
+
+target_sources(
+        unitsnet_cpp
+        INTERFACE
+        FILE_SET config_headers
+        TYPE HEADERS
+        BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src"
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/UnitsNetConfig.h"
 )
 
 if (UNITSNET_HEADER_PATHS)
     target_sources(
             unitsnet_cpp
             INTERFACE
-            FILE_SET HEADERS
+            FILE_SET generated_headers
+            TYPE HEADERS
             BASE_DIRS "${UNITSNET_GENERATED_DIR}"
             FILES ${UNITSNET_HEADER_PATHS}
     )
@@ -162,36 +173,54 @@ option(
 if (UNITSNET_CPP_BUILD_TESTS)
     enable_testing()
 
-    add_executable(
+    function(unitsnet_cpp_add_test_target target_name test_name)
+        add_executable(
+                ${target_name}
+                tests/unitsnet_tests.cpp
+        )
+
+        target_link_libraries(
+                ${target_name}
+                PRIVATE
+                UnitsNet::UnitsNet
+        )
+
+        if (MSVC)
+            target_compile_options(
+                    ${target_name}
+                    PRIVATE
+                    /W4
+                    /permissive-
+            )
+        else ()
+            target_compile_options(
+                    ${target_name}
+                    PRIVATE
+                    -Wall
+                    -Wextra
+                    -Wpedantic
+            )
+        endif ()
+
+        add_test(
+                NAME ${test_name}
+                COMMAND ${target_name}
+        )
+    endfunction()
+
+    unitsnet_cpp_add_test_target(
             unitsnet_cpp_tests
-            tests/unitsnet_tests.cpp
+            unitsnet_cpp.unit_tests.double
     )
 
-    target_link_libraries(
-            unitsnet_cpp_tests
+    unitsnet_cpp_add_test_target(
+            unitsnet_cpp_tests_float
+            unitsnet_cpp.unit_tests.float
+    )
+
+    target_compile_definitions(
+            unitsnet_cpp_tests_float
             PRIVATE
-            UnitsNet::UnitsNet
-    )
-
-    if (MSVC)
-        target_compile_options(
-                unitsnet_cpp_tests
-                PRIVATE
-                /W4
-                /permissive-
-        )
-    else ()
-        target_compile_options(
-                unitsnet_cpp_tests
-                PRIVATE
-                -Wall
-                -Wextra
-                -Wpedantic
-        )
-    endif ()
-
-    add_test(
-            NAME unitsnet_cpp.unit_tests
-            COMMAND unitsnet_cpp_tests
+            UNITSNET_CPP_USE_FLOAT
     )
 endif ()

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RotationalStiffnessPerLengthUnit : std::uint16_t
+    enum class RotationalStiffnessPerLengthUnit : std::uint8_t
     {
         NewtonMetersPerRadianPerMeter,
         KilonewtonMetersPerRadianPerMeter,
@@ -20,110 +21,110 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RotationalStiffnessPerLength(
-            double value,
-            RotationalStiffnessPerLengthUnit unit = RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter)
+            const un_scalar_t value,
+            const RotationalStiffnessPerLengthUnit unit = RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RotationalStiffnessPerLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RotationalStiffnessPerLengthUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RotationalStiffnessPerLength operator+(RotationalStiffnessPerLength other) const noexcept
+        [[nodiscard]] constexpr RotationalStiffnessPerLength operator+(const RotationalStiffnessPerLength other) const noexcept
         {
             return RotationalStiffnessPerLength(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalStiffnessPerLength operator-(RotationalStiffnessPerLength other) const noexcept
+        [[nodiscard]] constexpr RotationalStiffnessPerLength operator-(const RotationalStiffnessPerLength other) const noexcept
         {
             return RotationalStiffnessPerLength(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalStiffnessPerLength operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalStiffnessPerLength operator*(const un_scalar_t scalar) const noexcept
         {
             return RotationalStiffnessPerLength(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RotationalStiffnessPerLength operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalStiffnessPerLength operator/(const un_scalar_t scalar) const noexcept
         {
             return RotationalStiffnessPerLength(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RotationalStiffnessPerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RotationalStiffnessPerLength other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RotationalStiffnessPerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RotationalStiffnessPerLength other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double newton_meters_per_radian_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t newton_meters_per_radian_per_meter() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter);
         }
 
-        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_newton_meters_per_radian_per_meter(double value)
+        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_newton_meters_per_radian_per_meter(const un_scalar_t value)
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewton_meters_per_radian_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewton_meters_per_radian_per_meter() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter);
         }
 
-        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_kilonewton_meters_per_radian_per_meter(double value)
+        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_kilonewton_meters_per_radian_per_meter(const un_scalar_t value)
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double meganewton_meters_per_radian_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t meganewton_meters_per_radian_per_meter() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter);
         }
 
-        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_meganewton_meters_per_radian_per_meter(double value)
+        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_meganewton_meters_per_radian_per_meter(const un_scalar_t value)
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double pound_force_feet_per_degrees_per_feet() const
+        [[nodiscard]] constexpr un_scalar_t pound_force_feet_per_degrees_per_feet() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet);
         }
 
-        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_pound_force_feet_per_degrees_per_feet(double value)
+        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_pound_force_feet_per_degrees_per_feet(const un_scalar_t value)
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet);
         }
 
 
-        [[nodiscard]] constexpr double kilopound_force_feet_per_degrees_per_feet() const
+        [[nodiscard]] constexpr un_scalar_t kilopound_force_feet_per_degrees_per_feet() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet);
         }
 
-        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_kilopound_force_feet_per_degrees_per_feet(double value)
+        [[nodiscard]] static constexpr RotationalStiffnessPerLength from_kilopound_force_feet_per_degrees_per_feet(const un_scalar_t value)
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RotationalStiffnessPerLengthUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RotationalStiffnessPerLengthUnit unit)
         {
             switch (unit)
             {
@@ -132,23 +133,23 @@ namespace unitsnet_cpp
                 return value;
 
             case RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet:
-                return value * (4.4482216152605 * 180 / std::numbers::pi);
+                return value * (4.4482216152605 * 180 / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet:
-                return value * (4.4482216152605e3 * 180 / std::numbers::pi);
+                return value * (4.4482216152605e3 * 180 / std::numbers::pi_v<un_scalar_t>);
 
             }
 
             throw std::invalid_argument("Unknown RotationalStiffnessPerLength unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RotationalStiffnessPerLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RotationalStiffnessPerLengthUnit unit) const
         {
             switch (unit)
             {
@@ -157,22 +158,22 @@ namespace unitsnet_cpp
                 return value_;
 
             case RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet:
-                return value_ / (4.4482216152605 * 180 / std::numbers::pi);
+                return value_ / (4.4482216152605 * 180 / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet:
-                return value_ / (4.4482216152605e3 * 180 / std::numbers::pi);
+                return value_ / (4.4482216152605e3 * 180 / std::numbers::pi_v<un_scalar_t>);
 
             }
 
             throw std::invalid_argument("Unknown RotationalStiffnessPerLength unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

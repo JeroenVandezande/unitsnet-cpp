@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class VitaminAUnit : std::uint16_t
+    enum class VitaminAUnit : std::uint8_t
     {
         InternationalUnits,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit VitaminA(
-            double value,
-            VitaminAUnit unit = VitaminAUnit::InternationalUnits)
+            const un_scalar_t value,
+            const VitaminAUnit unit = VitaminAUnit::InternationalUnits)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(VitaminAUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const VitaminAUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr VitaminA operator+(VitaminA other) const noexcept
+        [[nodiscard]] constexpr VitaminA operator+(const VitaminA other) const noexcept
         {
             return VitaminA(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr VitaminA operator-(VitaminA other) const noexcept
+        [[nodiscard]] constexpr VitaminA operator-(const VitaminA other) const noexcept
         {
             return VitaminA(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr VitaminA operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr VitaminA operator*(const un_scalar_t scalar) const noexcept
         {
             return VitaminA(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr VitaminA operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr VitaminA operator/(const un_scalar_t scalar) const noexcept
         {
             return VitaminA(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(VitaminA other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const VitaminA other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(VitaminA other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const VitaminA other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double international_units() const
+        [[nodiscard]] constexpr un_scalar_t international_units() const
         {
             return convert_from_base(VitaminAUnit::InternationalUnits);
         }
 
-        [[nodiscard]] static constexpr VitaminA from_international_units(double value)
+        [[nodiscard]] static constexpr VitaminA from_international_units(const un_scalar_t value)
         {
             return VitaminA(value, VitaminAUnit::InternationalUnits);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, VitaminAUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, VitaminAUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VitaminA unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(VitaminAUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const VitaminAUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VitaminA unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class VolumeUnit : std::uint16_t
+    enum class VolumeUnit : std::uint8_t
     {
         Liters,
         Nanoliters,
@@ -70,660 +71,660 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Volume(
-            double value,
-            VolumeUnit unit = VolumeUnit::CubicMeters)
+            const un_scalar_t value,
+            const VolumeUnit unit = VolumeUnit::CubicMeters)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(VolumeUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const VolumeUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Volume operator+(Volume other) const noexcept
+        [[nodiscard]] constexpr Volume operator+(const Volume other) const noexcept
         {
             return Volume(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Volume operator-(Volume other) const noexcept
+        [[nodiscard]] constexpr Volume operator-(const Volume other) const noexcept
         {
             return Volume(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Volume operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Volume operator*(const un_scalar_t scalar) const noexcept
         {
             return Volume(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Volume operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Volume operator/(const un_scalar_t scalar) const noexcept
         {
             return Volume(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Volume other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Volume other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Volume other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Volume other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double liters() const
+        [[nodiscard]] constexpr un_scalar_t liters() const
         {
             return convert_from_base(VolumeUnit::Liters);
         }
 
-        [[nodiscard]] static constexpr Volume from_liters(double value)
+        [[nodiscard]] static constexpr Volume from_liters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Liters);
         }
 
 
-        [[nodiscard]] constexpr double nanoliters() const
+        [[nodiscard]] constexpr un_scalar_t nanoliters() const
         {
             return convert_from_base(VolumeUnit::Nanoliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_nanoliters(double value)
+        [[nodiscard]] static constexpr Volume from_nanoliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Nanoliters);
         }
 
 
-        [[nodiscard]] constexpr double microliters() const
+        [[nodiscard]] constexpr un_scalar_t microliters() const
         {
             return convert_from_base(VolumeUnit::Microliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_microliters(double value)
+        [[nodiscard]] static constexpr Volume from_microliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Microliters);
         }
 
 
-        [[nodiscard]] constexpr double milliliters() const
+        [[nodiscard]] constexpr un_scalar_t milliliters() const
         {
             return convert_from_base(VolumeUnit::Milliliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_milliliters(double value)
+        [[nodiscard]] static constexpr Volume from_milliliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Milliliters);
         }
 
 
-        [[nodiscard]] constexpr double centiliters() const
+        [[nodiscard]] constexpr un_scalar_t centiliters() const
         {
             return convert_from_base(VolumeUnit::Centiliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_centiliters(double value)
+        [[nodiscard]] static constexpr Volume from_centiliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Centiliters);
         }
 
 
-        [[nodiscard]] constexpr double deciliters() const
+        [[nodiscard]] constexpr un_scalar_t deciliters() const
         {
             return convert_from_base(VolumeUnit::Deciliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_deciliters(double value)
+        [[nodiscard]] static constexpr Volume from_deciliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Deciliters);
         }
 
 
-        [[nodiscard]] constexpr double decaliters() const
+        [[nodiscard]] constexpr un_scalar_t decaliters() const
         {
             return convert_from_base(VolumeUnit::Decaliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_decaliters(double value)
+        [[nodiscard]] static constexpr Volume from_decaliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Decaliters);
         }
 
 
-        [[nodiscard]] constexpr double hectoliters() const
+        [[nodiscard]] constexpr un_scalar_t hectoliters() const
         {
             return convert_from_base(VolumeUnit::Hectoliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_hectoliters(double value)
+        [[nodiscard]] static constexpr Volume from_hectoliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Hectoliters);
         }
 
 
-        [[nodiscard]] constexpr double kiloliters() const
+        [[nodiscard]] constexpr un_scalar_t kiloliters() const
         {
             return convert_from_base(VolumeUnit::Kiloliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_kiloliters(double value)
+        [[nodiscard]] static constexpr Volume from_kiloliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Kiloliters);
         }
 
 
-        [[nodiscard]] constexpr double megaliters() const
+        [[nodiscard]] constexpr un_scalar_t megaliters() const
         {
             return convert_from_base(VolumeUnit::Megaliters);
         }
 
-        [[nodiscard]] static constexpr Volume from_megaliters(double value)
+        [[nodiscard]] static constexpr Volume from_megaliters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::Megaliters);
         }
 
 
-        [[nodiscard]] constexpr double cubic_meters() const
+        [[nodiscard]] constexpr un_scalar_t cubic_meters() const
         {
             return convert_from_base(VolumeUnit::CubicMeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_meters(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_meters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicMeters);
         }
 
 
-        [[nodiscard]] constexpr double hectocubic_meters() const
+        [[nodiscard]] constexpr un_scalar_t hectocubic_meters() const
         {
             return convert_from_base(VolumeUnit::HectocubicMeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_hectocubic_meters(double value)
+        [[nodiscard]] static constexpr Volume from_hectocubic_meters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::HectocubicMeters);
         }
 
 
-        [[nodiscard]] constexpr double kilocubic_meters() const
+        [[nodiscard]] constexpr un_scalar_t kilocubic_meters() const
         {
             return convert_from_base(VolumeUnit::KilocubicMeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_kilocubic_meters(double value)
+        [[nodiscard]] static constexpr Volume from_kilocubic_meters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KilocubicMeters);
         }
 
 
-        [[nodiscard]] constexpr double cubic_kilometers() const
+        [[nodiscard]] constexpr un_scalar_t cubic_kilometers() const
         {
             return convert_from_base(VolumeUnit::CubicKilometers);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_kilometers(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_kilometers(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicKilometers);
         }
 
 
-        [[nodiscard]] constexpr double cubic_hectometers() const
+        [[nodiscard]] constexpr un_scalar_t cubic_hectometers() const
         {
             return convert_from_base(VolumeUnit::CubicHectometers);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_hectometers(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_hectometers(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicHectometers);
         }
 
 
-        [[nodiscard]] constexpr double cubic_decimeters() const
+        [[nodiscard]] constexpr un_scalar_t cubic_decimeters() const
         {
             return convert_from_base(VolumeUnit::CubicDecimeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_decimeters(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_decimeters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicDecimeters);
         }
 
 
-        [[nodiscard]] constexpr double cubic_centimeters() const
+        [[nodiscard]] constexpr un_scalar_t cubic_centimeters() const
         {
             return convert_from_base(VolumeUnit::CubicCentimeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_centimeters(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_centimeters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicCentimeters);
         }
 
 
-        [[nodiscard]] constexpr double cubic_millimeters() const
+        [[nodiscard]] constexpr un_scalar_t cubic_millimeters() const
         {
             return convert_from_base(VolumeUnit::CubicMillimeters);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_millimeters(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_millimeters(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicMillimeters);
         }
 
 
-        [[nodiscard]] constexpr double cubic_micrometers() const
+        [[nodiscard]] constexpr un_scalar_t cubic_micrometers() const
         {
             return convert_from_base(VolumeUnit::CubicMicrometers);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_micrometers(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_micrometers(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicMicrometers);
         }
 
 
-        [[nodiscard]] constexpr double cubic_miles() const
+        [[nodiscard]] constexpr un_scalar_t cubic_miles() const
         {
             return convert_from_base(VolumeUnit::CubicMiles);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_miles(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_miles(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicMiles);
         }
 
 
-        [[nodiscard]] constexpr double cubic_yards() const
+        [[nodiscard]] constexpr un_scalar_t cubic_yards() const
         {
             return convert_from_base(VolumeUnit::CubicYards);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_yards(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_yards(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicYards);
         }
 
 
-        [[nodiscard]] constexpr double cubic_feet() const
+        [[nodiscard]] constexpr un_scalar_t cubic_feet() const
         {
             return convert_from_base(VolumeUnit::CubicFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_feet(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicFeet);
         }
 
 
-        [[nodiscard]] constexpr double hectocubic_feet() const
+        [[nodiscard]] constexpr un_scalar_t hectocubic_feet() const
         {
             return convert_from_base(VolumeUnit::HectocubicFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_hectocubic_feet(double value)
+        [[nodiscard]] static constexpr Volume from_hectocubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::HectocubicFeet);
         }
 
 
-        [[nodiscard]] constexpr double kilocubic_feet() const
+        [[nodiscard]] constexpr un_scalar_t kilocubic_feet() const
         {
             return convert_from_base(VolumeUnit::KilocubicFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_kilocubic_feet(double value)
+        [[nodiscard]] static constexpr Volume from_kilocubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KilocubicFeet);
         }
 
 
-        [[nodiscard]] constexpr double megacubic_feet() const
+        [[nodiscard]] constexpr un_scalar_t megacubic_feet() const
         {
             return convert_from_base(VolumeUnit::MegacubicFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_megacubic_feet(double value)
+        [[nodiscard]] static constexpr Volume from_megacubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegacubicFeet);
         }
 
 
-        [[nodiscard]] constexpr double cubic_inches() const
+        [[nodiscard]] constexpr un_scalar_t cubic_inches() const
         {
             return convert_from_base(VolumeUnit::CubicInches);
         }
 
-        [[nodiscard]] static constexpr Volume from_cubic_inches(double value)
+        [[nodiscard]] static constexpr Volume from_cubic_inches(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicInches);
         }
 
 
-        [[nodiscard]] constexpr double imperial_gallons() const
+        [[nodiscard]] constexpr un_scalar_t imperial_gallons() const
         {
             return convert_from_base(VolumeUnit::ImperialGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_imperial_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_imperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialGallons);
         }
 
 
-        [[nodiscard]] constexpr double kiloimperial_gallons() const
+        [[nodiscard]] constexpr un_scalar_t kiloimperial_gallons() const
         {
             return convert_from_base(VolumeUnit::KiloimperialGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_kiloimperial_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_kiloimperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KiloimperialGallons);
         }
 
 
-        [[nodiscard]] constexpr double megaimperial_gallons() const
+        [[nodiscard]] constexpr un_scalar_t megaimperial_gallons() const
         {
             return convert_from_base(VolumeUnit::MegaimperialGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_megaimperial_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_megaimperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegaimperialGallons);
         }
 
 
-        [[nodiscard]] constexpr double imperial_ounces() const
+        [[nodiscard]] constexpr un_scalar_t imperial_ounces() const
         {
             return convert_from_base(VolumeUnit::ImperialOunces);
         }
 
-        [[nodiscard]] static constexpr Volume from_imperial_ounces(double value)
+        [[nodiscard]] static constexpr Volume from_imperial_ounces(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialOunces);
         }
 
 
-        [[nodiscard]] constexpr double us_gallons() const
+        [[nodiscard]] constexpr un_scalar_t us_gallons() const
         {
             return convert_from_base(VolumeUnit::UsGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_us_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsGallons);
         }
 
 
-        [[nodiscard]] constexpr double decaus_gallons() const
+        [[nodiscard]] constexpr un_scalar_t decaus_gallons() const
         {
             return convert_from_base(VolumeUnit::DecausGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_decaus_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_decaus_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::DecausGallons);
         }
 
 
-        [[nodiscard]] constexpr double decius_gallons() const
+        [[nodiscard]] constexpr un_scalar_t decius_gallons() const
         {
             return convert_from_base(VolumeUnit::DeciusGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_decius_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_decius_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::DeciusGallons);
         }
 
 
-        [[nodiscard]] constexpr double hectous_gallons() const
+        [[nodiscard]] constexpr un_scalar_t hectous_gallons() const
         {
             return convert_from_base(VolumeUnit::HectousGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_hectous_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_hectous_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::HectousGallons);
         }
 
 
-        [[nodiscard]] constexpr double kilous_gallons() const
+        [[nodiscard]] constexpr un_scalar_t kilous_gallons() const
         {
             return convert_from_base(VolumeUnit::KilousGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_kilous_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_kilous_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KilousGallons);
         }
 
 
-        [[nodiscard]] constexpr double megaus_gallons() const
+        [[nodiscard]] constexpr un_scalar_t megaus_gallons() const
         {
             return convert_from_base(VolumeUnit::MegausGallons);
         }
 
-        [[nodiscard]] static constexpr Volume from_megaus_gallons(double value)
+        [[nodiscard]] static constexpr Volume from_megaus_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegausGallons);
         }
 
 
-        [[nodiscard]] constexpr double us_ounces() const
+        [[nodiscard]] constexpr un_scalar_t us_ounces() const
         {
             return convert_from_base(VolumeUnit::UsOunces);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_ounces(double value)
+        [[nodiscard]] static constexpr Volume from_us_ounces(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsOunces);
         }
 
 
-        [[nodiscard]] constexpr double us_tablespoons() const
+        [[nodiscard]] constexpr un_scalar_t us_tablespoons() const
         {
             return convert_from_base(VolumeUnit::UsTablespoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_tablespoons(double value)
+        [[nodiscard]] static constexpr Volume from_us_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsTablespoons);
         }
 
 
-        [[nodiscard]] constexpr double au_tablespoons() const
+        [[nodiscard]] constexpr un_scalar_t au_tablespoons() const
         {
             return convert_from_base(VolumeUnit::AuTablespoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_au_tablespoons(double value)
+        [[nodiscard]] static constexpr Volume from_au_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::AuTablespoons);
         }
 
 
-        [[nodiscard]] constexpr double metric_tablespoons() const
+        [[nodiscard]] constexpr un_scalar_t metric_tablespoons() const
         {
             return convert_from_base(VolumeUnit::MetricTablespoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_metric_tablespoons(double value)
+        [[nodiscard]] static constexpr Volume from_metric_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricTablespoons);
         }
 
 
-        [[nodiscard]] constexpr double uk_tablespoons() const
+        [[nodiscard]] constexpr un_scalar_t uk_tablespoons() const
         {
             return convert_from_base(VolumeUnit::UkTablespoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_uk_tablespoons(double value)
+        [[nodiscard]] static constexpr Volume from_uk_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UkTablespoons);
         }
 
 
-        [[nodiscard]] constexpr double metric_teaspoons() const
+        [[nodiscard]] constexpr un_scalar_t metric_teaspoons() const
         {
             return convert_from_base(VolumeUnit::MetricTeaspoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_metric_teaspoons(double value)
+        [[nodiscard]] static constexpr Volume from_metric_teaspoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricTeaspoons);
         }
 
 
-        [[nodiscard]] constexpr double us_teaspoons() const
+        [[nodiscard]] constexpr un_scalar_t us_teaspoons() const
         {
             return convert_from_base(VolumeUnit::UsTeaspoons);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_teaspoons(double value)
+        [[nodiscard]] static constexpr Volume from_us_teaspoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsTeaspoons);
         }
 
 
-        [[nodiscard]] constexpr double metric_cups() const
+        [[nodiscard]] constexpr un_scalar_t metric_cups() const
         {
             return convert_from_base(VolumeUnit::MetricCups);
         }
 
-        [[nodiscard]] static constexpr Volume from_metric_cups(double value)
+        [[nodiscard]] static constexpr Volume from_metric_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricCups);
         }
 
 
-        [[nodiscard]] constexpr double us_customary_cups() const
+        [[nodiscard]] constexpr un_scalar_t us_customary_cups() const
         {
             return convert_from_base(VolumeUnit::UsCustomaryCups);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_customary_cups(double value)
+        [[nodiscard]] static constexpr Volume from_us_customary_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsCustomaryCups);
         }
 
 
-        [[nodiscard]] constexpr double us_legal_cups() const
+        [[nodiscard]] constexpr un_scalar_t us_legal_cups() const
         {
             return convert_from_base(VolumeUnit::UsLegalCups);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_legal_cups(double value)
+        [[nodiscard]] static constexpr Volume from_us_legal_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsLegalCups);
         }
 
 
-        [[nodiscard]] constexpr double oil_barrels() const
+        [[nodiscard]] constexpr un_scalar_t oil_barrels() const
         {
             return convert_from_base(VolumeUnit::OilBarrels);
         }
 
-        [[nodiscard]] static constexpr Volume from_oil_barrels(double value)
+        [[nodiscard]] static constexpr Volume from_oil_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::OilBarrels);
         }
 
 
-        [[nodiscard]] constexpr double us_beer_barrels() const
+        [[nodiscard]] constexpr un_scalar_t us_beer_barrels() const
         {
             return convert_from_base(VolumeUnit::UsBeerBarrels);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_beer_barrels(double value)
+        [[nodiscard]] static constexpr Volume from_us_beer_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsBeerBarrels);
         }
 
 
-        [[nodiscard]] constexpr double imperial_beer_barrels() const
+        [[nodiscard]] constexpr un_scalar_t imperial_beer_barrels() const
         {
             return convert_from_base(VolumeUnit::ImperialBeerBarrels);
         }
 
-        [[nodiscard]] static constexpr Volume from_imperial_beer_barrels(double value)
+        [[nodiscard]] static constexpr Volume from_imperial_beer_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialBeerBarrels);
         }
 
 
-        [[nodiscard]] constexpr double us_quarts() const
+        [[nodiscard]] constexpr un_scalar_t us_quarts() const
         {
             return convert_from_base(VolumeUnit::UsQuarts);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_quarts(double value)
+        [[nodiscard]] static constexpr Volume from_us_quarts(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsQuarts);
         }
 
 
-        [[nodiscard]] constexpr double imperial_quarts() const
+        [[nodiscard]] constexpr un_scalar_t imperial_quarts() const
         {
             return convert_from_base(VolumeUnit::ImperialQuarts);
         }
 
-        [[nodiscard]] static constexpr Volume from_imperial_quarts(double value)
+        [[nodiscard]] static constexpr Volume from_imperial_quarts(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialQuarts);
         }
 
 
-        [[nodiscard]] constexpr double us_pints() const
+        [[nodiscard]] constexpr un_scalar_t us_pints() const
         {
             return convert_from_base(VolumeUnit::UsPints);
         }
 
-        [[nodiscard]] static constexpr Volume from_us_pints(double value)
+        [[nodiscard]] static constexpr Volume from_us_pints(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsPints);
         }
 
 
-        [[nodiscard]] constexpr double acre_feet() const
+        [[nodiscard]] constexpr un_scalar_t acre_feet() const
         {
             return convert_from_base(VolumeUnit::AcreFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_acre_feet(double value)
+        [[nodiscard]] static constexpr Volume from_acre_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::AcreFeet);
         }
 
 
-        [[nodiscard]] constexpr double imperial_pints() const
+        [[nodiscard]] constexpr un_scalar_t imperial_pints() const
         {
             return convert_from_base(VolumeUnit::ImperialPints);
         }
 
-        [[nodiscard]] static constexpr Volume from_imperial_pints(double value)
+        [[nodiscard]] static constexpr Volume from_imperial_pints(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialPints);
         }
 
 
-        [[nodiscard]] constexpr double board_feet() const
+        [[nodiscard]] constexpr un_scalar_t board_feet() const
         {
             return convert_from_base(VolumeUnit::BoardFeet);
         }
 
-        [[nodiscard]] static constexpr Volume from_board_feet(double value)
+        [[nodiscard]] static constexpr Volume from_board_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::BoardFeet);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, VolumeUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, VolumeUnit unit)
         {
             switch (unit)
             {
@@ -732,40 +733,40 @@ namespace unitsnet_cpp
                 return value / 1e3;
 
             case VolumeUnit::Nanoliters:
-                return (value * 1e-9) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / 1e3;
 
             case VolumeUnit::Microliters:
-                return (value * 1e-6) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / 1e3;
 
             case VolumeUnit::Milliliters:
-                return (value * 1e-3) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 1e3;
 
             case VolumeUnit::Centiliters:
-                return (value * 1e-2) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 1e3;
 
             case VolumeUnit::Deciliters:
-                return (value * 1e-1) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / 1e3;
 
             case VolumeUnit::Decaliters:
-                return (value * 1e1) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) / 1e3;
 
             case VolumeUnit::Hectoliters:
-                return (value * 1e2) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e2)) / 1e3;
 
             case VolumeUnit::Kiloliters:
-                return (value * 1e3) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
 
             case VolumeUnit::Megaliters:
-                return (value * 1e6) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e6)) / 1e3;
 
             case VolumeUnit::CubicMeters:
                 return value;
 
             case VolumeUnit::HectocubicMeters:
-                return (value * 1e2);
+                return (value * static_cast<un_scalar_t>(1e2));
 
             case VolumeUnit::KilocubicMeters:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case VolumeUnit::CubicKilometers:
                 return value * 1e9;
@@ -795,13 +796,13 @@ namespace unitsnet_cpp
                 return value * 0.028316846592;
 
             case VolumeUnit::HectocubicFeet:
-                return (value * 1e2) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e2)) * 0.028316846592;
 
             case VolumeUnit::KilocubicFeet:
-                return (value * 1e3) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e3)) * 0.028316846592;
 
             case VolumeUnit::MegacubicFeet:
-                return (value * 1e6) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e6)) * 0.028316846592;
 
             case VolumeUnit::CubicInches:
                 return value * 1.6387064e-5;
@@ -810,10 +811,10 @@ namespace unitsnet_cpp
                 return value * 0.00454609;
 
             case VolumeUnit::KiloimperialGallons:
-                return (value * 1e3) * 0.00454609;
+                return (value * static_cast<un_scalar_t>(1e3)) * 0.00454609;
 
             case VolumeUnit::MegaimperialGallons:
-                return (value * 1e6) * 0.00454609;
+                return (value * static_cast<un_scalar_t>(1e6)) * 0.00454609;
 
             case VolumeUnit::ImperialOunces:
                 return value * 2.84130625e-5;
@@ -822,19 +823,19 @@ namespace unitsnet_cpp
                 return value * 0.003785411784;
 
             case VolumeUnit::DecausGallons:
-                return (value * 1e1) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e1)) * 0.003785411784;
 
             case VolumeUnit::DeciusGallons:
-                return (value * 1e-1) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e-1)) * 0.003785411784;
 
             case VolumeUnit::HectousGallons:
-                return (value * 1e2) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e2)) * 0.003785411784;
 
             case VolumeUnit::KilousGallons:
-                return (value * 1e3) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e3)) * 0.003785411784;
 
             case VolumeUnit::MegausGallons:
-                return (value * 1e6) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e6)) * 0.003785411784;
 
             case VolumeUnit::UsOunces:
                 return value * 2.95735295625e-5;
@@ -898,7 +899,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Volume unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(VolumeUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const VolumeUnit unit) const
         {
             switch (unit)
             {
@@ -907,40 +908,40 @@ namespace unitsnet_cpp
                 return value_ * 1e3;
 
             case VolumeUnit::Nanoliters:
-                return (value_ * 1e3) / 1e-9;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeUnit::Microliters:
-                return (value_ * 1e3) / 1e-6;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeUnit::Milliliters:
-                return (value_ * 1e3) / 1e-3;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeUnit::Centiliters:
-                return (value_ * 1e3) / 1e-2;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeUnit::Deciliters:
-                return (value_ * 1e3) / 1e-1;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::Decaliters:
-                return (value_ * 1e3) / 1e1;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::Hectoliters:
-                return (value_ * 1e3) / 1e2;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::Kiloliters:
-                return (value_ * 1e3) / 1e3;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Megaliters:
-                return (value_ * 1e3) / 1e6;
+                return (value_ * 1e3) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMeters:
                 return value_;
 
             case VolumeUnit::HectocubicMeters:
-                return (value_) / 1e2;
+                return (value_) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilocubicMeters:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicKilometers:
                 return value_ / 1e9;
@@ -970,13 +971,13 @@ namespace unitsnet_cpp
                 return value_ / 0.028316846592;
 
             case VolumeUnit::HectocubicFeet:
-                return (value_ / 0.028316846592) / 1e2;
+                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilocubicFeet:
-                return (value_ / 0.028316846592) / 1e3;
+                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegacubicFeet:
-                return (value_ / 0.028316846592) / 1e6;
+                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicInches:
                 return value_ / 1.6387064e-5;
@@ -985,10 +986,10 @@ namespace unitsnet_cpp
                 return value_ / 0.00454609;
 
             case VolumeUnit::KiloimperialGallons:
-                return (value_ / 0.00454609) / 1e3;
+                return (value_ / 0.00454609) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegaimperialGallons:
-                return (value_ / 0.00454609) / 1e6;
+                return (value_ / 0.00454609) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::ImperialOunces:
                 return value_ / 2.84130625e-5;
@@ -997,19 +998,19 @@ namespace unitsnet_cpp
                 return value_ / 0.003785411784;
 
             case VolumeUnit::DecausGallons:
-                return (value_ / 0.003785411784) / 1e1;
+                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::DeciusGallons:
-                return (value_ / 0.003785411784) / 1e-1;
+                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::HectousGallons:
-                return (value_ / 0.003785411784) / 1e2;
+                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilousGallons:
-                return (value_ / 0.003785411784) / 1e3;
+                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegausGallons:
-                return (value_ / 0.003785411784) / 1e6;
+                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::UsOunces:
                 return value_ / 2.95735295625e-5;
@@ -1073,6 +1074,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Volume unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

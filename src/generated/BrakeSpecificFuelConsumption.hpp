@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class BrakeSpecificFuelConsumptionUnit : std::uint16_t
+    enum class BrakeSpecificFuelConsumptionUnit : std::uint8_t
     {
         GramsPerKiloWattHour,
         KilogramsPerJoule,
@@ -18,88 +19,88 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit BrakeSpecificFuelConsumption(
-            double value,
-            BrakeSpecificFuelConsumptionUnit unit = BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule)
+            const un_scalar_t value,
+            const BrakeSpecificFuelConsumptionUnit unit = BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(BrakeSpecificFuelConsumptionUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const BrakeSpecificFuelConsumptionUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator+(BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator+(const BrakeSpecificFuelConsumption other) const noexcept
         {
             return BrakeSpecificFuelConsumption(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator-(BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator-(const BrakeSpecificFuelConsumption other) const noexcept
         {
             return BrakeSpecificFuelConsumption(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator*(const un_scalar_t scalar) const noexcept
         {
             return BrakeSpecificFuelConsumption(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr BrakeSpecificFuelConsumption operator/(const un_scalar_t scalar) const noexcept
         {
             return BrakeSpecificFuelConsumption(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const BrakeSpecificFuelConsumption other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(BrakeSpecificFuelConsumption other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const BrakeSpecificFuelConsumption other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double grams_per_kilo_watt_hour() const
+        [[nodiscard]] constexpr un_scalar_t grams_per_kilo_watt_hour() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour);
         }
 
-        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_grams_per_kilo_watt_hour(double value)
+        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_grams_per_kilo_watt_hour(const un_scalar_t value)
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_joule() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_joule() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule);
         }
 
-        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_kilograms_per_joule(double value)
+        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_kilograms_per_joule(const un_scalar_t value)
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_mechanical_horsepower_hour() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_mechanical_horsepower_hour() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour);
         }
 
-        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_pounds_per_mechanical_horsepower_hour(double value)
+        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_pounds_per_mechanical_horsepower_hour(const un_scalar_t value)
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, BrakeSpecificFuelConsumptionUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, BrakeSpecificFuelConsumptionUnit unit)
         {
             switch (unit)
             {
@@ -118,7 +119,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown BrakeSpecificFuelConsumption unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(BrakeSpecificFuelConsumptionUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const BrakeSpecificFuelConsumptionUnit unit) const
         {
             switch (unit)
             {
@@ -137,6 +138,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown BrakeSpecificFuelConsumption unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

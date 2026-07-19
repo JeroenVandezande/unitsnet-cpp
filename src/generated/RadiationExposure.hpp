@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RadiationExposureUnit : std::uint16_t
+    enum class RadiationExposureUnit : std::uint8_t
     {
         CoulombsPerKilogram,
         PicocoulombsPerKilogram,
@@ -23,143 +24,143 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RadiationExposure(
-            double value,
-            RadiationExposureUnit unit = RadiationExposureUnit::CoulombsPerKilogram)
+            const un_scalar_t value,
+            const RadiationExposureUnit unit = RadiationExposureUnit::CoulombsPerKilogram)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RadiationExposureUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RadiationExposureUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RadiationExposure operator+(RadiationExposure other) const noexcept
+        [[nodiscard]] constexpr RadiationExposure operator+(const RadiationExposure other) const noexcept
         {
             return RadiationExposure(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RadiationExposure operator-(RadiationExposure other) const noexcept
+        [[nodiscard]] constexpr RadiationExposure operator-(const RadiationExposure other) const noexcept
         {
             return RadiationExposure(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RadiationExposure operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RadiationExposure operator*(const un_scalar_t scalar) const noexcept
         {
             return RadiationExposure(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RadiationExposure operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RadiationExposure operator/(const un_scalar_t scalar) const noexcept
         {
             return RadiationExposure(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RadiationExposure other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RadiationExposure other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RadiationExposure other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RadiationExposure other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double coulombs_per_kilogram() const
+        [[nodiscard]] constexpr un_scalar_t coulombs_per_kilogram() const
         {
             return convert_from_base(RadiationExposureUnit::CoulombsPerKilogram);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_coulombs_per_kilogram(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_coulombs_per_kilogram(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::CoulombsPerKilogram);
         }
 
 
-        [[nodiscard]] constexpr double picocoulombs_per_kilogram() const
+        [[nodiscard]] constexpr un_scalar_t picocoulombs_per_kilogram() const
         {
             return convert_from_base(RadiationExposureUnit::PicocoulombsPerKilogram);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_picocoulombs_per_kilogram(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_picocoulombs_per_kilogram(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::PicocoulombsPerKilogram);
         }
 
 
-        [[nodiscard]] constexpr double nanocoulombs_per_kilogram() const
+        [[nodiscard]] constexpr un_scalar_t nanocoulombs_per_kilogram() const
         {
             return convert_from_base(RadiationExposureUnit::NanocoulombsPerKilogram);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_nanocoulombs_per_kilogram(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_nanocoulombs_per_kilogram(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::NanocoulombsPerKilogram);
         }
 
 
-        [[nodiscard]] constexpr double microcoulombs_per_kilogram() const
+        [[nodiscard]] constexpr un_scalar_t microcoulombs_per_kilogram() const
         {
             return convert_from_base(RadiationExposureUnit::MicrocoulombsPerKilogram);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_microcoulombs_per_kilogram(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_microcoulombs_per_kilogram(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::MicrocoulombsPerKilogram);
         }
 
 
-        [[nodiscard]] constexpr double millicoulombs_per_kilogram() const
+        [[nodiscard]] constexpr un_scalar_t millicoulombs_per_kilogram() const
         {
             return convert_from_base(RadiationExposureUnit::MillicoulombsPerKilogram);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_millicoulombs_per_kilogram(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_millicoulombs_per_kilogram(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::MillicoulombsPerKilogram);
         }
 
 
-        [[nodiscard]] constexpr double roentgens() const
+        [[nodiscard]] constexpr un_scalar_t roentgens() const
         {
             return convert_from_base(RadiationExposureUnit::Roentgens);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_roentgens(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_roentgens(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::Roentgens);
         }
 
 
-        [[nodiscard]] constexpr double microroentgens() const
+        [[nodiscard]] constexpr un_scalar_t microroentgens() const
         {
             return convert_from_base(RadiationExposureUnit::Microroentgens);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_microroentgens(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_microroentgens(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::Microroentgens);
         }
 
 
-        [[nodiscard]] constexpr double milliroentgens() const
+        [[nodiscard]] constexpr un_scalar_t milliroentgens() const
         {
             return convert_from_base(RadiationExposureUnit::Milliroentgens);
         }
 
-        [[nodiscard]] static constexpr RadiationExposure from_milliroentgens(double value)
+        [[nodiscard]] static constexpr RadiationExposure from_milliroentgens(const un_scalar_t value)
         {
             return RadiationExposure(value, RadiationExposureUnit::Milliroentgens);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RadiationExposureUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RadiationExposureUnit unit)
         {
             switch (unit)
             {
@@ -168,32 +169,32 @@ namespace unitsnet_cpp
                 return value;
 
             case RadiationExposureUnit::PicocoulombsPerKilogram:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case RadiationExposureUnit::NanocoulombsPerKilogram:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case RadiationExposureUnit::MicrocoulombsPerKilogram:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case RadiationExposureUnit::MillicoulombsPerKilogram:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case RadiationExposureUnit::Roentgens:
                 return value * 2.58e-4;
 
             case RadiationExposureUnit::Microroentgens:
-                return (value * 1e-6) * 2.58e-4;
+                return (value * static_cast<un_scalar_t>(1e-6)) * 2.58e-4;
 
             case RadiationExposureUnit::Milliroentgens:
-                return (value * 1e-3) * 2.58e-4;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 2.58e-4;
 
             }
 
             throw std::invalid_argument("Unknown RadiationExposure unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RadiationExposureUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RadiationExposureUnit unit) const
         {
             switch (unit)
             {
@@ -202,31 +203,31 @@ namespace unitsnet_cpp
                 return value_;
 
             case RadiationExposureUnit::PicocoulombsPerKilogram:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case RadiationExposureUnit::NanocoulombsPerKilogram:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case RadiationExposureUnit::MicrocoulombsPerKilogram:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationExposureUnit::MillicoulombsPerKilogram:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationExposureUnit::Roentgens:
                 return value_ / 2.58e-4;
 
             case RadiationExposureUnit::Microroentgens:
-                return (value_ / 2.58e-4) / 1e-6;
+                return (value_ / 2.58e-4) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationExposureUnit::Milliroentgens:
-                return (value_ / 2.58e-4) / 1e-3;
+                return (value_ / 2.58e-4) / static_cast<un_scalar_t>(1e-3);
 
             }
 
             throw std::invalid_argument("Unknown RadiationExposure unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

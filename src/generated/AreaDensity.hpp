@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AreaDensityUnit : std::uint16_t
+    enum class AreaDensityUnit : std::uint8_t
     {
         KilogramsPerSquareMeter,
         GramsPerSquareMeter,
@@ -20,110 +21,110 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit AreaDensity(
-            double value,
-            AreaDensityUnit unit = AreaDensityUnit::KilogramsPerSquareMeter)
+            const un_scalar_t value,
+            const AreaDensityUnit unit = AreaDensityUnit::KilogramsPerSquareMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AreaDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AreaDensityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr AreaDensity operator+(AreaDensity other) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator+(const AreaDensity other) const noexcept
         {
             return AreaDensity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr AreaDensity operator-(AreaDensity other) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator-(const AreaDensity other) const noexcept
         {
             return AreaDensity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr AreaDensity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator*(const un_scalar_t scalar) const noexcept
         {
             return AreaDensity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr AreaDensity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr AreaDensity operator/(const un_scalar_t scalar) const noexcept
         {
             return AreaDensity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(AreaDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const AreaDensity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(AreaDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const AreaDensity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double kilograms_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::KilogramsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr AreaDensity from_kilograms_per_square_meter(double value)
+        [[nodiscard]] static constexpr AreaDensity from_kilograms_per_square_meter(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::KilogramsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double grams_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t grams_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::GramsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr AreaDensity from_grams_per_square_meter(double value)
+        [[nodiscard]] static constexpr AreaDensity from_grams_per_square_meter(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::GramsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double milligrams_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t milligrams_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::MilligramsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr AreaDensity from_milligrams_per_square_meter(double value)
+        [[nodiscard]] static constexpr AreaDensity from_milligrams_per_square_meter(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::MilligramsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_square_foot() const
         {
             return convert_from_base(AreaDensityUnit::PoundsPerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr AreaDensity from_pounds_per_square_foot(double value)
+        [[nodiscard]] static constexpr AreaDensity from_pounds_per_square_foot(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::PoundsPerSquareFoot);
         }
 
 
-        [[nodiscard]] constexpr double pounds_per_thousand_square_feet() const
+        [[nodiscard]] constexpr un_scalar_t pounds_per_thousand_square_feet() const
         {
             return convert_from_base(AreaDensityUnit::PoundsPerThousandSquareFeet);
         }
 
-        [[nodiscard]] static constexpr AreaDensity from_pounds_per_thousand_square_feet(double value)
+        [[nodiscard]] static constexpr AreaDensity from_pounds_per_thousand_square_feet(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::PoundsPerThousandSquareFeet);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AreaDensityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AreaDensityUnit unit)
         {
             switch (unit)
             {
@@ -148,7 +149,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AreaDensity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AreaDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AreaDensityUnit unit) const
         {
             switch (unit)
             {
@@ -173,6 +174,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AreaDensity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

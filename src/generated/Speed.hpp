@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class SpeedUnit : std::uint16_t
+    enum class SpeedUnit : std::uint8_t
     {
         MetersPerSecond,
         NanometersPerSecond,
@@ -48,418 +49,418 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Speed(
-            double value,
-            SpeedUnit unit = SpeedUnit::MetersPerSecond)
+            const un_scalar_t value,
+            const SpeedUnit unit = SpeedUnit::MetersPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(SpeedUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const SpeedUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Speed operator+(Speed other) const noexcept
+        [[nodiscard]] constexpr Speed operator+(const Speed other) const noexcept
         {
             return Speed(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Speed operator-(Speed other) const noexcept
+        [[nodiscard]] constexpr Speed operator-(const Speed other) const noexcept
         {
             return Speed(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Speed operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Speed operator*(const un_scalar_t scalar) const noexcept
         {
             return Speed(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Speed operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Speed operator/(const un_scalar_t scalar) const noexcept
         {
             return Speed(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Speed other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Speed other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Speed other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Speed other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double meters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t meters_per_second() const
         {
             return convert_from_base(SpeedUnit::MetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_meters_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_meters_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double nanometers_per_second() const
+        [[nodiscard]] constexpr un_scalar_t nanometers_per_second() const
         {
             return convert_from_base(SpeedUnit::NanometersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_nanometers_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_nanometers_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::NanometersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double micrometers_per_second() const
+        [[nodiscard]] constexpr un_scalar_t micrometers_per_second() const
         {
             return convert_from_base(SpeedUnit::MicrometersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_micrometers_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_micrometers_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MicrometersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_per_second() const
         {
             return convert_from_base(SpeedUnit::MillimetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_millimeters_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_millimeters_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MillimetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_per_second() const
         {
             return convert_from_base(SpeedUnit::CentimetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_centimeters_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_centimeters_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::CentimetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decimeters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decimeters_per_second() const
         {
             return convert_from_base(SpeedUnit::DecimetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_decimeters_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_decimeters_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::DecimetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double kilometers_per_second() const
+        [[nodiscard]] constexpr un_scalar_t kilometers_per_second() const
         {
             return convert_from_base(SpeedUnit::KilometersPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_kilometers_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_kilometers_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::KilometersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double meters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t meters_per_minute() const
         {
             return convert_from_base(SpeedUnit::MetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_meters_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_meters_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double nanometers_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t nanometers_per_minute() const
         {
             return convert_from_base(SpeedUnit::NanometersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_nanometers_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_nanometers_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::NanometersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double micrometers_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t micrometers_per_minute() const
         {
             return convert_from_base(SpeedUnit::MicrometersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_micrometers_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_micrometers_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MicrometersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_per_minute() const
         {
             return convert_from_base(SpeedUnit::MillimetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_millimeters_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_millimeters_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MillimetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_per_minute() const
         {
             return convert_from_base(SpeedUnit::CentimetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_centimeters_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_centimeters_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::CentimetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double decimeters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t decimeters_per_minute() const
         {
             return convert_from_base(SpeedUnit::DecimetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_decimeters_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_decimeters_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::DecimetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double kilometers_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t kilometers_per_minute() const
         {
             return convert_from_base(SpeedUnit::KilometersPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_kilometers_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_kilometers_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::KilometersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double meters_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t meters_per_hour() const
         {
             return convert_from_base(SpeedUnit::MetersPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_meters_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_meters_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MetersPerHour);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_per_hour() const
         {
             return convert_from_base(SpeedUnit::MillimetersPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_millimeters_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_millimeters_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MillimetersPerHour);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_per_hour() const
         {
             return convert_from_base(SpeedUnit::CentimetersPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_centimeters_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_centimeters_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::CentimetersPerHour);
         }
 
 
-        [[nodiscard]] constexpr double kilometers_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t kilometers_per_hour() const
         {
             return convert_from_base(SpeedUnit::KilometersPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_kilometers_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_kilometers_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::KilometersPerHour);
         }
 
 
-        [[nodiscard]] constexpr double feet_per_second() const
+        [[nodiscard]] constexpr un_scalar_t feet_per_second() const
         {
             return convert_from_base(SpeedUnit::FeetPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_feet_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_feet_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::FeetPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double feet_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t feet_per_minute() const
         {
             return convert_from_base(SpeedUnit::FeetPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_feet_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_feet_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::FeetPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double feet_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t feet_per_hour() const
         {
             return convert_from_base(SpeedUnit::FeetPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_feet_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_feet_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::FeetPerHour);
         }
 
 
-        [[nodiscard]] constexpr double us_survey_feet_per_second() const
+        [[nodiscard]] constexpr un_scalar_t us_survey_feet_per_second() const
         {
             return convert_from_base(SpeedUnit::UsSurveyFeetPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::UsSurveyFeetPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double us_survey_feet_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t us_survey_feet_per_minute() const
         {
             return convert_from_base(SpeedUnit::UsSurveyFeetPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::UsSurveyFeetPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double us_survey_feet_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t us_survey_feet_per_hour() const
         {
             return convert_from_base(SpeedUnit::UsSurveyFeetPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_us_survey_feet_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::UsSurveyFeetPerHour);
         }
 
 
-        [[nodiscard]] constexpr double inches_per_second() const
+        [[nodiscard]] constexpr un_scalar_t inches_per_second() const
         {
             return convert_from_base(SpeedUnit::InchesPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_inches_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_inches_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::InchesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double inches_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t inches_per_minute() const
         {
             return convert_from_base(SpeedUnit::InchesPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_inches_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_inches_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::InchesPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double inches_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t inches_per_hour() const
         {
             return convert_from_base(SpeedUnit::InchesPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_inches_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_inches_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::InchesPerHour);
         }
 
 
-        [[nodiscard]] constexpr double yards_per_second() const
+        [[nodiscard]] constexpr un_scalar_t yards_per_second() const
         {
             return convert_from_base(SpeedUnit::YardsPerSecond);
         }
 
-        [[nodiscard]] static constexpr Speed from_yards_per_second(double value)
+        [[nodiscard]] static constexpr Speed from_yards_per_second(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::YardsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double yards_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t yards_per_minute() const
         {
             return convert_from_base(SpeedUnit::YardsPerMinute);
         }
 
-        [[nodiscard]] static constexpr Speed from_yards_per_minute(double value)
+        [[nodiscard]] static constexpr Speed from_yards_per_minute(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::YardsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double yards_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t yards_per_hour() const
         {
             return convert_from_base(SpeedUnit::YardsPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_yards_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_yards_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::YardsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double knots() const
+        [[nodiscard]] constexpr un_scalar_t knots() const
         {
             return convert_from_base(SpeedUnit::Knots);
         }
 
-        [[nodiscard]] static constexpr Speed from_knots(double value)
+        [[nodiscard]] static constexpr Speed from_knots(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::Knots);
         }
 
 
-        [[nodiscard]] constexpr double miles_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t miles_per_hour() const
         {
             return convert_from_base(SpeedUnit::MilesPerHour);
         }
 
-        [[nodiscard]] static constexpr Speed from_miles_per_hour(double value)
+        [[nodiscard]] static constexpr Speed from_miles_per_hour(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::MilesPerHour);
         }
 
 
-        [[nodiscard]] constexpr double mach() const
+        [[nodiscard]] constexpr un_scalar_t mach() const
         {
             return convert_from_base(SpeedUnit::Mach);
         }
 
-        [[nodiscard]] static constexpr Speed from_mach(double value)
+        [[nodiscard]] static constexpr Speed from_mach(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::Mach);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, SpeedUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SpeedUnit unit)
         {
             switch (unit)
             {
@@ -468,55 +469,55 @@ namespace unitsnet_cpp
                 return value;
 
             case SpeedUnit::NanometersPerSecond:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case SpeedUnit::MicrometersPerSecond:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case SpeedUnit::MillimetersPerSecond:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case SpeedUnit::CentimetersPerSecond:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case SpeedUnit::DecimetersPerSecond:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case SpeedUnit::KilometersPerSecond:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case SpeedUnit::MetersPerMinute:
                 return value / 60;
 
             case SpeedUnit::NanometersPerMinute:
-                return (value * 1e-9) / 60;
+                return (value * static_cast<un_scalar_t>(1e-9)) / 60;
 
             case SpeedUnit::MicrometersPerMinute:
-                return (value * 1e-6) / 60;
+                return (value * static_cast<un_scalar_t>(1e-6)) / 60;
 
             case SpeedUnit::MillimetersPerMinute:
-                return (value * 1e-3) / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 60;
 
             case SpeedUnit::CentimetersPerMinute:
-                return (value * 1e-2) / 60;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 60;
 
             case SpeedUnit::DecimetersPerMinute:
-                return (value * 1e-1) / 60;
+                return (value * static_cast<un_scalar_t>(1e-1)) / 60;
 
             case SpeedUnit::KilometersPerMinute:
-                return (value * 1e3) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / 60;
 
             case SpeedUnit::MetersPerHour:
                 return value / 3600;
 
             case SpeedUnit::MillimetersPerHour:
-                return (value * 1e-3) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 3600;
 
             case SpeedUnit::CentimetersPerHour:
-                return (value * 1e-2) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 3600;
 
             case SpeedUnit::KilometersPerHour:
-                return (value * 1e3) / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) / 3600;
 
             case SpeedUnit::FeetPerSecond:
                 return value * 0.3048;
@@ -568,7 +569,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Speed unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(SpeedUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const SpeedUnit unit) const
         {
             switch (unit)
             {
@@ -577,55 +578,55 @@ namespace unitsnet_cpp
                 return value_;
 
             case SpeedUnit::NanometersPerSecond:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case SpeedUnit::MicrometersPerSecond:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case SpeedUnit::MillimetersPerSecond:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerSecond:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::DecimetersPerSecond:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case SpeedUnit::KilometersPerSecond:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerMinute:
                 return value_ * 60;
 
             case SpeedUnit::NanometersPerMinute:
-                return (value_ * 60) / 1e-9;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-9);
 
             case SpeedUnit::MicrometersPerMinute:
-                return (value_ * 60) / 1e-6;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-6);
 
             case SpeedUnit::MillimetersPerMinute:
-                return (value_ * 60) / 1e-3;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerMinute:
-                return (value_ * 60) / 1e-2;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::DecimetersPerMinute:
-                return (value_ * 60) / 1e-1;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-1);
 
             case SpeedUnit::KilometersPerMinute:
-                return (value_ * 60) / 1e3;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerHour:
                 return value_ * 3600;
 
             case SpeedUnit::MillimetersPerHour:
-                return (value_ * 3600) / 1e-3;
+                return (value_ * 3600) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerHour:
-                return (value_ * 3600) / 1e-2;
+                return (value_ * 3600) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::KilometersPerHour:
-                return (value_ * 3600) / 1e3;
+                return (value_ * 3600) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::FeetPerSecond:
                 return value_ / 0.3048;
@@ -677,6 +678,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Speed unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricPotentialUnit : std::uint16_t
+    enum class ElectricPotentialUnit : std::uint8_t
     {
         Volts,
         Nanovolts,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricPotential(
-            double value,
-            ElectricPotentialUnit unit = ElectricPotentialUnit::Volts)
+            const un_scalar_t value,
+            const ElectricPotentialUnit unit = ElectricPotentialUnit::Volts)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricPotentialUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricPotentialUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator+(ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator+(const ElectricPotential other) const noexcept
         {
             return ElectricPotential(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator-(ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator-(const ElectricPotential other) const noexcept
         {
             return ElectricPotential(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricPotential(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricPotential operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricPotential operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricPotential(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricPotential other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricPotential other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricPotential other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double volts() const
+        [[nodiscard]] constexpr un_scalar_t volts() const
         {
             return convert_from_base(ElectricPotentialUnit::Volts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_volts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_volts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Volts);
         }
 
 
-        [[nodiscard]] constexpr double nanovolts() const
+        [[nodiscard]] constexpr un_scalar_t nanovolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Nanovolts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_nanovolts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_nanovolts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Nanovolts);
         }
 
 
-        [[nodiscard]] constexpr double microvolts() const
+        [[nodiscard]] constexpr un_scalar_t microvolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Microvolts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_microvolts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_microvolts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Microvolts);
         }
 
 
-        [[nodiscard]] constexpr double millivolts() const
+        [[nodiscard]] constexpr un_scalar_t millivolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Millivolts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_millivolts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_millivolts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Millivolts);
         }
 
 
-        [[nodiscard]] constexpr double kilovolts() const
+        [[nodiscard]] constexpr un_scalar_t kilovolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Kilovolts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_kilovolts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_kilovolts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Kilovolts);
         }
 
 
-        [[nodiscard]] constexpr double megavolts() const
+        [[nodiscard]] constexpr un_scalar_t megavolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Megavolts);
         }
 
-        [[nodiscard]] static constexpr ElectricPotential from_megavolts(double value)
+        [[nodiscard]] static constexpr ElectricPotential from_megavolts(const un_scalar_t value)
         {
             return ElectricPotential(value, ElectricPotentialUnit::Megavolts);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricPotentialUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricPotentialUnit unit)
         {
             switch (unit)
             {
@@ -144,26 +145,26 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricPotentialUnit::Nanovolts:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricPotentialUnit::Microvolts:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricPotentialUnit::Millivolts:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricPotentialUnit::Kilovolts:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricPotentialUnit::Megavolts:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             }
 
             throw std::invalid_argument("Unknown ElectricPotential unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricPotentialUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricPotentialUnit unit) const
         {
             switch (unit)
             {
@@ -172,25 +173,25 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricPotentialUnit::Nanovolts:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricPotentialUnit::Microvolts:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialUnit::Millivolts:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialUnit::Kilovolts:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialUnit::Megavolts:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
             throw std::invalid_argument("Unknown ElectricPotential unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

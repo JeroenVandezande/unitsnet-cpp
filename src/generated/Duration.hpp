@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class DurationUnit : std::uint16_t
+    enum class DurationUnit : std::uint8_t
     {
         Years365,
         Months30,
@@ -28,198 +29,198 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Duration(
-            double value,
-            DurationUnit unit = DurationUnit::Seconds)
+            const un_scalar_t value,
+            const DurationUnit unit = DurationUnit::Seconds)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(DurationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const DurationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Duration operator+(Duration other) const noexcept
+        [[nodiscard]] constexpr Duration operator+(const Duration other) const noexcept
         {
             return Duration(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Duration operator-(Duration other) const noexcept
+        [[nodiscard]] constexpr Duration operator-(const Duration other) const noexcept
         {
             return Duration(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Duration operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Duration operator*(const un_scalar_t scalar) const noexcept
         {
             return Duration(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Duration operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Duration operator/(const un_scalar_t scalar) const noexcept
         {
             return Duration(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Duration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Duration other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Duration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Duration other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double years365() const
+        [[nodiscard]] constexpr un_scalar_t years365() const
         {
             return convert_from_base(DurationUnit::Years365);
         }
 
-        [[nodiscard]] static constexpr Duration from_years365(double value)
+        [[nodiscard]] static constexpr Duration from_years365(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Years365);
         }
 
 
-        [[nodiscard]] constexpr double months30() const
+        [[nodiscard]] constexpr un_scalar_t months30() const
         {
             return convert_from_base(DurationUnit::Months30);
         }
 
-        [[nodiscard]] static constexpr Duration from_months30(double value)
+        [[nodiscard]] static constexpr Duration from_months30(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Months30);
         }
 
 
-        [[nodiscard]] constexpr double weeks() const
+        [[nodiscard]] constexpr un_scalar_t weeks() const
         {
             return convert_from_base(DurationUnit::Weeks);
         }
 
-        [[nodiscard]] static constexpr Duration from_weeks(double value)
+        [[nodiscard]] static constexpr Duration from_weeks(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Weeks);
         }
 
 
-        [[nodiscard]] constexpr double days() const
+        [[nodiscard]] constexpr un_scalar_t days() const
         {
             return convert_from_base(DurationUnit::Days);
         }
 
-        [[nodiscard]] static constexpr Duration from_days(double value)
+        [[nodiscard]] static constexpr Duration from_days(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Days);
         }
 
 
-        [[nodiscard]] constexpr double hours() const
+        [[nodiscard]] constexpr un_scalar_t hours() const
         {
             return convert_from_base(DurationUnit::Hours);
         }
 
-        [[nodiscard]] static constexpr Duration from_hours(double value)
+        [[nodiscard]] static constexpr Duration from_hours(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Hours);
         }
 
 
-        [[nodiscard]] constexpr double minutes() const
+        [[nodiscard]] constexpr un_scalar_t minutes() const
         {
             return convert_from_base(DurationUnit::Minutes);
         }
 
-        [[nodiscard]] static constexpr Duration from_minutes(double value)
+        [[nodiscard]] static constexpr Duration from_minutes(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Minutes);
         }
 
 
-        [[nodiscard]] constexpr double seconds() const
+        [[nodiscard]] constexpr un_scalar_t seconds() const
         {
             return convert_from_base(DurationUnit::Seconds);
         }
 
-        [[nodiscard]] static constexpr Duration from_seconds(double value)
+        [[nodiscard]] static constexpr Duration from_seconds(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Seconds);
         }
 
 
-        [[nodiscard]] constexpr double picoseconds() const
+        [[nodiscard]] constexpr un_scalar_t picoseconds() const
         {
             return convert_from_base(DurationUnit::Picoseconds);
         }
 
-        [[nodiscard]] static constexpr Duration from_picoseconds(double value)
+        [[nodiscard]] static constexpr Duration from_picoseconds(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Picoseconds);
         }
 
 
-        [[nodiscard]] constexpr double nanoseconds() const
+        [[nodiscard]] constexpr un_scalar_t nanoseconds() const
         {
             return convert_from_base(DurationUnit::Nanoseconds);
         }
 
-        [[nodiscard]] static constexpr Duration from_nanoseconds(double value)
+        [[nodiscard]] static constexpr Duration from_nanoseconds(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Nanoseconds);
         }
 
 
-        [[nodiscard]] constexpr double microseconds() const
+        [[nodiscard]] constexpr un_scalar_t microseconds() const
         {
             return convert_from_base(DurationUnit::Microseconds);
         }
 
-        [[nodiscard]] static constexpr Duration from_microseconds(double value)
+        [[nodiscard]] static constexpr Duration from_microseconds(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Microseconds);
         }
 
 
-        [[nodiscard]] constexpr double milliseconds() const
+        [[nodiscard]] constexpr un_scalar_t milliseconds() const
         {
             return convert_from_base(DurationUnit::Milliseconds);
         }
 
-        [[nodiscard]] static constexpr Duration from_milliseconds(double value)
+        [[nodiscard]] static constexpr Duration from_milliseconds(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Milliseconds);
         }
 
 
-        [[nodiscard]] constexpr double julian_years() const
+        [[nodiscard]] constexpr un_scalar_t julian_years() const
         {
             return convert_from_base(DurationUnit::JulianYears);
         }
 
-        [[nodiscard]] static constexpr Duration from_julian_years(double value)
+        [[nodiscard]] static constexpr Duration from_julian_years(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::JulianYears);
         }
 
 
-        [[nodiscard]] constexpr double sols() const
+        [[nodiscard]] constexpr un_scalar_t sols() const
         {
             return convert_from_base(DurationUnit::Sols);
         }
 
-        [[nodiscard]] static constexpr Duration from_sols(double value)
+        [[nodiscard]] static constexpr Duration from_sols(const un_scalar_t value)
         {
             return Duration(value, DurationUnit::Sols);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, DurationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, DurationUnit unit)
         {
             switch (unit)
             {
@@ -246,16 +247,16 @@ namespace unitsnet_cpp
                 return value;
 
             case DurationUnit::Picoseconds:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case DurationUnit::Nanoseconds:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case DurationUnit::Microseconds:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case DurationUnit::Milliseconds:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case DurationUnit::JulianYears:
                 return value * 365.25 * 24 * 3600;
@@ -268,7 +269,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Duration unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(DurationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const DurationUnit unit) const
         {
             switch (unit)
             {
@@ -295,16 +296,16 @@ namespace unitsnet_cpp
                 return value_;
 
             case DurationUnit::Picoseconds:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case DurationUnit::Nanoseconds:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case DurationUnit::Microseconds:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case DurationUnit::Milliseconds:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case DurationUnit::JulianYears:
                 return value_ / (365.25 * 24 * 3600);
@@ -317,6 +318,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Duration unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

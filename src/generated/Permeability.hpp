@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class PermeabilityUnit : std::uint16_t
+    enum class PermeabilityUnit : std::uint8_t
     {
         HenriesPerMeter,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Permeability(
-            double value,
-            PermeabilityUnit unit = PermeabilityUnit::HenriesPerMeter)
+            const un_scalar_t value,
+            const PermeabilityUnit unit = PermeabilityUnit::HenriesPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(PermeabilityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const PermeabilityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Permeability operator+(Permeability other) const noexcept
+        [[nodiscard]] constexpr Permeability operator+(const Permeability other) const noexcept
         {
             return Permeability(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Permeability operator-(Permeability other) const noexcept
+        [[nodiscard]] constexpr Permeability operator-(const Permeability other) const noexcept
         {
             return Permeability(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Permeability operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Permeability operator*(const un_scalar_t scalar) const noexcept
         {
             return Permeability(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Permeability operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Permeability operator/(const un_scalar_t scalar) const noexcept
         {
             return Permeability(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Permeability other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Permeability other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Permeability other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Permeability other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double henries_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t henries_per_meter() const
         {
             return convert_from_base(PermeabilityUnit::HenriesPerMeter);
         }
 
-        [[nodiscard]] static constexpr Permeability from_henries_per_meter(double value)
+        [[nodiscard]] static constexpr Permeability from_henries_per_meter(const un_scalar_t value)
         {
             return Permeability(value, PermeabilityUnit::HenriesPerMeter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, PermeabilityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PermeabilityUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Permeability unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(PermeabilityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const PermeabilityUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Permeability unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

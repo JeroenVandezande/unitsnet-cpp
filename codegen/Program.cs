@@ -117,33 +117,33 @@ class Program
 
     private static string ToCppExpression(string expression, string valueExpression) =>
         Regex.Replace(
-            expression.Replace("{x}", valueExpression).Replace("Math.PI", "std::numbers::pi"),
+            expression.Replace("{x}", valueExpression).Replace("Math.PI", "std::numbers::pi_v<un_scalar_t>"),
             @"(?<=\d)d\b",
             string.Empty);
 
     private static readonly IReadOnlyDictionary<string, string> PrefixFactors =
         new Dictionary<string, string>
         {
-            ["Femto"] = "1e-15",
-            ["Pico"] = "1e-12",
-            ["Nano"] = "1e-9",
-            ["Micro"] = "1e-6",
-            ["Milli"] = "1e-3",
-            ["Centi"] = "1e-2",
-            ["Deci"] = "1e-1",
-            ["Deca"] = "1e1",
-            ["Hecto"] = "1e2",
-            ["Kilo"] = "1e3",
-            ["Mega"] = "1e6",
-            ["Giga"] = "1e9",
-            ["Tera"] = "1e12",
-            ["Peta"] = "1e15",
-            ["Exa"] = "1e18",
-            ["Kibi"] = "1024.0",
-            ["Mebi"] = "1048576.0",
-            ["Gibi"] = "1073741824.0",
-            ["Tebi"] = "1099511627776.0",
-            ["Pebi"] = "1125899906842624.0",
-            ["Exbi"] = "1152921504606846976.0"
+            ["Femto"] = "static_cast<un_scalar_t>(1e-15)",
+            ["Pico"] = "static_cast<un_scalar_t>(1e-12)",
+            ["Nano"] = "static_cast<un_scalar_t>(1e-9)",
+            ["Micro"] = "static_cast<un_scalar_t>(1e-6)",
+            ["Milli"] = "static_cast<un_scalar_t>(1e-3)",
+            ["Centi"] = "static_cast<un_scalar_t>(1e-2)",
+            ["Deci"] = "static_cast<un_scalar_t>(1e-1)",
+            ["Deca"] = "static_cast<un_scalar_t>(1e1)",
+            ["Hecto"] = "static_cast<un_scalar_t>(1e2)",
+            ["Kilo"] = "static_cast<un_scalar_t>(1e3)",
+            ["Mega"] = "static_cast<un_scalar_t>(1e6)",
+            ["Giga"] = "static_cast<un_scalar_t>(1e9)",
+            ["Tera"] = "static_cast<un_scalar_t>(1e12)",
+            ["Peta"] = "static_cast<un_scalar_t>(1e15)",
+            ["Exa"] = "static_cast<un_scalar_t>(1e18)",
+            ["Kibi"] = "static_cast<un_scalar_t>(1024.0)",
+            ["Mebi"] = "static_cast<un_scalar_t>(1048576.0)",
+            ["Gibi"] = "static_cast<un_scalar_t>(1073741824.0)",
+            ["Tebi"] = "static_cast<un_scalar_t>(1099511627776.0)",
+            ["Pebi"] = "static_cast<un_scalar_t>(1125899906842624.0)",
+            ["Exbi"] = "static_cast<un_scalar_t>(1152921504606846976.0)"
         };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricApparentPowerUnit : std::uint16_t
+    enum class ElectricApparentPowerUnit : std::uint8_t
     {
         Voltamperes,
         Microvoltamperes,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricApparentPower(
-            double value,
-            ElectricApparentPowerUnit unit = ElectricApparentPowerUnit::Voltamperes)
+            const un_scalar_t value,
+            const ElectricApparentPowerUnit unit = ElectricApparentPowerUnit::Voltamperes)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricApparentPowerUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricApparentPowerUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricApparentPower operator+(ElectricApparentPower other) const noexcept
+        [[nodiscard]] constexpr ElectricApparentPower operator+(const ElectricApparentPower other) const noexcept
         {
             return ElectricApparentPower(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricApparentPower operator-(ElectricApparentPower other) const noexcept
+        [[nodiscard]] constexpr ElectricApparentPower operator-(const ElectricApparentPower other) const noexcept
         {
             return ElectricApparentPower(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricApparentPower operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricApparentPower operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricApparentPower(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricApparentPower operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricApparentPower operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricApparentPower(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricApparentPower other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricApparentPower other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricApparentPower other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricApparentPower other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double voltamperes() const
+        [[nodiscard]] constexpr un_scalar_t voltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Voltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_voltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_voltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Voltamperes);
         }
 
 
-        [[nodiscard]] constexpr double microvoltamperes() const
+        [[nodiscard]] constexpr un_scalar_t microvoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Microvoltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_microvoltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_microvoltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Microvoltamperes);
         }
 
 
-        [[nodiscard]] constexpr double millivoltamperes() const
+        [[nodiscard]] constexpr un_scalar_t millivoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Millivoltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_millivoltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_millivoltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Millivoltamperes);
         }
 
 
-        [[nodiscard]] constexpr double kilovoltamperes() const
+        [[nodiscard]] constexpr un_scalar_t kilovoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Kilovoltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_kilovoltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_kilovoltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Kilovoltamperes);
         }
 
 
-        [[nodiscard]] constexpr double megavoltamperes() const
+        [[nodiscard]] constexpr un_scalar_t megavoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Megavoltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_megavoltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_megavoltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Megavoltamperes);
         }
 
 
-        [[nodiscard]] constexpr double gigavoltamperes() const
+        [[nodiscard]] constexpr un_scalar_t gigavoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Gigavoltamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricApparentPower from_gigavoltamperes(double value)
+        [[nodiscard]] static constexpr ElectricApparentPower from_gigavoltamperes(const un_scalar_t value)
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Gigavoltamperes);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricApparentPowerUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricApparentPowerUnit unit)
         {
             switch (unit)
             {
@@ -144,26 +145,26 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricApparentPowerUnit::Microvoltamperes:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricApparentPowerUnit::Millivoltamperes:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricApparentPowerUnit::Kilovoltamperes:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricApparentPowerUnit::Megavoltamperes:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricApparentPowerUnit::Gigavoltamperes:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             }
 
             throw std::invalid_argument("Unknown ElectricApparentPower unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricApparentPowerUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricApparentPowerUnit unit) const
         {
             switch (unit)
             {
@@ -172,25 +173,25 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricApparentPowerUnit::Microvoltamperes:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricApparentPowerUnit::Millivoltamperes:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricApparentPowerUnit::Kilovoltamperes:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricApparentPowerUnit::Megavoltamperes:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricApparentPowerUnit::Gigavoltamperes:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             }
 
             throw std::invalid_argument("Unknown ElectricApparentPower unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

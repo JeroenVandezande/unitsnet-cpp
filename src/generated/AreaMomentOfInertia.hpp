@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AreaMomentOfInertiaUnit : std::uint16_t
+    enum class AreaMomentOfInertiaUnit : std::uint8_t
     {
         MetersToTheFourth,
         DecimetersToTheFourth,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit AreaMomentOfInertia(
-            double value,
-            AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MetersToTheFourth)
+            const un_scalar_t value,
+            const AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MetersToTheFourth)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AreaMomentOfInertiaUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AreaMomentOfInertiaUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr AreaMomentOfInertia operator+(AreaMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr AreaMomentOfInertia operator+(const AreaMomentOfInertia other) const noexcept
         {
             return AreaMomentOfInertia(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr AreaMomentOfInertia operator-(AreaMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr AreaMomentOfInertia operator-(const AreaMomentOfInertia other) const noexcept
         {
             return AreaMomentOfInertia(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr AreaMomentOfInertia operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr AreaMomentOfInertia operator*(const un_scalar_t scalar) const noexcept
         {
             return AreaMomentOfInertia(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr AreaMomentOfInertia operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr AreaMomentOfInertia operator/(const un_scalar_t scalar) const noexcept
         {
             return AreaMomentOfInertia(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(AreaMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const AreaMomentOfInertia other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(AreaMomentOfInertia other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const AreaMomentOfInertia other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double meters_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t meters_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::MetersToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_meters_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_meters_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MetersToTheFourth);
         }
 
 
-        [[nodiscard]] constexpr double decimeters_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t decimeters_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::DecimetersToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_decimeters_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_decimeters_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::DecimetersToTheFourth);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::CentimetersToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_centimeters_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_centimeters_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::CentimetersToTheFourth);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::MillimetersToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_millimeters_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_millimeters_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MillimetersToTheFourth);
         }
 
 
-        [[nodiscard]] constexpr double feet_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t feet_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::FeetToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_feet_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_feet_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::FeetToTheFourth);
         }
 
 
-        [[nodiscard]] constexpr double inches_to_the_fourth() const
+        [[nodiscard]] constexpr un_scalar_t inches_to_the_fourth() const
         {
             return convert_from_base(AreaMomentOfInertiaUnit::InchesToTheFourth);
         }
 
-        [[nodiscard]] static constexpr AreaMomentOfInertia from_inches_to_the_fourth(double value)
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_inches_to_the_fourth(const un_scalar_t value)
         {
             return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::InchesToTheFourth);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AreaMomentOfInertiaUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AreaMomentOfInertiaUnit unit)
         {
             switch (unit)
             {
@@ -163,7 +164,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AreaMomentOfInertia unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AreaMomentOfInertiaUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AreaMomentOfInertiaUnit unit) const
         {
             switch (unit)
             {
@@ -191,6 +192,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AreaMomentOfInertia unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

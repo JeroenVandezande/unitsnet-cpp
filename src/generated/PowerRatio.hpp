@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class PowerRatioUnit : std::uint16_t
+    enum class PowerRatioUnit : std::uint8_t
     {
         DecibelWatts,
         DecibelMilliwatts,
@@ -17,77 +18,77 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit PowerRatio(
-            double value,
-            PowerRatioUnit unit = PowerRatioUnit::DecibelWatts)
+            const un_scalar_t value,
+            const PowerRatioUnit unit = PowerRatioUnit::DecibelWatts)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(PowerRatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const PowerRatioUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr PowerRatio operator+(PowerRatio other) const noexcept
+        [[nodiscard]] constexpr PowerRatio operator+(const PowerRatio other) const noexcept
         {
             return PowerRatio(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr PowerRatio operator-(PowerRatio other) const noexcept
+        [[nodiscard]] constexpr PowerRatio operator-(const PowerRatio other) const noexcept
         {
             return PowerRatio(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr PowerRatio operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr PowerRatio operator*(const un_scalar_t scalar) const noexcept
         {
             return PowerRatio(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr PowerRatio operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr PowerRatio operator/(const un_scalar_t scalar) const noexcept
         {
             return PowerRatio(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(PowerRatio other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const PowerRatio other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(PowerRatio other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const PowerRatio other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double decibel_watts() const
+        [[nodiscard]] constexpr un_scalar_t decibel_watts() const
         {
             return convert_from_base(PowerRatioUnit::DecibelWatts);
         }
 
-        [[nodiscard]] static constexpr PowerRatio from_decibel_watts(double value)
+        [[nodiscard]] static constexpr PowerRatio from_decibel_watts(const un_scalar_t value)
         {
             return PowerRatio(value, PowerRatioUnit::DecibelWatts);
         }
 
 
-        [[nodiscard]] constexpr double decibel_milliwatts() const
+        [[nodiscard]] constexpr un_scalar_t decibel_milliwatts() const
         {
             return convert_from_base(PowerRatioUnit::DecibelMilliwatts);
         }
 
-        [[nodiscard]] static constexpr PowerRatio from_decibel_milliwatts(double value)
+        [[nodiscard]] static constexpr PowerRatio from_decibel_milliwatts(const un_scalar_t value)
         {
             return PowerRatio(value, PowerRatioUnit::DecibelMilliwatts);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, PowerRatioUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PowerRatioUnit unit)
         {
             switch (unit)
             {
@@ -103,7 +104,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown PowerRatio unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(PowerRatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const PowerRatioUnit unit) const
         {
             switch (unit)
             {
@@ -119,6 +120,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown PowerRatio unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

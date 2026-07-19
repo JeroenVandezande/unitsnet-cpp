@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricChargeDensityUnit : std::uint16_t
+    enum class ElectricChargeDensityUnit : std::uint8_t
     {
         CoulombsPerCubicMeter,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricChargeDensity(
-            double value,
-            ElectricChargeDensityUnit unit = ElectricChargeDensityUnit::CoulombsPerCubicMeter)
+            const un_scalar_t value,
+            const ElectricChargeDensityUnit unit = ElectricChargeDensityUnit::CoulombsPerCubicMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricChargeDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricChargeDensityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricChargeDensity operator+(ElectricChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricChargeDensity operator+(const ElectricChargeDensity other) const noexcept
         {
             return ElectricChargeDensity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricChargeDensity operator-(ElectricChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricChargeDensity operator-(const ElectricChargeDensity other) const noexcept
         {
             return ElectricChargeDensity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricChargeDensity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricChargeDensity operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricChargeDensity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricChargeDensity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricChargeDensity operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricChargeDensity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricChargeDensity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricChargeDensity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double coulombs_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t coulombs_per_cubic_meter() const
         {
             return convert_from_base(ElectricChargeDensityUnit::CoulombsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr ElectricChargeDensity from_coulombs_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr ElectricChargeDensity from_coulombs_per_cubic_meter(const un_scalar_t value)
         {
             return ElectricChargeDensity(value, ElectricChargeDensityUnit::CoulombsPerCubicMeter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricChargeDensityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricChargeDensityUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricChargeDensity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricChargeDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricChargeDensityUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricChargeDensity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

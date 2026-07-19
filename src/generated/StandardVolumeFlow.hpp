@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class StandardVolumeFlowUnit : std::uint16_t
+    enum class StandardVolumeFlowUnit : std::uint8_t
     {
         StandardCubicMetersPerSecond,
         StandardCubicMetersPerMinute,
@@ -24,154 +25,154 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit StandardVolumeFlow(
-            double value,
-            StandardVolumeFlowUnit unit = StandardVolumeFlowUnit::StandardCubicMetersPerSecond)
+            const un_scalar_t value,
+            const StandardVolumeFlowUnit unit = StandardVolumeFlowUnit::StandardCubicMetersPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(StandardVolumeFlowUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const StandardVolumeFlowUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr StandardVolumeFlow operator+(StandardVolumeFlow other) const noexcept
+        [[nodiscard]] constexpr StandardVolumeFlow operator+(const StandardVolumeFlow other) const noexcept
         {
             return StandardVolumeFlow(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr StandardVolumeFlow operator-(StandardVolumeFlow other) const noexcept
+        [[nodiscard]] constexpr StandardVolumeFlow operator-(const StandardVolumeFlow other) const noexcept
         {
             return StandardVolumeFlow(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr StandardVolumeFlow operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr StandardVolumeFlow operator*(const un_scalar_t scalar) const noexcept
         {
             return StandardVolumeFlow(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr StandardVolumeFlow operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr StandardVolumeFlow operator/(const un_scalar_t scalar) const noexcept
         {
             return StandardVolumeFlow(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(StandardVolumeFlow other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const StandardVolumeFlow other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(StandardVolumeFlow other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const StandardVolumeFlow other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_meters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_second() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_second(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_second(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_meters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_minute() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_minute(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_minute(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_meters_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_hour() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerHour);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_hour(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_hour(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerHour);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_meters_per_day() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_day() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerDay);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_day(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_meters_per_day(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerDay);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_centimeters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_centimeters_per_minute() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_centimeters_per_minute(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_centimeters_per_minute(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double standard_liters_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t standard_liters_per_minute() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardLitersPerMinute);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_liters_per_minute(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_liters_per_minute(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardLitersPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_feet_per_second() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_second() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicFeetPerSecond);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_second(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_second(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_feet_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_minute() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicFeetPerMinute);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_minute(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_minute(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double standard_cubic_feet_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_hour() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicFeetPerHour);
         }
 
-        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_hour(double value)
+        [[nodiscard]] static constexpr StandardVolumeFlow from_standard_cubic_feet_per_hour(const un_scalar_t value)
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerHour);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, StandardVolumeFlowUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, StandardVolumeFlowUnit unit)
         {
             switch (unit)
             {
@@ -208,7 +209,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown StandardVolumeFlow unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(StandardVolumeFlowUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const StandardVolumeFlowUnit unit) const
         {
             switch (unit)
             {
@@ -245,6 +246,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown StandardVolumeFlow unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

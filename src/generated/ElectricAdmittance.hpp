@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricAdmittanceUnit : std::uint16_t
+    enum class ElectricAdmittanceUnit : std::uint8_t
     {
         Siemens,
         Nanosiemens,
@@ -31,231 +32,231 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricAdmittance(
-            double value,
-            ElectricAdmittanceUnit unit = ElectricAdmittanceUnit::Siemens)
+            const un_scalar_t value,
+            const ElectricAdmittanceUnit unit = ElectricAdmittanceUnit::Siemens)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricAdmittanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricAdmittanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator+(ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator+(const ElectricAdmittance other) const noexcept
         {
             return ElectricAdmittance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator-(ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator-(const ElectricAdmittance other) const noexcept
         {
             return ElectricAdmittance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricAdmittance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricAdmittance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricAdmittance operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricAdmittance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricAdmittance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricAdmittance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricAdmittance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double siemens() const
+        [[nodiscard]] constexpr un_scalar_t siemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Siemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_siemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_siemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Siemens);
         }
 
 
-        [[nodiscard]] constexpr double nanosiemens() const
+        [[nodiscard]] constexpr un_scalar_t nanosiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Nanosiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_nanosiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_nanosiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Nanosiemens);
         }
 
 
-        [[nodiscard]] constexpr double microsiemens() const
+        [[nodiscard]] constexpr un_scalar_t microsiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Microsiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_microsiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_microsiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Microsiemens);
         }
 
 
-        [[nodiscard]] constexpr double millisiemens() const
+        [[nodiscard]] constexpr un_scalar_t millisiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Millisiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_millisiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_millisiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Millisiemens);
         }
 
 
-        [[nodiscard]] constexpr double kilosiemens() const
+        [[nodiscard]] constexpr un_scalar_t kilosiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Kilosiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_kilosiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_kilosiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Kilosiemens);
         }
 
 
-        [[nodiscard]] constexpr double megasiemens() const
+        [[nodiscard]] constexpr un_scalar_t megasiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Megasiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_megasiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_megasiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Megasiemens);
         }
 
 
-        [[nodiscard]] constexpr double gigasiemens() const
+        [[nodiscard]] constexpr un_scalar_t gigasiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Gigasiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_gigasiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_gigasiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Gigasiemens);
         }
 
 
-        [[nodiscard]] constexpr double terasiemens() const
+        [[nodiscard]] constexpr un_scalar_t terasiemens() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Terasiemens);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_terasiemens(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_terasiemens(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Terasiemens);
         }
 
 
-        [[nodiscard]] constexpr double mhos() const
+        [[nodiscard]] constexpr un_scalar_t mhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Mhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_mhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_mhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Mhos);
         }
 
 
-        [[nodiscard]] constexpr double nanomhos() const
+        [[nodiscard]] constexpr un_scalar_t nanomhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Nanomhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_nanomhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_nanomhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Nanomhos);
         }
 
 
-        [[nodiscard]] constexpr double micromhos() const
+        [[nodiscard]] constexpr un_scalar_t micromhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Micromhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_micromhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_micromhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Micromhos);
         }
 
 
-        [[nodiscard]] constexpr double millimhos() const
+        [[nodiscard]] constexpr un_scalar_t millimhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Millimhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_millimhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_millimhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Millimhos);
         }
 
 
-        [[nodiscard]] constexpr double kilomhos() const
+        [[nodiscard]] constexpr un_scalar_t kilomhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Kilomhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_kilomhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_kilomhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Kilomhos);
         }
 
 
-        [[nodiscard]] constexpr double megamhos() const
+        [[nodiscard]] constexpr un_scalar_t megamhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Megamhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_megamhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_megamhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Megamhos);
         }
 
 
-        [[nodiscard]] constexpr double gigamhos() const
+        [[nodiscard]] constexpr un_scalar_t gigamhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Gigamhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_gigamhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_gigamhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Gigamhos);
         }
 
 
-        [[nodiscard]] constexpr double teramhos() const
+        [[nodiscard]] constexpr un_scalar_t teramhos() const
         {
             return convert_from_base(ElectricAdmittanceUnit::Teramhos);
         }
 
-        [[nodiscard]] static constexpr ElectricAdmittance from_teramhos(double value)
+        [[nodiscard]] static constexpr ElectricAdmittance from_teramhos(const un_scalar_t value)
         {
             return ElectricAdmittance(value, ElectricAdmittanceUnit::Teramhos);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricAdmittanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricAdmittanceUnit unit)
         {
             switch (unit)
             {
@@ -264,56 +265,56 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricAdmittanceUnit::Nanosiemens:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricAdmittanceUnit::Microsiemens:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricAdmittanceUnit::Millisiemens:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricAdmittanceUnit::Kilosiemens:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricAdmittanceUnit::Megasiemens:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricAdmittanceUnit::Gigasiemens:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case ElectricAdmittanceUnit::Terasiemens:
-                return (value * 1e12);
+                return (value * static_cast<un_scalar_t>(1e12));
 
             case ElectricAdmittanceUnit::Mhos:
                 return value;
 
             case ElectricAdmittanceUnit::Nanomhos:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricAdmittanceUnit::Micromhos:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricAdmittanceUnit::Millimhos:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricAdmittanceUnit::Kilomhos:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricAdmittanceUnit::Megamhos:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricAdmittanceUnit::Gigamhos:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case ElectricAdmittanceUnit::Teramhos:
-                return (value * 1e12);
+                return (value * static_cast<un_scalar_t>(1e12));
 
             }
 
             throw std::invalid_argument("Unknown ElectricAdmittance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricAdmittanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricAdmittanceUnit unit) const
         {
             switch (unit)
             {
@@ -322,55 +323,55 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricAdmittanceUnit::Nanosiemens:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricAdmittanceUnit::Microsiemens:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricAdmittanceUnit::Millisiemens:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricAdmittanceUnit::Kilosiemens:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricAdmittanceUnit::Megasiemens:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricAdmittanceUnit::Gigasiemens:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricAdmittanceUnit::Terasiemens:
-                return (value_) / 1e12;
+                return (value_) / static_cast<un_scalar_t>(1e12);
 
             case ElectricAdmittanceUnit::Mhos:
                 return value_;
 
             case ElectricAdmittanceUnit::Nanomhos:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricAdmittanceUnit::Micromhos:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricAdmittanceUnit::Millimhos:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricAdmittanceUnit::Kilomhos:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricAdmittanceUnit::Megamhos:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricAdmittanceUnit::Gigamhos:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricAdmittanceUnit::Teramhos:
-                return (value_) / 1e12;
+                return (value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
             throw std::invalid_argument("Unknown ElectricAdmittance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

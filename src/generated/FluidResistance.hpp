@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class FluidResistanceUnit : std::uint16_t
+    enum class FluidResistanceUnit : std::uint8_t
     {
         PascalSecondsPerLiter,
         PascalMinutesPerLiter,
@@ -34,264 +35,264 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit FluidResistance(
-            double value,
-            FluidResistanceUnit unit = FluidResistanceUnit::PascalSecondsPerCubicMeter)
+            const un_scalar_t value,
+            const FluidResistanceUnit unit = FluidResistanceUnit::PascalSecondsPerCubicMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(FluidResistanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const FluidResistanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr FluidResistance operator+(FluidResistance other) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator+(const FluidResistance other) const noexcept
         {
             return FluidResistance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr FluidResistance operator-(FluidResistance other) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator-(const FluidResistance other) const noexcept
         {
             return FluidResistance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr FluidResistance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator*(const un_scalar_t scalar) const noexcept
         {
             return FluidResistance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr FluidResistance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr FluidResistance operator/(const un_scalar_t scalar) const noexcept
         {
             return FluidResistance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(FluidResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const FluidResistance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(FluidResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const FluidResistance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double pascal_seconds_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerLiter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_liter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_liter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_minutes_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerLiter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_liter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_liter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_seconds_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_milliliter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_milliliter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_minutes_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_milliliter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_milliliter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_seconds_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_cubic_meter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double megapascal_seconds_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t megapascal_seconds_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::MegapascalSecondsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_megapascal_seconds_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_megapascal_seconds_per_cubic_meter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MegapascalSecondsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_minutes_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_cubic_meter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_seconds_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_seconds_per_cubic_centimeter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double pascal_minutes_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_pascal_minutes_per_cubic_centimeter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double dyne_seconds_per_centimeter_to_the_fifth() const
+        [[nodiscard]] constexpr un_scalar_t dyne_seconds_per_centimeter_to_the_fifth() const
         {
             return convert_from_base(FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_dyne_seconds_per_centimeter_to_the_fifth(double value)
+        [[nodiscard]] static constexpr FluidResistance from_dyne_seconds_per_centimeter_to_the_fifth(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_seconds_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerLiter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_liter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_liter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_minutes_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercuryMinutesPerLiter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_liter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_liter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_seconds_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_milliliter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_milliliter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_minutes_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_milliliter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_milliliter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_seconds_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_cubic_centimeter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_minutes_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_cubic_centimeter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_seconds_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_seconds_per_cubic_meter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double millimeter_mercury_minutes_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr FluidResistance from_millimeter_mercury_minutes_per_cubic_meter(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double wood_units() const
+        [[nodiscard]] constexpr un_scalar_t wood_units() const
         {
             return convert_from_base(FluidResistanceUnit::WoodUnits);
         }
 
-        [[nodiscard]] static constexpr FluidResistance from_wood_units(double value)
+        [[nodiscard]] static constexpr FluidResistance from_wood_units(const un_scalar_t value)
         {
             return FluidResistance(value, FluidResistanceUnit::WoodUnits);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, FluidResistanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, FluidResistanceUnit unit)
         {
             switch (unit)
             {
@@ -312,7 +313,7 @@ namespace unitsnet_cpp
                 return value;
 
             case FluidResistanceUnit::MegapascalSecondsPerCubicMeter:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
                 return value * 60;
@@ -358,7 +359,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown FluidResistance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(FluidResistanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const FluidResistanceUnit unit) const
         {
             switch (unit)
             {
@@ -379,7 +380,7 @@ namespace unitsnet_cpp
                 return value_;
 
             case FluidResistanceUnit::MegapascalSecondsPerCubicMeter:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
                 return value_ / 60;
@@ -425,6 +426,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown FluidResistance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

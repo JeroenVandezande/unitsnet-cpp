@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricCurrentGradientUnit : std::uint16_t
+    enum class ElectricCurrentGradientUnit : std::uint8_t
     {
         AmperesPerSecond,
         MilliamperesPerSecond,
@@ -22,132 +23,132 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricCurrentGradient(
-            double value,
-            ElectricCurrentGradientUnit unit = ElectricCurrentGradientUnit::AmperesPerSecond)
+            const un_scalar_t value,
+            const ElectricCurrentGradientUnit unit = ElectricCurrentGradientUnit::AmperesPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricCurrentGradientUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricCurrentGradientUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentGradient operator+(ElectricCurrentGradient other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentGradient operator+(const ElectricCurrentGradient other) const noexcept
         {
             return ElectricCurrentGradient(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentGradient operator-(ElectricCurrentGradient other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentGradient operator-(const ElectricCurrentGradient other) const noexcept
         {
             return ElectricCurrentGradient(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentGradient operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentGradient operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrentGradient(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentGradient operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentGradient operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrentGradient(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricCurrentGradient other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCurrentGradient other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricCurrentGradient other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCurrentGradient other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_second() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_second() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::AmperesPerSecond);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_second(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_second(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::AmperesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double milliamperes_per_second() const
+        [[nodiscard]] constexpr un_scalar_t milliamperes_per_second() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::MilliamperesPerSecond);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_milliamperes_per_second(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_milliamperes_per_second(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::MilliamperesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_minute() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::AmperesPerMinute);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_minute(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_minute(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::AmperesPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double milliamperes_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t milliamperes_per_minute() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::MilliamperesPerMinute);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_milliamperes_per_minute(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_milliamperes_per_minute(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::MilliamperesPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_millisecond() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_millisecond() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::AmperesPerMillisecond);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_millisecond(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_millisecond(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::AmperesPerMillisecond);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_microsecond() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_microsecond() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::AmperesPerMicrosecond);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_microsecond(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_microsecond(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::AmperesPerMicrosecond);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_nanosecond() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_nanosecond() const
         {
             return convert_from_base(ElectricCurrentGradientUnit::AmperesPerNanosecond);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_nanosecond(double value)
+        [[nodiscard]] static constexpr ElectricCurrentGradient from_amperes_per_nanosecond(const un_scalar_t value)
         {
             return ElectricCurrentGradient(value, ElectricCurrentGradientUnit::AmperesPerNanosecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricCurrentGradientUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCurrentGradientUnit unit)
         {
             switch (unit)
             {
@@ -156,13 +157,13 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricCurrentGradientUnit::MilliamperesPerSecond:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricCurrentGradientUnit::AmperesPerMinute:
                 return value / 60;
 
             case ElectricCurrentGradientUnit::MilliamperesPerMinute:
-                return (value * 1e-3) / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 60;
 
             case ElectricCurrentGradientUnit::AmperesPerMillisecond:
                 return value * 1E3;
@@ -178,7 +179,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricCurrentGradient unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricCurrentGradientUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCurrentGradientUnit unit) const
         {
             switch (unit)
             {
@@ -187,13 +188,13 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricCurrentGradientUnit::MilliamperesPerSecond:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentGradientUnit::AmperesPerMinute:
                 return value_ * 60;
 
             case ElectricCurrentGradientUnit::MilliamperesPerMinute:
-                return (value_ * 60) / 1e-3;
+                return (value_ * 60) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentGradientUnit::AmperesPerMillisecond:
                 return value_ / 1E3;
@@ -209,6 +210,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricCurrentGradient unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class SolidAngleUnit : std::uint16_t
+    enum class SolidAngleUnit : std::uint8_t
     {
         Steradians,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit SolidAngle(
-            double value,
-            SolidAngleUnit unit = SolidAngleUnit::Steradians)
+            const un_scalar_t value,
+            const SolidAngleUnit unit = SolidAngleUnit::Steradians)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(SolidAngleUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const SolidAngleUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr SolidAngle operator+(SolidAngle other) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator+(const SolidAngle other) const noexcept
         {
             return SolidAngle(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr SolidAngle operator-(SolidAngle other) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator-(const SolidAngle other) const noexcept
         {
             return SolidAngle(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr SolidAngle operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator*(const un_scalar_t scalar) const noexcept
         {
             return SolidAngle(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr SolidAngle operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr SolidAngle operator/(const un_scalar_t scalar) const noexcept
         {
             return SolidAngle(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(SolidAngle other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const SolidAngle other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(SolidAngle other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const SolidAngle other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double steradians() const
+        [[nodiscard]] constexpr un_scalar_t steradians() const
         {
             return convert_from_base(SolidAngleUnit::Steradians);
         }
 
-        [[nodiscard]] static constexpr SolidAngle from_steradians(double value)
+        [[nodiscard]] static constexpr SolidAngle from_steradians(const un_scalar_t value)
         {
             return SolidAngle(value, SolidAngleUnit::Steradians);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, SolidAngleUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SolidAngleUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown SolidAngle unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(SolidAngleUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const SolidAngleUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown SolidAngle unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class VolumeConcentrationUnit : std::uint16_t
+    enum class VolumeConcentrationUnit : std::uint8_t
     {
         DecimalFractions,
         LitersPerLiter,
@@ -35,275 +36,275 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit VolumeConcentration(
-            double value,
-            VolumeConcentrationUnit unit = VolumeConcentrationUnit::DecimalFractions)
+            const un_scalar_t value,
+            const VolumeConcentrationUnit unit = VolumeConcentrationUnit::DecimalFractions)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(VolumeConcentrationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const VolumeConcentrationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr VolumeConcentration operator+(VolumeConcentration other) const noexcept
+        [[nodiscard]] constexpr VolumeConcentration operator+(const VolumeConcentration other) const noexcept
         {
             return VolumeConcentration(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr VolumeConcentration operator-(VolumeConcentration other) const noexcept
+        [[nodiscard]] constexpr VolumeConcentration operator-(const VolumeConcentration other) const noexcept
         {
             return VolumeConcentration(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr VolumeConcentration operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr VolumeConcentration operator*(const un_scalar_t scalar) const noexcept
         {
             return VolumeConcentration(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr VolumeConcentration operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr VolumeConcentration operator/(const un_scalar_t scalar) const noexcept
         {
             return VolumeConcentration(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(VolumeConcentration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const VolumeConcentration other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(VolumeConcentration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const VolumeConcentration other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double decimal_fractions() const
+        [[nodiscard]] constexpr un_scalar_t decimal_fractions() const
         {
             return convert_from_base(VolumeConcentrationUnit::DecimalFractions);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_decimal_fractions(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_decimal_fractions(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::DecimalFractions);
         }
 
 
-        [[nodiscard]] constexpr double liters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t liters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::LitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_liters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_liters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::LitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double picoliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t picoliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::PicolitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_picoliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_picoliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PicolitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double nanoliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t nanoliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::NanolitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_nanoliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_nanoliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::NanolitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double microliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t microliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::MicrolitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_microliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_microliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::MicrolitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double milliliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t milliliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::MillilitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_milliliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_milliliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::MillilitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double centiliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t centiliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::CentilitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_centiliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_centiliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::CentilitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double deciliters_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t deciliters_per_liter() const
         {
             return convert_from_base(VolumeConcentrationUnit::DecilitersPerLiter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_deciliters_per_liter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_deciliters_per_liter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::DecilitersPerLiter);
         }
 
 
-        [[nodiscard]] constexpr double liters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t liters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::LitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_liters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_liters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::LitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double picoliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t picoliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::PicolitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_picoliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_picoliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PicolitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double nanoliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t nanoliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::NanolitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_nanoliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_nanoliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::NanolitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double microliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t microliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::MicrolitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_microliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_microliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::MicrolitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double milliliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t milliliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::MillilitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_milliliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_milliliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::MillilitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double centiliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t centiliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::CentilitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_centiliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_centiliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::CentilitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double deciliters_per_milliliter() const
+        [[nodiscard]] constexpr un_scalar_t deciliters_per_milliliter() const
         {
             return convert_from_base(VolumeConcentrationUnit::DecilitersPerMilliliter);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_deciliters_per_milliliter(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_deciliters_per_milliliter(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::DecilitersPerMilliliter);
         }
 
 
-        [[nodiscard]] constexpr double percent() const
+        [[nodiscard]] constexpr un_scalar_t percent() const
         {
             return convert_from_base(VolumeConcentrationUnit::Percent);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_percent(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_percent(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::Percent);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_thousand() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_thousand() const
         {
             return convert_from_base(VolumeConcentrationUnit::PartsPerThousand);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_thousand(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_thousand(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PartsPerThousand);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_million() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_million() const
         {
             return convert_from_base(VolumeConcentrationUnit::PartsPerMillion);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_million(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_million(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PartsPerMillion);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_billion() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_billion() const
         {
             return convert_from_base(VolumeConcentrationUnit::PartsPerBillion);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_billion(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_billion(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PartsPerBillion);
         }
 
 
-        [[nodiscard]] constexpr double parts_per_trillion() const
+        [[nodiscard]] constexpr un_scalar_t parts_per_trillion() const
         {
             return convert_from_base(VolumeConcentrationUnit::PartsPerTrillion);
         }
 
-        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_trillion(double value)
+        [[nodiscard]] static constexpr VolumeConcentration from_parts_per_trillion(const un_scalar_t value)
         {
             return VolumeConcentration(value, VolumeConcentrationUnit::PartsPerTrillion);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, VolumeConcentrationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, VolumeConcentrationUnit unit)
         {
             switch (unit)
             {
@@ -315,43 +316,43 @@ namespace unitsnet_cpp
                 return value;
 
             case VolumeConcentrationUnit::PicolitersPerLiter:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case VolumeConcentrationUnit::NanolitersPerLiter:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case VolumeConcentrationUnit::MicrolitersPerLiter:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case VolumeConcentrationUnit::MillilitersPerLiter:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case VolumeConcentrationUnit::CentilitersPerLiter:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case VolumeConcentrationUnit::DecilitersPerLiter:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case VolumeConcentrationUnit::LitersPerMilliliter:
                 return value / 1e-3;
 
             case VolumeConcentrationUnit::PicolitersPerMilliliter:
-                return (value * 1e-12) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-12)) / 1e-3;
 
             case VolumeConcentrationUnit::NanolitersPerMilliliter:
-                return (value * 1e-9) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / 1e-3;
 
             case VolumeConcentrationUnit::MicrolitersPerMilliliter:
-                return (value * 1e-6) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / 1e-3;
 
             case VolumeConcentrationUnit::MillilitersPerMilliliter:
-                return (value * 1e-3) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 1e-3;
 
             case VolumeConcentrationUnit::CentilitersPerMilliliter:
-                return (value * 1e-2) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 1e-3;
 
             case VolumeConcentrationUnit::DecilitersPerMilliliter:
-                return (value * 1e-1) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / 1e-3;
 
             case VolumeConcentrationUnit::Percent:
                 return value / 1e2;
@@ -373,7 +374,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VolumeConcentration unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(VolumeConcentrationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const VolumeConcentrationUnit unit) const
         {
             switch (unit)
             {
@@ -385,43 +386,43 @@ namespace unitsnet_cpp
                 return value_;
 
             case VolumeConcentrationUnit::PicolitersPerLiter:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case VolumeConcentrationUnit::NanolitersPerLiter:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeConcentrationUnit::MicrolitersPerLiter:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeConcentrationUnit::MillilitersPerLiter:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::CentilitersPerLiter:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeConcentrationUnit::DecilitersPerLiter:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeConcentrationUnit::LitersPerMilliliter:
                 return value_ * 1e-3;
 
             case VolumeConcentrationUnit::PicolitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-12;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-12);
 
             case VolumeConcentrationUnit::NanolitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-9;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeConcentrationUnit::MicrolitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-6;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeConcentrationUnit::MillilitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-3;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::CentilitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-2;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeConcentrationUnit::DecilitersPerMilliliter:
-                return (value_ * 1e-3) / 1e-1;
+                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeConcentrationUnit::Percent:
                 return value_ * 1e2;
@@ -443,6 +444,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VolumeConcentration unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

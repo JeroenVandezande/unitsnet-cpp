@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ReciprocalLengthUnit : std::uint16_t
+    enum class ReciprocalLengthUnit : std::uint8_t
     {
         InverseMeters,
         InverseCentimeters,
@@ -25,165 +26,165 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ReciprocalLength(
-            double value,
-            ReciprocalLengthUnit unit = ReciprocalLengthUnit::InverseMeters)
+            const un_scalar_t value,
+            const ReciprocalLengthUnit unit = ReciprocalLengthUnit::InverseMeters)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ReciprocalLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ReciprocalLengthUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ReciprocalLength operator+(ReciprocalLength other) const noexcept
+        [[nodiscard]] constexpr ReciprocalLength operator+(const ReciprocalLength other) const noexcept
         {
             return ReciprocalLength(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ReciprocalLength operator-(ReciprocalLength other) const noexcept
+        [[nodiscard]] constexpr ReciprocalLength operator-(const ReciprocalLength other) const noexcept
         {
             return ReciprocalLength(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ReciprocalLength operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ReciprocalLength operator*(const un_scalar_t scalar) const noexcept
         {
             return ReciprocalLength(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ReciprocalLength operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ReciprocalLength operator/(const un_scalar_t scalar) const noexcept
         {
             return ReciprocalLength(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ReciprocalLength other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ReciprocalLength other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ReciprocalLength other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ReciprocalLength other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double inverse_meters() const
+        [[nodiscard]] constexpr un_scalar_t inverse_meters() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseMeters);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_meters(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_meters(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseMeters);
         }
 
 
-        [[nodiscard]] constexpr double inverse_centimeters() const
+        [[nodiscard]] constexpr un_scalar_t inverse_centimeters() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseCentimeters);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_centimeters(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_centimeters(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseCentimeters);
         }
 
 
-        [[nodiscard]] constexpr double inverse_millimeters() const
+        [[nodiscard]] constexpr un_scalar_t inverse_millimeters() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseMillimeters);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_millimeters(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_millimeters(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseMillimeters);
         }
 
 
-        [[nodiscard]] constexpr double inverse_miles() const
+        [[nodiscard]] constexpr un_scalar_t inverse_miles() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseMiles);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_miles(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_miles(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseMiles);
         }
 
 
-        [[nodiscard]] constexpr double inverse_yards() const
+        [[nodiscard]] constexpr un_scalar_t inverse_yards() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseYards);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_yards(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_yards(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseYards);
         }
 
 
-        [[nodiscard]] constexpr double inverse_feet() const
+        [[nodiscard]] constexpr un_scalar_t inverse_feet() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseFeet);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_feet(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_feet(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseFeet);
         }
 
 
-        [[nodiscard]] constexpr double inverse_us_survey_feet() const
+        [[nodiscard]] constexpr un_scalar_t inverse_us_survey_feet() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseUsSurveyFeet);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_us_survey_feet(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_us_survey_feet(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseUsSurveyFeet);
         }
 
 
-        [[nodiscard]] constexpr double inverse_inches() const
+        [[nodiscard]] constexpr un_scalar_t inverse_inches() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseInches);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_inches(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_inches(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseInches);
         }
 
 
-        [[nodiscard]] constexpr double inverse_mils() const
+        [[nodiscard]] constexpr un_scalar_t inverse_mils() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseMils);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_mils(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_mils(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseMils);
         }
 
 
-        [[nodiscard]] constexpr double inverse_microinches() const
+        [[nodiscard]] constexpr un_scalar_t inverse_microinches() const
         {
             return convert_from_base(ReciprocalLengthUnit::InverseMicroinches);
         }
 
-        [[nodiscard]] static constexpr ReciprocalLength from_inverse_microinches(double value)
+        [[nodiscard]] static constexpr ReciprocalLength from_inverse_microinches(const un_scalar_t value)
         {
             return ReciprocalLength(value, ReciprocalLengthUnit::InverseMicroinches);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ReciprocalLengthUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ReciprocalLengthUnit unit)
         {
             switch (unit)
             {
@@ -223,7 +224,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ReciprocalLength unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ReciprocalLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ReciprocalLengthUnit unit) const
         {
             switch (unit)
             {
@@ -263,6 +264,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ReciprocalLength unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

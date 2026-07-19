@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AmplitudeRatioUnit : std::uint16_t
+    enum class AmplitudeRatioUnit : std::uint8_t
     {
         DecibelVolts,
         DecibelMicrovolts,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit AmplitudeRatio(
-            double value,
-            AmplitudeRatioUnit unit = AmplitudeRatioUnit::DecibelVolts)
+            const un_scalar_t value,
+            const AmplitudeRatioUnit unit = AmplitudeRatioUnit::DecibelVolts)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AmplitudeRatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AmplitudeRatioUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr AmplitudeRatio operator+(AmplitudeRatio other) const noexcept
+        [[nodiscard]] constexpr AmplitudeRatio operator+(const AmplitudeRatio other) const noexcept
         {
             return AmplitudeRatio(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr AmplitudeRatio operator-(AmplitudeRatio other) const noexcept
+        [[nodiscard]] constexpr AmplitudeRatio operator-(const AmplitudeRatio other) const noexcept
         {
             return AmplitudeRatio(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr AmplitudeRatio operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr AmplitudeRatio operator*(const un_scalar_t scalar) const noexcept
         {
             return AmplitudeRatio(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr AmplitudeRatio operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr AmplitudeRatio operator/(const un_scalar_t scalar) const noexcept
         {
             return AmplitudeRatio(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(AmplitudeRatio other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const AmplitudeRatio other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(AmplitudeRatio other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const AmplitudeRatio other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double decibel_volts() const
+        [[nodiscard]] constexpr un_scalar_t decibel_volts() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelVolts);
         }
 
-        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_volts(double value)
+        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_volts(const un_scalar_t value)
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelVolts);
         }
 
 
-        [[nodiscard]] constexpr double decibel_microvolts() const
+        [[nodiscard]] constexpr un_scalar_t decibel_microvolts() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelMicrovolts);
         }
 
-        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_microvolts(double value)
+        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_microvolts(const un_scalar_t value)
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelMicrovolts);
         }
 
 
-        [[nodiscard]] constexpr double decibel_millivolts() const
+        [[nodiscard]] constexpr un_scalar_t decibel_millivolts() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelMillivolts);
         }
 
-        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_millivolts(double value)
+        [[nodiscard]] static constexpr AmplitudeRatio from_decibel_millivolts(const un_scalar_t value)
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelMillivolts);
         }
 
 
-        [[nodiscard]] constexpr double decibels_unloaded() const
+        [[nodiscard]] constexpr un_scalar_t decibels_unloaded() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelsUnloaded);
         }
 
-        [[nodiscard]] static constexpr AmplitudeRatio from_decibels_unloaded(double value)
+        [[nodiscard]] static constexpr AmplitudeRatio from_decibels_unloaded(const un_scalar_t value)
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelsUnloaded);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AmplitudeRatioUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AmplitudeRatioUnit unit)
         {
             switch (unit)
             {
@@ -133,7 +134,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AmplitudeRatio unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AmplitudeRatioUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AmplitudeRatioUnit unit) const
         {
             switch (unit)
             {
@@ -155,6 +156,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown AmplitudeRatio unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

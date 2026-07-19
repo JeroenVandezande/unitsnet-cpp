@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ThermalConductivityUnit : std::uint16_t
+    enum class ThermalConductivityUnit : std::uint8_t
     {
         WattsPerMeterKelvin,
         BtusPerHourFootFahrenheit,
@@ -18,88 +19,88 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ThermalConductivity(
-            double value,
-            ThermalConductivityUnit unit = ThermalConductivityUnit::WattsPerMeterKelvin)
+            const un_scalar_t value,
+            const ThermalConductivityUnit unit = ThermalConductivityUnit::WattsPerMeterKelvin)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ThermalConductivityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ThermalConductivityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ThermalConductivity operator+(ThermalConductivity other) const noexcept
+        [[nodiscard]] constexpr ThermalConductivity operator+(const ThermalConductivity other) const noexcept
         {
             return ThermalConductivity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalConductivity operator-(ThermalConductivity other) const noexcept
+        [[nodiscard]] constexpr ThermalConductivity operator-(const ThermalConductivity other) const noexcept
         {
             return ThermalConductivity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalConductivity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalConductivity operator*(const un_scalar_t scalar) const noexcept
         {
             return ThermalConductivity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ThermalConductivity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalConductivity operator/(const un_scalar_t scalar) const noexcept
         {
             return ThermalConductivity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ThermalConductivity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ThermalConductivity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ThermalConductivity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ThermalConductivity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double watts_per_meter_kelvin() const
+        [[nodiscard]] constexpr un_scalar_t watts_per_meter_kelvin() const
         {
             return convert_from_base(ThermalConductivityUnit::WattsPerMeterKelvin);
         }
 
-        [[nodiscard]] static constexpr ThermalConductivity from_watts_per_meter_kelvin(double value)
+        [[nodiscard]] static constexpr ThermalConductivity from_watts_per_meter_kelvin(const un_scalar_t value)
         {
             return ThermalConductivity(value, ThermalConductivityUnit::WattsPerMeterKelvin);
         }
 
 
-        [[nodiscard]] constexpr double btus_per_hour_foot_fahrenheit() const
+        [[nodiscard]] constexpr un_scalar_t btus_per_hour_foot_fahrenheit() const
         {
             return convert_from_base(ThermalConductivityUnit::BtusPerHourFootFahrenheit);
         }
 
-        [[nodiscard]] static constexpr ThermalConductivity from_btus_per_hour_foot_fahrenheit(double value)
+        [[nodiscard]] static constexpr ThermalConductivity from_btus_per_hour_foot_fahrenheit(const un_scalar_t value)
         {
             return ThermalConductivity(value, ThermalConductivityUnit::BtusPerHourFootFahrenheit);
         }
 
 
-        [[nodiscard]] constexpr double btus_per_second_inch_fahrenheit() const
+        [[nodiscard]] constexpr un_scalar_t btus_per_second_inch_fahrenheit() const
         {
             return convert_from_base(ThermalConductivityUnit::BtusPerSecondInchFahrenheit);
         }
 
-        [[nodiscard]] static constexpr ThermalConductivity from_btus_per_second_inch_fahrenheit(double value)
+        [[nodiscard]] static constexpr ThermalConductivity from_btus_per_second_inch_fahrenheit(const un_scalar_t value)
         {
             return ThermalConductivity(value, ThermalConductivityUnit::BtusPerSecondInchFahrenheit);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ThermalConductivityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ThermalConductivityUnit unit)
         {
             switch (unit)
             {
@@ -118,7 +119,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalConductivity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ThermalConductivityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ThermalConductivityUnit unit) const
         {
             switch (unit)
             {
@@ -137,6 +138,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalConductivity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

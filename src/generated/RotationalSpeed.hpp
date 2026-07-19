@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RotationalSpeedUnit : std::uint16_t
+    enum class RotationalSpeedUnit : std::uint8_t
     {
         RadiansPerSecond,
         NanoradiansPerSecond,
@@ -28,198 +29,198 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RotationalSpeed(
-            double value,
-            RotationalSpeedUnit unit = RotationalSpeedUnit::RadiansPerSecond)
+            const un_scalar_t value,
+            const RotationalSpeedUnit unit = RotationalSpeedUnit::RadiansPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RotationalSpeedUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RotationalSpeedUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RotationalSpeed operator+(RotationalSpeed other) const noexcept
+        [[nodiscard]] constexpr RotationalSpeed operator+(const RotationalSpeed other) const noexcept
         {
             return RotationalSpeed(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalSpeed operator-(RotationalSpeed other) const noexcept
+        [[nodiscard]] constexpr RotationalSpeed operator-(const RotationalSpeed other) const noexcept
         {
             return RotationalSpeed(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalSpeed operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalSpeed operator*(const un_scalar_t scalar) const noexcept
         {
             return RotationalSpeed(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RotationalSpeed operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalSpeed operator/(const un_scalar_t scalar) const noexcept
         {
             return RotationalSpeed(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RotationalSpeed other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RotationalSpeed other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RotationalSpeed other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RotationalSpeed other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double radians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t radians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::RadiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_radians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_radians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::RadiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double nanoradians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t nanoradians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::NanoradiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_nanoradians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_nanoradians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::NanoradiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double microradians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t microradians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::MicroradiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_microradians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_microradians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::MicroradiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double milliradians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t milliradians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::MilliradiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_milliradians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_milliradians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::MilliradiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double centiradians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t centiradians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::CentiradiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_centiradians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_centiradians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::CentiradiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double deciradians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t deciradians_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::DeciradiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_deciradians_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_deciradians_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::DeciradiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double degrees_per_second() const
+        [[nodiscard]] constexpr un_scalar_t degrees_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::DegreesPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_degrees_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_degrees_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::DegreesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double nanodegrees_per_second() const
+        [[nodiscard]] constexpr un_scalar_t nanodegrees_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::NanodegreesPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_nanodegrees_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_nanodegrees_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::NanodegreesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double microdegrees_per_second() const
+        [[nodiscard]] constexpr un_scalar_t microdegrees_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::MicrodegreesPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_microdegrees_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_microdegrees_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::MicrodegreesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double millidegrees_per_second() const
+        [[nodiscard]] constexpr un_scalar_t millidegrees_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::MillidegreesPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_millidegrees_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_millidegrees_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::MillidegreesPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double degrees_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t degrees_per_minute() const
         {
             return convert_from_base(RotationalSpeedUnit::DegreesPerMinute);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_degrees_per_minute(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_degrees_per_minute(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::DegreesPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double revolutions_per_second() const
+        [[nodiscard]] constexpr un_scalar_t revolutions_per_second() const
         {
             return convert_from_base(RotationalSpeedUnit::RevolutionsPerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_revolutions_per_second(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_revolutions_per_second(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::RevolutionsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double revolutions_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t revolutions_per_minute() const
         {
             return convert_from_base(RotationalSpeedUnit::RevolutionsPerMinute);
         }
 
-        [[nodiscard]] static constexpr RotationalSpeed from_revolutions_per_minute(double value)
+        [[nodiscard]] static constexpr RotationalSpeed from_revolutions_per_minute(const un_scalar_t value)
         {
             return RotationalSpeed(value, RotationalSpeedUnit::RevolutionsPerMinute);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RotationalSpeedUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RotationalSpeedUnit unit)
         {
             switch (unit)
             {
@@ -228,47 +229,47 @@ namespace unitsnet_cpp
                 return value;
 
             case RotationalSpeedUnit::NanoradiansPerSecond:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case RotationalSpeedUnit::MicroradiansPerSecond:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case RotationalSpeedUnit::MilliradiansPerSecond:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case RotationalSpeedUnit::CentiradiansPerSecond:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case RotationalSpeedUnit::DeciradiansPerSecond:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case RotationalSpeedUnit::DegreesPerSecond:
-                return (std::numbers::pi / 180) * value;
+                return (std::numbers::pi_v<un_scalar_t> / 180) * value;
 
             case RotationalSpeedUnit::NanodegreesPerSecond:
-                return (std::numbers::pi / 180) * (value * 1e-9);
+                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-9));
 
             case RotationalSpeedUnit::MicrodegreesPerSecond:
-                return (std::numbers::pi / 180) * (value * 1e-6);
+                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-6));
 
             case RotationalSpeedUnit::MillidegreesPerSecond:
-                return (std::numbers::pi / 180) * (value * 1e-3);
+                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-3));
 
             case RotationalSpeedUnit::DegreesPerMinute:
-                return (std::numbers::pi / (180 * 60)) * value;
+                return (std::numbers::pi_v<un_scalar_t> / (180 * 60)) * value;
 
             case RotationalSpeedUnit::RevolutionsPerSecond:
-                return value * 2 * std::numbers::pi;
+                return value * 2 * std::numbers::pi_v<un_scalar_t>;
 
             case RotationalSpeedUnit::RevolutionsPerMinute:
-                return (value * 2 * std::numbers::pi) / 60;
+                return (value * 2 * std::numbers::pi_v<un_scalar_t>) / 60;
 
             }
 
             throw std::invalid_argument("Unknown RotationalSpeed unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RotationalSpeedUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RotationalSpeedUnit unit) const
         {
             switch (unit)
             {
@@ -277,46 +278,46 @@ namespace unitsnet_cpp
                 return value_;
 
             case RotationalSpeedUnit::NanoradiansPerSecond:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalSpeedUnit::MicroradiansPerSecond:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalSpeedUnit::MilliradiansPerSecond:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalSpeedUnit::CentiradiansPerSecond:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case RotationalSpeedUnit::DeciradiansPerSecond:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case RotationalSpeedUnit::DegreesPerSecond:
-                return (180 / std::numbers::pi) * value_;
+                return (180 / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalSpeedUnit::NanodegreesPerSecond:
-                return ((180 / std::numbers::pi) * value_) / 1e-9;
+                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalSpeedUnit::MicrodegreesPerSecond:
-                return ((180 / std::numbers::pi) * value_) / 1e-6;
+                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalSpeedUnit::MillidegreesPerSecond:
-                return ((180 / std::numbers::pi) * value_) / 1e-3;
+                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalSpeedUnit::DegreesPerMinute:
-                return (180 * 60 / std::numbers::pi) * value_;
+                return (180 * 60 / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalSpeedUnit::RevolutionsPerSecond:
-                return value_ / (2 * std::numbers::pi);
+                return value_ / (2 * std::numbers::pi_v<un_scalar_t>);
 
             case RotationalSpeedUnit::RevolutionsPerMinute:
-                return (value_ / (2 * std::numbers::pi)) * 60;
+                return (value_ / (2 * std::numbers::pi_v<un_scalar_t>)) * 60;
 
             }
 
             throw std::invalid_argument("Unknown RotationalSpeed unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

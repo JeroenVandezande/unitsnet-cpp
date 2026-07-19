@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class FuelEfficiencyUnit : std::uint16_t
+    enum class FuelEfficiencyUnit : std::uint8_t
     {
         LitersPer100Kilometers,
         MilesPerUsGallon,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit FuelEfficiency(
-            double value,
-            FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometersPerLiter)
+            const un_scalar_t value,
+            const FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometersPerLiter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(FuelEfficiencyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const FuelEfficiencyUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr FuelEfficiency operator+(FuelEfficiency other) const noexcept
+        [[nodiscard]] constexpr FuelEfficiency operator+(const FuelEfficiency other) const noexcept
         {
             return FuelEfficiency(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr FuelEfficiency operator-(FuelEfficiency other) const noexcept
+        [[nodiscard]] constexpr FuelEfficiency operator-(const FuelEfficiency other) const noexcept
         {
             return FuelEfficiency(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr FuelEfficiency operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr FuelEfficiency operator*(const un_scalar_t scalar) const noexcept
         {
             return FuelEfficiency(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr FuelEfficiency operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr FuelEfficiency operator/(const un_scalar_t scalar) const noexcept
         {
             return FuelEfficiency(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(FuelEfficiency other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const FuelEfficiency other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(FuelEfficiency other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const FuelEfficiency other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double liters_per100_kilometers() const
+        [[nodiscard]] constexpr un_scalar_t liters_per100_kilometers() const
         {
             return convert_from_base(FuelEfficiencyUnit::LitersPer100Kilometers);
         }
 
-        [[nodiscard]] static constexpr FuelEfficiency from_liters_per100_kilometers(double value)
+        [[nodiscard]] static constexpr FuelEfficiency from_liters_per100_kilometers(const un_scalar_t value)
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::LitersPer100Kilometers);
         }
 
 
-        [[nodiscard]] constexpr double miles_per_us_gallon() const
+        [[nodiscard]] constexpr un_scalar_t miles_per_us_gallon() const
         {
             return convert_from_base(FuelEfficiencyUnit::MilesPerUsGallon);
         }
 
-        [[nodiscard]] static constexpr FuelEfficiency from_miles_per_us_gallon(double value)
+        [[nodiscard]] static constexpr FuelEfficiency from_miles_per_us_gallon(const un_scalar_t value)
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUsGallon);
         }
 
 
-        [[nodiscard]] constexpr double miles_per_uk_gallon() const
+        [[nodiscard]] constexpr un_scalar_t miles_per_uk_gallon() const
         {
             return convert_from_base(FuelEfficiencyUnit::MilesPerUkGallon);
         }
 
-        [[nodiscard]] static constexpr FuelEfficiency from_miles_per_uk_gallon(double value)
+        [[nodiscard]] static constexpr FuelEfficiency from_miles_per_uk_gallon(const un_scalar_t value)
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUkGallon);
         }
 
 
-        [[nodiscard]] constexpr double kilometers_per_liter() const
+        [[nodiscard]] constexpr un_scalar_t kilometers_per_liter() const
         {
             return convert_from_base(FuelEfficiencyUnit::KilometersPerLiter);
         }
 
-        [[nodiscard]] static constexpr FuelEfficiency from_kilometers_per_liter(double value)
+        [[nodiscard]] static constexpr FuelEfficiency from_kilometers_per_liter(const un_scalar_t value)
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::KilometersPerLiter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, FuelEfficiencyUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, FuelEfficiencyUnit unit)
         {
             switch (unit)
             {
@@ -133,7 +134,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown FuelEfficiency unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(FuelEfficiencyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const FuelEfficiencyUnit unit) const
         {
             switch (unit)
             {
@@ -155,6 +156,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown FuelEfficiency unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

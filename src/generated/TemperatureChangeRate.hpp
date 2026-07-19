@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class TemperatureChangeRateUnit : std::uint16_t
+    enum class TemperatureChangeRateUnit : std::uint8_t
     {
         DegreesCelsiusPerSecond,
         NanodegreesCelsiusPerSecond,
@@ -32,242 +33,242 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit TemperatureChangeRate(
-            double value,
-            TemperatureChangeRateUnit unit = TemperatureChangeRateUnit::DegreesCelsiusPerSecond)
+            const un_scalar_t value,
+            const TemperatureChangeRateUnit unit = TemperatureChangeRateUnit::DegreesCelsiusPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(TemperatureChangeRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const TemperatureChangeRateUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr TemperatureChangeRate operator+(TemperatureChangeRate other) const noexcept
+        [[nodiscard]] constexpr TemperatureChangeRate operator+(const TemperatureChangeRate other) const noexcept
         {
             return TemperatureChangeRate(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr TemperatureChangeRate operator-(TemperatureChangeRate other) const noexcept
+        [[nodiscard]] constexpr TemperatureChangeRate operator-(const TemperatureChangeRate other) const noexcept
         {
             return TemperatureChangeRate(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr TemperatureChangeRate operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr TemperatureChangeRate operator*(const un_scalar_t scalar) const noexcept
         {
             return TemperatureChangeRate(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr TemperatureChangeRate operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr TemperatureChangeRate operator/(const un_scalar_t scalar) const noexcept
         {
             return TemperatureChangeRate(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(TemperatureChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const TemperatureChangeRate other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(TemperatureChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const TemperatureChangeRate other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double nanodegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t nanodegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::NanodegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_nanodegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_nanodegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::NanodegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double microdegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t microdegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::MicrodegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_microdegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_microdegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::MicrodegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double millidegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t millidegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::MillidegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_millidegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_millidegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::MillidegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double centidegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t centidegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::CentidegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_centidegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_centidegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::CentidegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decidegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decidegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DecidegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_decidegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_decidegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DecidegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decadegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decadegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DecadegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_decadegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_decadegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DecadegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double hectodegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t hectodegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::HectodegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_hectodegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_hectodegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::HectodegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double kilodegrees_celsius_per_second() const
+        [[nodiscard]] constexpr un_scalar_t kilodegrees_celsius_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::KilodegreesCelsiusPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_kilodegrees_celsius_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_kilodegrees_celsius_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::KilodegreesCelsiusPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_minute() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesCelsiusPerMinute);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_minute(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_minute(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesCelsiusPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double degrees_kelvin_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t degrees_kelvin_per_minute() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesKelvinPerMinute);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_minute(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_minute(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesKelvinPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double degrees_fahrenheit_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit_per_minute() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesFahrenheitPerMinute);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_minute(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_minute(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesFahrenheitPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double degrees_fahrenheit_per_second() const
+        [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesFahrenheitPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesFahrenheitPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double degrees_kelvin_per_second() const
+        [[nodiscard]] constexpr un_scalar_t degrees_kelvin_per_second() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesKelvinPerSecond);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_second(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_second(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesKelvinPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_hour() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesCelsiusPerHour);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_hour(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_celsius_per_hour(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesCelsiusPerHour);
         }
 
 
-        [[nodiscard]] constexpr double degrees_kelvin_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t degrees_kelvin_per_hour() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesKelvinPerHour);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_hour(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_kelvin_per_hour(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesKelvinPerHour);
         }
 
 
-        [[nodiscard]] constexpr double degrees_fahrenheit_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit_per_hour() const
         {
             return convert_from_base(TemperatureChangeRateUnit::DegreesFahrenheitPerHour);
         }
 
-        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_hour(double value)
+        [[nodiscard]] static constexpr TemperatureChangeRate from_degrees_fahrenheit_per_hour(const un_scalar_t value)
         {
             return TemperatureChangeRate(value, TemperatureChangeRateUnit::DegreesFahrenheitPerHour);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, TemperatureChangeRateUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, TemperatureChangeRateUnit unit)
         {
             switch (unit)
             {
@@ -276,28 +277,28 @@ namespace unitsnet_cpp
                 return value;
 
             case TemperatureChangeRateUnit::NanodegreesCelsiusPerSecond:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case TemperatureChangeRateUnit::MicrodegreesCelsiusPerSecond:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case TemperatureChangeRateUnit::MillidegreesCelsiusPerSecond:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case TemperatureChangeRateUnit::CentidegreesCelsiusPerSecond:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case TemperatureChangeRateUnit::DecidegreesCelsiusPerSecond:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case TemperatureChangeRateUnit::DecadegreesCelsiusPerSecond:
-                return (value * 1e1);
+                return (value * static_cast<un_scalar_t>(1e1));
 
             case TemperatureChangeRateUnit::HectodegreesCelsiusPerSecond:
-                return (value * 1e2);
+                return (value * static_cast<un_scalar_t>(1e2));
 
             case TemperatureChangeRateUnit::KilodegreesCelsiusPerSecond:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerMinute:
                 return value / 60;
@@ -328,7 +329,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown TemperatureChangeRate unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(TemperatureChangeRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const TemperatureChangeRateUnit unit) const
         {
             switch (unit)
             {
@@ -337,28 +338,28 @@ namespace unitsnet_cpp
                 return value_;
 
             case TemperatureChangeRateUnit::NanodegreesCelsiusPerSecond:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case TemperatureChangeRateUnit::MicrodegreesCelsiusPerSecond:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case TemperatureChangeRateUnit::MillidegreesCelsiusPerSecond:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case TemperatureChangeRateUnit::CentidegreesCelsiusPerSecond:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case TemperatureChangeRateUnit::DecidegreesCelsiusPerSecond:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case TemperatureChangeRateUnit::DecadegreesCelsiusPerSecond:
-                return (value_) / 1e1;
+                return (value_) / static_cast<un_scalar_t>(1e1);
 
             case TemperatureChangeRateUnit::HectodegreesCelsiusPerSecond:
-                return (value_) / 1e2;
+                return (value_) / static_cast<un_scalar_t>(1e2);
 
             case TemperatureChangeRateUnit::KilodegreesCelsiusPerSecond:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerMinute:
                 return value_ * 60;
@@ -389,6 +390,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown TemperatureChangeRate unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

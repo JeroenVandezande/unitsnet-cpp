@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RotationalAccelerationUnit : std::uint16_t
+    enum class RotationalAccelerationUnit : std::uint8_t
     {
         RadiansPerSecondSquared,
         DegreesPerSecondSquared,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RotationalAcceleration(
-            double value,
-            RotationalAccelerationUnit unit = RotationalAccelerationUnit::RadiansPerSecondSquared)
+            const un_scalar_t value,
+            const RotationalAccelerationUnit unit = RotationalAccelerationUnit::RadiansPerSecondSquared)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RotationalAccelerationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RotationalAccelerationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator+(RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator+(const RotationalAcceleration other) const noexcept
         {
             return RotationalAcceleration(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator-(RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator-(const RotationalAcceleration other) const noexcept
         {
             return RotationalAcceleration(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator*(const un_scalar_t scalar) const noexcept
         {
             return RotationalAcceleration(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RotationalAcceleration operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RotationalAcceleration operator/(const un_scalar_t scalar) const noexcept
         {
             return RotationalAcceleration(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RotationalAcceleration other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RotationalAcceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RotationalAcceleration other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double radians_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t radians_per_second_squared() const
         {
             return convert_from_base(RotationalAccelerationUnit::RadiansPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr RotationalAcceleration from_radians_per_second_squared(double value)
+        [[nodiscard]] static constexpr RotationalAcceleration from_radians_per_second_squared(const un_scalar_t value)
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::RadiansPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double degrees_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t degrees_per_second_squared() const
         {
             return convert_from_base(RotationalAccelerationUnit::DegreesPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr RotationalAcceleration from_degrees_per_second_squared(double value)
+        [[nodiscard]] static constexpr RotationalAcceleration from_degrees_per_second_squared(const un_scalar_t value)
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::DegreesPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double revolutions_per_minute_per_second() const
+        [[nodiscard]] constexpr un_scalar_t revolutions_per_minute_per_second() const
         {
             return convert_from_base(RotationalAccelerationUnit::RevolutionsPerMinutePerSecond);
         }
 
-        [[nodiscard]] static constexpr RotationalAcceleration from_revolutions_per_minute_per_second(double value)
+        [[nodiscard]] static constexpr RotationalAcceleration from_revolutions_per_minute_per_second(const un_scalar_t value)
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::RevolutionsPerMinutePerSecond);
         }
 
 
-        [[nodiscard]] constexpr double revolutions_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t revolutions_per_second_squared() const
         {
             return convert_from_base(RotationalAccelerationUnit::RevolutionsPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr RotationalAcceleration from_revolutions_per_second_squared(double value)
+        [[nodiscard]] static constexpr RotationalAcceleration from_revolutions_per_second_squared(const un_scalar_t value)
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::RevolutionsPerSecondSquared);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RotationalAccelerationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RotationalAccelerationUnit unit)
         {
             switch (unit)
             {
@@ -120,20 +121,20 @@ namespace unitsnet_cpp
                 return value;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (std::numbers::pi / 180) * value;
+                return (std::numbers::pi_v<un_scalar_t> / 180) * value;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return ((2 * std::numbers::pi) / 60) * value;
+                return ((2 * std::numbers::pi_v<un_scalar_t>) / 60) * value;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (2 * std::numbers::pi) * value;
+                return (2 * std::numbers::pi_v<un_scalar_t>) * value;
 
             }
 
             throw std::invalid_argument("Unknown RotationalAcceleration unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RotationalAccelerationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RotationalAccelerationUnit unit) const
         {
             switch (unit)
             {
@@ -142,19 +143,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (180 / std::numbers::pi) * value_;
+                return (180 / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return (60 / (2 * std::numbers::pi)) * value_;
+                return (60 / (2 * std::numbers::pi_v<un_scalar_t>)) * value_;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (1 / (2 * std::numbers::pi)) * value_;
+                return (1 / (2 * std::numbers::pi_v<un_scalar_t>)) * value_;
 
             }
 
             throw std::invalid_argument("Unknown RotationalAcceleration unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

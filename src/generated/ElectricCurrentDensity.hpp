@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricCurrentDensityUnit : std::uint16_t
+    enum class ElectricCurrentDensityUnit : std::uint8_t
     {
         AmperesPerSquareMeter,
         AmperesPerSquareInch,
@@ -18,88 +19,88 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricCurrentDensity(
-            double value,
-            ElectricCurrentDensityUnit unit = ElectricCurrentDensityUnit::AmperesPerSquareMeter)
+            const un_scalar_t value,
+            const ElectricCurrentDensityUnit unit = ElectricCurrentDensityUnit::AmperesPerSquareMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricCurrentDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricCurrentDensityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentDensity operator+(ElectricCurrentDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentDensity operator+(const ElectricCurrentDensity other) const noexcept
         {
             return ElectricCurrentDensity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentDensity operator-(ElectricCurrentDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentDensity operator-(const ElectricCurrentDensity other) const noexcept
         {
             return ElectricCurrentDensity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentDensity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentDensity operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrentDensity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricCurrentDensity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrentDensity operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrentDensity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricCurrentDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCurrentDensity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricCurrentDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCurrentDensity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_square_meter() const
         {
             return convert_from_base(ElectricCurrentDensityUnit::AmperesPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_meter(double value)
+        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_meter(const un_scalar_t value)
         {
             return ElectricCurrentDensity(value, ElectricCurrentDensityUnit::AmperesPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_square_inch() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_square_inch() const
         {
             return convert_from_base(ElectricCurrentDensityUnit::AmperesPerSquareInch);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_inch(double value)
+        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_inch(const un_scalar_t value)
         {
             return ElectricCurrentDensity(value, ElectricCurrentDensityUnit::AmperesPerSquareInch);
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_square_foot() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_square_foot() const
         {
             return convert_from_base(ElectricCurrentDensityUnit::AmperesPerSquareFoot);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_foot(double value)
+        [[nodiscard]] static constexpr ElectricCurrentDensity from_amperes_per_square_foot(const un_scalar_t value)
         {
             return ElectricCurrentDensity(value, ElectricCurrentDensityUnit::AmperesPerSquareFoot);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricCurrentDensityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCurrentDensityUnit unit)
         {
             switch (unit)
             {
@@ -118,7 +119,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricCurrentDensity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricCurrentDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCurrentDensityUnit unit) const
         {
             switch (unit)
             {
@@ -137,6 +138,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricCurrentDensity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

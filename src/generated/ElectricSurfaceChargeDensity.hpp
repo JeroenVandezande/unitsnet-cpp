@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricSurfaceChargeDensityUnit : std::uint16_t
+    enum class ElectricSurfaceChargeDensityUnit : std::uint8_t
     {
         CoulombsPerSquareMeter,
         CoulombsPerSquareCentimeter,
@@ -18,88 +19,88 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricSurfaceChargeDensity(
-            double value,
-            ElectricSurfaceChargeDensityUnit unit = ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter)
+            const un_scalar_t value,
+            const ElectricSurfaceChargeDensityUnit unit = ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricSurfaceChargeDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricSurfaceChargeDensityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator+(ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator+(const ElectricSurfaceChargeDensity other) const noexcept
         {
             return ElectricSurfaceChargeDensity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator-(ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator-(const ElectricSurfaceChargeDensity other) const noexcept
         {
             return ElectricSurfaceChargeDensity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricSurfaceChargeDensity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricSurfaceChargeDensity operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricSurfaceChargeDensity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricSurfaceChargeDensity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricSurfaceChargeDensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricSurfaceChargeDensity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double coulombs_per_square_meter() const
+        [[nodiscard]] constexpr un_scalar_t coulombs_per_square_meter() const
         {
             return convert_from_base(ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter);
         }
 
-        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_meter(double value)
+        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_meter(const un_scalar_t value)
         {
             return ElectricSurfaceChargeDensity(value, ElectricSurfaceChargeDensityUnit::CoulombsPerSquareMeter);
         }
 
 
-        [[nodiscard]] constexpr double coulombs_per_square_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t coulombs_per_square_centimeter() const
         {
             return convert_from_base(ElectricSurfaceChargeDensityUnit::CoulombsPerSquareCentimeter);
         }
 
-        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_centimeter(double value)
+        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_centimeter(const un_scalar_t value)
         {
             return ElectricSurfaceChargeDensity(value, ElectricSurfaceChargeDensityUnit::CoulombsPerSquareCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double coulombs_per_square_inch() const
+        [[nodiscard]] constexpr un_scalar_t coulombs_per_square_inch() const
         {
             return convert_from_base(ElectricSurfaceChargeDensityUnit::CoulombsPerSquareInch);
         }
 
-        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_inch(double value)
+        [[nodiscard]] static constexpr ElectricSurfaceChargeDensity from_coulombs_per_square_inch(const un_scalar_t value)
         {
             return ElectricSurfaceChargeDensity(value, ElectricSurfaceChargeDensityUnit::CoulombsPerSquareInch);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricSurfaceChargeDensityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricSurfaceChargeDensityUnit unit)
         {
             switch (unit)
             {
@@ -118,7 +119,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricSurfaceChargeDensity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricSurfaceChargeDensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricSurfaceChargeDensityUnit unit) const
         {
             switch (unit)
             {
@@ -137,6 +138,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ElectricSurfaceChargeDensity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

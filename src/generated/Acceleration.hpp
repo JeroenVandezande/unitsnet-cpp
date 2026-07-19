@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AccelerationUnit : std::uint16_t
+    enum class AccelerationUnit : std::uint8_t
     {
         MetersPerSecondSquared,
         NanometersPerSecondSquared,
@@ -29,209 +30,209 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Acceleration(
-            double value,
-            AccelerationUnit unit = AccelerationUnit::MetersPerSecondSquared)
+            const un_scalar_t value,
+            const AccelerationUnit unit = AccelerationUnit::MetersPerSecondSquared)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AccelerationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AccelerationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Acceleration operator+(Acceleration other) const noexcept
+        [[nodiscard]] constexpr Acceleration operator+(const Acceleration other) const noexcept
         {
             return Acceleration(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Acceleration operator-(Acceleration other) const noexcept
+        [[nodiscard]] constexpr Acceleration operator-(const Acceleration other) const noexcept
         {
             return Acceleration(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Acceleration operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Acceleration operator*(const un_scalar_t scalar) const noexcept
         {
             return Acceleration(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Acceleration operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Acceleration operator/(const un_scalar_t scalar) const noexcept
         {
             return Acceleration(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Acceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Acceleration other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Acceleration other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Acceleration other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double meters_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t meters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::MetersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_meters_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_meters_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::MetersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double nanometers_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t nanometers_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::NanometersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_nanometers_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_nanometers_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::NanometersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double micrometers_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t micrometers_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::MicrometersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_micrometers_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_micrometers_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::MicrometersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double millimeters_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t millimeters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::MillimetersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_millimeters_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_millimeters_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::MillimetersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double centimeters_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t centimeters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::CentimetersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_centimeters_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_centimeters_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::CentimetersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double decimeters_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t decimeters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::DecimetersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_decimeters_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_decimeters_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::DecimetersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double kilometers_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t kilometers_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::KilometersPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_kilometers_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_kilometers_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KilometersPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double inches_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t inches_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::InchesPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_inches_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_inches_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::InchesPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double feet_per_second_squared() const
+        [[nodiscard]] constexpr un_scalar_t feet_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::FeetPerSecondSquared);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_feet_per_second_squared(double value)
+        [[nodiscard]] static constexpr Acceleration from_feet_per_second_squared(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::FeetPerSecondSquared);
         }
 
 
-        [[nodiscard]] constexpr double knots_per_second() const
+        [[nodiscard]] constexpr un_scalar_t knots_per_second() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerSecond);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_knots_per_second(double value)
+        [[nodiscard]] static constexpr Acceleration from_knots_per_second(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KnotsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double knots_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t knots_per_minute() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerMinute);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_knots_per_minute(double value)
+        [[nodiscard]] static constexpr Acceleration from_knots_per_minute(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KnotsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double knots_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t knots_per_hour() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerHour);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_knots_per_hour(double value)
+        [[nodiscard]] static constexpr Acceleration from_knots_per_hour(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KnotsPerHour);
         }
 
 
-        [[nodiscard]] constexpr double standard_gravity() const
+        [[nodiscard]] constexpr un_scalar_t standard_gravity() const
         {
             return convert_from_base(AccelerationUnit::StandardGravity);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_standard_gravity(double value)
+        [[nodiscard]] static constexpr Acceleration from_standard_gravity(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::StandardGravity);
         }
 
 
-        [[nodiscard]] constexpr double millistandard_gravity() const
+        [[nodiscard]] constexpr un_scalar_t millistandard_gravity() const
         {
             return convert_from_base(AccelerationUnit::MillistandardGravity);
         }
 
-        [[nodiscard]] static constexpr Acceleration from_millistandard_gravity(double value)
+        [[nodiscard]] static constexpr Acceleration from_millistandard_gravity(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::MillistandardGravity);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AccelerationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AccelerationUnit unit)
         {
             switch (unit)
             {
@@ -240,22 +241,22 @@ namespace unitsnet_cpp
                 return value;
 
             case AccelerationUnit::NanometersPerSecondSquared:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case AccelerationUnit::MicrometersPerSecondSquared:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case AccelerationUnit::MillimetersPerSecondSquared:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case AccelerationUnit::CentimetersPerSecondSquared:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case AccelerationUnit::DecimetersPerSecondSquared:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case AccelerationUnit::KilometersPerSecondSquared:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case AccelerationUnit::InchesPerSecondSquared:
                 return value * 0.0254;
@@ -276,14 +277,14 @@ namespace unitsnet_cpp
                 return value * 9.80665;
 
             case AccelerationUnit::MillistandardGravity:
-                return (value * 1e-3) * 9.80665;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 9.80665;
 
             }
 
             throw std::invalid_argument("Unknown Acceleration unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AccelerationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AccelerationUnit unit) const
         {
             switch (unit)
             {
@@ -292,22 +293,22 @@ namespace unitsnet_cpp
                 return value_;
 
             case AccelerationUnit::NanometersPerSecondSquared:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case AccelerationUnit::MicrometersPerSecondSquared:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case AccelerationUnit::MillimetersPerSecondSquared:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case AccelerationUnit::CentimetersPerSecondSquared:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case AccelerationUnit::DecimetersPerSecondSquared:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case AccelerationUnit::KilometersPerSecondSquared:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case AccelerationUnit::InchesPerSecondSquared:
                 return value_ / 0.0254;
@@ -328,13 +329,13 @@ namespace unitsnet_cpp
                 return value_ / 9.80665;
 
             case AccelerationUnit::MillistandardGravity:
-                return (value_ / 9.80665) / 1e-3;
+                return (value_ / 9.80665) / static_cast<un_scalar_t>(1e-3);
 
             }
 
             throw std::invalid_argument("Unknown Acceleration unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

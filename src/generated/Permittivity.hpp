@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class PermittivityUnit : std::uint16_t
+    enum class PermittivityUnit : std::uint8_t
     {
         FaradsPerMeter,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Permittivity(
-            double value,
-            PermittivityUnit unit = PermittivityUnit::FaradsPerMeter)
+            const un_scalar_t value,
+            const PermittivityUnit unit = PermittivityUnit::FaradsPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(PermittivityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const PermittivityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Permittivity operator+(Permittivity other) const noexcept
+        [[nodiscard]] constexpr Permittivity operator+(const Permittivity other) const noexcept
         {
             return Permittivity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Permittivity operator-(Permittivity other) const noexcept
+        [[nodiscard]] constexpr Permittivity operator-(const Permittivity other) const noexcept
         {
             return Permittivity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Permittivity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Permittivity operator*(const un_scalar_t scalar) const noexcept
         {
             return Permittivity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Permittivity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Permittivity operator/(const un_scalar_t scalar) const noexcept
         {
             return Permittivity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Permittivity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Permittivity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Permittivity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Permittivity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double farads_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t farads_per_meter() const
         {
             return convert_from_base(PermittivityUnit::FaradsPerMeter);
         }
 
-        [[nodiscard]] static constexpr Permittivity from_farads_per_meter(double value)
+        [[nodiscard]] static constexpr Permittivity from_farads_per_meter(const un_scalar_t value)
         {
             return Permittivity(value, PermittivityUnit::FaradsPerMeter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, PermittivityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PermittivityUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Permittivity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(PermittivityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const PermittivityUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Permittivity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

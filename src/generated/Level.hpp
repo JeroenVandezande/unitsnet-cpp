@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class LevelUnit : std::uint16_t
+    enum class LevelUnit : std::uint8_t
     {
         Decibels,
         Nepers,
@@ -17,77 +18,77 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Level(
-            double value,
-            LevelUnit unit = LevelUnit::Decibels)
+            const un_scalar_t value,
+            const LevelUnit unit = LevelUnit::Decibels)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(LevelUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const LevelUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Level operator+(Level other) const noexcept
+        [[nodiscard]] constexpr Level operator+(const Level other) const noexcept
         {
             return Level(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Level operator-(Level other) const noexcept
+        [[nodiscard]] constexpr Level operator-(const Level other) const noexcept
         {
             return Level(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Level operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Level operator*(const un_scalar_t scalar) const noexcept
         {
             return Level(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Level operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Level operator/(const un_scalar_t scalar) const noexcept
         {
             return Level(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Level other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Level other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Level other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Level other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double decibels() const
+        [[nodiscard]] constexpr un_scalar_t decibels() const
         {
             return convert_from_base(LevelUnit::Decibels);
         }
 
-        [[nodiscard]] static constexpr Level from_decibels(double value)
+        [[nodiscard]] static constexpr Level from_decibels(const un_scalar_t value)
         {
             return Level(value, LevelUnit::Decibels);
         }
 
 
-        [[nodiscard]] constexpr double nepers() const
+        [[nodiscard]] constexpr un_scalar_t nepers() const
         {
             return convert_from_base(LevelUnit::Nepers);
         }
 
-        [[nodiscard]] static constexpr Level from_nepers(double value)
+        [[nodiscard]] static constexpr Level from_nepers(const un_scalar_t value)
         {
             return Level(value, LevelUnit::Nepers);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, LevelUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LevelUnit unit)
         {
             switch (unit)
             {
@@ -103,7 +104,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Level unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(LevelUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const LevelUnit unit) const
         {
             switch (unit)
             {
@@ -119,6 +120,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Level unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

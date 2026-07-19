@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class CoefficientOfThermalExpansionUnit : std::uint16_t
+    enum class CoefficientOfThermalExpansionUnit : std::uint8_t
     {
         PerKelvin,
         PerDegreeCelsius,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit CoefficientOfThermalExpansion(
-            double value,
-            CoefficientOfThermalExpansionUnit unit = CoefficientOfThermalExpansionUnit::PerKelvin)
+            const un_scalar_t value,
+            const CoefficientOfThermalExpansionUnit unit = CoefficientOfThermalExpansionUnit::PerKelvin)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(CoefficientOfThermalExpansionUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const CoefficientOfThermalExpansionUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator+(CoefficientOfThermalExpansion other) const noexcept
+        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator+(const CoefficientOfThermalExpansion other) const noexcept
         {
             return CoefficientOfThermalExpansion(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator-(CoefficientOfThermalExpansion other) const noexcept
+        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator-(const CoefficientOfThermalExpansion other) const noexcept
         {
             return CoefficientOfThermalExpansion(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator*(const un_scalar_t scalar) const noexcept
         {
             return CoefficientOfThermalExpansion(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr CoefficientOfThermalExpansion operator/(const un_scalar_t scalar) const noexcept
         {
             return CoefficientOfThermalExpansion(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(CoefficientOfThermalExpansion other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const CoefficientOfThermalExpansion other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(CoefficientOfThermalExpansion other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const CoefficientOfThermalExpansion other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double per_kelvin() const
+        [[nodiscard]] constexpr un_scalar_t per_kelvin() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PerKelvin);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_kelvin(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_kelvin(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerKelvin);
         }
 
 
-        [[nodiscard]] constexpr double per_degree_celsius() const
+        [[nodiscard]] constexpr un_scalar_t per_degree_celsius() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PerDegreeCelsius);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_degree_celsius(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_degree_celsius(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerDegreeCelsius);
         }
 
 
-        [[nodiscard]] constexpr double per_degree_fahrenheit() const
+        [[nodiscard]] constexpr un_scalar_t per_degree_fahrenheit() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_degree_fahrenheit(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_per_degree_fahrenheit(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit);
         }
 
 
-        [[nodiscard]] constexpr double ppm_per_kelvin() const
+        [[nodiscard]] constexpr un_scalar_t ppm_per_kelvin() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PpmPerKelvin);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_kelvin(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_kelvin(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerKelvin);
         }
 
 
-        [[nodiscard]] constexpr double ppm_per_degree_celsius() const
+        [[nodiscard]] constexpr un_scalar_t ppm_per_degree_celsius() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_degree_celsius(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_degree_celsius(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius);
         }
 
 
-        [[nodiscard]] constexpr double ppm_per_degree_fahrenheit() const
+        [[nodiscard]] constexpr un_scalar_t ppm_per_degree_fahrenheit() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit);
         }
 
-        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_degree_fahrenheit(double value)
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_ppm_per_degree_fahrenheit(const un_scalar_t value)
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, CoefficientOfThermalExpansionUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, CoefficientOfThermalExpansionUnit unit)
         {
             switch (unit)
             {
@@ -163,7 +164,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown CoefficientOfThermalExpansion unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(CoefficientOfThermalExpansionUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const CoefficientOfThermalExpansionUnit unit) const
         {
             switch (unit)
             {
@@ -191,6 +192,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown CoefficientOfThermalExpansion unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

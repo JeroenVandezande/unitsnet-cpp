@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class PorousMediumPermeabilityUnit : std::uint16_t
+    enum class PorousMediumPermeabilityUnit : std::uint8_t
     {
         Darcys,
         Microdarcys,
@@ -20,110 +21,110 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit PorousMediumPermeability(
-            double value,
-            PorousMediumPermeabilityUnit unit = PorousMediumPermeabilityUnit::SquareMeters)
+            const un_scalar_t value,
+            const PorousMediumPermeabilityUnit unit = PorousMediumPermeabilityUnit::SquareMeters)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(PorousMediumPermeabilityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const PorousMediumPermeabilityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr PorousMediumPermeability operator+(PorousMediumPermeability other) const noexcept
+        [[nodiscard]] constexpr PorousMediumPermeability operator+(const PorousMediumPermeability other) const noexcept
         {
             return PorousMediumPermeability(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr PorousMediumPermeability operator-(PorousMediumPermeability other) const noexcept
+        [[nodiscard]] constexpr PorousMediumPermeability operator-(const PorousMediumPermeability other) const noexcept
         {
             return PorousMediumPermeability(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr PorousMediumPermeability operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr PorousMediumPermeability operator*(const un_scalar_t scalar) const noexcept
         {
             return PorousMediumPermeability(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr PorousMediumPermeability operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr PorousMediumPermeability operator/(const un_scalar_t scalar) const noexcept
         {
             return PorousMediumPermeability(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(PorousMediumPermeability other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const PorousMediumPermeability other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(PorousMediumPermeability other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const PorousMediumPermeability other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double darcys() const
+        [[nodiscard]] constexpr un_scalar_t darcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Darcys);
         }
 
-        [[nodiscard]] static constexpr PorousMediumPermeability from_darcys(double value)
+        [[nodiscard]] static constexpr PorousMediumPermeability from_darcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Darcys);
         }
 
 
-        [[nodiscard]] constexpr double microdarcys() const
+        [[nodiscard]] constexpr un_scalar_t microdarcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Microdarcys);
         }
 
-        [[nodiscard]] static constexpr PorousMediumPermeability from_microdarcys(double value)
+        [[nodiscard]] static constexpr PorousMediumPermeability from_microdarcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Microdarcys);
         }
 
 
-        [[nodiscard]] constexpr double millidarcys() const
+        [[nodiscard]] constexpr un_scalar_t millidarcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Millidarcys);
         }
 
-        [[nodiscard]] static constexpr PorousMediumPermeability from_millidarcys(double value)
+        [[nodiscard]] static constexpr PorousMediumPermeability from_millidarcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Millidarcys);
         }
 
 
-        [[nodiscard]] constexpr double square_meters() const
+        [[nodiscard]] constexpr un_scalar_t square_meters() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::SquareMeters);
         }
 
-        [[nodiscard]] static constexpr PorousMediumPermeability from_square_meters(double value)
+        [[nodiscard]] static constexpr PorousMediumPermeability from_square_meters(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::SquareMeters);
         }
 
 
-        [[nodiscard]] constexpr double square_centimeters() const
+        [[nodiscard]] constexpr un_scalar_t square_centimeters() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::SquareCentimeters);
         }
 
-        [[nodiscard]] static constexpr PorousMediumPermeability from_square_centimeters(double value)
+        [[nodiscard]] static constexpr PorousMediumPermeability from_square_centimeters(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::SquareCentimeters);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, PorousMediumPermeabilityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, PorousMediumPermeabilityUnit unit)
         {
             switch (unit)
             {
@@ -132,10 +133,10 @@ namespace unitsnet_cpp
                 return value * 9.869233e-13;
 
             case PorousMediumPermeabilityUnit::Microdarcys:
-                return (value * 1e-6) * 9.869233e-13;
+                return (value * static_cast<un_scalar_t>(1e-6)) * 9.869233e-13;
 
             case PorousMediumPermeabilityUnit::Millidarcys:
-                return (value * 1e-3) * 9.869233e-13;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 9.869233e-13;
 
             case PorousMediumPermeabilityUnit::SquareMeters:
                 return value;
@@ -148,7 +149,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown PorousMediumPermeability unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(PorousMediumPermeabilityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const PorousMediumPermeabilityUnit unit) const
         {
             switch (unit)
             {
@@ -157,10 +158,10 @@ namespace unitsnet_cpp
                 return value_ / 9.869233e-13;
 
             case PorousMediumPermeabilityUnit::Microdarcys:
-                return (value_ / 9.869233e-13) / 1e-6;
+                return (value_ / 9.869233e-13) / static_cast<un_scalar_t>(1e-6);
 
             case PorousMediumPermeabilityUnit::Millidarcys:
-                return (value_ / 9.869233e-13) / 1e-3;
+                return (value_ / 9.869233e-13) / static_cast<un_scalar_t>(1e-3);
 
             case PorousMediumPermeabilityUnit::SquareMeters:
                 return value_;
@@ -173,6 +174,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown PorousMediumPermeability unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class SpecificWeightUnit : std::uint16_t
+    enum class SpecificWeightUnit : std::uint8_t
     {
         NewtonsPerCubicMillimeter,
         KilonewtonsPerCubicMillimeter,
@@ -32,242 +33,242 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit SpecificWeight(
-            double value,
-            SpecificWeightUnit unit = SpecificWeightUnit::NewtonsPerCubicMeter)
+            const un_scalar_t value,
+            const SpecificWeightUnit unit = SpecificWeightUnit::NewtonsPerCubicMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(SpecificWeightUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const SpecificWeightUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr SpecificWeight operator+(SpecificWeight other) const noexcept
+        [[nodiscard]] constexpr SpecificWeight operator+(const SpecificWeight other) const noexcept
         {
             return SpecificWeight(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr SpecificWeight operator-(SpecificWeight other) const noexcept
+        [[nodiscard]] constexpr SpecificWeight operator-(const SpecificWeight other) const noexcept
         {
             return SpecificWeight(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr SpecificWeight operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr SpecificWeight operator*(const un_scalar_t scalar) const noexcept
         {
             return SpecificWeight(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr SpecificWeight operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr SpecificWeight operator/(const un_scalar_t scalar) const noexcept
         {
             return SpecificWeight(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(SpecificWeight other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const SpecificWeight other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(SpecificWeight other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const SpecificWeight other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_cubic_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_cubic_millimeter() const
         {
             return convert_from_base(SpecificWeightUnit::NewtonsPerCubicMillimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_millimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_millimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::NewtonsPerCubicMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_cubic_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_cubic_millimeter() const
         {
             return convert_from_base(SpecificWeightUnit::KilonewtonsPerCubicMillimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_millimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_millimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilonewtonsPerCubicMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_cubic_centimeter() const
         {
             return convert_from_base(SpecificWeightUnit::NewtonsPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_centimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::NewtonsPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_cubic_centimeter() const
         {
             return convert_from_base(SpecificWeightUnit::KilonewtonsPerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_centimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilonewtonsPerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double newtons_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t newtons_per_cubic_meter() const
         {
             return convert_from_base(SpecificWeightUnit::NewtonsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_newtons_per_cubic_meter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::NewtonsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons_per_cubic_meter() const
         {
             return convert_from_base(SpecificWeightUnit::KilonewtonsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilonewtons_per_cubic_meter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilonewtonsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double meganewtons_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t meganewtons_per_cubic_meter() const
         {
             return convert_from_base(SpecificWeightUnit::MeganewtonsPerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_meganewtons_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_meganewtons_per_cubic_meter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::MeganewtonsPerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_cubic_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_cubic_millimeter() const
         {
             return convert_from_base(SpecificWeightUnit::KilogramsForcePerCubicMillimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_millimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_millimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilogramsForcePerCubicMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_cubic_centimeter() const
         {
             return convert_from_base(SpecificWeightUnit::KilogramsForcePerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_centimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilogramsForcePerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force_per_cubic_meter() const
         {
             return convert_from_base(SpecificWeightUnit::KilogramsForcePerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilograms_force_per_cubic_meter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilogramsForcePerCubicMeter);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_per_cubic_inch() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_per_cubic_inch() const
         {
             return convert_from_base(SpecificWeightUnit::PoundsForcePerCubicInch);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_pounds_force_per_cubic_inch(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_pounds_force_per_cubic_inch(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::PoundsForcePerCubicInch);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force_per_cubic_inch() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_cubic_inch() const
         {
             return convert_from_base(SpecificWeightUnit::KilopoundsForcePerCubicInch);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilopounds_force_per_cubic_inch(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilopounds_force_per_cubic_inch(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilopoundsForcePerCubicInch);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force_per_cubic_foot() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force_per_cubic_foot() const
         {
             return convert_from_base(SpecificWeightUnit::PoundsForcePerCubicFoot);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_pounds_force_per_cubic_foot(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_pounds_force_per_cubic_foot(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::PoundsForcePerCubicFoot);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force_per_cubic_foot() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_cubic_foot() const
         {
             return convert_from_base(SpecificWeightUnit::KilopoundsForcePerCubicFoot);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_kilopounds_force_per_cubic_foot(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_kilopounds_force_per_cubic_foot(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::KilopoundsForcePerCubicFoot);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_cubic_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_cubic_millimeter() const
         {
             return convert_from_base(SpecificWeightUnit::TonnesForcePerCubicMillimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_millimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_millimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::TonnesForcePerCubicMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_cubic_centimeter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_cubic_centimeter() const
         {
             return convert_from_base(SpecificWeightUnit::TonnesForcePerCubicCentimeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_centimeter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_centimeter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::TonnesForcePerCubicCentimeter);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force_per_cubic_meter() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force_per_cubic_meter() const
         {
             return convert_from_base(SpecificWeightUnit::TonnesForcePerCubicMeter);
         }
 
-        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_meter(double value)
+        [[nodiscard]] static constexpr SpecificWeight from_tonnes_force_per_cubic_meter(const un_scalar_t value)
         {
             return SpecificWeight(value, SpecificWeightUnit::TonnesForcePerCubicMeter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, SpecificWeightUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, SpecificWeightUnit unit)
         {
             switch (unit)
             {
@@ -276,22 +277,22 @@ namespace unitsnet_cpp
                 return value * 1000000000;
 
             case SpecificWeightUnit::KilonewtonsPerCubicMillimeter:
-                return (value * 1e3) * 1000000000;
+                return (value * static_cast<un_scalar_t>(1e3)) * 1000000000;
 
             case SpecificWeightUnit::NewtonsPerCubicCentimeter:
                 return value * 1000000;
 
             case SpecificWeightUnit::KilonewtonsPerCubicCentimeter:
-                return (value * 1e3) * 1000000;
+                return (value * static_cast<un_scalar_t>(1e3)) * 1000000;
 
             case SpecificWeightUnit::NewtonsPerCubicMeter:
                 return value;
 
             case SpecificWeightUnit::KilonewtonsPerCubicMeter:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case SpecificWeightUnit::MeganewtonsPerCubicMeter:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case SpecificWeightUnit::KilogramsForcePerCubicMillimeter:
                 return value * 9.80665e9;
@@ -306,13 +307,13 @@ namespace unitsnet_cpp
                 return value * 4.4482216152605 / 1.6387064e-5;
 
             case SpecificWeightUnit::KilopoundsForcePerCubicInch:
-                return (value * 1e3) * 4.4482216152605 / 1.6387064e-5;
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 1.6387064e-5;
 
             case SpecificWeightUnit::PoundsForcePerCubicFoot:
                 return value * 4.4482216152605 / 0.028316846592;
 
             case SpecificWeightUnit::KilopoundsForcePerCubicFoot:
-                return (value * 1e3) * 4.4482216152605 / 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 0.028316846592;
 
             case SpecificWeightUnit::TonnesForcePerCubicMillimeter:
                 return value * 9.80665e12;
@@ -328,7 +329,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown SpecificWeight unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(SpecificWeightUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const SpecificWeightUnit unit) const
         {
             switch (unit)
             {
@@ -337,22 +338,22 @@ namespace unitsnet_cpp
                 return value_ * 0.000000001;
 
             case SpecificWeightUnit::KilonewtonsPerCubicMillimeter:
-                return (value_ * 0.000000001) / 1e3;
+                return (value_ * 0.000000001) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::NewtonsPerCubicCentimeter:
                 return value_ * 0.000001;
 
             case SpecificWeightUnit::KilonewtonsPerCubicCentimeter:
-                return (value_ * 0.000001) / 1e3;
+                return (value_ * 0.000001) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::NewtonsPerCubicMeter:
                 return value_;
 
             case SpecificWeightUnit::KilonewtonsPerCubicMeter:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::MeganewtonsPerCubicMeter:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case SpecificWeightUnit::KilogramsForcePerCubicMillimeter:
                 return value_ / 9.80665e9;
@@ -367,13 +368,13 @@ namespace unitsnet_cpp
                 return value_ * 1.6387064e-5 / 4.4482216152605;
 
             case SpecificWeightUnit::KilopoundsForcePerCubicInch:
-                return (value_ * 1.6387064e-5 / 4.4482216152605) / 1e3;
+                return (value_ * 1.6387064e-5 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::PoundsForcePerCubicFoot:
                 return value_ * 0.028316846592 / 4.4482216152605;
 
             case SpecificWeightUnit::KilopoundsForcePerCubicFoot:
-                return (value_ * 0.028316846592 / 4.4482216152605) / 1e3;
+                return (value_ * 0.028316846592 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::TonnesForcePerCubicMillimeter:
                 return value_ / 9.80665e12;
@@ -389,6 +390,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown SpecificWeight unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

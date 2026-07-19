@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class LuminousFluxUnit : std::uint16_t
+    enum class LuminousFluxUnit : std::uint8_t
     {
         Lumens,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit LuminousFlux(
-            double value,
-            LuminousFluxUnit unit = LuminousFluxUnit::Lumens)
+            const un_scalar_t value,
+            const LuminousFluxUnit unit = LuminousFluxUnit::Lumens)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(LuminousFluxUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const LuminousFluxUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr LuminousFlux operator+(LuminousFlux other) const noexcept
+        [[nodiscard]] constexpr LuminousFlux operator+(const LuminousFlux other) const noexcept
         {
             return LuminousFlux(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr LuminousFlux operator-(LuminousFlux other) const noexcept
+        [[nodiscard]] constexpr LuminousFlux operator-(const LuminousFlux other) const noexcept
         {
             return LuminousFlux(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr LuminousFlux operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr LuminousFlux operator*(const un_scalar_t scalar) const noexcept
         {
             return LuminousFlux(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr LuminousFlux operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr LuminousFlux operator/(const un_scalar_t scalar) const noexcept
         {
             return LuminousFlux(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(LuminousFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const LuminousFlux other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(LuminousFlux other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const LuminousFlux other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double lumens() const
+        [[nodiscard]] constexpr un_scalar_t lumens() const
         {
             return convert_from_base(LuminousFluxUnit::Lumens);
         }
 
-        [[nodiscard]] static constexpr LuminousFlux from_lumens(double value)
+        [[nodiscard]] static constexpr LuminousFlux from_lumens(const un_scalar_t value)
         {
             return LuminousFlux(value, LuminousFluxUnit::Lumens);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, LuminousFluxUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LuminousFluxUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LuminousFlux unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(LuminousFluxUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const LuminousFluxUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LuminousFlux unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

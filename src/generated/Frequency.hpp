@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class FrequencyUnit : std::uint16_t
+    enum class FrequencyUnit : std::uint8_t
     {
         Hertz,
         Microhertz,
@@ -27,187 +28,187 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Frequency(
-            double value,
-            FrequencyUnit unit = FrequencyUnit::Hertz)
+            const un_scalar_t value,
+            const FrequencyUnit unit = FrequencyUnit::Hertz)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(FrequencyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const FrequencyUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Frequency operator+(Frequency other) const noexcept
+        [[nodiscard]] constexpr Frequency operator+(const Frequency other) const noexcept
         {
             return Frequency(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Frequency operator-(Frequency other) const noexcept
+        [[nodiscard]] constexpr Frequency operator-(const Frequency other) const noexcept
         {
             return Frequency(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Frequency operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Frequency operator*(const un_scalar_t scalar) const noexcept
         {
             return Frequency(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Frequency operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Frequency operator/(const un_scalar_t scalar) const noexcept
         {
             return Frequency(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Frequency other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Frequency other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Frequency other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Frequency other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double hertz() const
+        [[nodiscard]] constexpr un_scalar_t hertz() const
         {
             return convert_from_base(FrequencyUnit::Hertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_hertz(double value)
+        [[nodiscard]] static constexpr Frequency from_hertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Hertz);
         }
 
 
-        [[nodiscard]] constexpr double microhertz() const
+        [[nodiscard]] constexpr un_scalar_t microhertz() const
         {
             return convert_from_base(FrequencyUnit::Microhertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_microhertz(double value)
+        [[nodiscard]] static constexpr Frequency from_microhertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Microhertz);
         }
 
 
-        [[nodiscard]] constexpr double millihertz() const
+        [[nodiscard]] constexpr un_scalar_t millihertz() const
         {
             return convert_from_base(FrequencyUnit::Millihertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_millihertz(double value)
+        [[nodiscard]] static constexpr Frequency from_millihertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Millihertz);
         }
 
 
-        [[nodiscard]] constexpr double kilohertz() const
+        [[nodiscard]] constexpr un_scalar_t kilohertz() const
         {
             return convert_from_base(FrequencyUnit::Kilohertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_kilohertz(double value)
+        [[nodiscard]] static constexpr Frequency from_kilohertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Kilohertz);
         }
 
 
-        [[nodiscard]] constexpr double megahertz() const
+        [[nodiscard]] constexpr un_scalar_t megahertz() const
         {
             return convert_from_base(FrequencyUnit::Megahertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_megahertz(double value)
+        [[nodiscard]] static constexpr Frequency from_megahertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Megahertz);
         }
 
 
-        [[nodiscard]] constexpr double gigahertz() const
+        [[nodiscard]] constexpr un_scalar_t gigahertz() const
         {
             return convert_from_base(FrequencyUnit::Gigahertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_gigahertz(double value)
+        [[nodiscard]] static constexpr Frequency from_gigahertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Gigahertz);
         }
 
 
-        [[nodiscard]] constexpr double terahertz() const
+        [[nodiscard]] constexpr un_scalar_t terahertz() const
         {
             return convert_from_base(FrequencyUnit::Terahertz);
         }
 
-        [[nodiscard]] static constexpr Frequency from_terahertz(double value)
+        [[nodiscard]] static constexpr Frequency from_terahertz(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::Terahertz);
         }
 
 
-        [[nodiscard]] constexpr double radians_per_second() const
+        [[nodiscard]] constexpr un_scalar_t radians_per_second() const
         {
             return convert_from_base(FrequencyUnit::RadiansPerSecond);
         }
 
-        [[nodiscard]] static constexpr Frequency from_radians_per_second(double value)
+        [[nodiscard]] static constexpr Frequency from_radians_per_second(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::RadiansPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double cycles_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t cycles_per_minute() const
         {
             return convert_from_base(FrequencyUnit::CyclesPerMinute);
         }
 
-        [[nodiscard]] static constexpr Frequency from_cycles_per_minute(double value)
+        [[nodiscard]] static constexpr Frequency from_cycles_per_minute(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::CyclesPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double cycles_per_hour() const
+        [[nodiscard]] constexpr un_scalar_t cycles_per_hour() const
         {
             return convert_from_base(FrequencyUnit::CyclesPerHour);
         }
 
-        [[nodiscard]] static constexpr Frequency from_cycles_per_hour(double value)
+        [[nodiscard]] static constexpr Frequency from_cycles_per_hour(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::CyclesPerHour);
         }
 
 
-        [[nodiscard]] constexpr double beats_per_minute() const
+        [[nodiscard]] constexpr un_scalar_t beats_per_minute() const
         {
             return convert_from_base(FrequencyUnit::BeatsPerMinute);
         }
 
-        [[nodiscard]] static constexpr Frequency from_beats_per_minute(double value)
+        [[nodiscard]] static constexpr Frequency from_beats_per_minute(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::BeatsPerMinute);
         }
 
 
-        [[nodiscard]] constexpr double per_second() const
+        [[nodiscard]] constexpr un_scalar_t per_second() const
         {
             return convert_from_base(FrequencyUnit::PerSecond);
         }
 
-        [[nodiscard]] static constexpr Frequency from_per_second(double value)
+        [[nodiscard]] static constexpr Frequency from_per_second(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::PerSecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, FrequencyUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, FrequencyUnit unit)
         {
             switch (unit)
             {
@@ -216,25 +217,25 @@ namespace unitsnet_cpp
                 return value;
 
             case FrequencyUnit::Microhertz:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case FrequencyUnit::Millihertz:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case FrequencyUnit::Kilohertz:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case FrequencyUnit::Megahertz:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case FrequencyUnit::Gigahertz:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case FrequencyUnit::Terahertz:
-                return (value * 1e12);
+                return (value * static_cast<un_scalar_t>(1e12));
 
             case FrequencyUnit::RadiansPerSecond:
-                return value / (2 * std::numbers::pi);
+                return value / (2 * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
                 return value / 60;
@@ -253,7 +254,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Frequency unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(FrequencyUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const FrequencyUnit unit) const
         {
             switch (unit)
             {
@@ -262,25 +263,25 @@ namespace unitsnet_cpp
                 return value_;
 
             case FrequencyUnit::Microhertz:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case FrequencyUnit::Millihertz:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case FrequencyUnit::Kilohertz:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case FrequencyUnit::Megahertz:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case FrequencyUnit::Gigahertz:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case FrequencyUnit::Terahertz:
-                return (value_) / 1e12;
+                return (value_) / static_cast<un_scalar_t>(1e12);
 
             case FrequencyUnit::RadiansPerSecond:
-                return value_ * (2 * std::numbers::pi);
+                return value_ * (2 * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
                 return value_ * 60;
@@ -299,6 +300,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Frequency unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

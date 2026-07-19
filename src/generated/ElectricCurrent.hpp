@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricCurrentUnit : std::uint16_t
+    enum class ElectricCurrentUnit : std::uint8_t
     {
         Amperes,
         Femtoamperes,
@@ -24,154 +25,154 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricCurrent(
-            double value,
-            ElectricCurrentUnit unit = ElectricCurrentUnit::Amperes)
+            const un_scalar_t value,
+            const ElectricCurrentUnit unit = ElectricCurrentUnit::Amperes)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricCurrentUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricCurrentUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator+(ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator+(const ElectricCurrent other) const noexcept
         {
             return ElectricCurrent(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator-(ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator-(const ElectricCurrent other) const noexcept
         {
             return ElectricCurrent(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrent(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricCurrent operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCurrent operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricCurrent(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCurrent other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricCurrent other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCurrent other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double amperes() const
+        [[nodiscard]] constexpr un_scalar_t amperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Amperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_amperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_amperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Amperes);
         }
 
 
-        [[nodiscard]] constexpr double femtoamperes() const
+        [[nodiscard]] constexpr un_scalar_t femtoamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Femtoamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_femtoamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_femtoamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Femtoamperes);
         }
 
 
-        [[nodiscard]] constexpr double picoamperes() const
+        [[nodiscard]] constexpr un_scalar_t picoamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Picoamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_picoamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_picoamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Picoamperes);
         }
 
 
-        [[nodiscard]] constexpr double nanoamperes() const
+        [[nodiscard]] constexpr un_scalar_t nanoamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Nanoamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_nanoamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_nanoamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Nanoamperes);
         }
 
 
-        [[nodiscard]] constexpr double microamperes() const
+        [[nodiscard]] constexpr un_scalar_t microamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Microamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_microamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_microamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Microamperes);
         }
 
 
-        [[nodiscard]] constexpr double milliamperes() const
+        [[nodiscard]] constexpr un_scalar_t milliamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Milliamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_milliamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_milliamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Milliamperes);
         }
 
 
-        [[nodiscard]] constexpr double centiamperes() const
+        [[nodiscard]] constexpr un_scalar_t centiamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Centiamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_centiamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_centiamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Centiamperes);
         }
 
 
-        [[nodiscard]] constexpr double kiloamperes() const
+        [[nodiscard]] constexpr un_scalar_t kiloamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Kiloamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_kiloamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_kiloamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Kiloamperes);
         }
 
 
-        [[nodiscard]] constexpr double megaamperes() const
+        [[nodiscard]] constexpr un_scalar_t megaamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Megaamperes);
         }
 
-        [[nodiscard]] static constexpr ElectricCurrent from_megaamperes(double value)
+        [[nodiscard]] static constexpr ElectricCurrent from_megaamperes(const un_scalar_t value)
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Megaamperes);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricCurrentUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCurrentUnit unit)
         {
             switch (unit)
             {
@@ -180,35 +181,35 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricCurrentUnit::Femtoamperes:
-                return (value * 1e-15);
+                return (value * static_cast<un_scalar_t>(1e-15));
 
             case ElectricCurrentUnit::Picoamperes:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case ElectricCurrentUnit::Nanoamperes:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricCurrentUnit::Microamperes:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricCurrentUnit::Milliamperes:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricCurrentUnit::Centiamperes:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case ElectricCurrentUnit::Kiloamperes:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricCurrentUnit::Megaamperes:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             }
 
             throw std::invalid_argument("Unknown ElectricCurrent unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricCurrentUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCurrentUnit unit) const
         {
             switch (unit)
             {
@@ -217,34 +218,34 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricCurrentUnit::Femtoamperes:
-                return (value_) / 1e-15;
+                return (value_) / static_cast<un_scalar_t>(1e-15);
 
             case ElectricCurrentUnit::Picoamperes:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricCurrentUnit::Nanoamperes:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricCurrentUnit::Microamperes:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricCurrentUnit::Milliamperes:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentUnit::Centiamperes:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case ElectricCurrentUnit::Kiloamperes:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricCurrentUnit::Megaamperes:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
             throw std::invalid_argument("Unknown ElectricCurrent unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

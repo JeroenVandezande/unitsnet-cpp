@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class TemperatureGradientUnit : std::uint16_t
+    enum class TemperatureGradientUnit : std::uint8_t
     {
         KelvinsPerMeter,
         DegreesCelsiusPerMeter,
@@ -19,99 +20,99 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit TemperatureGradient(
-            double value,
-            TemperatureGradientUnit unit = TemperatureGradientUnit::KelvinsPerMeter)
+            const un_scalar_t value,
+            const TemperatureGradientUnit unit = TemperatureGradientUnit::KelvinsPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(TemperatureGradientUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const TemperatureGradientUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr TemperatureGradient operator+(TemperatureGradient other) const noexcept
+        [[nodiscard]] constexpr TemperatureGradient operator+(const TemperatureGradient other) const noexcept
         {
             return TemperatureGradient(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr TemperatureGradient operator-(TemperatureGradient other) const noexcept
+        [[nodiscard]] constexpr TemperatureGradient operator-(const TemperatureGradient other) const noexcept
         {
             return TemperatureGradient(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr TemperatureGradient operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr TemperatureGradient operator*(const un_scalar_t scalar) const noexcept
         {
             return TemperatureGradient(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr TemperatureGradient operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr TemperatureGradient operator/(const un_scalar_t scalar) const noexcept
         {
             return TemperatureGradient(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(TemperatureGradient other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const TemperatureGradient other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(TemperatureGradient other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const TemperatureGradient other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double kelvins_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t kelvins_per_meter() const
         {
             return convert_from_base(TemperatureGradientUnit::KelvinsPerMeter);
         }
 
-        [[nodiscard]] static constexpr TemperatureGradient from_kelvins_per_meter(double value)
+        [[nodiscard]] static constexpr TemperatureGradient from_kelvins_per_meter(const un_scalar_t value)
         {
             return TemperatureGradient(value, TemperatureGradientUnit::KelvinsPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_meter() const
         {
             return convert_from_base(TemperatureGradientUnit::DegreesCelsiusPerMeter);
         }
 
-        [[nodiscard]] static constexpr TemperatureGradient from_degrees_celsius_per_meter(double value)
+        [[nodiscard]] static constexpr TemperatureGradient from_degrees_celsius_per_meter(const un_scalar_t value)
         {
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesCelsiusPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double degrees_fahrenheit_per_foot() const
+        [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit_per_foot() const
         {
             return convert_from_base(TemperatureGradientUnit::DegreesFahrenheitPerFoot);
         }
 
-        [[nodiscard]] static constexpr TemperatureGradient from_degrees_fahrenheit_per_foot(double value)
+        [[nodiscard]] static constexpr TemperatureGradient from_degrees_fahrenheit_per_foot(const un_scalar_t value)
         {
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesFahrenheitPerFoot);
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_kilometer() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_kilometer() const
         {
             return convert_from_base(TemperatureGradientUnit::DegreesCelsiusPerKilometer);
         }
 
-        [[nodiscard]] static constexpr TemperatureGradient from_degrees_celsius_per_kilometer(double value)
+        [[nodiscard]] static constexpr TemperatureGradient from_degrees_celsius_per_kilometer(const un_scalar_t value)
         {
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesCelsiusPerKilometer);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, TemperatureGradientUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, TemperatureGradientUnit unit)
         {
             switch (unit)
             {
@@ -133,7 +134,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown TemperatureGradient unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(TemperatureGradientUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const TemperatureGradientUnit unit) const
         {
             switch (unit)
             {
@@ -155,6 +156,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown TemperatureGradient unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

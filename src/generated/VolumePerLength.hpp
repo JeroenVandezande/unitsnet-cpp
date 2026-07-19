@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class VolumePerLengthUnit : std::uint16_t
+    enum class VolumePerLengthUnit : std::uint8_t
     {
         CubicMetersPerMeter,
         LitersPerMeter,
@@ -24,154 +25,154 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit VolumePerLength(
-            double value,
-            VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMetersPerMeter)
+            const un_scalar_t value,
+            const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMetersPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(VolumePerLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const VolumePerLengthUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator+(VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator+(const VolumePerLength other) const noexcept
         {
             return VolumePerLength(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator-(VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator-(const VolumePerLength other) const noexcept
         {
             return VolumePerLength(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator*(const un_scalar_t scalar) const noexcept
         {
             return VolumePerLength(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr VolumePerLength operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr VolumePerLength operator/(const un_scalar_t scalar) const noexcept
         {
             return VolumePerLength(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const VolumePerLength other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(VolumePerLength other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const VolumePerLength other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double cubic_meters_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t cubic_meters_per_meter() const
         {
             return convert_from_base(VolumePerLengthUnit::CubicMetersPerMeter);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_cubic_meters_per_meter(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_cubic_meters_per_meter(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::CubicMetersPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double liters_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t liters_per_meter() const
         {
             return convert_from_base(VolumePerLengthUnit::LitersPerMeter);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_liters_per_meter(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_liters_per_meter(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::LitersPerMeter);
         }
 
 
-        [[nodiscard]] constexpr double liters_per_kilometer() const
+        [[nodiscard]] constexpr un_scalar_t liters_per_kilometer() const
         {
             return convert_from_base(VolumePerLengthUnit::LitersPerKilometer);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_liters_per_kilometer(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_liters_per_kilometer(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::LitersPerKilometer);
         }
 
 
-        [[nodiscard]] constexpr double liters_per_millimeter() const
+        [[nodiscard]] constexpr un_scalar_t liters_per_millimeter() const
         {
             return convert_from_base(VolumePerLengthUnit::LitersPerMillimeter);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_liters_per_millimeter(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_liters_per_millimeter(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::LitersPerMillimeter);
         }
 
 
-        [[nodiscard]] constexpr double oil_barrels_per_foot() const
+        [[nodiscard]] constexpr un_scalar_t oil_barrels_per_foot() const
         {
             return convert_from_base(VolumePerLengthUnit::OilBarrelsPerFoot);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_oil_barrels_per_foot(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_oil_barrels_per_foot(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::OilBarrelsPerFoot);
         }
 
 
-        [[nodiscard]] constexpr double cubic_yards_per_foot() const
+        [[nodiscard]] constexpr un_scalar_t cubic_yards_per_foot() const
         {
             return convert_from_base(VolumePerLengthUnit::CubicYardsPerFoot);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_foot(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_foot(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::CubicYardsPerFoot);
         }
 
 
-        [[nodiscard]] constexpr double cubic_yards_per_us_survey_foot() const
+        [[nodiscard]] constexpr un_scalar_t cubic_yards_per_us_survey_foot() const
         {
             return convert_from_base(VolumePerLengthUnit::CubicYardsPerUsSurveyFoot);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_us_survey_foot(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_us_survey_foot(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::CubicYardsPerUsSurveyFoot);
         }
 
 
-        [[nodiscard]] constexpr double us_gallons_per_mile() const
+        [[nodiscard]] constexpr un_scalar_t us_gallons_per_mile() const
         {
             return convert_from_base(VolumePerLengthUnit::UsGallonsPerMile);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_us_gallons_per_mile(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_us_gallons_per_mile(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::UsGallonsPerMile);
         }
 
 
-        [[nodiscard]] constexpr double imperial_gallons_per_mile() const
+        [[nodiscard]] constexpr un_scalar_t imperial_gallons_per_mile() const
         {
             return convert_from_base(VolumePerLengthUnit::ImperialGallonsPerMile);
         }
 
-        [[nodiscard]] static constexpr VolumePerLength from_imperial_gallons_per_mile(double value)
+        [[nodiscard]] static constexpr VolumePerLength from_imperial_gallons_per_mile(const un_scalar_t value)
         {
             return VolumePerLength(value, VolumePerLengthUnit::ImperialGallonsPerMile);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, VolumePerLengthUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, VolumePerLengthUnit unit)
         {
             switch (unit)
             {
@@ -208,7 +209,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VolumePerLength unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(VolumePerLengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const VolumePerLengthUnit unit) const
         {
             switch (unit)
             {
@@ -245,6 +246,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown VolumePerLength unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

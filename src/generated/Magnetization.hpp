@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class MagnetizationUnit : std::uint16_t
+    enum class MagnetizationUnit : std::uint8_t
     {
         AmperesPerMeter,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Magnetization(
-            double value,
-            MagnetizationUnit unit = MagnetizationUnit::AmperesPerMeter)
+            const un_scalar_t value,
+            const MagnetizationUnit unit = MagnetizationUnit::AmperesPerMeter)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(MagnetizationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const MagnetizationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Magnetization operator+(Magnetization other) const noexcept
+        [[nodiscard]] constexpr Magnetization operator+(const Magnetization other) const noexcept
         {
             return Magnetization(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Magnetization operator-(Magnetization other) const noexcept
+        [[nodiscard]] constexpr Magnetization operator-(const Magnetization other) const noexcept
         {
             return Magnetization(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Magnetization operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Magnetization operator*(const un_scalar_t scalar) const noexcept
         {
             return Magnetization(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Magnetization operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Magnetization operator/(const un_scalar_t scalar) const noexcept
         {
             return Magnetization(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Magnetization other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Magnetization other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Magnetization other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Magnetization other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double amperes_per_meter() const
+        [[nodiscard]] constexpr un_scalar_t amperes_per_meter() const
         {
             return convert_from_base(MagnetizationUnit::AmperesPerMeter);
         }
 
-        [[nodiscard]] static constexpr Magnetization from_amperes_per_meter(double value)
+        [[nodiscard]] static constexpr Magnetization from_amperes_per_meter(const un_scalar_t value)
         {
             return Magnetization(value, MagnetizationUnit::AmperesPerMeter);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, MagnetizationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MagnetizationUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Magnetization unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(MagnetizationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const MagnetizationUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Magnetization unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

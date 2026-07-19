@@ -6,11 +6,19 @@
 #include <Speed.hpp>
 #include <Temperature.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <numbers>
 #include <stdexcept>
 #include <string_view>
+#include <type_traits>
+
+#ifdef UNITSNET_CPP_USE_FLOAT
+static_assert(std::is_same_v<unitsnet_cpp::un_scalar_t, float>);
+#else
+static_assert(std::is_same_v<unitsnet_cpp::un_scalar_t, double>);
+#endif
 
 namespace
 {
@@ -31,6 +39,12 @@ namespace
         double tolerance,
         std::string_view description)
     {
+        if constexpr (std::is_same_v<unitsnet_cpp::un_scalar_t, float>)
+        {
+            const auto magnitude = std::max(1.0, std::abs(expected));
+            tolerance = std::max(tolerance, 1e-5 * magnitude);
+        }
+
         if (std::abs(actual - expected) > tolerance)
         {
             std::cerr << "FAIL: " << description
@@ -172,6 +186,8 @@ int main()
         return 1;
     }
 
-    std::cout << "All unitsnet-cpp tests passed.\n";
+    constexpr std::string_view scalar_name =
+        std::is_same_v<unitsnet_cpp::un_scalar_t, float> ? "float" : "double";
+    std::cout << "All unitsnet-cpp tests passed with " << scalar_name << ".\n";
     return 0;
 }

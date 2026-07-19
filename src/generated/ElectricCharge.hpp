@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricChargeUnit : std::uint16_t
+    enum class ElectricChargeUnit : std::uint8_t
     {
         Coulombs,
         Picocoulombs,
@@ -26,176 +27,176 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricCharge(
-            double value,
-            ElectricChargeUnit unit = ElectricChargeUnit::Coulombs)
+            const un_scalar_t value,
+            const ElectricChargeUnit unit = ElectricChargeUnit::Coulombs)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricChargeUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricChargeUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCharge operator+(ElectricCharge other) const noexcept
+        [[nodiscard]] constexpr ElectricCharge operator+(const ElectricCharge other) const noexcept
         {
             return ElectricCharge(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCharge operator-(ElectricCharge other) const noexcept
+        [[nodiscard]] constexpr ElectricCharge operator-(const ElectricCharge other) const noexcept
         {
             return ElectricCharge(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCharge operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCharge operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricCharge(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricCharge operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCharge operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricCharge(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricCharge other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCharge other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricCharge other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCharge other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double coulombs() const
+        [[nodiscard]] constexpr un_scalar_t coulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Coulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_coulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_coulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Coulombs);
         }
 
 
-        [[nodiscard]] constexpr double picocoulombs() const
+        [[nodiscard]] constexpr un_scalar_t picocoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Picocoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_picocoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_picocoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Picocoulombs);
         }
 
 
-        [[nodiscard]] constexpr double nanocoulombs() const
+        [[nodiscard]] constexpr un_scalar_t nanocoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Nanocoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_nanocoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_nanocoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Nanocoulombs);
         }
 
 
-        [[nodiscard]] constexpr double microcoulombs() const
+        [[nodiscard]] constexpr un_scalar_t microcoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Microcoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_microcoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_microcoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Microcoulombs);
         }
 
 
-        [[nodiscard]] constexpr double millicoulombs() const
+        [[nodiscard]] constexpr un_scalar_t millicoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Millicoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_millicoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_millicoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Millicoulombs);
         }
 
 
-        [[nodiscard]] constexpr double kilocoulombs() const
+        [[nodiscard]] constexpr un_scalar_t kilocoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Kilocoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_kilocoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_kilocoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Kilocoulombs);
         }
 
 
-        [[nodiscard]] constexpr double megacoulombs() const
+        [[nodiscard]] constexpr un_scalar_t megacoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Megacoulombs);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_megacoulombs(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_megacoulombs(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::Megacoulombs);
         }
 
 
-        [[nodiscard]] constexpr double ampere_hours() const
+        [[nodiscard]] constexpr un_scalar_t ampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::AmpereHours);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_ampere_hours(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_ampere_hours(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::AmpereHours);
         }
 
 
-        [[nodiscard]] constexpr double milliampere_hours() const
+        [[nodiscard]] constexpr un_scalar_t milliampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::MilliampereHours);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_milliampere_hours(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_milliampere_hours(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::MilliampereHours);
         }
 
 
-        [[nodiscard]] constexpr double kiloampere_hours() const
+        [[nodiscard]] constexpr un_scalar_t kiloampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::KiloampereHours);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_kiloampere_hours(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_kiloampere_hours(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::KiloampereHours);
         }
 
 
-        [[nodiscard]] constexpr double megaampere_hours() const
+        [[nodiscard]] constexpr un_scalar_t megaampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::MegaampereHours);
         }
 
-        [[nodiscard]] static constexpr ElectricCharge from_megaampere_hours(double value)
+        [[nodiscard]] static constexpr ElectricCharge from_megaampere_hours(const un_scalar_t value)
         {
             return ElectricCharge(value, ElectricChargeUnit::MegaampereHours);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricChargeUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricChargeUnit unit)
         {
             switch (unit)
             {
@@ -204,41 +205,41 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricChargeUnit::Picocoulombs:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case ElectricChargeUnit::Nanocoulombs:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricChargeUnit::Microcoulombs:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricChargeUnit::Millicoulombs:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricChargeUnit::Kilocoulombs:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricChargeUnit::Megacoulombs:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricChargeUnit::AmpereHours:
                 return value * 3600;
 
             case ElectricChargeUnit::MilliampereHours:
-                return (value * 1e-3) * 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) * 3600;
 
             case ElectricChargeUnit::KiloampereHours:
-                return (value * 1e3) * 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * 3600;
 
             case ElectricChargeUnit::MegaampereHours:
-                return (value * 1e6) * 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * 3600;
 
             }
 
             throw std::invalid_argument("Unknown ElectricCharge unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricChargeUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricChargeUnit unit) const
         {
             switch (unit)
             {
@@ -247,40 +248,40 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricChargeUnit::Picocoulombs:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricChargeUnit::Nanocoulombs:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricChargeUnit::Microcoulombs:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricChargeUnit::Millicoulombs:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricChargeUnit::Kilocoulombs:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricChargeUnit::Megacoulombs:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricChargeUnit::AmpereHours:
                 return value_ / 3600;
 
             case ElectricChargeUnit::MilliampereHours:
-                return (value_ / 3600) / 1e-3;
+                return (value_ / 3600) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricChargeUnit::KiloampereHours:
-                return (value_ / 3600) / 1e3;
+                return (value_ / 3600) / static_cast<un_scalar_t>(1e3);
 
             case ElectricChargeUnit::MegaampereHours:
-                return (value_ / 3600) / 1e6;
+                return (value_ / 3600) / static_cast<un_scalar_t>(1e6);
 
             }
 
             throw std::invalid_argument("Unknown ElectricCharge unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

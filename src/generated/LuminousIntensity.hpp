@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class LuminousIntensityUnit : std::uint16_t
+    enum class LuminousIntensityUnit : std::uint8_t
     {
         Candela,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit LuminousIntensity(
-            double value,
-            LuminousIntensityUnit unit = LuminousIntensityUnit::Candela)
+            const un_scalar_t value,
+            const LuminousIntensityUnit unit = LuminousIntensityUnit::Candela)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(LuminousIntensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const LuminousIntensityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr LuminousIntensity operator+(LuminousIntensity other) const noexcept
+        [[nodiscard]] constexpr LuminousIntensity operator+(const LuminousIntensity other) const noexcept
         {
             return LuminousIntensity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr LuminousIntensity operator-(LuminousIntensity other) const noexcept
+        [[nodiscard]] constexpr LuminousIntensity operator-(const LuminousIntensity other) const noexcept
         {
             return LuminousIntensity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr LuminousIntensity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr LuminousIntensity operator*(const un_scalar_t scalar) const noexcept
         {
             return LuminousIntensity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr LuminousIntensity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr LuminousIntensity operator/(const un_scalar_t scalar) const noexcept
         {
             return LuminousIntensity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(LuminousIntensity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const LuminousIntensity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(LuminousIntensity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const LuminousIntensity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double candela() const
+        [[nodiscard]] constexpr un_scalar_t candela() const
         {
             return convert_from_base(LuminousIntensityUnit::Candela);
         }
 
-        [[nodiscard]] static constexpr LuminousIntensity from_candela(double value)
+        [[nodiscard]] static constexpr LuminousIntensity from_candela(const un_scalar_t value)
         {
             return LuminousIntensity(value, LuminousIntensityUnit::Candela);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, LuminousIntensityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LuminousIntensityUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LuminousIntensity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(LuminousIntensityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const LuminousIntensityUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown LuminousIntensity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

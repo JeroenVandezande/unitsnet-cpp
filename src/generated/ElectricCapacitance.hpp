@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricCapacitanceUnit : std::uint16_t
+    enum class ElectricCapacitanceUnit : std::uint8_t
     {
         Farads,
         Picofarads,
@@ -22,132 +23,132 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricCapacitance(
-            double value,
-            ElectricCapacitanceUnit unit = ElectricCapacitanceUnit::Farads)
+            const un_scalar_t value,
+            const ElectricCapacitanceUnit unit = ElectricCapacitanceUnit::Farads)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricCapacitanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricCapacitanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator+(ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator+(const ElectricCapacitance other) const noexcept
         {
             return ElectricCapacitance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator-(ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator-(const ElectricCapacitance other) const noexcept
         {
             return ElectricCapacitance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricCapacitance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricCapacitance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricCapacitance operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricCapacitance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricCapacitance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricCapacitance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricCapacitance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double farads() const
+        [[nodiscard]] constexpr un_scalar_t farads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Farads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_farads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_farads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Farads);
         }
 
 
-        [[nodiscard]] constexpr double picofarads() const
+        [[nodiscard]] constexpr un_scalar_t picofarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Picofarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_picofarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_picofarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Picofarads);
         }
 
 
-        [[nodiscard]] constexpr double nanofarads() const
+        [[nodiscard]] constexpr un_scalar_t nanofarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Nanofarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_nanofarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_nanofarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Nanofarads);
         }
 
 
-        [[nodiscard]] constexpr double microfarads() const
+        [[nodiscard]] constexpr un_scalar_t microfarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Microfarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_microfarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_microfarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Microfarads);
         }
 
 
-        [[nodiscard]] constexpr double millifarads() const
+        [[nodiscard]] constexpr un_scalar_t millifarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Millifarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_millifarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_millifarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Millifarads);
         }
 
 
-        [[nodiscard]] constexpr double kilofarads() const
+        [[nodiscard]] constexpr un_scalar_t kilofarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Kilofarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_kilofarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_kilofarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Kilofarads);
         }
 
 
-        [[nodiscard]] constexpr double megafarads() const
+        [[nodiscard]] constexpr un_scalar_t megafarads() const
         {
             return convert_from_base(ElectricCapacitanceUnit::Megafarads);
         }
 
-        [[nodiscard]] static constexpr ElectricCapacitance from_megafarads(double value)
+        [[nodiscard]] static constexpr ElectricCapacitance from_megafarads(const un_scalar_t value)
         {
             return ElectricCapacitance(value, ElectricCapacitanceUnit::Megafarads);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricCapacitanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricCapacitanceUnit unit)
         {
             switch (unit)
             {
@@ -156,29 +157,29 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricCapacitanceUnit::Picofarads:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case ElectricCapacitanceUnit::Nanofarads:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricCapacitanceUnit::Microfarads:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricCapacitanceUnit::Millifarads:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricCapacitanceUnit::Kilofarads:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricCapacitanceUnit::Megafarads:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             }
 
             throw std::invalid_argument("Unknown ElectricCapacitance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricCapacitanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricCapacitanceUnit unit) const
         {
             switch (unit)
             {
@@ -187,28 +188,28 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricCapacitanceUnit::Picofarads:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricCapacitanceUnit::Nanofarads:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricCapacitanceUnit::Microfarads:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricCapacitanceUnit::Millifarads:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCapacitanceUnit::Kilofarads:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricCapacitanceUnit::Megafarads:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             }
 
             throw std::invalid_argument("Unknown ElectricCapacitance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

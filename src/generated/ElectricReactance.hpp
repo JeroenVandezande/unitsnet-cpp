@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ElectricReactanceUnit : std::uint16_t
+    enum class ElectricReactanceUnit : std::uint8_t
     {
         Ohms,
         Nanoohms,
@@ -23,143 +24,143 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ElectricReactance(
-            double value,
-            ElectricReactanceUnit unit = ElectricReactanceUnit::Ohms)
+            const un_scalar_t value,
+            const ElectricReactanceUnit unit = ElectricReactanceUnit::Ohms)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ElectricReactanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ElectricReactanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ElectricReactance operator+(ElectricReactance other) const noexcept
+        [[nodiscard]] constexpr ElectricReactance operator+(const ElectricReactance other) const noexcept
         {
             return ElectricReactance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactance operator-(ElectricReactance other) const noexcept
+        [[nodiscard]] constexpr ElectricReactance operator-(const ElectricReactance other) const noexcept
         {
             return ElectricReactance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ElectricReactance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactance operator*(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ElectricReactance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ElectricReactance operator/(const un_scalar_t scalar) const noexcept
         {
             return ElectricReactance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ElectricReactance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ElectricReactance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ElectricReactance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ElectricReactance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double ohms() const
+        [[nodiscard]] constexpr un_scalar_t ohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Ohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_ohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_ohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Ohms);
         }
 
 
-        [[nodiscard]] constexpr double nanoohms() const
+        [[nodiscard]] constexpr un_scalar_t nanoohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Nanoohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_nanoohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_nanoohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Nanoohms);
         }
 
 
-        [[nodiscard]] constexpr double microohms() const
+        [[nodiscard]] constexpr un_scalar_t microohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Microohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_microohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_microohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Microohms);
         }
 
 
-        [[nodiscard]] constexpr double milliohms() const
+        [[nodiscard]] constexpr un_scalar_t milliohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Milliohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_milliohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_milliohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Milliohms);
         }
 
 
-        [[nodiscard]] constexpr double kiloohms() const
+        [[nodiscard]] constexpr un_scalar_t kiloohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Kiloohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_kiloohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_kiloohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Kiloohms);
         }
 
 
-        [[nodiscard]] constexpr double megaohms() const
+        [[nodiscard]] constexpr un_scalar_t megaohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Megaohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_megaohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_megaohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Megaohms);
         }
 
 
-        [[nodiscard]] constexpr double gigaohms() const
+        [[nodiscard]] constexpr un_scalar_t gigaohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Gigaohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_gigaohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_gigaohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Gigaohms);
         }
 
 
-        [[nodiscard]] constexpr double teraohms() const
+        [[nodiscard]] constexpr un_scalar_t teraohms() const
         {
             return convert_from_base(ElectricReactanceUnit::Teraohms);
         }
 
-        [[nodiscard]] static constexpr ElectricReactance from_teraohms(double value)
+        [[nodiscard]] static constexpr ElectricReactance from_teraohms(const un_scalar_t value)
         {
             return ElectricReactance(value, ElectricReactanceUnit::Teraohms);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ElectricReactanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ElectricReactanceUnit unit)
         {
             switch (unit)
             {
@@ -168,32 +169,32 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricReactanceUnit::Nanoohms:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case ElectricReactanceUnit::Microohms:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ElectricReactanceUnit::Milliohms:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricReactanceUnit::Kiloohms:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ElectricReactanceUnit::Megaohms:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricReactanceUnit::Gigaohms:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case ElectricReactanceUnit::Teraohms:
-                return (value * 1e12);
+                return (value * static_cast<un_scalar_t>(1e12));
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ElectricReactanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ElectricReactanceUnit unit) const
         {
             switch (unit)
             {
@@ -202,31 +203,31 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricReactanceUnit::Nanoohms:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricReactanceUnit::Microohms:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricReactanceUnit::Milliohms:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricReactanceUnit::Kiloohms:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ElectricReactanceUnit::Megaohms:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricReactanceUnit::Gigaohms:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case ElectricReactanceUnit::Teraohms:
-                return (value_) / 1e12;
+                return (value_) / static_cast<un_scalar_t>(1e12);
 
             }
 
             throw std::invalid_argument("Unknown ElectricReactance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

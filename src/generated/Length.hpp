@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class LengthUnit : std::uint16_t
+    enum class LengthUnit : std::uint8_t
     {
         Meters,
         Femtometers,
@@ -57,517 +58,517 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Length(
-            double value,
-            LengthUnit unit = LengthUnit::Meters)
+            const un_scalar_t value,
+            const LengthUnit unit = LengthUnit::Meters)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(LengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const LengthUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Length operator+(Length other) const noexcept
+        [[nodiscard]] constexpr Length operator+(const Length other) const noexcept
         {
             return Length(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Length operator-(Length other) const noexcept
+        [[nodiscard]] constexpr Length operator-(const Length other) const noexcept
         {
             return Length(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Length operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Length operator*(const un_scalar_t scalar) const noexcept
         {
             return Length(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Length operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Length operator/(const un_scalar_t scalar) const noexcept
         {
             return Length(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Length other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Length other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Length other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Length other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double meters() const
+        [[nodiscard]] constexpr un_scalar_t meters() const
         {
             return convert_from_base(LengthUnit::Meters);
         }
 
-        [[nodiscard]] static constexpr Length from_meters(double value)
+        [[nodiscard]] static constexpr Length from_meters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Meters);
         }
 
 
-        [[nodiscard]] constexpr double femtometers() const
+        [[nodiscard]] constexpr un_scalar_t femtometers() const
         {
             return convert_from_base(LengthUnit::Femtometers);
         }
 
-        [[nodiscard]] static constexpr Length from_femtometers(double value)
+        [[nodiscard]] static constexpr Length from_femtometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Femtometers);
         }
 
 
-        [[nodiscard]] constexpr double picometers() const
+        [[nodiscard]] constexpr un_scalar_t picometers() const
         {
             return convert_from_base(LengthUnit::Picometers);
         }
 
-        [[nodiscard]] static constexpr Length from_picometers(double value)
+        [[nodiscard]] static constexpr Length from_picometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Picometers);
         }
 
 
-        [[nodiscard]] constexpr double nanometers() const
+        [[nodiscard]] constexpr un_scalar_t nanometers() const
         {
             return convert_from_base(LengthUnit::Nanometers);
         }
 
-        [[nodiscard]] static constexpr Length from_nanometers(double value)
+        [[nodiscard]] static constexpr Length from_nanometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Nanometers);
         }
 
 
-        [[nodiscard]] constexpr double micrometers() const
+        [[nodiscard]] constexpr un_scalar_t micrometers() const
         {
             return convert_from_base(LengthUnit::Micrometers);
         }
 
-        [[nodiscard]] static constexpr Length from_micrometers(double value)
+        [[nodiscard]] static constexpr Length from_micrometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Micrometers);
         }
 
 
-        [[nodiscard]] constexpr double millimeters() const
+        [[nodiscard]] constexpr un_scalar_t millimeters() const
         {
             return convert_from_base(LengthUnit::Millimeters);
         }
 
-        [[nodiscard]] static constexpr Length from_millimeters(double value)
+        [[nodiscard]] static constexpr Length from_millimeters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Millimeters);
         }
 
 
-        [[nodiscard]] constexpr double centimeters() const
+        [[nodiscard]] constexpr un_scalar_t centimeters() const
         {
             return convert_from_base(LengthUnit::Centimeters);
         }
 
-        [[nodiscard]] static constexpr Length from_centimeters(double value)
+        [[nodiscard]] static constexpr Length from_centimeters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Centimeters);
         }
 
 
-        [[nodiscard]] constexpr double decimeters() const
+        [[nodiscard]] constexpr un_scalar_t decimeters() const
         {
             return convert_from_base(LengthUnit::Decimeters);
         }
 
-        [[nodiscard]] static constexpr Length from_decimeters(double value)
+        [[nodiscard]] static constexpr Length from_decimeters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Decimeters);
         }
 
 
-        [[nodiscard]] constexpr double decameters() const
+        [[nodiscard]] constexpr un_scalar_t decameters() const
         {
             return convert_from_base(LengthUnit::Decameters);
         }
 
-        [[nodiscard]] static constexpr Length from_decameters(double value)
+        [[nodiscard]] static constexpr Length from_decameters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Decameters);
         }
 
 
-        [[nodiscard]] constexpr double hectometers() const
+        [[nodiscard]] constexpr un_scalar_t hectometers() const
         {
             return convert_from_base(LengthUnit::Hectometers);
         }
 
-        [[nodiscard]] static constexpr Length from_hectometers(double value)
+        [[nodiscard]] static constexpr Length from_hectometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Hectometers);
         }
 
 
-        [[nodiscard]] constexpr double kilometers() const
+        [[nodiscard]] constexpr un_scalar_t kilometers() const
         {
             return convert_from_base(LengthUnit::Kilometers);
         }
 
-        [[nodiscard]] static constexpr Length from_kilometers(double value)
+        [[nodiscard]] static constexpr Length from_kilometers(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Kilometers);
         }
 
 
-        [[nodiscard]] constexpr double megameters() const
+        [[nodiscard]] constexpr un_scalar_t megameters() const
         {
             return convert_from_base(LengthUnit::Megameters);
         }
 
-        [[nodiscard]] static constexpr Length from_megameters(double value)
+        [[nodiscard]] static constexpr Length from_megameters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Megameters);
         }
 
 
-        [[nodiscard]] constexpr double gigameters() const
+        [[nodiscard]] constexpr un_scalar_t gigameters() const
         {
             return convert_from_base(LengthUnit::Gigameters);
         }
 
-        [[nodiscard]] static constexpr Length from_gigameters(double value)
+        [[nodiscard]] static constexpr Length from_gigameters(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Gigameters);
         }
 
 
-        [[nodiscard]] constexpr double miles() const
+        [[nodiscard]] constexpr un_scalar_t miles() const
         {
             return convert_from_base(LengthUnit::Miles);
         }
 
-        [[nodiscard]] static constexpr Length from_miles(double value)
+        [[nodiscard]] static constexpr Length from_miles(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Miles);
         }
 
 
-        [[nodiscard]] constexpr double yards() const
+        [[nodiscard]] constexpr un_scalar_t yards() const
         {
             return convert_from_base(LengthUnit::Yards);
         }
 
-        [[nodiscard]] static constexpr Length from_yards(double value)
+        [[nodiscard]] static constexpr Length from_yards(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Yards);
         }
 
 
-        [[nodiscard]] constexpr double kiloyards() const
+        [[nodiscard]] constexpr un_scalar_t kiloyards() const
         {
             return convert_from_base(LengthUnit::Kiloyards);
         }
 
-        [[nodiscard]] static constexpr Length from_kiloyards(double value)
+        [[nodiscard]] static constexpr Length from_kiloyards(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Kiloyards);
         }
 
 
-        [[nodiscard]] constexpr double feet() const
+        [[nodiscard]] constexpr un_scalar_t feet() const
         {
             return convert_from_base(LengthUnit::Feet);
         }
 
-        [[nodiscard]] static constexpr Length from_feet(double value)
+        [[nodiscard]] static constexpr Length from_feet(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Feet);
         }
 
 
-        [[nodiscard]] constexpr double kilofeet() const
+        [[nodiscard]] constexpr un_scalar_t kilofeet() const
         {
             return convert_from_base(LengthUnit::Kilofeet);
         }
 
-        [[nodiscard]] static constexpr Length from_kilofeet(double value)
+        [[nodiscard]] static constexpr Length from_kilofeet(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Kilofeet);
         }
 
 
-        [[nodiscard]] constexpr double us_survey_feet() const
+        [[nodiscard]] constexpr un_scalar_t us_survey_feet() const
         {
             return convert_from_base(LengthUnit::UsSurveyFeet);
         }
 
-        [[nodiscard]] static constexpr Length from_us_survey_feet(double value)
+        [[nodiscard]] static constexpr Length from_us_survey_feet(const un_scalar_t value)
         {
             return Length(value, LengthUnit::UsSurveyFeet);
         }
 
 
-        [[nodiscard]] constexpr double inches() const
+        [[nodiscard]] constexpr un_scalar_t inches() const
         {
             return convert_from_base(LengthUnit::Inches);
         }
 
-        [[nodiscard]] static constexpr Length from_inches(double value)
+        [[nodiscard]] static constexpr Length from_inches(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Inches);
         }
 
 
-        [[nodiscard]] constexpr double mils() const
+        [[nodiscard]] constexpr un_scalar_t mils() const
         {
             return convert_from_base(LengthUnit::Mils);
         }
 
-        [[nodiscard]] static constexpr Length from_mils(double value)
+        [[nodiscard]] static constexpr Length from_mils(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Mils);
         }
 
 
-        [[nodiscard]] constexpr double nautical_miles() const
+        [[nodiscard]] constexpr un_scalar_t nautical_miles() const
         {
             return convert_from_base(LengthUnit::NauticalMiles);
         }
 
-        [[nodiscard]] static constexpr Length from_nautical_miles(double value)
+        [[nodiscard]] static constexpr Length from_nautical_miles(const un_scalar_t value)
         {
             return Length(value, LengthUnit::NauticalMiles);
         }
 
 
-        [[nodiscard]] constexpr double fathoms() const
+        [[nodiscard]] constexpr un_scalar_t fathoms() const
         {
             return convert_from_base(LengthUnit::Fathoms);
         }
 
-        [[nodiscard]] static constexpr Length from_fathoms(double value)
+        [[nodiscard]] static constexpr Length from_fathoms(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Fathoms);
         }
 
 
-        [[nodiscard]] constexpr double shackles() const
+        [[nodiscard]] constexpr un_scalar_t shackles() const
         {
             return convert_from_base(LengthUnit::Shackles);
         }
 
-        [[nodiscard]] static constexpr Length from_shackles(double value)
+        [[nodiscard]] static constexpr Length from_shackles(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Shackles);
         }
 
 
-        [[nodiscard]] constexpr double microinches() const
+        [[nodiscard]] constexpr un_scalar_t microinches() const
         {
             return convert_from_base(LengthUnit::Microinches);
         }
 
-        [[nodiscard]] static constexpr Length from_microinches(double value)
+        [[nodiscard]] static constexpr Length from_microinches(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Microinches);
         }
 
 
-        [[nodiscard]] constexpr double printer_points() const
+        [[nodiscard]] constexpr un_scalar_t printer_points() const
         {
             return convert_from_base(LengthUnit::PrinterPoints);
         }
 
-        [[nodiscard]] static constexpr Length from_printer_points(double value)
+        [[nodiscard]] static constexpr Length from_printer_points(const un_scalar_t value)
         {
             return Length(value, LengthUnit::PrinterPoints);
         }
 
 
-        [[nodiscard]] constexpr double dtp_points() const
+        [[nodiscard]] constexpr un_scalar_t dtp_points() const
         {
             return convert_from_base(LengthUnit::DtpPoints);
         }
 
-        [[nodiscard]] static constexpr Length from_dtp_points(double value)
+        [[nodiscard]] static constexpr Length from_dtp_points(const un_scalar_t value)
         {
             return Length(value, LengthUnit::DtpPoints);
         }
 
 
-        [[nodiscard]] constexpr double printer_picas() const
+        [[nodiscard]] constexpr un_scalar_t printer_picas() const
         {
             return convert_from_base(LengthUnit::PrinterPicas);
         }
 
-        [[nodiscard]] static constexpr Length from_printer_picas(double value)
+        [[nodiscard]] static constexpr Length from_printer_picas(const un_scalar_t value)
         {
             return Length(value, LengthUnit::PrinterPicas);
         }
 
 
-        [[nodiscard]] constexpr double dtp_picas() const
+        [[nodiscard]] constexpr un_scalar_t dtp_picas() const
         {
             return convert_from_base(LengthUnit::DtpPicas);
         }
 
-        [[nodiscard]] static constexpr Length from_dtp_picas(double value)
+        [[nodiscard]] static constexpr Length from_dtp_picas(const un_scalar_t value)
         {
             return Length(value, LengthUnit::DtpPicas);
         }
 
 
-        [[nodiscard]] constexpr double twips() const
+        [[nodiscard]] constexpr un_scalar_t twips() const
         {
             return convert_from_base(LengthUnit::Twips);
         }
 
-        [[nodiscard]] static constexpr Length from_twips(double value)
+        [[nodiscard]] static constexpr Length from_twips(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Twips);
         }
 
 
-        [[nodiscard]] constexpr double hands() const
+        [[nodiscard]] constexpr un_scalar_t hands() const
         {
             return convert_from_base(LengthUnit::Hands);
         }
 
-        [[nodiscard]] static constexpr Length from_hands(double value)
+        [[nodiscard]] static constexpr Length from_hands(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Hands);
         }
 
 
-        [[nodiscard]] constexpr double astronomical_units() const
+        [[nodiscard]] constexpr un_scalar_t astronomical_units() const
         {
             return convert_from_base(LengthUnit::AstronomicalUnits);
         }
 
-        [[nodiscard]] static constexpr Length from_astronomical_units(double value)
+        [[nodiscard]] static constexpr Length from_astronomical_units(const un_scalar_t value)
         {
             return Length(value, LengthUnit::AstronomicalUnits);
         }
 
 
-        [[nodiscard]] constexpr double parsecs() const
+        [[nodiscard]] constexpr un_scalar_t parsecs() const
         {
             return convert_from_base(LengthUnit::Parsecs);
         }
 
-        [[nodiscard]] static constexpr Length from_parsecs(double value)
+        [[nodiscard]] static constexpr Length from_parsecs(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Parsecs);
         }
 
 
-        [[nodiscard]] constexpr double kiloparsecs() const
+        [[nodiscard]] constexpr un_scalar_t kiloparsecs() const
         {
             return convert_from_base(LengthUnit::Kiloparsecs);
         }
 
-        [[nodiscard]] static constexpr Length from_kiloparsecs(double value)
+        [[nodiscard]] static constexpr Length from_kiloparsecs(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Kiloparsecs);
         }
 
 
-        [[nodiscard]] constexpr double megaparsecs() const
+        [[nodiscard]] constexpr un_scalar_t megaparsecs() const
         {
             return convert_from_base(LengthUnit::Megaparsecs);
         }
 
-        [[nodiscard]] static constexpr Length from_megaparsecs(double value)
+        [[nodiscard]] static constexpr Length from_megaparsecs(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Megaparsecs);
         }
 
 
-        [[nodiscard]] constexpr double light_years() const
+        [[nodiscard]] constexpr un_scalar_t light_years() const
         {
             return convert_from_base(LengthUnit::LightYears);
         }
 
-        [[nodiscard]] static constexpr Length from_light_years(double value)
+        [[nodiscard]] static constexpr Length from_light_years(const un_scalar_t value)
         {
             return Length(value, LengthUnit::LightYears);
         }
 
 
-        [[nodiscard]] constexpr double kilolight_years() const
+        [[nodiscard]] constexpr un_scalar_t kilolight_years() const
         {
             return convert_from_base(LengthUnit::KilolightYears);
         }
 
-        [[nodiscard]] static constexpr Length from_kilolight_years(double value)
+        [[nodiscard]] static constexpr Length from_kilolight_years(const un_scalar_t value)
         {
             return Length(value, LengthUnit::KilolightYears);
         }
 
 
-        [[nodiscard]] constexpr double megalight_years() const
+        [[nodiscard]] constexpr un_scalar_t megalight_years() const
         {
             return convert_from_base(LengthUnit::MegalightYears);
         }
 
-        [[nodiscard]] static constexpr Length from_megalight_years(double value)
+        [[nodiscard]] static constexpr Length from_megalight_years(const un_scalar_t value)
         {
             return Length(value, LengthUnit::MegalightYears);
         }
 
 
-        [[nodiscard]] constexpr double solar_radiuses() const
+        [[nodiscard]] constexpr un_scalar_t solar_radiuses() const
         {
             return convert_from_base(LengthUnit::SolarRadiuses);
         }
 
-        [[nodiscard]] static constexpr Length from_solar_radiuses(double value)
+        [[nodiscard]] static constexpr Length from_solar_radiuses(const un_scalar_t value)
         {
             return Length(value, LengthUnit::SolarRadiuses);
         }
 
 
-        [[nodiscard]] constexpr double chains() const
+        [[nodiscard]] constexpr un_scalar_t chains() const
         {
             return convert_from_base(LengthUnit::Chains);
         }
 
-        [[nodiscard]] static constexpr Length from_chains(double value)
+        [[nodiscard]] static constexpr Length from_chains(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Chains);
         }
 
 
-        [[nodiscard]] constexpr double angstroms() const
+        [[nodiscard]] constexpr un_scalar_t angstroms() const
         {
             return convert_from_base(LengthUnit::Angstroms);
         }
 
-        [[nodiscard]] static constexpr Length from_angstroms(double value)
+        [[nodiscard]] static constexpr Length from_angstroms(const un_scalar_t value)
         {
             return Length(value, LengthUnit::Angstroms);
         }
 
 
-        [[nodiscard]] constexpr double data_miles() const
+        [[nodiscard]] constexpr un_scalar_t data_miles() const
         {
             return convert_from_base(LengthUnit::DataMiles);
         }
 
-        [[nodiscard]] static constexpr Length from_data_miles(double value)
+        [[nodiscard]] static constexpr Length from_data_miles(const un_scalar_t value)
         {
             return Length(value, LengthUnit::DataMiles);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, LengthUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, LengthUnit unit)
         {
             switch (unit)
             {
@@ -576,40 +577,40 @@ namespace unitsnet_cpp
                 return value;
 
             case LengthUnit::Femtometers:
-                return (value * 1e-15);
+                return (value * static_cast<un_scalar_t>(1e-15));
 
             case LengthUnit::Picometers:
-                return (value * 1e-12);
+                return (value * static_cast<un_scalar_t>(1e-12));
 
             case LengthUnit::Nanometers:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case LengthUnit::Micrometers:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case LengthUnit::Millimeters:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case LengthUnit::Centimeters:
-                return (value * 1e-2);
+                return (value * static_cast<un_scalar_t>(1e-2));
 
             case LengthUnit::Decimeters:
-                return (value * 1e-1);
+                return (value * static_cast<un_scalar_t>(1e-1));
 
             case LengthUnit::Decameters:
-                return (value * 1e1);
+                return (value * static_cast<un_scalar_t>(1e1));
 
             case LengthUnit::Hectometers:
-                return (value * 1e2);
+                return (value * static_cast<un_scalar_t>(1e2));
 
             case LengthUnit::Kilometers:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case LengthUnit::Megameters:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case LengthUnit::Gigameters:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case LengthUnit::Miles:
                 return value * 1609.344;
@@ -618,13 +619,13 @@ namespace unitsnet_cpp
                 return value * 0.9144;
 
             case LengthUnit::Kiloyards:
-                return (value * 1e3) * 0.9144;
+                return (value * static_cast<un_scalar_t>(1e3)) * 0.9144;
 
             case LengthUnit::Feet:
                 return value * 0.3048;
 
             case LengthUnit::Kilofeet:
-                return (value * 1e3) * 0.3048;
+                return (value * static_cast<un_scalar_t>(1e3)) * 0.3048;
 
             case LengthUnit::UsSurveyFeet:
                 return value * 1200 / 3937;
@@ -672,19 +673,19 @@ namespace unitsnet_cpp
                 return value * 3.08567758128e16;
 
             case LengthUnit::Kiloparsecs:
-                return (value * 1e3) * 3.08567758128e16;
+                return (value * static_cast<un_scalar_t>(1e3)) * 3.08567758128e16;
 
             case LengthUnit::Megaparsecs:
-                return (value * 1e6) * 3.08567758128e16;
+                return (value * static_cast<un_scalar_t>(1e6)) * 3.08567758128e16;
 
             case LengthUnit::LightYears:
                 return value * 9.46073047258e15;
 
             case LengthUnit::KilolightYears:
-                return (value * 1e3) * 9.46073047258e15;
+                return (value * static_cast<un_scalar_t>(1e3)) * 9.46073047258e15;
 
             case LengthUnit::MegalightYears:
-                return (value * 1e6) * 9.46073047258e15;
+                return (value * static_cast<un_scalar_t>(1e6)) * 9.46073047258e15;
 
             case LengthUnit::SolarRadiuses:
                 return value * 6.95700e8;
@@ -703,7 +704,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Length unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(LengthUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const LengthUnit unit) const
         {
             switch (unit)
             {
@@ -712,40 +713,40 @@ namespace unitsnet_cpp
                 return value_;
 
             case LengthUnit::Femtometers:
-                return (value_) / 1e-15;
+                return (value_) / static_cast<un_scalar_t>(1e-15);
 
             case LengthUnit::Picometers:
-                return (value_) / 1e-12;
+                return (value_) / static_cast<un_scalar_t>(1e-12);
 
             case LengthUnit::Nanometers:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case LengthUnit::Micrometers:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case LengthUnit::Millimeters:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case LengthUnit::Centimeters:
-                return (value_) / 1e-2;
+                return (value_) / static_cast<un_scalar_t>(1e-2);
 
             case LengthUnit::Decimeters:
-                return (value_) / 1e-1;
+                return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case LengthUnit::Decameters:
-                return (value_) / 1e1;
+                return (value_) / static_cast<un_scalar_t>(1e1);
 
             case LengthUnit::Hectometers:
-                return (value_) / 1e2;
+                return (value_) / static_cast<un_scalar_t>(1e2);
 
             case LengthUnit::Kilometers:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megameters:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::Gigameters:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case LengthUnit::Miles:
                 return value_ / 1609.344;
@@ -754,13 +755,13 @@ namespace unitsnet_cpp
                 return value_ / 0.9144;
 
             case LengthUnit::Kiloyards:
-                return (value_ / 0.9144) / 1e3;
+                return (value_ / 0.9144) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Feet:
                 return value_ / 0.3048;
 
             case LengthUnit::Kilofeet:
-                return (value_ / 0.3048) / 1e3;
+                return (value_ / 0.3048) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::UsSurveyFeet:
                 return value_ * 3937 / 1200;
@@ -808,19 +809,19 @@ namespace unitsnet_cpp
                 return value_ / 3.08567758128e16;
 
             case LengthUnit::Kiloparsecs:
-                return (value_ / 3.08567758128e16) / 1e3;
+                return (value_ / 3.08567758128e16) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megaparsecs:
-                return (value_ / 3.08567758128e16) / 1e6;
+                return (value_ / 3.08567758128e16) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::LightYears:
                 return value_ / 9.46073047258e15;
 
             case LengthUnit::KilolightYears:
-                return (value_ / 9.46073047258e15) / 1e3;
+                return (value_ / 9.46073047258e15) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::MegalightYears:
-                return (value_ / 9.46073047258e15) / 1e6;
+                return (value_ / 9.46073047258e15) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::SolarRadiuses:
                 return value_ / 6.95700e8;
@@ -839,6 +840,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Length unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

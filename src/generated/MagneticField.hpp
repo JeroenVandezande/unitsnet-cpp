@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class MagneticFieldUnit : std::uint16_t
+    enum class MagneticFieldUnit : std::uint8_t
     {
         Teslas,
         Nanoteslas,
@@ -21,121 +22,121 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit MagneticField(
-            double value,
-            MagneticFieldUnit unit = MagneticFieldUnit::Teslas)
+            const un_scalar_t value,
+            const MagneticFieldUnit unit = MagneticFieldUnit::Teslas)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(MagneticFieldUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const MagneticFieldUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr MagneticField operator+(MagneticField other) const noexcept
+        [[nodiscard]] constexpr MagneticField operator+(const MagneticField other) const noexcept
         {
             return MagneticField(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr MagneticField operator-(MagneticField other) const noexcept
+        [[nodiscard]] constexpr MagneticField operator-(const MagneticField other) const noexcept
         {
             return MagneticField(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr MagneticField operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr MagneticField operator*(const un_scalar_t scalar) const noexcept
         {
             return MagneticField(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr MagneticField operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr MagneticField operator/(const un_scalar_t scalar) const noexcept
         {
             return MagneticField(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(MagneticField other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const MagneticField other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(MagneticField other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const MagneticField other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double teslas() const
+        [[nodiscard]] constexpr un_scalar_t teslas() const
         {
             return convert_from_base(MagneticFieldUnit::Teslas);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_teslas(double value)
+        [[nodiscard]] static constexpr MagneticField from_teslas(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Teslas);
         }
 
 
-        [[nodiscard]] constexpr double nanoteslas() const
+        [[nodiscard]] constexpr un_scalar_t nanoteslas() const
         {
             return convert_from_base(MagneticFieldUnit::Nanoteslas);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_nanoteslas(double value)
+        [[nodiscard]] static constexpr MagneticField from_nanoteslas(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Nanoteslas);
         }
 
 
-        [[nodiscard]] constexpr double microteslas() const
+        [[nodiscard]] constexpr un_scalar_t microteslas() const
         {
             return convert_from_base(MagneticFieldUnit::Microteslas);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_microteslas(double value)
+        [[nodiscard]] static constexpr MagneticField from_microteslas(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Microteslas);
         }
 
 
-        [[nodiscard]] constexpr double milliteslas() const
+        [[nodiscard]] constexpr un_scalar_t milliteslas() const
         {
             return convert_from_base(MagneticFieldUnit::Milliteslas);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_milliteslas(double value)
+        [[nodiscard]] static constexpr MagneticField from_milliteslas(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Milliteslas);
         }
 
 
-        [[nodiscard]] constexpr double gausses() const
+        [[nodiscard]] constexpr un_scalar_t gausses() const
         {
             return convert_from_base(MagneticFieldUnit::Gausses);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_gausses(double value)
+        [[nodiscard]] static constexpr MagneticField from_gausses(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Gausses);
         }
 
 
-        [[nodiscard]] constexpr double milligausses() const
+        [[nodiscard]] constexpr un_scalar_t milligausses() const
         {
             return convert_from_base(MagneticFieldUnit::Milligausses);
         }
 
-        [[nodiscard]] static constexpr MagneticField from_milligausses(double value)
+        [[nodiscard]] static constexpr MagneticField from_milligausses(const un_scalar_t value)
         {
             return MagneticField(value, MagneticFieldUnit::Milligausses);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, MagneticFieldUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MagneticFieldUnit unit)
         {
             switch (unit)
             {
@@ -144,26 +145,26 @@ namespace unitsnet_cpp
                 return value;
 
             case MagneticFieldUnit::Nanoteslas:
-                return (value * 1e-9);
+                return (value * static_cast<un_scalar_t>(1e-9));
 
             case MagneticFieldUnit::Microteslas:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case MagneticFieldUnit::Milliteslas:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case MagneticFieldUnit::Gausses:
                 return value / 1e4;
 
             case MagneticFieldUnit::Milligausses:
-                return (value * 1e-3) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 1e4;
 
             }
 
             throw std::invalid_argument("Unknown MagneticField unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(MagneticFieldUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const MagneticFieldUnit unit) const
         {
             switch (unit)
             {
@@ -172,25 +173,25 @@ namespace unitsnet_cpp
                 return value_;
 
             case MagneticFieldUnit::Nanoteslas:
-                return (value_) / 1e-9;
+                return (value_) / static_cast<un_scalar_t>(1e-9);
 
             case MagneticFieldUnit::Microteslas:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case MagneticFieldUnit::Milliteslas:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case MagneticFieldUnit::Gausses:
                 return value_ * 1e4;
 
             case MagneticFieldUnit::Milligausses:
-                return (value_ * 1e4) / 1e-3;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-3);
 
             }
 
             throw std::invalid_argument("Unknown MagneticField unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

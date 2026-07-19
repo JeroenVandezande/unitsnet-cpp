@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RatioChangeRateUnit : std::uint16_t
+    enum class RatioChangeRateUnit : std::uint8_t
     {
         PercentsPerSecond,
         DecimalFractionsPerSecond,
@@ -17,77 +18,77 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RatioChangeRate(
-            double value,
-            RatioChangeRateUnit unit = RatioChangeRateUnit::DecimalFractionsPerSecond)
+            const un_scalar_t value,
+            const RatioChangeRateUnit unit = RatioChangeRateUnit::DecimalFractionsPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RatioChangeRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RatioChangeRateUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator+(RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator+(const RatioChangeRate other) const noexcept
         {
             return RatioChangeRate(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator-(RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator-(const RatioChangeRate other) const noexcept
         {
             return RatioChangeRate(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator*(const un_scalar_t scalar) const noexcept
         {
             return RatioChangeRate(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RatioChangeRate operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RatioChangeRate operator/(const un_scalar_t scalar) const noexcept
         {
             return RatioChangeRate(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RatioChangeRate other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RatioChangeRate other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RatioChangeRate other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double percents_per_second() const
+        [[nodiscard]] constexpr un_scalar_t percents_per_second() const
         {
             return convert_from_base(RatioChangeRateUnit::PercentsPerSecond);
         }
 
-        [[nodiscard]] static constexpr RatioChangeRate from_percents_per_second(double value)
+        [[nodiscard]] static constexpr RatioChangeRate from_percents_per_second(const un_scalar_t value)
         {
             return RatioChangeRate(value, RatioChangeRateUnit::PercentsPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double decimal_fractions_per_second() const
+        [[nodiscard]] constexpr un_scalar_t decimal_fractions_per_second() const
         {
             return convert_from_base(RatioChangeRateUnit::DecimalFractionsPerSecond);
         }
 
-        [[nodiscard]] static constexpr RatioChangeRate from_decimal_fractions_per_second(double value)
+        [[nodiscard]] static constexpr RatioChangeRate from_decimal_fractions_per_second(const un_scalar_t value)
         {
             return RatioChangeRate(value, RatioChangeRateUnit::DecimalFractionsPerSecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RatioChangeRateUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RatioChangeRateUnit unit)
         {
             switch (unit)
             {
@@ -103,7 +104,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown RatioChangeRate unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RatioChangeRateUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RatioChangeRateUnit unit) const
         {
             switch (unit)
             {
@@ -119,6 +120,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown RatioChangeRate unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

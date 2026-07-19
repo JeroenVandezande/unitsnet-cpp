@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class RelativeHumidityUnit : std::uint16_t
+    enum class RelativeHumidityUnit : std::uint8_t
     {
         Percent,
     };
@@ -16,66 +17,66 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit RelativeHumidity(
-            double value,
-            RelativeHumidityUnit unit = RelativeHumidityUnit::Percent)
+            const un_scalar_t value,
+            const RelativeHumidityUnit unit = RelativeHumidityUnit::Percent)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(RelativeHumidityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const RelativeHumidityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr RelativeHumidity operator+(RelativeHumidity other) const noexcept
+        [[nodiscard]] constexpr RelativeHumidity operator+(const RelativeHumidity other) const noexcept
         {
             return RelativeHumidity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr RelativeHumidity operator-(RelativeHumidity other) const noexcept
+        [[nodiscard]] constexpr RelativeHumidity operator-(const RelativeHumidity other) const noexcept
         {
             return RelativeHumidity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr RelativeHumidity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr RelativeHumidity operator*(const un_scalar_t scalar) const noexcept
         {
             return RelativeHumidity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr RelativeHumidity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr RelativeHumidity operator/(const un_scalar_t scalar) const noexcept
         {
             return RelativeHumidity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(RelativeHumidity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const RelativeHumidity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(RelativeHumidity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const RelativeHumidity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double percent() const
+        [[nodiscard]] constexpr un_scalar_t percent() const
         {
             return convert_from_base(RelativeHumidityUnit::Percent);
         }
 
-        [[nodiscard]] static constexpr RelativeHumidity from_percent(double value)
+        [[nodiscard]] static constexpr RelativeHumidity from_percent(const un_scalar_t value)
         {
             return RelativeHumidity(value, RelativeHumidityUnit::Percent);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, RelativeHumidityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RelativeHumidityUnit unit)
         {
             switch (unit)
             {
@@ -88,7 +89,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown RelativeHumidity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(RelativeHumidityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const RelativeHumidityUnit unit) const
         {
             switch (unit)
             {
@@ -101,6 +102,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown RelativeHumidity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

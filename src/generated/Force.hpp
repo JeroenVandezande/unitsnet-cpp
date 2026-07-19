@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ForceUnit : std::uint16_t
+    enum class ForceUnit : std::uint8_t
     {
         Dyne,
         GramsForce,
@@ -31,231 +32,231 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Force(
-            double value,
-            ForceUnit unit = ForceUnit::Newtons)
+            const un_scalar_t value,
+            const ForceUnit unit = ForceUnit::Newtons)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ForceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ForceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Force operator+(Force other) const noexcept
+        [[nodiscard]] constexpr Force operator+(const Force other) const noexcept
         {
             return Force(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Force operator-(Force other) const noexcept
+        [[nodiscard]] constexpr Force operator-(const Force other) const noexcept
         {
             return Force(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Force operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Force operator*(const un_scalar_t scalar) const noexcept
         {
             return Force(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Force operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Force operator/(const un_scalar_t scalar) const noexcept
         {
             return Force(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Force other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Force other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Force other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Force other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double dyne() const
+        [[nodiscard]] constexpr un_scalar_t dyne() const
         {
             return convert_from_base(ForceUnit::Dyne);
         }
 
-        [[nodiscard]] static constexpr Force from_dyne(double value)
+        [[nodiscard]] static constexpr Force from_dyne(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Dyne);
         }
 
 
-        [[nodiscard]] constexpr double grams_force() const
+        [[nodiscard]] constexpr un_scalar_t grams_force() const
         {
             return convert_from_base(ForceUnit::GramsForce);
         }
 
-        [[nodiscard]] static constexpr Force from_grams_force(double value)
+        [[nodiscard]] static constexpr Force from_grams_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::GramsForce);
         }
 
 
-        [[nodiscard]] constexpr double kilograms_force() const
+        [[nodiscard]] constexpr un_scalar_t kilograms_force() const
         {
             return convert_from_base(ForceUnit::KilogramsForce);
         }
 
-        [[nodiscard]] static constexpr Force from_kilograms_force(double value)
+        [[nodiscard]] static constexpr Force from_kilograms_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::KilogramsForce);
         }
 
 
-        [[nodiscard]] constexpr double tonnes_force() const
+        [[nodiscard]] constexpr un_scalar_t tonnes_force() const
         {
             return convert_from_base(ForceUnit::TonnesForce);
         }
 
-        [[nodiscard]] static constexpr Force from_tonnes_force(double value)
+        [[nodiscard]] static constexpr Force from_tonnes_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::TonnesForce);
         }
 
 
-        [[nodiscard]] constexpr double newtons() const
+        [[nodiscard]] constexpr un_scalar_t newtons() const
         {
             return convert_from_base(ForceUnit::Newtons);
         }
 
-        [[nodiscard]] static constexpr Force from_newtons(double value)
+        [[nodiscard]] static constexpr Force from_newtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Newtons);
         }
 
 
-        [[nodiscard]] constexpr double micronewtons() const
+        [[nodiscard]] constexpr un_scalar_t micronewtons() const
         {
             return convert_from_base(ForceUnit::Micronewtons);
         }
 
-        [[nodiscard]] static constexpr Force from_micronewtons(double value)
+        [[nodiscard]] static constexpr Force from_micronewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Micronewtons);
         }
 
 
-        [[nodiscard]] constexpr double millinewtons() const
+        [[nodiscard]] constexpr un_scalar_t millinewtons() const
         {
             return convert_from_base(ForceUnit::Millinewtons);
         }
 
-        [[nodiscard]] static constexpr Force from_millinewtons(double value)
+        [[nodiscard]] static constexpr Force from_millinewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Millinewtons);
         }
 
 
-        [[nodiscard]] constexpr double decanewtons() const
+        [[nodiscard]] constexpr un_scalar_t decanewtons() const
         {
             return convert_from_base(ForceUnit::Decanewtons);
         }
 
-        [[nodiscard]] static constexpr Force from_decanewtons(double value)
+        [[nodiscard]] static constexpr Force from_decanewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Decanewtons);
         }
 
 
-        [[nodiscard]] constexpr double kilonewtons() const
+        [[nodiscard]] constexpr un_scalar_t kilonewtons() const
         {
             return convert_from_base(ForceUnit::Kilonewtons);
         }
 
-        [[nodiscard]] static constexpr Force from_kilonewtons(double value)
+        [[nodiscard]] static constexpr Force from_kilonewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Kilonewtons);
         }
 
 
-        [[nodiscard]] constexpr double meganewtons() const
+        [[nodiscard]] constexpr un_scalar_t meganewtons() const
         {
             return convert_from_base(ForceUnit::Meganewtons);
         }
 
-        [[nodiscard]] static constexpr Force from_meganewtons(double value)
+        [[nodiscard]] static constexpr Force from_meganewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Meganewtons);
         }
 
 
-        [[nodiscard]] constexpr double kiloponds() const
+        [[nodiscard]] constexpr un_scalar_t kiloponds() const
         {
             return convert_from_base(ForceUnit::Kiloponds);
         }
 
-        [[nodiscard]] static constexpr Force from_kiloponds(double value)
+        [[nodiscard]] static constexpr Force from_kiloponds(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Kiloponds);
         }
 
 
-        [[nodiscard]] constexpr double poundals() const
+        [[nodiscard]] constexpr un_scalar_t poundals() const
         {
             return convert_from_base(ForceUnit::Poundals);
         }
 
-        [[nodiscard]] static constexpr Force from_poundals(double value)
+        [[nodiscard]] static constexpr Force from_poundals(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Poundals);
         }
 
 
-        [[nodiscard]] constexpr double pounds_force() const
+        [[nodiscard]] constexpr un_scalar_t pounds_force() const
         {
             return convert_from_base(ForceUnit::PoundsForce);
         }
 
-        [[nodiscard]] static constexpr Force from_pounds_force(double value)
+        [[nodiscard]] static constexpr Force from_pounds_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::PoundsForce);
         }
 
 
-        [[nodiscard]] constexpr double kilopounds_force() const
+        [[nodiscard]] constexpr un_scalar_t kilopounds_force() const
         {
             return convert_from_base(ForceUnit::KilopoundsForce);
         }
 
-        [[nodiscard]] static constexpr Force from_kilopounds_force(double value)
+        [[nodiscard]] static constexpr Force from_kilopounds_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::KilopoundsForce);
         }
 
 
-        [[nodiscard]] constexpr double ounce_force() const
+        [[nodiscard]] constexpr un_scalar_t ounce_force() const
         {
             return convert_from_base(ForceUnit::OunceForce);
         }
 
-        [[nodiscard]] static constexpr Force from_ounce_force(double value)
+        [[nodiscard]] static constexpr Force from_ounce_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::OunceForce);
         }
 
 
-        [[nodiscard]] constexpr double short_tons_force() const
+        [[nodiscard]] constexpr un_scalar_t short_tons_force() const
         {
             return convert_from_base(ForceUnit::ShortTonsForce);
         }
 
-        [[nodiscard]] static constexpr Force from_short_tons_force(double value)
+        [[nodiscard]] static constexpr Force from_short_tons_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::ShortTonsForce);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ForceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ForceUnit unit)
         {
             switch (unit)
             {
@@ -276,19 +277,19 @@ namespace unitsnet_cpp
                 return value;
 
             case ForceUnit::Micronewtons:
-                return (value * 1e-6);
+                return (value * static_cast<un_scalar_t>(1e-6));
 
             case ForceUnit::Millinewtons:
-                return (value * 1e-3);
+                return (value * static_cast<un_scalar_t>(1e-3));
 
             case ForceUnit::Decanewtons:
-                return (value * 1e1);
+                return (value * static_cast<un_scalar_t>(1e1));
 
             case ForceUnit::Kilonewtons:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case ForceUnit::Meganewtons:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case ForceUnit::Kiloponds:
                 return value * 9.80665;
@@ -300,7 +301,7 @@ namespace unitsnet_cpp
                 return value * 4.4482216152605;
 
             case ForceUnit::KilopoundsForce:
-                return (value * 1e3) * 4.4482216152605;
+                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605;
 
             case ForceUnit::OunceForce:
                 return value * (4.4482216152605 / 16);
@@ -313,7 +314,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Force unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ForceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ForceUnit unit) const
         {
             switch (unit)
             {
@@ -334,19 +335,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case ForceUnit::Micronewtons:
-                return (value_) / 1e-6;
+                return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case ForceUnit::Millinewtons:
-                return (value_) / 1e-3;
+                return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ForceUnit::Decanewtons:
-                return (value_) / 1e1;
+                return (value_) / static_cast<un_scalar_t>(1e1);
 
             case ForceUnit::Kilonewtons:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ForceUnit::Meganewtons:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ForceUnit::Kiloponds:
                 return value_ / 9.80665;
@@ -358,7 +359,7 @@ namespace unitsnet_cpp
                 return value_ / 4.4482216152605;
 
             case ForceUnit::KilopoundsForce:
-                return (value_ / 4.4482216152605) / 1e3;
+                return (value_ / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
 
             case ForceUnit::OunceForce:
                 return value_ / (4.4482216152605 / 16);
@@ -371,6 +372,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Force unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

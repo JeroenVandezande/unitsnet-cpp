@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class InformationUnit : std::uint16_t
+    enum class InformationUnit : std::uint8_t
     {
         Bytes,
         Kilobytes,
@@ -54,484 +55,484 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Information(
-            double value,
-            InformationUnit unit = InformationUnit::Bits)
+            const un_scalar_t value,
+            const InformationUnit unit = InformationUnit::Bits)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(InformationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const InformationUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Information operator+(Information other) const noexcept
+        [[nodiscard]] constexpr Information operator+(const Information other) const noexcept
         {
             return Information(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Information operator-(Information other) const noexcept
+        [[nodiscard]] constexpr Information operator-(const Information other) const noexcept
         {
             return Information(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Information operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Information operator*(const un_scalar_t scalar) const noexcept
         {
             return Information(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Information operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Information operator/(const un_scalar_t scalar) const noexcept
         {
             return Information(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Information other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Information other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Information other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Information other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double bytes() const
+        [[nodiscard]] constexpr un_scalar_t bytes() const
         {
             return convert_from_base(InformationUnit::Bytes);
         }
 
-        [[nodiscard]] static constexpr Information from_bytes(double value)
+        [[nodiscard]] static constexpr Information from_bytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Bytes);
         }
 
 
-        [[nodiscard]] constexpr double kilobytes() const
+        [[nodiscard]] constexpr un_scalar_t kilobytes() const
         {
             return convert_from_base(InformationUnit::Kilobytes);
         }
 
-        [[nodiscard]] static constexpr Information from_kilobytes(double value)
+        [[nodiscard]] static constexpr Information from_kilobytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kilobytes);
         }
 
 
-        [[nodiscard]] constexpr double megabytes() const
+        [[nodiscard]] constexpr un_scalar_t megabytes() const
         {
             return convert_from_base(InformationUnit::Megabytes);
         }
 
-        [[nodiscard]] static constexpr Information from_megabytes(double value)
+        [[nodiscard]] static constexpr Information from_megabytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Megabytes);
         }
 
 
-        [[nodiscard]] constexpr double gigabytes() const
+        [[nodiscard]] constexpr un_scalar_t gigabytes() const
         {
             return convert_from_base(InformationUnit::Gigabytes);
         }
 
-        [[nodiscard]] static constexpr Information from_gigabytes(double value)
+        [[nodiscard]] static constexpr Information from_gigabytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gigabytes);
         }
 
 
-        [[nodiscard]] constexpr double terabytes() const
+        [[nodiscard]] constexpr un_scalar_t terabytes() const
         {
             return convert_from_base(InformationUnit::Terabytes);
         }
 
-        [[nodiscard]] static constexpr Information from_terabytes(double value)
+        [[nodiscard]] static constexpr Information from_terabytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Terabytes);
         }
 
 
-        [[nodiscard]] constexpr double petabytes() const
+        [[nodiscard]] constexpr un_scalar_t petabytes() const
         {
             return convert_from_base(InformationUnit::Petabytes);
         }
 
-        [[nodiscard]] static constexpr Information from_petabytes(double value)
+        [[nodiscard]] static constexpr Information from_petabytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Petabytes);
         }
 
 
-        [[nodiscard]] constexpr double exabytes() const
+        [[nodiscard]] constexpr un_scalar_t exabytes() const
         {
             return convert_from_base(InformationUnit::Exabytes);
         }
 
-        [[nodiscard]] static constexpr Information from_exabytes(double value)
+        [[nodiscard]] static constexpr Information from_exabytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exabytes);
         }
 
 
-        [[nodiscard]] constexpr double kibibytes() const
+        [[nodiscard]] constexpr un_scalar_t kibibytes() const
         {
             return convert_from_base(InformationUnit::Kibibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_kibibytes(double value)
+        [[nodiscard]] static constexpr Information from_kibibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kibibytes);
         }
 
 
-        [[nodiscard]] constexpr double mebibytes() const
+        [[nodiscard]] constexpr un_scalar_t mebibytes() const
         {
             return convert_from_base(InformationUnit::Mebibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_mebibytes(double value)
+        [[nodiscard]] static constexpr Information from_mebibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Mebibytes);
         }
 
 
-        [[nodiscard]] constexpr double gibibytes() const
+        [[nodiscard]] constexpr un_scalar_t gibibytes() const
         {
             return convert_from_base(InformationUnit::Gibibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_gibibytes(double value)
+        [[nodiscard]] static constexpr Information from_gibibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gibibytes);
         }
 
 
-        [[nodiscard]] constexpr double tebibytes() const
+        [[nodiscard]] constexpr un_scalar_t tebibytes() const
         {
             return convert_from_base(InformationUnit::Tebibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_tebibytes(double value)
+        [[nodiscard]] static constexpr Information from_tebibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Tebibytes);
         }
 
 
-        [[nodiscard]] constexpr double pebibytes() const
+        [[nodiscard]] constexpr un_scalar_t pebibytes() const
         {
             return convert_from_base(InformationUnit::Pebibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_pebibytes(double value)
+        [[nodiscard]] static constexpr Information from_pebibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Pebibytes);
         }
 
 
-        [[nodiscard]] constexpr double exbibytes() const
+        [[nodiscard]] constexpr un_scalar_t exbibytes() const
         {
             return convert_from_base(InformationUnit::Exbibytes);
         }
 
-        [[nodiscard]] static constexpr Information from_exbibytes(double value)
+        [[nodiscard]] static constexpr Information from_exbibytes(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exbibytes);
         }
 
 
-        [[nodiscard]] constexpr double octets() const
+        [[nodiscard]] constexpr un_scalar_t octets() const
         {
             return convert_from_base(InformationUnit::Octets);
         }
 
-        [[nodiscard]] static constexpr Information from_octets(double value)
+        [[nodiscard]] static constexpr Information from_octets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Octets);
         }
 
 
-        [[nodiscard]] constexpr double kilooctets() const
+        [[nodiscard]] constexpr un_scalar_t kilooctets() const
         {
             return convert_from_base(InformationUnit::Kilooctets);
         }
 
-        [[nodiscard]] static constexpr Information from_kilooctets(double value)
+        [[nodiscard]] static constexpr Information from_kilooctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kilooctets);
         }
 
 
-        [[nodiscard]] constexpr double megaoctets() const
+        [[nodiscard]] constexpr un_scalar_t megaoctets() const
         {
             return convert_from_base(InformationUnit::Megaoctets);
         }
 
-        [[nodiscard]] static constexpr Information from_megaoctets(double value)
+        [[nodiscard]] static constexpr Information from_megaoctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Megaoctets);
         }
 
 
-        [[nodiscard]] constexpr double gigaoctets() const
+        [[nodiscard]] constexpr un_scalar_t gigaoctets() const
         {
             return convert_from_base(InformationUnit::Gigaoctets);
         }
 
-        [[nodiscard]] static constexpr Information from_gigaoctets(double value)
+        [[nodiscard]] static constexpr Information from_gigaoctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gigaoctets);
         }
 
 
-        [[nodiscard]] constexpr double teraoctets() const
+        [[nodiscard]] constexpr un_scalar_t teraoctets() const
         {
             return convert_from_base(InformationUnit::Teraoctets);
         }
 
-        [[nodiscard]] static constexpr Information from_teraoctets(double value)
+        [[nodiscard]] static constexpr Information from_teraoctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Teraoctets);
         }
 
 
-        [[nodiscard]] constexpr double petaoctets() const
+        [[nodiscard]] constexpr un_scalar_t petaoctets() const
         {
             return convert_from_base(InformationUnit::Petaoctets);
         }
 
-        [[nodiscard]] static constexpr Information from_petaoctets(double value)
+        [[nodiscard]] static constexpr Information from_petaoctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Petaoctets);
         }
 
 
-        [[nodiscard]] constexpr double exaoctets() const
+        [[nodiscard]] constexpr un_scalar_t exaoctets() const
         {
             return convert_from_base(InformationUnit::Exaoctets);
         }
 
-        [[nodiscard]] static constexpr Information from_exaoctets(double value)
+        [[nodiscard]] static constexpr Information from_exaoctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exaoctets);
         }
 
 
-        [[nodiscard]] constexpr double kibioctets() const
+        [[nodiscard]] constexpr un_scalar_t kibioctets() const
         {
             return convert_from_base(InformationUnit::Kibioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_kibioctets(double value)
+        [[nodiscard]] static constexpr Information from_kibioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kibioctets);
         }
 
 
-        [[nodiscard]] constexpr double mebioctets() const
+        [[nodiscard]] constexpr un_scalar_t mebioctets() const
         {
             return convert_from_base(InformationUnit::Mebioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_mebioctets(double value)
+        [[nodiscard]] static constexpr Information from_mebioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Mebioctets);
         }
 
 
-        [[nodiscard]] constexpr double gibioctets() const
+        [[nodiscard]] constexpr un_scalar_t gibioctets() const
         {
             return convert_from_base(InformationUnit::Gibioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_gibioctets(double value)
+        [[nodiscard]] static constexpr Information from_gibioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gibioctets);
         }
 
 
-        [[nodiscard]] constexpr double tebioctets() const
+        [[nodiscard]] constexpr un_scalar_t tebioctets() const
         {
             return convert_from_base(InformationUnit::Tebioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_tebioctets(double value)
+        [[nodiscard]] static constexpr Information from_tebioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Tebioctets);
         }
 
 
-        [[nodiscard]] constexpr double pebioctets() const
+        [[nodiscard]] constexpr un_scalar_t pebioctets() const
         {
             return convert_from_base(InformationUnit::Pebioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_pebioctets(double value)
+        [[nodiscard]] static constexpr Information from_pebioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Pebioctets);
         }
 
 
-        [[nodiscard]] constexpr double exbioctets() const
+        [[nodiscard]] constexpr un_scalar_t exbioctets() const
         {
             return convert_from_base(InformationUnit::Exbioctets);
         }
 
-        [[nodiscard]] static constexpr Information from_exbioctets(double value)
+        [[nodiscard]] static constexpr Information from_exbioctets(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exbioctets);
         }
 
 
-        [[nodiscard]] constexpr double bits() const
+        [[nodiscard]] constexpr un_scalar_t bits() const
         {
             return convert_from_base(InformationUnit::Bits);
         }
 
-        [[nodiscard]] static constexpr Information from_bits(double value)
+        [[nodiscard]] static constexpr Information from_bits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Bits);
         }
 
 
-        [[nodiscard]] constexpr double kilobits() const
+        [[nodiscard]] constexpr un_scalar_t kilobits() const
         {
             return convert_from_base(InformationUnit::Kilobits);
         }
 
-        [[nodiscard]] static constexpr Information from_kilobits(double value)
+        [[nodiscard]] static constexpr Information from_kilobits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kilobits);
         }
 
 
-        [[nodiscard]] constexpr double megabits() const
+        [[nodiscard]] constexpr un_scalar_t megabits() const
         {
             return convert_from_base(InformationUnit::Megabits);
         }
 
-        [[nodiscard]] static constexpr Information from_megabits(double value)
+        [[nodiscard]] static constexpr Information from_megabits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Megabits);
         }
 
 
-        [[nodiscard]] constexpr double gigabits() const
+        [[nodiscard]] constexpr un_scalar_t gigabits() const
         {
             return convert_from_base(InformationUnit::Gigabits);
         }
 
-        [[nodiscard]] static constexpr Information from_gigabits(double value)
+        [[nodiscard]] static constexpr Information from_gigabits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gigabits);
         }
 
 
-        [[nodiscard]] constexpr double terabits() const
+        [[nodiscard]] constexpr un_scalar_t terabits() const
         {
             return convert_from_base(InformationUnit::Terabits);
         }
 
-        [[nodiscard]] static constexpr Information from_terabits(double value)
+        [[nodiscard]] static constexpr Information from_terabits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Terabits);
         }
 
 
-        [[nodiscard]] constexpr double petabits() const
+        [[nodiscard]] constexpr un_scalar_t petabits() const
         {
             return convert_from_base(InformationUnit::Petabits);
         }
 
-        [[nodiscard]] static constexpr Information from_petabits(double value)
+        [[nodiscard]] static constexpr Information from_petabits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Petabits);
         }
 
 
-        [[nodiscard]] constexpr double exabits() const
+        [[nodiscard]] constexpr un_scalar_t exabits() const
         {
             return convert_from_base(InformationUnit::Exabits);
         }
 
-        [[nodiscard]] static constexpr Information from_exabits(double value)
+        [[nodiscard]] static constexpr Information from_exabits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exabits);
         }
 
 
-        [[nodiscard]] constexpr double kibibits() const
+        [[nodiscard]] constexpr un_scalar_t kibibits() const
         {
             return convert_from_base(InformationUnit::Kibibits);
         }
 
-        [[nodiscard]] static constexpr Information from_kibibits(double value)
+        [[nodiscard]] static constexpr Information from_kibibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Kibibits);
         }
 
 
-        [[nodiscard]] constexpr double mebibits() const
+        [[nodiscard]] constexpr un_scalar_t mebibits() const
         {
             return convert_from_base(InformationUnit::Mebibits);
         }
 
-        [[nodiscard]] static constexpr Information from_mebibits(double value)
+        [[nodiscard]] static constexpr Information from_mebibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Mebibits);
         }
 
 
-        [[nodiscard]] constexpr double gibibits() const
+        [[nodiscard]] constexpr un_scalar_t gibibits() const
         {
             return convert_from_base(InformationUnit::Gibibits);
         }
 
-        [[nodiscard]] static constexpr Information from_gibibits(double value)
+        [[nodiscard]] static constexpr Information from_gibibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Gibibits);
         }
 
 
-        [[nodiscard]] constexpr double tebibits() const
+        [[nodiscard]] constexpr un_scalar_t tebibits() const
         {
             return convert_from_base(InformationUnit::Tebibits);
         }
 
-        [[nodiscard]] static constexpr Information from_tebibits(double value)
+        [[nodiscard]] static constexpr Information from_tebibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Tebibits);
         }
 
 
-        [[nodiscard]] constexpr double pebibits() const
+        [[nodiscard]] constexpr un_scalar_t pebibits() const
         {
             return convert_from_base(InformationUnit::Pebibits);
         }
 
-        [[nodiscard]] static constexpr Information from_pebibits(double value)
+        [[nodiscard]] static constexpr Information from_pebibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Pebibits);
         }
 
 
-        [[nodiscard]] constexpr double exbibits() const
+        [[nodiscard]] constexpr un_scalar_t exbibits() const
         {
             return convert_from_base(InformationUnit::Exbibits);
         }
 
-        [[nodiscard]] static constexpr Information from_exbibits(double value)
+        [[nodiscard]] static constexpr Information from_exbibits(const un_scalar_t value)
         {
             return Information(value, InformationUnit::Exbibits);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, InformationUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, InformationUnit unit)
         {
             switch (unit)
             {
@@ -540,125 +541,125 @@ namespace unitsnet_cpp
                 return value * 8;
 
             case InformationUnit::Kilobytes:
-                return (value * 1e3) * 8;
+                return (value * static_cast<un_scalar_t>(1e3)) * 8;
 
             case InformationUnit::Megabytes:
-                return (value * 1e6) * 8;
+                return (value * static_cast<un_scalar_t>(1e6)) * 8;
 
             case InformationUnit::Gigabytes:
-                return (value * 1e9) * 8;
+                return (value * static_cast<un_scalar_t>(1e9)) * 8;
 
             case InformationUnit::Terabytes:
-                return (value * 1e12) * 8;
+                return (value * static_cast<un_scalar_t>(1e12)) * 8;
 
             case InformationUnit::Petabytes:
-                return (value * 1e15) * 8;
+                return (value * static_cast<un_scalar_t>(1e15)) * 8;
 
             case InformationUnit::Exabytes:
-                return (value * 1e18) * 8;
+                return (value * static_cast<un_scalar_t>(1e18)) * 8;
 
             case InformationUnit::Kibibytes:
-                return (value * 1024.0) * 8;
+                return (value * static_cast<un_scalar_t>(1024.0)) * 8;
 
             case InformationUnit::Mebibytes:
-                return (value * 1048576.0) * 8;
+                return (value * static_cast<un_scalar_t>(1048576.0)) * 8;
 
             case InformationUnit::Gibibytes:
-                return (value * 1073741824.0) * 8;
+                return (value * static_cast<un_scalar_t>(1073741824.0)) * 8;
 
             case InformationUnit::Tebibytes:
-                return (value * 1099511627776.0) * 8;
+                return (value * static_cast<un_scalar_t>(1099511627776.0)) * 8;
 
             case InformationUnit::Pebibytes:
-                return (value * 1125899906842624.0) * 8;
+                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * 8;
 
             case InformationUnit::Exbibytes:
-                return (value * 1152921504606846976.0) * 8;
+                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * 8;
 
             case InformationUnit::Octets:
                 return value * 8;
 
             case InformationUnit::Kilooctets:
-                return (value * 1e3) * 8;
+                return (value * static_cast<un_scalar_t>(1e3)) * 8;
 
             case InformationUnit::Megaoctets:
-                return (value * 1e6) * 8;
+                return (value * static_cast<un_scalar_t>(1e6)) * 8;
 
             case InformationUnit::Gigaoctets:
-                return (value * 1e9) * 8;
+                return (value * static_cast<un_scalar_t>(1e9)) * 8;
 
             case InformationUnit::Teraoctets:
-                return (value * 1e12) * 8;
+                return (value * static_cast<un_scalar_t>(1e12)) * 8;
 
             case InformationUnit::Petaoctets:
-                return (value * 1e15) * 8;
+                return (value * static_cast<un_scalar_t>(1e15)) * 8;
 
             case InformationUnit::Exaoctets:
-                return (value * 1e18) * 8;
+                return (value * static_cast<un_scalar_t>(1e18)) * 8;
 
             case InformationUnit::Kibioctets:
-                return (value * 1024.0) * 8;
+                return (value * static_cast<un_scalar_t>(1024.0)) * 8;
 
             case InformationUnit::Mebioctets:
-                return (value * 1048576.0) * 8;
+                return (value * static_cast<un_scalar_t>(1048576.0)) * 8;
 
             case InformationUnit::Gibioctets:
-                return (value * 1073741824.0) * 8;
+                return (value * static_cast<un_scalar_t>(1073741824.0)) * 8;
 
             case InformationUnit::Tebioctets:
-                return (value * 1099511627776.0) * 8;
+                return (value * static_cast<un_scalar_t>(1099511627776.0)) * 8;
 
             case InformationUnit::Pebioctets:
-                return (value * 1125899906842624.0) * 8;
+                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * 8;
 
             case InformationUnit::Exbioctets:
-                return (value * 1152921504606846976.0) * 8;
+                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * 8;
 
             case InformationUnit::Bits:
                 return value;
 
             case InformationUnit::Kilobits:
-                return (value * 1e3);
+                return (value * static_cast<un_scalar_t>(1e3));
 
             case InformationUnit::Megabits:
-                return (value * 1e6);
+                return (value * static_cast<un_scalar_t>(1e6));
 
             case InformationUnit::Gigabits:
-                return (value * 1e9);
+                return (value * static_cast<un_scalar_t>(1e9));
 
             case InformationUnit::Terabits:
-                return (value * 1e12);
+                return (value * static_cast<un_scalar_t>(1e12));
 
             case InformationUnit::Petabits:
-                return (value * 1e15);
+                return (value * static_cast<un_scalar_t>(1e15));
 
             case InformationUnit::Exabits:
-                return (value * 1e18);
+                return (value * static_cast<un_scalar_t>(1e18));
 
             case InformationUnit::Kibibits:
-                return (value * 1024.0);
+                return (value * static_cast<un_scalar_t>(1024.0));
 
             case InformationUnit::Mebibits:
-                return (value * 1048576.0);
+                return (value * static_cast<un_scalar_t>(1048576.0));
 
             case InformationUnit::Gibibits:
-                return (value * 1073741824.0);
+                return (value * static_cast<un_scalar_t>(1073741824.0));
 
             case InformationUnit::Tebibits:
-                return (value * 1099511627776.0);
+                return (value * static_cast<un_scalar_t>(1099511627776.0));
 
             case InformationUnit::Pebibits:
-                return (value * 1125899906842624.0);
+                return (value * static_cast<un_scalar_t>(1125899906842624.0));
 
             case InformationUnit::Exbibits:
-                return (value * 1152921504606846976.0);
+                return (value * static_cast<un_scalar_t>(1152921504606846976.0));
 
             }
 
             throw std::invalid_argument("Unknown Information unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(InformationUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const InformationUnit unit) const
         {
             switch (unit)
             {
@@ -667,124 +668,124 @@ namespace unitsnet_cpp
                 return value_ / 8;
 
             case InformationUnit::Kilobytes:
-                return (value_ / 8) / 1e3;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megabytes:
-                return (value_ / 8) / 1e6;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigabytes:
-                return (value_ / 8) / 1e9;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Terabytes:
-                return (value_ / 8) / 1e12;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petabytes:
-                return (value_ / 8) / 1e15;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exabytes:
-                return (value_ / 8) / 1e18;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibibytes:
-                return (value_ / 8) / 1024.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebibytes:
-                return (value_ / 8) / 1048576.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibibytes:
-                return (value_ / 8) / 1073741824.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebibytes:
-                return (value_ / 8) / 1099511627776.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebibytes:
-                return (value_ / 8) / 1125899906842624.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbibytes:
-                return (value_ / 8) / 1152921504606846976.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Octets:
                 return value_ / 8;
 
             case InformationUnit::Kilooctets:
-                return (value_ / 8) / 1e3;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megaoctets:
-                return (value_ / 8) / 1e6;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigaoctets:
-                return (value_ / 8) / 1e9;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Teraoctets:
-                return (value_ / 8) / 1e12;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petaoctets:
-                return (value_ / 8) / 1e15;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exaoctets:
-                return (value_ / 8) / 1e18;
+                return (value_ / 8) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibioctets:
-                return (value_ / 8) / 1024.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebioctets:
-                return (value_ / 8) / 1048576.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibioctets:
-                return (value_ / 8) / 1073741824.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebioctets:
-                return (value_ / 8) / 1099511627776.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebioctets:
-                return (value_ / 8) / 1125899906842624.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbioctets:
-                return (value_ / 8) / 1152921504606846976.0;
+                return (value_ / 8) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Bits:
                 return value_;
 
             case InformationUnit::Kilobits:
-                return (value_) / 1e3;
+                return (value_) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megabits:
-                return (value_) / 1e6;
+                return (value_) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigabits:
-                return (value_) / 1e9;
+                return (value_) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Terabits:
-                return (value_) / 1e12;
+                return (value_) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petabits:
-                return (value_) / 1e15;
+                return (value_) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exabits:
-                return (value_) / 1e18;
+                return (value_) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibibits:
-                return (value_) / 1024.0;
+                return (value_) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebibits:
-                return (value_) / 1048576.0;
+                return (value_) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibibits:
-                return (value_) / 1073741824.0;
+                return (value_) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebibits:
-                return (value_) / 1099511627776.0;
+                return (value_) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebibits:
-                return (value_) / 1125899906842624.0;
+                return (value_) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbibits:
-                return (value_) / 1152921504606846976.0;
+                return (value_) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             }
 
             throw std::invalid_argument("Unknown Information unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

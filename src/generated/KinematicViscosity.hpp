@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class KinematicViscosityUnit : std::uint16_t
+    enum class KinematicViscosityUnit : std::uint8_t
     {
         SquareMetersPerSecond,
         Stokes,
@@ -24,154 +25,154 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit KinematicViscosity(
-            double value,
-            KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMetersPerSecond)
+            const un_scalar_t value,
+            const KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMetersPerSecond)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(KinematicViscosityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const KinematicViscosityUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr KinematicViscosity operator+(KinematicViscosity other) const noexcept
+        [[nodiscard]] constexpr KinematicViscosity operator+(const KinematicViscosity other) const noexcept
         {
             return KinematicViscosity(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr KinematicViscosity operator-(KinematicViscosity other) const noexcept
+        [[nodiscard]] constexpr KinematicViscosity operator-(const KinematicViscosity other) const noexcept
         {
             return KinematicViscosity(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr KinematicViscosity operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr KinematicViscosity operator*(const un_scalar_t scalar) const noexcept
         {
             return KinematicViscosity(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr KinematicViscosity operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr KinematicViscosity operator/(const un_scalar_t scalar) const noexcept
         {
             return KinematicViscosity(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(KinematicViscosity other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const KinematicViscosity other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(KinematicViscosity other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const KinematicViscosity other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double square_meters_per_second() const
+        [[nodiscard]] constexpr un_scalar_t square_meters_per_second() const
         {
             return convert_from_base(KinematicViscosityUnit::SquareMetersPerSecond);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_square_meters_per_second(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_square_meters_per_second(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::SquareMetersPerSecond);
         }
 
 
-        [[nodiscard]] constexpr double stokes() const
+        [[nodiscard]] constexpr un_scalar_t stokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Stokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_stokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_stokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Stokes);
         }
 
 
-        [[nodiscard]] constexpr double nanostokes() const
+        [[nodiscard]] constexpr un_scalar_t nanostokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Nanostokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_nanostokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_nanostokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Nanostokes);
         }
 
 
-        [[nodiscard]] constexpr double microstokes() const
+        [[nodiscard]] constexpr un_scalar_t microstokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Microstokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_microstokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_microstokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Microstokes);
         }
 
 
-        [[nodiscard]] constexpr double millistokes() const
+        [[nodiscard]] constexpr un_scalar_t millistokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Millistokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_millistokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_millistokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Millistokes);
         }
 
 
-        [[nodiscard]] constexpr double centistokes() const
+        [[nodiscard]] constexpr un_scalar_t centistokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Centistokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_centistokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_centistokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Centistokes);
         }
 
 
-        [[nodiscard]] constexpr double decistokes() const
+        [[nodiscard]] constexpr un_scalar_t decistokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Decistokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_decistokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_decistokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Decistokes);
         }
 
 
-        [[nodiscard]] constexpr double kilostokes() const
+        [[nodiscard]] constexpr un_scalar_t kilostokes() const
         {
             return convert_from_base(KinematicViscosityUnit::Kilostokes);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_kilostokes(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_kilostokes(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::Kilostokes);
         }
 
 
-        [[nodiscard]] constexpr double square_feet_per_second() const
+        [[nodiscard]] constexpr un_scalar_t square_feet_per_second() const
         {
             return convert_from_base(KinematicViscosityUnit::SquareFeetPerSecond);
         }
 
-        [[nodiscard]] static constexpr KinematicViscosity from_square_feet_per_second(double value)
+        [[nodiscard]] static constexpr KinematicViscosity from_square_feet_per_second(const un_scalar_t value)
         {
             return KinematicViscosity(value, KinematicViscosityUnit::SquareFeetPerSecond);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, KinematicViscosityUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, KinematicViscosityUnit unit)
         {
             switch (unit)
             {
@@ -183,22 +184,22 @@ namespace unitsnet_cpp
                 return value / 1e4;
 
             case KinematicViscosityUnit::Nanostokes:
-                return (value * 1e-9) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-9)) / 1e4;
 
             case KinematicViscosityUnit::Microstokes:
-                return (value * 1e-6) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-6)) / 1e4;
 
             case KinematicViscosityUnit::Millistokes:
-                return (value * 1e-3) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-3)) / 1e4;
 
             case KinematicViscosityUnit::Centistokes:
-                return (value * 1e-2) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-2)) / 1e4;
 
             case KinematicViscosityUnit::Decistokes:
-                return (value * 1e-1) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-1)) / 1e4;
 
             case KinematicViscosityUnit::Kilostokes:
-                return (value * 1e3) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e3)) / 1e4;
 
             case KinematicViscosityUnit::SquareFeetPerSecond:
                 return value * 9.290304e-2;
@@ -208,7 +209,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown KinematicViscosity unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(KinematicViscosityUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const KinematicViscosityUnit unit) const
         {
             switch (unit)
             {
@@ -220,22 +221,22 @@ namespace unitsnet_cpp
                 return value_ * 1e4;
 
             case KinematicViscosityUnit::Nanostokes:
-                return (value_ * 1e4) / 1e-9;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-9);
 
             case KinematicViscosityUnit::Microstokes:
-                return (value_ * 1e4) / 1e-6;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-6);
 
             case KinematicViscosityUnit::Millistokes:
-                return (value_ * 1e4) / 1e-3;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-3);
 
             case KinematicViscosityUnit::Centistokes:
-                return (value_ * 1e4) / 1e-2;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-2);
 
             case KinematicViscosityUnit::Decistokes:
-                return (value_ * 1e4) / 1e-1;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-1);
 
             case KinematicViscosityUnit::Kilostokes:
-                return (value_ * 1e4) / 1e3;
+                return (value_ * 1e4) / static_cast<un_scalar_t>(1e3);
 
             case KinematicViscosityUnit::SquareFeetPerSecond:
                 return value_ / 9.290304e-2;
@@ -245,6 +246,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown KinematicViscosity unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

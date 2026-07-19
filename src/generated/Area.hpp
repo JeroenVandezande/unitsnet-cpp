@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class AreaUnit : std::uint16_t
+    enum class AreaUnit : std::uint8_t
     {
         SquareKilometers,
         SquareMeters,
@@ -29,209 +30,209 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit Area(
-            double value,
-            AreaUnit unit = AreaUnit::SquareMeters)
+            const un_scalar_t value,
+            const AreaUnit unit = AreaUnit::SquareMeters)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(AreaUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const AreaUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr Area operator+(Area other) const noexcept
+        [[nodiscard]] constexpr Area operator+(const Area other) const noexcept
         {
             return Area(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr Area operator-(Area other) const noexcept
+        [[nodiscard]] constexpr Area operator-(const Area other) const noexcept
         {
             return Area(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr Area operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr Area operator*(const un_scalar_t scalar) const noexcept
         {
             return Area(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr Area operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr Area operator/(const un_scalar_t scalar) const noexcept
         {
             return Area(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(Area other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const Area other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(Area other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const Area other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double square_kilometers() const
+        [[nodiscard]] constexpr un_scalar_t square_kilometers() const
         {
             return convert_from_base(AreaUnit::SquareKilometers);
         }
 
-        [[nodiscard]] static constexpr Area from_square_kilometers(double value)
+        [[nodiscard]] static constexpr Area from_square_kilometers(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareKilometers);
         }
 
 
-        [[nodiscard]] constexpr double square_meters() const
+        [[nodiscard]] constexpr un_scalar_t square_meters() const
         {
             return convert_from_base(AreaUnit::SquareMeters);
         }
 
-        [[nodiscard]] static constexpr Area from_square_meters(double value)
+        [[nodiscard]] static constexpr Area from_square_meters(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareMeters);
         }
 
 
-        [[nodiscard]] constexpr double square_decimeters() const
+        [[nodiscard]] constexpr un_scalar_t square_decimeters() const
         {
             return convert_from_base(AreaUnit::SquareDecimeters);
         }
 
-        [[nodiscard]] static constexpr Area from_square_decimeters(double value)
+        [[nodiscard]] static constexpr Area from_square_decimeters(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareDecimeters);
         }
 
 
-        [[nodiscard]] constexpr double square_centimeters() const
+        [[nodiscard]] constexpr un_scalar_t square_centimeters() const
         {
             return convert_from_base(AreaUnit::SquareCentimeters);
         }
 
-        [[nodiscard]] static constexpr Area from_square_centimeters(double value)
+        [[nodiscard]] static constexpr Area from_square_centimeters(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareCentimeters);
         }
 
 
-        [[nodiscard]] constexpr double square_millimeters() const
+        [[nodiscard]] constexpr un_scalar_t square_millimeters() const
         {
             return convert_from_base(AreaUnit::SquareMillimeters);
         }
 
-        [[nodiscard]] static constexpr Area from_square_millimeters(double value)
+        [[nodiscard]] static constexpr Area from_square_millimeters(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareMillimeters);
         }
 
 
-        [[nodiscard]] constexpr double square_micrometers() const
+        [[nodiscard]] constexpr un_scalar_t square_micrometers() const
         {
             return convert_from_base(AreaUnit::SquareMicrometers);
         }
 
-        [[nodiscard]] static constexpr Area from_square_micrometers(double value)
+        [[nodiscard]] static constexpr Area from_square_micrometers(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareMicrometers);
         }
 
 
-        [[nodiscard]] constexpr double square_miles() const
+        [[nodiscard]] constexpr un_scalar_t square_miles() const
         {
             return convert_from_base(AreaUnit::SquareMiles);
         }
 
-        [[nodiscard]] static constexpr Area from_square_miles(double value)
+        [[nodiscard]] static constexpr Area from_square_miles(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareMiles);
         }
 
 
-        [[nodiscard]] constexpr double square_yards() const
+        [[nodiscard]] constexpr un_scalar_t square_yards() const
         {
             return convert_from_base(AreaUnit::SquareYards);
         }
 
-        [[nodiscard]] static constexpr Area from_square_yards(double value)
+        [[nodiscard]] static constexpr Area from_square_yards(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareYards);
         }
 
 
-        [[nodiscard]] constexpr double square_feet() const
+        [[nodiscard]] constexpr un_scalar_t square_feet() const
         {
             return convert_from_base(AreaUnit::SquareFeet);
         }
 
-        [[nodiscard]] static constexpr Area from_square_feet(double value)
+        [[nodiscard]] static constexpr Area from_square_feet(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareFeet);
         }
 
 
-        [[nodiscard]] constexpr double us_survey_square_feet() const
+        [[nodiscard]] constexpr un_scalar_t us_survey_square_feet() const
         {
             return convert_from_base(AreaUnit::UsSurveySquareFeet);
         }
 
-        [[nodiscard]] static constexpr Area from_us_survey_square_feet(double value)
+        [[nodiscard]] static constexpr Area from_us_survey_square_feet(const un_scalar_t value)
         {
             return Area(value, AreaUnit::UsSurveySquareFeet);
         }
 
 
-        [[nodiscard]] constexpr double square_inches() const
+        [[nodiscard]] constexpr un_scalar_t square_inches() const
         {
             return convert_from_base(AreaUnit::SquareInches);
         }
 
-        [[nodiscard]] static constexpr Area from_square_inches(double value)
+        [[nodiscard]] static constexpr Area from_square_inches(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareInches);
         }
 
 
-        [[nodiscard]] constexpr double acres() const
+        [[nodiscard]] constexpr un_scalar_t acres() const
         {
             return convert_from_base(AreaUnit::Acres);
         }
 
-        [[nodiscard]] static constexpr Area from_acres(double value)
+        [[nodiscard]] static constexpr Area from_acres(const un_scalar_t value)
         {
             return Area(value, AreaUnit::Acres);
         }
 
 
-        [[nodiscard]] constexpr double hectares() const
+        [[nodiscard]] constexpr un_scalar_t hectares() const
         {
             return convert_from_base(AreaUnit::Hectares);
         }
 
-        [[nodiscard]] static constexpr Area from_hectares(double value)
+        [[nodiscard]] static constexpr Area from_hectares(const un_scalar_t value)
         {
             return Area(value, AreaUnit::Hectares);
         }
 
 
-        [[nodiscard]] constexpr double square_nautical_miles() const
+        [[nodiscard]] constexpr un_scalar_t square_nautical_miles() const
         {
             return convert_from_base(AreaUnit::SquareNauticalMiles);
         }
 
-        [[nodiscard]] static constexpr Area from_square_nautical_miles(double value)
+        [[nodiscard]] static constexpr Area from_square_nautical_miles(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareNauticalMiles);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, AreaUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, AreaUnit unit)
         {
             switch (unit)
             {
@@ -283,7 +284,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Area unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(AreaUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const AreaUnit unit) const
         {
             switch (unit)
             {
@@ -335,6 +336,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown Area unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

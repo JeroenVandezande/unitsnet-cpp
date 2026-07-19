@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ThermalInsulanceUnit : std::uint16_t
+    enum class ThermalInsulanceUnit : std::uint8_t
     {
         SquareMeterKelvinsPerKilowatt,
         SquareMeterKelvinsPerWatt,
@@ -22,132 +23,132 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ThermalInsulance(
-            double value,
-            ThermalInsulanceUnit unit = ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt)
+            const un_scalar_t value,
+            const ThermalInsulanceUnit unit = ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ThermalInsulanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ThermalInsulanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator+(ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator+(const ThermalInsulance other) const noexcept
         {
             return ThermalInsulance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator-(ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator-(const ThermalInsulance other) const noexcept
         {
             return ThermalInsulance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator*(const un_scalar_t scalar) const noexcept
         {
             return ThermalInsulance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ThermalInsulance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalInsulance operator/(const un_scalar_t scalar) const noexcept
         {
             return ThermalInsulance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ThermalInsulance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ThermalInsulance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ThermalInsulance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double square_meter_kelvins_per_kilowatt() const
+        [[nodiscard]] constexpr un_scalar_t square_meter_kelvins_per_kilowatt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_kelvins_per_kilowatt(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_kelvins_per_kilowatt(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt);
         }
 
 
-        [[nodiscard]] constexpr double square_meter_kelvins_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t square_meter_kelvins_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMeterKelvinsPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_kelvins_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_kelvins_per_watt(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterKelvinsPerWatt);
         }
 
 
-        [[nodiscard]] constexpr double square_meter_degrees_celsius_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t square_meter_degrees_celsius_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_degrees_celsius_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_meter_degrees_celsius_per_watt(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt);
         }
 
 
-        [[nodiscard]] constexpr double square_centimeter_kelvins_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t square_centimeter_kelvins_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_centimeter_kelvins_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_centimeter_kelvins_per_watt(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt);
         }
 
 
-        [[nodiscard]] constexpr double square_millimeter_kelvins_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t square_millimeter_kelvins_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_millimeter_kelvins_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_millimeter_kelvins_per_watt(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt);
         }
 
 
-        [[nodiscard]] constexpr double square_centimeter_hour_degrees_celsius_per_kilocalorie() const
+        [[nodiscard]] constexpr un_scalar_t square_centimeter_hour_degrees_celsius_per_kilocalorie() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_square_centimeter_hour_degrees_celsius_per_kilocalorie(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_square_centimeter_hour_degrees_celsius_per_kilocalorie(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie);
         }
 
 
-        [[nodiscard]] constexpr double hour_square_feet_degrees_fahrenheit_per_btu() const
+        [[nodiscard]] constexpr un_scalar_t hour_square_feet_degrees_fahrenheit_per_btu() const
         {
             return convert_from_base(ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu);
         }
 
-        [[nodiscard]] static constexpr ThermalInsulance from_hour_square_feet_degrees_fahrenheit_per_btu(double value)
+        [[nodiscard]] static constexpr ThermalInsulance from_hour_square_feet_degrees_fahrenheit_per_btu(const un_scalar_t value)
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ThermalInsulanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ThermalInsulanceUnit unit)
         {
             switch (unit)
             {
@@ -178,7 +179,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalInsulance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ThermalInsulanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ThermalInsulanceUnit unit) const
         {
             switch (unit)
             {
@@ -209,6 +210,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalInsulance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }

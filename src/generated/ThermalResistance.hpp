@@ -3,10 +3,11 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include "UnitsNetConfig.h"
 
 namespace unitsnet_cpp
 {
-    enum class ThermalResistanceUnit : std::uint16_t
+    enum class ThermalResistanceUnit : std::uint8_t
     {
         KelvinsPerWatt,
         DegreesCelsiusPerWatt,
@@ -17,77 +18,77 @@ namespace unitsnet_cpp
     {
     public:
         constexpr explicit ThermalResistance(
-            double value,
-            ThermalResistanceUnit unit = ThermalResistanceUnit::KelvinsPerWatt)
+            const un_scalar_t value,
+            const ThermalResistanceUnit unit = ThermalResistanceUnit::KelvinsPerWatt)
             : value_(convert_to_base(value, unit))
         {
         }
 
-        [[nodiscard]] constexpr double base_value() const noexcept
+        [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
             return value_;
         }
 
-        [[nodiscard]] constexpr double value(ThermalResistanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t value(const ThermalResistanceUnit unit) const
         {
             return convert_from_base(unit);
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator+(ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator+(const ThermalResistance other) const noexcept
         {
             return ThermalResistance(value_ + other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator-(ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator-(const ThermalResistance other) const noexcept
         {
             return ThermalResistance(value_ - other.value_);
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator*(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator*(const un_scalar_t scalar) const noexcept
         {
             return ThermalResistance(value_ * scalar);
         }
 
-        [[nodiscard]] constexpr ThermalResistance operator/(double scalar) const noexcept
+        [[nodiscard]] constexpr ThermalResistance operator/(const un_scalar_t scalar) const noexcept
         {
             return ThermalResistance(value_ / scalar);
         }
 
-        [[nodiscard]] constexpr bool operator==(ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ThermalResistance other) const noexcept
         {
             return value_ == other.value_;
         }
 
-        [[nodiscard]] constexpr bool operator<(ThermalResistance other) const noexcept
+        [[nodiscard]] constexpr bool operator<(const ThermalResistance other) const noexcept
         {
             return value_ < other.value_;
         }
 
 
-        [[nodiscard]] constexpr double kelvins_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t kelvins_per_watt() const
         {
             return convert_from_base(ThermalResistanceUnit::KelvinsPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalResistance from_kelvins_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalResistance from_kelvins_per_watt(const un_scalar_t value)
         {
             return ThermalResistance(value, ThermalResistanceUnit::KelvinsPerWatt);
         }
 
 
-        [[nodiscard]] constexpr double degrees_celsius_per_watt() const
+        [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_watt() const
         {
             return convert_from_base(ThermalResistanceUnit::DegreesCelsiusPerWatt);
         }
 
-        [[nodiscard]] static constexpr ThermalResistance from_degrees_celsius_per_watt(double value)
+        [[nodiscard]] static constexpr ThermalResistance from_degrees_celsius_per_watt(const un_scalar_t value)
         {
             return ThermalResistance(value, ThermalResistanceUnit::DegreesCelsiusPerWatt);
         }
 
 
     private:
-        [[nodiscard]] static constexpr double convert_to_base(double value, ThermalResistanceUnit unit)
+        [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, ThermalResistanceUnit unit)
         {
             switch (unit)
             {
@@ -103,7 +104,7 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalResistance unit.");
         }
 
-        [[nodiscard]] constexpr double convert_from_base(ThermalResistanceUnit unit) const
+        [[nodiscard]] constexpr un_scalar_t convert_from_base(const ThermalResistanceUnit unit) const
         {
             switch (unit)
             {
@@ -119,6 +120,6 @@ namespace unitsnet_cpp
             throw std::invalid_argument("Unknown ThermalResistance unit.");
         }
 
-        double value_;
+        un_scalar_t value_;
     };
 }
