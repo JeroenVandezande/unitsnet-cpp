@@ -39,15 +39,10 @@ namespace unitsnet_cpp
         
         constexpr void create_base_value_if_needed() const noexcept
         {
-            if(base_value_exists_)
-            {
-                return;
-            }
-            else
+            if(!base_value_exists_)
             {
                 base_value_ = convert_to_base(value_, value_unit_type_);
                 base_value_exists_ = true;
-                return;
             }
         }
                 
