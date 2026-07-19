@@ -6,6 +6,7 @@ public sealed class GeneratedUnit
     public required string SingularName { get; init; }
     public required string EnumName { get; init; }
     public required string MethodName { get; init; }
+    public string? XmlDocSummary { get; init; }
     public required string ToBaseExpression { get; init; }
     public required string FromBaseExpression { get; init; }
 }

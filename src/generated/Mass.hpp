@@ -240,220 +240,260 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t tonnes() const
         {
             return convert_from_base(MassUnit::Tonnes);
         }
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] static constexpr Mass from_tonnes(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Tonnes);
         }
 
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t kilotonnes() const
         {
             return convert_from_base(MassUnit::Kilotonnes);
         }
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] static constexpr Mass from_kilotonnes(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Kilotonnes);
         }
 
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t megatonnes() const
         {
             return convert_from_base(MassUnit::Megatonnes);
         }
 
+        /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] static constexpr Mass from_megatonnes(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Megatonnes);
         }
 
 
+        /// <summary>The short ton is a unit of mass equal to 2,000 pounds (907.18474 kg), that is most commonly used in the United States – known there simply as the ton.</summary>
         [[nodiscard]] constexpr un_scalar_t short_tons() const
         {
             return convert_from_base(MassUnit::ShortTons);
         }
 
+        /// <summary>The short ton is a unit of mass equal to 2,000 pounds (907.18474 kg), that is most commonly used in the United States – known there simply as the ton.</summary>
         [[nodiscard]] static constexpr Mass from_short_tons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::ShortTons);
         }
 
 
+        /// <summary>Long ton (weight ton or Imperial ton) is a unit of mass equal to 2,240 pounds (1,016 kg) and is the name for the unit called the "ton" in the avoirdupois or Imperial system of measurements that was used in the United Kingdom and several other Commonwealth countries before metrication.</summary>
         [[nodiscard]] constexpr un_scalar_t long_tons() const
         {
             return convert_from_base(MassUnit::LongTons);
         }
 
+        /// <summary>Long ton (weight ton or Imperial ton) is a unit of mass equal to 2,240 pounds (1,016 kg) and is the name for the unit called the "ton" in the avoirdupois or Imperial system of measurements that was used in the United Kingdom and several other Commonwealth countries before metrication.</summary>
         [[nodiscard]] static constexpr Mass from_long_tons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::LongTons);
         }
 
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t pounds() const
         {
             return convert_from_base(MassUnit::Pounds);
         }
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] static constexpr Mass from_pounds(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Pounds);
         }
 
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t kilopounds() const
         {
             return convert_from_base(MassUnit::Kilopounds);
         }
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] static constexpr Mass from_kilopounds(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Kilopounds);
         }
 
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t megapounds() const
         {
             return convert_from_base(MassUnit::Megapounds);
         }
 
+        /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] static constexpr Mass from_megapounds(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Megapounds);
         }
 
 
+        /// <summary>The international avoirdupois ounce (abbreviated oz) is defined as exactly 28.349523125 g under the international yard and pound agreement of 1959, signed by the United States and countries of the Commonwealth of Nations. 16 oz make up an avoirdupois pound.</summary>
         [[nodiscard]] constexpr un_scalar_t ounces() const
         {
             return convert_from_base(MassUnit::Ounces);
         }
 
+        /// <summary>The international avoirdupois ounce (abbreviated oz) is defined as exactly 28.349523125 g under the international yard and pound agreement of 1959, signed by the United States and countries of the Commonwealth of Nations. 16 oz make up an avoirdupois pound.</summary>
         [[nodiscard]] static constexpr Mass from_ounces(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Ounces);
         }
 
 
+        /// <summary>The slug (abbreviation slug) is a unit of mass that is accelerated by 1 ft/s² when a force of one pound (lbf) is exerted on it.</summary>
         [[nodiscard]] constexpr un_scalar_t slugs() const
         {
             return convert_from_base(MassUnit::Slugs);
         }
 
+        /// <summary>The slug (abbreviation slug) is a unit of mass that is accelerated by 1 ft/s² when a force of one pound (lbf) is exerted on it.</summary>
         [[nodiscard]] static constexpr Mass from_slugs(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Slugs);
         }
 
 
+        /// <summary>The stone (abbreviation st) is a unit of mass equal to 14 pounds avoirdupois (about 6.35 kilograms) used in Great Britain and Ireland for measuring human body weight.</summary>
         [[nodiscard]] constexpr un_scalar_t stone() const
         {
             return convert_from_base(MassUnit::Stone);
         }
 
+        /// <summary>The stone (abbreviation st) is a unit of mass equal to 14 pounds avoirdupois (about 6.35 kilograms) used in Great Britain and Ireland for measuring human body weight.</summary>
         [[nodiscard]] static constexpr Mass from_stone(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Stone);
         }
 
 
+        /// <summary>The short hundredweight (abbreviation cwt) is a unit of mass equal to 100 pounds in US and Canada. In British English, the short hundredweight is referred to as the "cental".</summary>
         [[nodiscard]] constexpr un_scalar_t short_hundredweight() const
         {
             return convert_from_base(MassUnit::ShortHundredweight);
         }
 
+        /// <summary>The short hundredweight (abbreviation cwt) is a unit of mass equal to 100 pounds in US and Canada. In British English, the short hundredweight is referred to as the "cental".</summary>
         [[nodiscard]] static constexpr Mass from_short_hundredweight(const un_scalar_t value)
         {
             return Mass(value, MassUnit::ShortHundredweight);
         }
 
 
+        /// <summary>The long or imperial hundredweight (abbreviation cwt) is a unit of mass equal to 112 pounds in US and Canada.</summary>
         [[nodiscard]] constexpr un_scalar_t long_hundredweight() const
         {
             return convert_from_base(MassUnit::LongHundredweight);
         }
 
+        /// <summary>The long or imperial hundredweight (abbreviation cwt) is a unit of mass equal to 112 pounds in US and Canada.</summary>
         [[nodiscard]] static constexpr Mass from_long_hundredweight(const un_scalar_t value)
         {
             return Mass(value, MassUnit::LongHundredweight);
         }
 
 
+        /// <summary>A grain is a unit of measurement of mass, and in the troy weight, avoirdupois, and Apothecaries' system, equal to exactly 64.79891 milligrams.</summary>
         [[nodiscard]] constexpr un_scalar_t grains() const
         {
             return convert_from_base(MassUnit::Grains);
         }
 
+        /// <summary>A grain is a unit of measurement of mass, and in the troy weight, avoirdupois, and Apothecaries' system, equal to exactly 64.79891 milligrams.</summary>
         [[nodiscard]] static constexpr Mass from_grains(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Grains);
         }
 
 
+        /// <summary>Solar mass is a ratio unit to the mass of the solar system star, the sun.</summary>
         [[nodiscard]] constexpr un_scalar_t solar_masses() const
         {
             return convert_from_base(MassUnit::SolarMasses);
         }
 
+        /// <summary>Solar mass is a ratio unit to the mass of the solar system star, the sun.</summary>
         [[nodiscard]] static constexpr Mass from_solar_masses(const un_scalar_t value)
         {
             return Mass(value, MassUnit::SolarMasses);
         }
 
 
+        /// <summary>Earth mass is a ratio unit to the mass of planet Earth.</summary>
         [[nodiscard]] constexpr un_scalar_t earth_masses() const
         {
             return convert_from_base(MassUnit::EarthMasses);
         }
 
+        /// <summary>Earth mass is a ratio unit to the mass of planet Earth.</summary>
         [[nodiscard]] static constexpr Mass from_earth_masses(const un_scalar_t value)
         {
             return Mass(value, MassUnit::EarthMasses);
         }
 
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t daltons() const
         {
             return convert_from_base(MassUnit::Daltons);
         }
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] static constexpr Mass from_daltons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Daltons);
         }
 
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t kilodaltons() const
         {
             return convert_from_base(MassUnit::Kilodaltons);
         }
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] static constexpr Mass from_kilodaltons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Kilodaltons);
         }
 
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t megadaltons() const
         {
             return convert_from_base(MassUnit::Megadaltons);
         }
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] static constexpr Mass from_megadaltons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Megadaltons);
         }
 
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t gigadaltons() const
         {
             return convert_from_base(MassUnit::Gigadaltons);
         }
 
+        /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] static constexpr Mass from_gigadaltons(const un_scalar_t value)
         {
             return Mass(value, MassUnit::Gigadaltons);

@@ -226,88 +226,104 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The standard atmosphere (symbol: atm) is a unit of pressure defined as 101325 Pa. It is sometimes used as a reference pressure or standard pressure. It is approximately equal to Earth's average atmospheric pressure at sea level.</summary>
         [[nodiscard]] constexpr un_scalar_t atmospheres() const
         {
             return convert_from_base(PressureUnit::Atmospheres);
         }
 
+        /// <summary>The standard atmosphere (symbol: atm) is a unit of pressure defined as 101325 Pa. It is sometimes used as a reference pressure or standard pressure. It is approximately equal to Earth's average atmospheric pressure at sea level.</summary>
         [[nodiscard]] static constexpr Pressure from_atmospheres(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Atmospheres);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t bars() const
         {
             return convert_from_base(PressureUnit::Bars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_bars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Bars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t microbars() const
         {
             return convert_from_base(PressureUnit::Microbars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_microbars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Microbars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t millibars() const
         {
             return convert_from_base(PressureUnit::Millibars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_millibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Millibars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t centibars() const
         {
             return convert_from_base(PressureUnit::Centibars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_centibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Centibars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t decibars() const
         {
             return convert_from_base(PressureUnit::Decibars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_decibars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Decibars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t kilobars() const
         {
             return convert_from_base(PressureUnit::Kilobars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_kilobars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Kilobars);
         }
 
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t megabars() const
         {
             return convert_from_base(PressureUnit::Megabars);
         }
 
+        /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_megabars(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Megabars);
@@ -325,11 +341,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_centimeter() const
         {
             return convert_from_base(PressureUnit::KilogramsForcePerSquareCentimeter);
         }
 
+        /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_centimeter(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::KilogramsForcePerSquareCentimeter);
@@ -424,33 +442,39 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] constexpr un_scalar_t technical_atmospheres() const
         {
             return convert_from_base(PressureUnit::TechnicalAtmospheres);
         }
 
+        /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] static constexpr Pressure from_technical_atmospheres(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::TechnicalAtmospheres);
         }
 
 
+        /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] constexpr un_scalar_t torrs() const
         {
             return convert_from_base(PressureUnit::Torrs);
         }
 
+        /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] static constexpr Pressure from_torrs(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Torrs);
         }
 
 
+        /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] constexpr un_scalar_t millitorrs() const
         {
             return convert_from_base(PressureUnit::Millitorrs);
         }
 
+        /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] static constexpr Pressure from_millitorrs(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::Millitorrs);
@@ -578,22 +602,26 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>A millimetre of mercury is a manometric unit of pressure, formerly defined as the extra pressure generated by a column of mercury one millimetre high, and currently defined as exactly 133.322387415 pascals.</summary>
         [[nodiscard]] constexpr un_scalar_t millimeters_of_mercury() const
         {
             return convert_from_base(PressureUnit::MillimetersOfMercury);
         }
 
+        /// <summary>A millimetre of mercury is a manometric unit of pressure, formerly defined as the extra pressure generated by a column of mercury one millimetre high, and currently defined as exactly 133.322387415 pascals.</summary>
         [[nodiscard]] static constexpr Pressure from_millimeters_of_mercury(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MillimetersOfMercury);
         }
 
 
+        /// <summary>Inch of mercury (inHg and ″Hg) is a non-SI unit of measurement for pressure. It is used for barometric pressure in weather reports, refrigeration and aviation in the United States. It is the pressure exerted by a column of mercury 1 inch (25.4 mm) in height at the standard acceleration of gravity.</summary>
         [[nodiscard]] constexpr un_scalar_t inches_of_mercury() const
         {
             return convert_from_base(PressureUnit::InchesOfMercury);
         }
 
+        /// <summary>Inch of mercury (inHg and ″Hg) is a non-SI unit of measurement for pressure. It is used for barometric pressure in weather reports, refrigeration and aviation in the United States. It is the pressure exerted by a column of mercury 1 inch (25.4 mm) in height at the standard acceleration of gravity.</summary>
         [[nodiscard]] static constexpr Pressure from_inches_of_mercury(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::InchesOfMercury);
@@ -622,44 +650,52 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t meters_of_water_column() const
         {
             return convert_from_base(PressureUnit::MetersOfWaterColumn);
         }
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_meters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MetersOfWaterColumn);
         }
 
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t millimeters_of_water_column() const
         {
             return convert_from_base(PressureUnit::MillimetersOfWaterColumn);
         }
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_millimeters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::MillimetersOfWaterColumn);
         }
 
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t centimeters_of_water_column() const
         {
             return convert_from_base(PressureUnit::CentimetersOfWaterColumn);
         }
 
+        /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_centimeters_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::CentimetersOfWaterColumn);
         }
 
 
+        /// <summary>Inches of water is a non-SI unit for pressure. It is defined as the pressure exerted by a column of water of 1 inch in height at defined conditions. At a temperature of 4 °C (39.2 °F) pure water has its highest density (1000 kg/m3). At that temperature and assuming the standard acceleration of gravity, 1 inAq is approximately 249.082 pascals (0.0361263 psi).</summary>
         [[nodiscard]] constexpr un_scalar_t inches_of_water_column() const
         {
             return convert_from_base(PressureUnit::InchesOfWaterColumn);
         }
 
+        /// <summary>Inches of water is a non-SI unit for pressure. It is defined as the pressure exerted by a column of water of 1 inch in height at defined conditions. At a temperature of 4 °C (39.2 °F) pure water has its highest density (1000 kg/m3). At that temperature and assuming the standard acceleration of gravity, 1 inAq is approximately 249.082 pascals (0.0361263 psi).</summary>
         [[nodiscard]] static constexpr Pressure from_inches_of_water_column(const un_scalar_t value)
         {
             return Pressure(value, PressureUnit::InchesOfWaterColumn);

@@ -93,33 +93,39 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t darcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Darcys);
         }
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] static constexpr PorousMediumPermeability from_darcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Darcys);
         }
 
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t microdarcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Microdarcys);
         }
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] static constexpr PorousMediumPermeability from_microdarcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Microdarcys);
         }
 
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t millidarcys() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::Millidarcys);
         }
 
+        /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] static constexpr PorousMediumPermeability from_millidarcys(const un_scalar_t value)
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Millidarcys);

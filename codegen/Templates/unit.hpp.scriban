@@ -91,11 +91,17 @@ namespace unitsnet_cpp
         }
 
     {{~ for unit in units }}
+        {{~ if unit.xml_doc_summary != null && !(unit.xml_doc_summary | string.strip).empty? ~}}
+        /// <summary>{{ unit.xml_doc_summary }}</summary>
+        {{~ end ~}}
         [[nodiscard]] constexpr un_scalar_t {{ unit.method_name }}() const
         {
             return convert_from_base({{ name }}Unit::{{ unit.enum_name }});
         }
 
+        {{~ if unit.xml_doc_summary != null && !(unit.xml_doc_summary | string.strip).empty? ~}}
+        /// <summary>{{ unit.xml_doc_summary }}</summary>
+        {{~ end ~}}
         [[nodiscard]] static constexpr {{ name }} from_{{ unit.method_name }}(const un_scalar_t value)
         {
             return {{ name }}(value, {{ name }}Unit::{{ unit.enum_name }});

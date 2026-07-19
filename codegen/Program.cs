@@ -108,7 +108,8 @@ class Program
             EnumName = pluralName,
             MethodName = ToSnakeCase(pluralName),
             ToBaseExpression = toBaseExpression,
-            FromBaseExpression = fromBaseExpression
+            FromBaseExpression = fromBaseExpression,
+            XmlDocSummary = unit.XmlDocSummary
         };
     }
 

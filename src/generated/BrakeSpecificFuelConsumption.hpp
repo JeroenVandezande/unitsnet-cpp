@@ -113,11 +113,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The pound per horse power hour uses mechanical horse power and the imperial pound</summary>
         [[nodiscard]] constexpr un_scalar_t pounds_per_mechanical_horsepower_hour() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour);
         }
 
+        /// <summary>The pound per horse power hour uses mechanical horse power and the imperial pound</summary>
         [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_pounds_per_mechanical_horsepower_hour(const un_scalar_t value)
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour);

@@ -177,11 +177,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>In SI units, angular frequency is normally presented with the unit radian per second, and need not express a rotational value. The unit hertz (Hz) is dimensionally equivalent, but by convention it is only used for frequency f, never for angular frequency ω. This convention is used to help avoid the confusion that arises when dealing with quantities such as frequency and angular quantities because the units of measure (such as cycle or radian) are considered to be one and hence may be omitted when expressing quantities in terms of SI units.</summary>
         [[nodiscard]] constexpr un_scalar_t radians_per_second() const
         {
             return convert_from_base(FrequencyUnit::RadiansPerSecond);
         }
 
+        /// <summary>In SI units, angular frequency is normally presented with the unit radian per second, and need not express a rotational value. The unit hertz (Hz) is dimensionally equivalent, but by convention it is only used for frequency f, never for angular frequency ω. This convention is used to help avoid the confusion that arises when dealing with quantities such as frequency and angular quantities because the units of measure (such as cycle or radian) are considered to be one and hence may be omitted when expressing quantities in terms of SI units.</summary>
         [[nodiscard]] static constexpr Frequency from_radians_per_second(const un_scalar_t value)
         {
             return Frequency(value, FrequencyUnit::RadiansPerSecond);

@@ -352,396 +352,468 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>A cubic mile (abbreviation: cu mi or mi3) is an imperial and US customary (non-SI non-metric) unit of volume, used in the United States, Canada and the United Kingdom. It is defined as the volume of a cube with sides of 1 mile (63360 inches, 5280 feet, 1760 yards or ~1.609 kilometres) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_miles() const
         {
             return convert_from_base(VolumeUnit::CubicMiles);
         }
 
+        /// <summary>A cubic mile (abbreviation: cu mi or mi3) is an imperial and US customary (non-SI non-metric) unit of volume, used in the United States, Canada and the United Kingdom. It is defined as the volume of a cube with sides of 1 mile (63360 inches, 5280 feet, 1760 yards or ~1.609 kilometres) in length.</summary>
         [[nodiscard]] static constexpr Volume from_cubic_miles(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicMiles);
         }
 
 
+        /// <summary>A cubic yard is an Imperial / U.S. customary (non-SI non-metric) unit of volume, used in Canada and the United States. It is defined as the volume of a cube with sides of 1 yard (3 feet, 36 inches, 0.9144 meters) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_yards() const
         {
             return convert_from_base(VolumeUnit::CubicYards);
         }
 
+        /// <summary>A cubic yard is an Imperial / U.S. customary (non-SI non-metric) unit of volume, used in Canada and the United States. It is defined as the volume of a cube with sides of 1 yard (3 feet, 36 inches, 0.9144 meters) in length.</summary>
         [[nodiscard]] static constexpr Volume from_cubic_yards(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicYards);
         }
 
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_feet() const
         {
             return convert_from_base(VolumeUnit::CubicFeet);
         }
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] static constexpr Volume from_cubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicFeet);
         }
 
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t hectocubic_feet() const
         {
             return convert_from_base(VolumeUnit::HectocubicFeet);
         }
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] static constexpr Volume from_hectocubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::HectocubicFeet);
         }
 
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t kilocubic_feet() const
         {
             return convert_from_base(VolumeUnit::KilocubicFeet);
         }
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] static constexpr Volume from_kilocubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KilocubicFeet);
         }
 
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t megacubic_feet() const
         {
             return convert_from_base(VolumeUnit::MegacubicFeet);
         }
 
+        /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] static constexpr Volume from_megacubic_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegacubicFeet);
         }
 
 
+        /// <summary>The cubic inch (symbol in3) is a unit of volume in the Imperial units and United States customary units systems. It is the volume of a cube with each of its three dimensions (length, width, and height) being one inch long which is equivalent to 1/231 of a US gallon.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_inches() const
         {
             return convert_from_base(VolumeUnit::CubicInches);
         }
 
+        /// <summary>The cubic inch (symbol in3) is a unit of volume in the Imperial units and United States customary units systems. It is the volume of a cube with each of its three dimensions (length, width, and height) being one inch long which is equivalent to 1/231 of a US gallon.</summary>
         [[nodiscard]] static constexpr Volume from_cubic_inches(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::CubicInches);
         }
 
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_gallons() const
         {
             return convert_from_base(VolumeUnit::ImperialGallons);
         }
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] static constexpr Volume from_imperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialGallons);
         }
 
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloimperial_gallons() const
         {
             return convert_from_base(VolumeUnit::KiloimperialGallons);
         }
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] static constexpr Volume from_kiloimperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KiloimperialGallons);
         }
 
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t megaimperial_gallons() const
         {
             return convert_from_base(VolumeUnit::MegaimperialGallons);
         }
 
+        /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] static constexpr Volume from_megaimperial_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegaimperialGallons);
         }
 
 
+        /// <summary>An imperial fluid ounce is 1⁄20 of an imperial pint, 1⁄160 of an imperial gallon or exactly 28.4130625 mL.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_ounces() const
         {
             return convert_from_base(VolumeUnit::ImperialOunces);
         }
 
+        /// <summary>An imperial fluid ounce is 1⁄20 of an imperial pint, 1⁄160 of an imperial gallon or exactly 28.4130625 mL.</summary>
         [[nodiscard]] static constexpr Volume from_imperial_ounces(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialOunces);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t us_gallons() const
         {
             return convert_from_base(VolumeUnit::UsGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_us_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsGallons);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t decaus_gallons() const
         {
             return convert_from_base(VolumeUnit::DecausGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_decaus_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::DecausGallons);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t decius_gallons() const
         {
             return convert_from_base(VolumeUnit::DeciusGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_decius_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::DeciusGallons);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t hectous_gallons() const
         {
             return convert_from_base(VolumeUnit::HectousGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_hectous_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::HectousGallons);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t kilous_gallons() const
         {
             return convert_from_base(VolumeUnit::KilousGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_kilous_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::KilousGallons);
         }
 
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t megaus_gallons() const
         {
             return convert_from_base(VolumeUnit::MegausGallons);
         }
 
+        /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] static constexpr Volume from_megaus_gallons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MegausGallons);
         }
 
 
+        /// <summary>A US customary fluid ounce is 1⁄16 of a US liquid pint and 1⁄128 of a US liquid gallon or exactly 29.5735295625 mL, making it about 4.08% larger than the imperial fluid ounce.</summary>
         [[nodiscard]] constexpr un_scalar_t us_ounces() const
         {
             return convert_from_base(VolumeUnit::UsOunces);
         }
 
+        /// <summary>A US customary fluid ounce is 1⁄16 of a US liquid pint and 1⁄128 of a US liquid gallon or exactly 29.5735295625 mL, making it about 4.08% larger than the imperial fluid ounce.</summary>
         [[nodiscard]] static constexpr Volume from_us_ounces(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsOunces);
         }
 
 
+        /// <summary>The traditional U.S. interpretation of the tablespoon as a unit of volume is: 1 US tablespoon = 4 fluid drams, or 3 teaspoons or 1/2 US fluid ounce (≈ 14.8 ml)</summary>
         [[nodiscard]] constexpr un_scalar_t us_tablespoons() const
         {
             return convert_from_base(VolumeUnit::UsTablespoons);
         }
 
+        /// <summary>The traditional U.S. interpretation of the tablespoon as a unit of volume is: 1 US tablespoon = 4 fluid drams, or 3 teaspoons or 1/2 US fluid ounce (≈ 14.8 ml)</summary>
         [[nodiscard]] static constexpr Volume from_us_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsTablespoons);
         }
 
 
+        /// <summary>In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] constexpr un_scalar_t au_tablespoons() const
         {
             return convert_from_base(VolumeUnit::AuTablespoons);
         }
 
+        /// <summary>In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] static constexpr Volume from_au_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::AuTablespoons);
         }
 
 
+        /// <summary>An international metric tablespoon is exactly equal to 15 mL. It is the equivalence of 1⁠ 1/2 metric dessert spoons or 3 metric teaspoons.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_tablespoons() const
         {
             return convert_from_base(VolumeUnit::MetricTablespoons);
         }
 
+        /// <summary>An international metric tablespoon is exactly equal to 15 mL. It is the equivalence of 1⁠ 1/2 metric dessert spoons or 3 metric teaspoons.</summary>
         [[nodiscard]] static constexpr Volume from_metric_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricTablespoons);
         }
 
 
+        /// <summary>In nutrition labeling in the U.S. and the U.K., a tablespoon is defined as 15 ml (0.51 US fl oz). In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] constexpr un_scalar_t uk_tablespoons() const
         {
             return convert_from_base(VolumeUnit::UkTablespoons);
         }
 
+        /// <summary>In nutrition labeling in the U.S. and the U.K., a tablespoon is defined as 15 ml (0.51 US fl oz). In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] static constexpr Volume from_uk_tablespoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UkTablespoons);
         }
 
 
+        /// <summary>The metric teaspoon as a unit of culinary measure is 5 ml (0.18 imp fl oz; 0.17 US fl oz),[17] equal to 5 cm3, 1⁄3 UK/Canadian metric tablespoon, or 1⁄4 Australian metric tablespoon.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_teaspoons() const
         {
             return convert_from_base(VolumeUnit::MetricTeaspoons);
         }
 
+        /// <summary>The metric teaspoon as a unit of culinary measure is 5 ml (0.18 imp fl oz; 0.17 US fl oz),[17] equal to 5 cm3, 1⁄3 UK/Canadian metric tablespoon, or 1⁄4 Australian metric tablespoon.</summary>
         [[nodiscard]] static constexpr Volume from_metric_teaspoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricTeaspoons);
         }
 
 
+        /// <summary>As a unit of culinary measure, one teaspoon in the United States is 1⁄3 tablespoon, exactly 4.92892159375 ml, 1 1⁄3 US fluid drams, 1⁄6 US fl oz, 1⁄48 US cup, 1⁄768 US liquid gallon, or 77⁄256 (0.30078125) cubic inches.</summary>
         [[nodiscard]] constexpr un_scalar_t us_teaspoons() const
         {
             return convert_from_base(VolumeUnit::UsTeaspoons);
         }
 
+        /// <summary>As a unit of culinary measure, one teaspoon in the United States is 1⁄3 tablespoon, exactly 4.92892159375 ml, 1 1⁄3 US fluid drams, 1⁄6 US fl oz, 1⁄48 US cup, 1⁄768 US liquid gallon, or 77⁄256 (0.30078125) cubic inches.</summary>
         [[nodiscard]] static constexpr Volume from_us_teaspoons(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsTeaspoons);
         }
 
 
+        /// <summary>Australia, Canada, New Zealand, and some other members of the Commonwealth of Nations, being former British colonies that have since metricated, employ a metric cup of 250 millilitres. Although derived from the metric system, it is not an SI unit.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_cups() const
         {
             return convert_from_base(VolumeUnit::MetricCups);
         }
 
+        /// <summary>Australia, Canada, New Zealand, and some other members of the Commonwealth of Nations, being former British colonies that have since metricated, employ a metric cup of 250 millilitres. Although derived from the metric system, it is not an SI unit.</summary>
         [[nodiscard]] static constexpr Volume from_metric_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::MetricCups);
         }
 
 
+        /// <summary>In the United States, the customary cup is half of a liquid pint or 1⁄16 US customary gallon which is 236.5882365 milliliters exactly.</summary>
         [[nodiscard]] constexpr un_scalar_t us_customary_cups() const
         {
             return convert_from_base(VolumeUnit::UsCustomaryCups);
         }
 
+        /// <summary>In the United States, the customary cup is half of a liquid pint or 1⁄16 US customary gallon which is 236.5882365 milliliters exactly.</summary>
         [[nodiscard]] static constexpr Volume from_us_customary_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsCustomaryCups);
         }
 
 
+        /// <summary>The cup currently used in the United States for nutrition labelling is defined in United States law as 240 ml.</summary>
         [[nodiscard]] constexpr un_scalar_t us_legal_cups() const
         {
             return convert_from_base(VolumeUnit::UsLegalCups);
         }
 
+        /// <summary>The cup currently used in the United States for nutrition labelling is defined in United States law as 240 ml.</summary>
         [[nodiscard]] static constexpr Volume from_us_legal_cups(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsLegalCups);
         }
 
 
+        /// <summary>In the oil industry, one barrel (unit symbol bbl) is a unit of volume used for measuring oil defined as exactly 42 US gallons, approximately 159 liters, or 35 imperial gallons.</summary>
         [[nodiscard]] constexpr un_scalar_t oil_barrels() const
         {
             return convert_from_base(VolumeUnit::OilBarrels);
         }
 
+        /// <summary>In the oil industry, one barrel (unit symbol bbl) is a unit of volume used for measuring oil defined as exactly 42 US gallons, approximately 159 liters, or 35 imperial gallons.</summary>
         [[nodiscard]] static constexpr Volume from_oil_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::OilBarrels);
         }
 
 
+        /// <summary>Fluid barrels vary depending on what is being measured and where. In the US most fluid barrels (apart from oil) are 31.5 US gallons (26 imp gal; 119 L) (half a hogshead), but a beer barrel is 31 US gallons (26 imp gal; 117 L).</summary>
         [[nodiscard]] constexpr un_scalar_t us_beer_barrels() const
         {
             return convert_from_base(VolumeUnit::UsBeerBarrels);
         }
 
+        /// <summary>Fluid barrels vary depending on what is being measured and where. In the US most fluid barrels (apart from oil) are 31.5 US gallons (26 imp gal; 119 L) (half a hogshead), but a beer barrel is 31 US gallons (26 imp gal; 117 L).</summary>
         [[nodiscard]] static constexpr Volume from_us_beer_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsBeerBarrels);
         }
 
 
+        /// <summary>Fluid barrels vary depending on what is being measured and where. In the UK a beer barrel is 36 imperial gallons (43 US gal; ~164 L).</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_beer_barrels() const
         {
             return convert_from_base(VolumeUnit::ImperialBeerBarrels);
         }
 
+        /// <summary>Fluid barrels vary depending on what is being measured and where. In the UK a beer barrel is 36 imperial gallons (43 US gal; ~164 L).</summary>
         [[nodiscard]] static constexpr Volume from_imperial_beer_barrels(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialBeerBarrels);
         }
 
 
+        /// <summary>The US liquid quart equals 57.75 cubic inches, which is exactly equal to 0.946352946 L.</summary>
         [[nodiscard]] constexpr un_scalar_t us_quarts() const
         {
             return convert_from_base(VolumeUnit::UsQuarts);
         }
 
+        /// <summary>The US liquid quart equals 57.75 cubic inches, which is exactly equal to 0.946352946 L.</summary>
         [[nodiscard]] static constexpr Volume from_us_quarts(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsQuarts);
         }
 
 
+        /// <summary>The imperial quart, which is used for both liquid and dry capacity, is equal to one quarter of an imperial gallon, or exactly 1.1365225 liters.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_quarts() const
         {
             return convert_from_base(VolumeUnit::ImperialQuarts);
         }
 
+        /// <summary>The imperial quart, which is used for both liquid and dry capacity, is equal to one quarter of an imperial gallon, or exactly 1.1365225 liters.</summary>
         [[nodiscard]] static constexpr Volume from_imperial_quarts(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialQuarts);
         }
 
 
+        /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] constexpr un_scalar_t us_pints() const
         {
             return convert_from_base(VolumeUnit::UsPints);
         }
 
+        /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] static constexpr Volume from_us_pints(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::UsPints);
         }
 
 
+        /// <summary>An acre-foot is 43,560 cubic feet (~1,233.5 m3).</summary>
         [[nodiscard]] constexpr un_scalar_t acre_feet() const
         {
             return convert_from_base(VolumeUnit::AcreFeet);
         }
 
+        /// <summary>An acre-foot is 43,560 cubic feet (~1,233.5 m3).</summary>
         [[nodiscard]] static constexpr Volume from_acre_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::AcreFeet);
         }
 
 
+        /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_pints() const
         {
             return convert_from_base(VolumeUnit::ImperialPints);
         }
 
+        /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] static constexpr Volume from_imperial_pints(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::ImperialPints);
         }
 
 
+        /// <summary>The board foot or board-foot is a unit of measurement for the volume of lumber in the United States and Canada. It equals the volume of a board that is one-foot (305 mm) in length, one-foot (305 mm) in width, and one-inch (25.4 mm) in thickness.</summary>
         [[nodiscard]] constexpr un_scalar_t board_feet() const
         {
             return convert_from_base(VolumeUnit::BoardFeet);
         }
 
+        /// <summary>The board foot or board-foot is a unit of measurement for the volume of lumber in the United States and Canada. It equals the volume of a board that is one-foot (305 mm) in length, one-foot (305 mm) in width, and one-inch (25.4 mm) in thickness.</summary>
         [[nodiscard]] static constexpr Volume from_board_feet(const un_scalar_t value)
         {
             return Volume(value, VolumeUnit::BoardFeet);

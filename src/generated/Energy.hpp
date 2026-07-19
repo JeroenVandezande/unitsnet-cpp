@@ -304,77 +304,91 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t electron_volts() const
         {
             return convert_from_base(EnergyUnit::ElectronVolts);
         }
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_electron_volts(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::ElectronVolts);
         }
 
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloelectron_volts() const
         {
             return convert_from_base(EnergyUnit::KiloelectronVolts);
         }
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_kiloelectron_volts(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::KiloelectronVolts);
         }
 
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t megaelectron_volts() const
         {
             return convert_from_base(EnergyUnit::MegaelectronVolts);
         }
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_megaelectron_volts(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::MegaelectronVolts);
         }
 
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t gigaelectron_volts() const
         {
             return convert_from_base(EnergyUnit::GigaelectronVolts);
         }
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_gigaelectron_volts(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::GigaelectronVolts);
         }
 
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t teraelectron_volts() const
         {
             return convert_from_base(EnergyUnit::TeraelectronVolts);
         }
 
+        /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_teraelectron_volts(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::TeraelectronVolts);
         }
 
 
+        /// <summary>A pound-foot (lb⋅ft), abbreviated from pound-force foot (lbf · ft), is a unit of torque representing one pound of force acting at a perpendicular distance of one foot from a pivot point. Conversely one foot pound-force (ft · lbf) is the moment about an axis that applies one pound-force at a radius of one foot.</summary>
         [[nodiscard]] constexpr un_scalar_t foot_pounds() const
         {
             return convert_from_base(EnergyUnit::FootPounds);
         }
 
+        /// <summary>A pound-foot (lb⋅ft), abbreviated from pound-force foot (lbf · ft), is a unit of torque representing one pound of force acting at a perpendicular distance of one foot from a pivot point. Conversely one foot pound-force (ft · lbf) is the moment about an axis that applies one pound-force at a radius of one foot.</summary>
         [[nodiscard]] static constexpr Energy from_foot_pounds(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::FootPounds);
         }
 
 
+        /// <summary>The erg is a unit of energy equal to 10−7 joules (100 nJ). It originated in the Centimetre–gram–second system of units (CGS). It has the symbol erg. The erg is not an SI unit. Its name is derived from ergon (ἔργον), a Greek word meaning 'work' or 'task'.</summary>
         [[nodiscard]] constexpr un_scalar_t ergs() const
         {
             return convert_from_base(EnergyUnit::Ergs);
         }
 
+        /// <summary>The erg is a unit of energy equal to 10−7 joules (100 nJ). It originated in the Centimetre–gram–second system of units (CGS). It has the symbol erg. The erg is not an SI unit. Its name is derived from ergon (ἔργον), a Greek word meaning 'work' or 'task'.</summary>
         [[nodiscard]] static constexpr Energy from_ergs(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::Ergs);
@@ -491,77 +505,91 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_ec() const
         {
             return convert_from_base(EnergyUnit::ThermsEc);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_ec(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::ThermsEc);
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_ec() const
         {
             return convert_from_base(EnergyUnit::DecathermsEc);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_ec(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::DecathermsEc);
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_us() const
         {
             return convert_from_base(EnergyUnit::ThermsUs);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_us(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::ThermsUs);
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_us() const
         {
             return convert_from_base(EnergyUnit::DecathermsUs);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_us(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::DecathermsUs);
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_imperial() const
         {
             return convert_from_base(EnergyUnit::ThermsImperial);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_imperial(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::ThermsImperial);
         }
 
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_imperial() const
         {
             return convert_from_base(EnergyUnit::DecathermsImperial);
         }
 
+        /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_imperial(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::DecathermsImperial);
         }
 
 
+        /// <summary>A horsepower-hour (symbol: hp⋅h) is an outdated unit of energy, not used in the International System of Units. The unit represents an amount of work a horse is supposed capable of delivering during an hour (1 horsepower integrated over a time interval of an hour).</summary>
         [[nodiscard]] constexpr un_scalar_t horsepower_hours() const
         {
             return convert_from_base(EnergyUnit::HorsepowerHours);
         }
 
+        /// <summary>A horsepower-hour (symbol: hp⋅h) is an outdated unit of energy, not used in the International System of Units. The unit represents an amount of work a horse is supposed capable of delivering during an hour (1 horsepower integrated over a time interval of an hour).</summary>
         [[nodiscard]] static constexpr Energy from_horsepower_hours(const un_scalar_t value)
         {
             return Energy(value, EnergyUnit::HorsepowerHours);

@@ -104,176 +104,208 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>One dyne is equal to 10 micronewtons, 10e−5 N or to 10 nsn (nanosthenes) in the old metre–tonne–second system of units.</summary>
         [[nodiscard]] constexpr un_scalar_t dyne() const
         {
             return convert_from_base(ForceUnit::Dyne);
         }
 
+        /// <summary>One dyne is equal to 10 micronewtons, 10e−5 N or to 10 nsn (nanosthenes) in the old metre–tonne–second system of units.</summary>
         [[nodiscard]] static constexpr Force from_dyne(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Dyne);
         }
 
 
+        /// <summary>The gram-force is a unit of force equal to the magnitude of force exerted by a gram of mass in standard gravity (9.80665 m/s²). It is equal to 9.80665 × 10⁻³ N.</summary>
         [[nodiscard]] constexpr un_scalar_t grams_force() const
         {
             return convert_from_base(ForceUnit::GramsForce);
         }
 
+        /// <summary>The gram-force is a unit of force equal to the magnitude of force exerted by a gram of mass in standard gravity (9.80665 m/s²). It is equal to 9.80665 × 10⁻³ N.</summary>
         [[nodiscard]] static constexpr Force from_grams_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::GramsForce);
         }
 
 
+        /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kilograms_force() const
         {
             return convert_from_base(ForceUnit::KilogramsForce);
         }
 
+        /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] static constexpr Force from_kilograms_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::KilogramsForce);
         }
 
 
+        /// <summary>The tonne-force, metric ton-force, megagram-force, and megapond (Mp) are each 1000 kilograms-force.</summary>
         [[nodiscard]] constexpr un_scalar_t tonnes_force() const
         {
             return convert_from_base(ForceUnit::TonnesForce);
         }
 
+        /// <summary>The tonne-force, metric ton-force, megagram-force, and megapond (Mp) are each 1000 kilograms-force.</summary>
         [[nodiscard]] static constexpr Force from_tonnes_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::TonnesForce);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t newtons() const
         {
             return convert_from_base(ForceUnit::Newtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_newtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Newtons);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t micronewtons() const
         {
             return convert_from_base(ForceUnit::Micronewtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_micronewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Micronewtons);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millinewtons() const
         {
             return convert_from_base(ForceUnit::Millinewtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_millinewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Millinewtons);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t decanewtons() const
         {
             return convert_from_base(ForceUnit::Decanewtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_decanewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Decanewtons);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilonewtons() const
         {
             return convert_from_base(ForceUnit::Kilonewtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_kilonewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Kilonewtons);
         }
 
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t meganewtons() const
         {
             return convert_from_base(ForceUnit::Meganewtons);
         }
 
+        /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] static constexpr Force from_meganewtons(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Meganewtons);
         }
 
 
+        /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloponds() const
         {
             return convert_from_base(ForceUnit::Kiloponds);
         }
 
+        /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] static constexpr Force from_kiloponds(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Kiloponds);
         }
 
 
+        /// <summary>The poundal is defined as the force necessary to accelerate 1 pound-mass at 1 foot per second per second. 1 pdl = 0.138254954376 N exactly.</summary>
         [[nodiscard]] constexpr un_scalar_t poundals() const
         {
             return convert_from_base(ForceUnit::Poundals);
         }
 
+        /// <summary>The poundal is defined as the force necessary to accelerate 1 pound-mass at 1 foot per second per second. 1 pdl = 0.138254954376 N exactly.</summary>
         [[nodiscard]] static constexpr Force from_poundals(const un_scalar_t value)
         {
             return Force(value, ForceUnit::Poundals);
         }
 
 
+        /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] constexpr un_scalar_t pounds_force() const
         {
             return convert_from_base(ForceUnit::PoundsForce);
         }
 
+        /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] static constexpr Force from_pounds_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::PoundsForce);
         }
 
 
+        /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kilopounds_force() const
         {
             return convert_from_base(ForceUnit::KilopoundsForce);
         }
 
+        /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] static constexpr Force from_kilopounds_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::KilopoundsForce);
         }
 
 
+        /// <summary>An ounce-force is 1⁄16 of a pound-force, or about 0.2780139 newtons.</summary>
         [[nodiscard]] constexpr un_scalar_t ounce_force() const
         {
             return convert_from_base(ForceUnit::OunceForce);
         }
 
+        /// <summary>An ounce-force is 1⁄16 of a pound-force, or about 0.2780139 newtons.</summary>
         [[nodiscard]] static constexpr Force from_ounce_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::OunceForce);
         }
 
 
+        /// <summary>The short ton-force is a unit of force equal to 2,000 pounds-force (907.18474 kgf), that is most commonly used in the United States – known there simply as the ton or US ton.</summary>
         [[nodiscard]] constexpr un_scalar_t short_tons_force() const
         {
             return convert_from_base(ForceUnit::ShortTonsForce);
         }
 
+        /// <summary>The short ton-force is a unit of force equal to 2,000 pounds-force (907.18474 kgf), that is most commonly used in the United States – known there simply as the ton or US ton.</summary>
         [[nodiscard]] static constexpr Force from_short_tons_force(const un_scalar_t value)
         {
             return Force(value, ForceUnit::ShortTonsForce);

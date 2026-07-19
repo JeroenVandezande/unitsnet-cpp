@@ -105,187 +105,221 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t grays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Grays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_grays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Grays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t femtograys() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Femtograys);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_femtograys(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Femtograys);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t picograys() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Picograys);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_picograys(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Picograys);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t nanograys() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Nanograys);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_nanograys(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Nanograys);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t micrograys() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Micrograys);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_micrograys(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Micrograys);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t milligrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Milligrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_milligrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Milligrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t centigrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Centigrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_centigrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Centigrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t decigrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Decigrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_decigrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Decigrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t kilograys() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Kilograys);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_kilograys(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Kilograys);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t megagrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Megagrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_megagrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Megagrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t gigagrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Gigagrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_gigagrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Gigagrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t teragrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Teragrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_teragrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Teragrays);
         }
 
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t petagrays() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Petagrays);
         }
 
+        /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_petagrays(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Petagrays);
         }
 
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t rads() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Rads);
         }
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_rads(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Rads);
         }
 
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t millirads() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Millirads);
         }
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_millirads(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Millirads);
         }
 
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t kilorads() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Kilorads);
         }
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_kilorads(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Kilorads);
         }
 
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t megarads() const
         {
             return convert_from_base(AbsorbedDoseOfIonizingRadiationUnit::Megarads);
         }
 
+        /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_megarads(const un_scalar_t value)
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Megarads);

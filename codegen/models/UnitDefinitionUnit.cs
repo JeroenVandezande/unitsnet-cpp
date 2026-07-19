@@ -10,6 +10,8 @@ public sealed class UnitDefinitionUnit
 
     public required string SingularName { get; init; }
     public required string PluralName { get; init; }
+    public string? XmlDocSummary { get; init; }
+
     public required string FromUnitToBaseFunc {
         get
         {

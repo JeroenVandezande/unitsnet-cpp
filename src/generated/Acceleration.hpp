@@ -212,22 +212,26 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] constexpr un_scalar_t knots_per_minute() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerMinute);
         }
 
+        /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] static constexpr Acceleration from_knots_per_minute(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KnotsPerMinute);
         }
 
 
+        /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] constexpr un_scalar_t knots_per_hour() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerHour);
         }
 
+        /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] static constexpr Acceleration from_knots_per_hour(const un_scalar_t value)
         {
             return Acceleration(value, AccelerationUnit::KnotsPerHour);

@@ -168,22 +168,26 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The statute mile was standardised between the British Commonwealth and the United States by an international agreement in 1959, when it was formally redefined with respect to SI units as exactly 1,609.344 metres.</summary>
         [[nodiscard]] constexpr un_scalar_t square_miles() const
         {
             return convert_from_base(AreaUnit::SquareMiles);
         }
 
+        /// <summary>The statute mile was standardised between the British Commonwealth and the United States by an international agreement in 1959, when it was formally redefined with respect to SI units as exactly 1,609.344 metres.</summary>
         [[nodiscard]] static constexpr Area from_square_miles(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareMiles);
         }
 
 
+        /// <summary>The yard (symbol: yd) is an English unit of length in both the British imperial and US customary systems of measurement equalling 3 feet (or 36 inches). Since 1959 the yard has been by international agreement standardized as exactly 0.9144 meter. A distance of 1,760 yards is equal to 1 mile.</summary>
         [[nodiscard]] constexpr un_scalar_t square_yards() const
         {
             return convert_from_base(AreaUnit::SquareYards);
         }
 
+        /// <summary>The yard (symbol: yd) is an English unit of length in both the British imperial and US customary systems of measurement equalling 3 feet (or 36 inches). Since 1959 the yard has been by international agreement standardized as exactly 0.9144 meter. A distance of 1,760 yards is equal to 1 mile.</summary>
         [[nodiscard]] static constexpr Area from_square_yards(const un_scalar_t value)
         {
             return Area(value, AreaUnit::SquareYards);
@@ -201,11 +205,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>In the United States, the foot was defined as 12 inches, with the inch being defined by the Mendenhall Order of 1893 as 39.37 inches = 1 m. This makes a U.S. survey foot exactly 1200/3937 meters.</summary>
         [[nodiscard]] constexpr un_scalar_t us_survey_square_feet() const
         {
             return convert_from_base(AreaUnit::UsSurveySquareFeet);
         }
 
+        /// <summary>In the United States, the foot was defined as 12 inches, with the inch being defined by the Mendenhall Order of 1893 as 39.37 inches = 1 m. This makes a U.S. survey foot exactly 1200/3937 meters.</summary>
         [[nodiscard]] static constexpr Area from_us_survey_square_feet(const un_scalar_t value)
         {
             return Area(value, AreaUnit::UsSurveySquareFeet);
@@ -223,11 +229,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>Based upon the international yard and pound agreement of 1959, an acre may be declared as exactly 4,046.8564224 square metres.</summary>
         [[nodiscard]] constexpr un_scalar_t acres() const
         {
             return convert_from_base(AreaUnit::Acres);
         }
 
+        /// <summary>Based upon the international yard and pound agreement of 1959, an acre may be declared as exactly 4,046.8564224 square metres.</summary>
         [[nodiscard]] static constexpr Area from_acres(const un_scalar_t value)
         {
             return Area(value, AreaUnit::Acres);

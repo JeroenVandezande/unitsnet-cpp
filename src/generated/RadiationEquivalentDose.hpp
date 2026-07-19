@@ -94,44 +94,52 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t sieverts() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::Sieverts);
         }
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] static constexpr RadiationEquivalentDose from_sieverts(const un_scalar_t value)
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Sieverts);
         }
 
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t nanosieverts() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::Nanosieverts);
         }
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] static constexpr RadiationEquivalentDose from_nanosieverts(const un_scalar_t value)
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Nanosieverts);
         }
 
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t microsieverts() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::Microsieverts);
         }
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] static constexpr RadiationEquivalentDose from_microsieverts(const un_scalar_t value)
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Microsieverts);
         }
 
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t millisieverts() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::Millisieverts);
         }
 
+        /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] static constexpr RadiationEquivalentDose from_millisieverts(const un_scalar_t value)
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Millisieverts);

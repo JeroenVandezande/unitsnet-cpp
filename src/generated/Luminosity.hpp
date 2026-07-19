@@ -245,11 +245,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The IAU has defined a nominal solar luminosity of 3.828×10^26 W to promote publication of consistent and comparable values in units of the solar luminosity.</summary>
         [[nodiscard]] constexpr un_scalar_t solar_luminosities() const
         {
             return convert_from_base(LuminosityUnit::SolarLuminosities);
         }
 
+        /// <summary>The IAU has defined a nominal solar luminosity of 3.828×10^26 W to promote publication of consistent and comparable values in units of the solar luminosity.</summary>
         [[nodiscard]] static constexpr Luminosity from_solar_luminosities(const un_scalar_t value)
         {
             return Luminosity(value, LuminosityUnit::SolarLuminosities);

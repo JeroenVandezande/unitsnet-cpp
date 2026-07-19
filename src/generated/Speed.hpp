@@ -451,11 +451,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>The knot, by definition, is a unit of speed equals to 1 nautical mile per hour, which is exactly 1852.000 metres per hour. The length of the internationally agreed nautical mile is 1852 m. The US adopted the international definition in 1954, the UK adopted the international nautical mile definition in 1970.</summary>
         [[nodiscard]] constexpr un_scalar_t knots() const
         {
             return convert_from_base(SpeedUnit::Knots);
         }
 
+        /// <summary>The knot, by definition, is a unit of speed equals to 1 nautical mile per hour, which is exactly 1852.000 metres per hour. The length of the internationally agreed nautical mile is 1852 m. The US adopted the international definition in 1954, the UK adopted the international nautical mile definition in 1970.</summary>
         [[nodiscard]] static constexpr Speed from_knots(const un_scalar_t value)
         {
             return Speed(value, SpeedUnit::Knots);

@@ -104,11 +104,13 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>Also known as grammage for paper industry. In fiber industry used with abbreviation 'gsm'.</summary>
         [[nodiscard]] constexpr un_scalar_t grams_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::GramsPerSquareMeter);
         }
 
+        /// <summary>Also known as grammage for paper industry. In fiber industry used with abbreviation 'gsm'.</summary>
         [[nodiscard]] static constexpr AreaDensity from_grams_per_square_meter(const un_scalar_t value)
         {
             return AreaDensity(value, AreaDensityUnit::GramsPerSquareMeter);

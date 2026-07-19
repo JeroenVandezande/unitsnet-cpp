@@ -117,121 +117,143 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t becquerels() const
         {
             return convert_from_base(RadioactivityUnit::Becquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_becquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Becquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t picobecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Picobecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_picobecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Picobecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t nanobecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Nanobecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_nanobecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Nanobecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t microbecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Microbecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_microbecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Microbecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millibecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Millibecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_millibecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Millibecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilobecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Kilobecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_kilobecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Kilobecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t megabecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Megabecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_megabecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Megabecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t gigabecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Gigabecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_gigabecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Gigabecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t terabecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Terabecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_terabecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Terabecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t petabecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Petabecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_petabecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Petabecquerels);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t exabecquerels() const
         {
             return convert_from_base(RadioactivityUnit::Exabecquerels);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_exabecquerels(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Exabecquerels);
@@ -337,99 +359,117 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t rutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Rutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_rutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Rutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t picorutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Picorutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_picorutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Picorutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t nanorutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Nanorutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_nanorutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Nanorutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t microrutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Microrutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_microrutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Microrutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millirutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Millirutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_millirutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Millirutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilorutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Kilorutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_kilorutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Kilorutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t megarutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Megarutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_megarutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Megarutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t gigarutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Gigarutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_gigarutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Gigarutherfords);
         }
 
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t terarutherfords() const
         {
             return convert_from_base(RadioactivityUnit::Terarutherfords);
         }
 
+        /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] static constexpr Radioactivity from_terarutherfords(const un_scalar_t value)
         {
             return Radioactivity(value, RadioactivityUnit::Terarutherfords);

@@ -276,22 +276,26 @@ namespace unitsnet_cpp
         }
 
 
+        /// <summary>Calculated from the definition of <a href="https://en.wikipedia.org/wiki/Pound_(mass)">pound</a> and <a href="https://en.wikipedia.org/wiki/Cubic_yard">Cubic yard</a> compared to metric kilogram and meter.</summary>
         [[nodiscard]] constexpr un_scalar_t pounds_per_cubic_yard() const
         {
             return convert_from_base(DensityUnit::PoundsPerCubicYard);
         }
 
+        /// <summary>Calculated from the definition of <a href="https://en.wikipedia.org/wiki/Pound_(mass)">pound</a> and <a href="https://en.wikipedia.org/wiki/Cubic_yard">Cubic yard</a> compared to metric kilogram and meter.</summary>
         [[nodiscard]] static constexpr Density from_pounds_per_cubic_yard(const un_scalar_t value)
         {
             return Density(value, DensityUnit::PoundsPerCubicYard);
         }
 
 
+        /// <summary>Calculated from the definition of <a href="https://en.wikipedia.org/wiki/Pound_(mass)">pound</a> and <a href="https://en.wikipedia.org/wiki/Cubic_yard">Cubic yard</a> compared to metric kilogram and meter.</summary>
         [[nodiscard]] constexpr un_scalar_t kilopounds_per_cubic_yard() const
         {
             return convert_from_base(DensityUnit::KilopoundsPerCubicYard);
         }
 
+        /// <summary>Calculated from the definition of <a href="https://en.wikipedia.org/wiki/Pound_(mass)">pound</a> and <a href="https://en.wikipedia.org/wiki/Cubic_yard">Cubic yard</a> compared to metric kilogram and meter.</summary>
         [[nodiscard]] static constexpr Density from_kilopounds_per_cubic_yard(const un_scalar_t value)
         {
             return Density(value, DensityUnit::KilopoundsPerCubicYard);
