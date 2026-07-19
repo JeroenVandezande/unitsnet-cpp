@@ -22,6 +22,26 @@ namespace unitsnet_cpp
             : value_(convert_to_base(value, unit))
         {
         }
+        
+        constexpr explicit MagneticFlux(const bool isValid)
+        {
+            _isInvalid = !isValid;
+        }
+        
+        void SetValueAsInvalid()
+        {
+            _isInvalid = true;
+        }
+        
+        void SetValueAsValid()
+        {
+            _isInvalid = false;
+        }
+        
+        [[nodiscard]] bool GetValueIsValid() const
+        {
+            return _isInvalid;
+        }
 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -62,6 +82,11 @@ namespace unitsnet_cpp
         {
             return value_ < other.value_;
         }
+        
+        [[nodiscard]] constexpr bool operator>(const MagneticFlux other) const noexcept
+        {
+            return value_ > other.value_;
+        }
 
 
         [[nodiscard]] constexpr un_scalar_t webers() const
@@ -75,7 +100,13 @@ namespace unitsnet_cpp
         }
 
 
+        [[nodiscard]] static constexpr MagneticFlux from_invalid()
+        {
+            return MagneticFlux(false);
+        }
     private:
+        bool _isInvalid = false;
+    
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, MagneticFluxUnit unit)
         {
             switch (unit)

@@ -29,6 +29,26 @@ namespace unitsnet_cpp
             : value_(convert_to_base(value, unit))
         {
         }
+        
+        constexpr explicit RadiationExposure(const bool isValid)
+        {
+            _isInvalid = !isValid;
+        }
+        
+        void SetValueAsInvalid()
+        {
+            _isInvalid = true;
+        }
+        
+        void SetValueAsValid()
+        {
+            _isInvalid = false;
+        }
+        
+        [[nodiscard]] bool GetValueIsValid() const
+        {
+            return _isInvalid;
+        }
 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -68,6 +88,11 @@ namespace unitsnet_cpp
         [[nodiscard]] constexpr bool operator<(const RadiationExposure other) const noexcept
         {
             return value_ < other.value_;
+        }
+        
+        [[nodiscard]] constexpr bool operator>(const RadiationExposure other) const noexcept
+        {
+            return value_ > other.value_;
         }
 
 
@@ -159,7 +184,13 @@ namespace unitsnet_cpp
         }
 
 
+        [[nodiscard]] static constexpr RadiationExposure from_invalid()
+        {
+            return RadiationExposure(false);
+        }
     private:
+        bool _isInvalid = false;
+    
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, RadiationExposureUnit unit)
         {
             switch (unit)

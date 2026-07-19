@@ -24,6 +24,26 @@ namespace unitsnet_cpp
             : value_(convert_to_base(value, unit))
         {
         }
+        
+        constexpr explicit BrakeSpecificFuelConsumption(const bool isValid)
+        {
+            _isInvalid = !isValid;
+        }
+        
+        void SetValueAsInvalid()
+        {
+            _isInvalid = true;
+        }
+        
+        void SetValueAsValid()
+        {
+            _isInvalid = false;
+        }
+        
+        [[nodiscard]] bool GetValueIsValid() const
+        {
+            return _isInvalid;
+        }
 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -64,6 +84,11 @@ namespace unitsnet_cpp
         {
             return value_ < other.value_;
         }
+        
+        [[nodiscard]] constexpr bool operator>(const BrakeSpecificFuelConsumption other) const noexcept
+        {
+            return value_ > other.value_;
+        }
 
 
         [[nodiscard]] constexpr un_scalar_t grams_per_kilo_watt_hour() const
@@ -99,7 +124,13 @@ namespace unitsnet_cpp
         }
 
 
+        [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_invalid()
+        {
+            return BrakeSpecificFuelConsumption(false);
+        }
     private:
+        bool _isInvalid = false;
+    
         [[nodiscard]] static constexpr un_scalar_t convert_to_base(un_scalar_t value, BrakeSpecificFuelConsumptionUnit unit)
         {
             switch (unit)
