@@ -53,31 +53,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MassUnit::Kilograms)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassUnit unit) const
@@ -120,7 +100,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams() const
         {
             return convert_from_base(MassUnit::Grams);
@@ -130,7 +109,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Grams);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t femtograms() const
         {
@@ -142,7 +120,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Femtograms);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picograms() const
         {
             return convert_from_base(MassUnit::Picograms);
@@ -152,7 +129,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Picograms);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanograms() const
         {
@@ -164,7 +140,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Nanograms);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrograms() const
         {
             return convert_from_base(MassUnit::Micrograms);
@@ -174,7 +149,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Micrograms);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milligrams() const
         {
@@ -186,7 +160,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Milligrams);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centigrams() const
         {
             return convert_from_base(MassUnit::Centigrams);
@@ -196,7 +169,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Centigrams);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decigrams() const
         {
@@ -208,7 +180,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Decigrams);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decagrams() const
         {
             return convert_from_base(MassUnit::Decagrams);
@@ -218,7 +189,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Decagrams);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectograms() const
         {
@@ -230,7 +200,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Hectograms);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms() const
         {
             return convert_from_base(MassUnit::Kilograms);
@@ -240,7 +209,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Kilograms);
         }
-
 
         /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t tonnes() const
@@ -254,7 +222,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Tonnes);
         }
 
-
         /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t kilotonnes() const
         {
@@ -266,7 +233,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Kilotonnes);
         }
-
 
         /// <summary>The tonne is a unit of mass equal to 1,000 kilograms. It is a non-SI unit accepted for use with SI. It is also referred to as a metric ton in the United States to distinguish it from the non-metric units of the short ton (United States customary units) and the long ton (British imperial units). It is equivalent to approximately 2,204.6 pounds, 1.102 short tons, and 0.984 long tons.</summary>
         [[nodiscard]] constexpr un_scalar_t megatonnes() const
@@ -280,7 +246,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Megatonnes);
         }
 
-
         /// <summary>The short ton is a unit of mass equal to 2,000 pounds (907.18474 kg), that is most commonly used in the United States – known there simply as the ton.</summary>
         [[nodiscard]] constexpr un_scalar_t short_tons() const
         {
@@ -292,7 +257,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::ShortTons);
         }
-
 
         /// <summary>Long ton (weight ton or Imperial ton) is a unit of mass equal to 2,240 pounds (1,016 kg) and is the name for the unit called the "ton" in the avoirdupois or Imperial system of measurements that was used in the United Kingdom and several other Commonwealth countries before metrication.</summary>
         [[nodiscard]] constexpr un_scalar_t long_tons() const
@@ -306,7 +270,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::LongTons);
         }
 
-
         /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t pounds() const
         {
@@ -318,7 +281,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Pounds);
         }
-
 
         /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t kilopounds() const
@@ -332,7 +294,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Kilopounds);
         }
 
-
         /// <summary>The pound or pound-mass (abbreviations: lb, lbm) is a unit of mass used in the imperial, United States customary and other systems of measurement. A number of different definitions have been used, the most common today being the international avoirdupois pound which is legally defined as exactly 0.45359237 kilograms, and which is divided into 16 avoirdupois ounces.</summary>
         [[nodiscard]] constexpr un_scalar_t megapounds() const
         {
@@ -344,7 +305,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Megapounds);
         }
-
 
         /// <summary>The international avoirdupois ounce (abbreviated oz) is defined as exactly 28.349523125 g under the international yard and pound agreement of 1959, signed by the United States and countries of the Commonwealth of Nations. 16 oz make up an avoirdupois pound.</summary>
         [[nodiscard]] constexpr un_scalar_t ounces() const
@@ -358,7 +318,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Ounces);
         }
 
-
         /// <summary>The slug (abbreviation slug) is a unit of mass that is accelerated by 1 ft/s² when a force of one pound (lbf) is exerted on it.</summary>
         [[nodiscard]] constexpr un_scalar_t slugs() const
         {
@@ -370,7 +329,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Slugs);
         }
-
 
         /// <summary>The stone (abbreviation st) is a unit of mass equal to 14 pounds avoirdupois (about 6.35 kilograms) used in Great Britain and Ireland for measuring human body weight.</summary>
         [[nodiscard]] constexpr un_scalar_t stone() const
@@ -384,7 +342,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Stone);
         }
 
-
         /// <summary>The short hundredweight (abbreviation cwt) is a unit of mass equal to 100 pounds in US and Canada. In British English, the short hundredweight is referred to as the "cental".</summary>
         [[nodiscard]] constexpr un_scalar_t short_hundredweight() const
         {
@@ -396,7 +353,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::ShortHundredweight);
         }
-
 
         /// <summary>The long or imperial hundredweight (abbreviation cwt) is a unit of mass equal to 112 pounds in US and Canada.</summary>
         [[nodiscard]] constexpr un_scalar_t long_hundredweight() const
@@ -410,7 +366,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::LongHundredweight);
         }
 
-
         /// <summary>A grain is a unit of measurement of mass, and in the troy weight, avoirdupois, and Apothecaries' system, equal to exactly 64.79891 milligrams.</summary>
         [[nodiscard]] constexpr un_scalar_t grains() const
         {
@@ -422,7 +377,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Grains);
         }
-
 
         /// <summary>Solar mass is a ratio unit to the mass of the solar system star, the sun.</summary>
         [[nodiscard]] constexpr un_scalar_t solar_masses() const
@@ -436,7 +390,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::SolarMasses);
         }
 
-
         /// <summary>Earth mass is a ratio unit to the mass of planet Earth.</summary>
         [[nodiscard]] constexpr un_scalar_t earth_masses() const
         {
@@ -448,7 +401,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::EarthMasses);
         }
-
 
         /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t daltons() const
@@ -462,7 +414,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Daltons);
         }
 
-
         /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t kilodaltons() const
         {
@@ -474,7 +425,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Kilodaltons);
         }
-
 
         /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t megadaltons() const
@@ -488,7 +438,6 @@ namespace unitsnet_cpp
             return Mass(value, MassUnit::Megadaltons);
         }
 
-
         /// <summary>The Dalton or unified atomic mass unit (abbreviation Da or u) is a unit of mass defined as 1/12 of the mass of an unbound neutral atom of carbon-12 in its nuclear and electronic ground state and at rest.</summary>
         [[nodiscard]] constexpr un_scalar_t gigadaltons() const
         {
@@ -500,7 +449,6 @@ namespace unitsnet_cpp
         {
             return Mass(value, MassUnit::Gigadaltons);
         }
-
 
         [[nodiscard]] static constexpr Mass from_invalid()
         {
@@ -618,103 +566,103 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MassUnit::Grams:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Femtograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-15);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-15);
 
             case MassUnit::Picograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-12);
 
             case MassUnit::Nanograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassUnit::Micrograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassUnit::Milligrams:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassUnit::Centigrams:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassUnit::Decigrams:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassUnit::Decagrams:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MassUnit::Hectograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MassUnit::Kilograms:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Tonnes:
-                return base_value_ / static_cast<un_scalar_t>(1e3);
+                return base_value / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Kilotonnes:
-                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megatonnes:
-                return (base_value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::ShortTons:
-                return base_value_ / static_cast<un_scalar_t>(907.18474);
+                return base_value / static_cast<un_scalar_t>(907.18474);
 
             case MassUnit::LongTons:
-                return base_value_ / static_cast<un_scalar_t>(1016.0469088);
+                return base_value / static_cast<un_scalar_t>(1016.0469088);
 
             case MassUnit::Pounds:
-                return base_value_ / static_cast<un_scalar_t>(0.45359237);
+                return base_value / static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Kilopounds:
-                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megapounds:
-                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Ounces:
-                return base_value_ / static_cast<un_scalar_t>(0.028349523125);
+                return base_value / static_cast<un_scalar_t>(0.028349523125);
 
             case MassUnit::Slugs:
-                return base_value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case MassUnit::Stone:
-                return base_value_ / static_cast<un_scalar_t>(6.35029318);
+                return base_value / static_cast<un_scalar_t>(6.35029318);
 
             case MassUnit::ShortHundredweight:
-                return base_value_ / static_cast<un_scalar_t>(45.359237);
+                return base_value / static_cast<un_scalar_t>(45.359237);
 
             case MassUnit::LongHundredweight:
-                return base_value_ / static_cast<un_scalar_t>(50.80234544);
+                return base_value / static_cast<un_scalar_t>(50.80234544);
 
             case MassUnit::Grains:
-                return base_value_ / static_cast<un_scalar_t>(64.79891e-6);
+                return base_value / static_cast<un_scalar_t>(64.79891e-6);
 
             case MassUnit::SolarMasses:
-                return base_value_ / static_cast<un_scalar_t>(1.98947e30);
+                return base_value / static_cast<un_scalar_t>(1.98947e30);
 
             case MassUnit::EarthMasses:
-                return base_value_ / static_cast<un_scalar_t>(5.9722E+24);
+                return base_value / static_cast<un_scalar_t>(5.9722E+24);
 
             case MassUnit::Daltons:
-                return base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27);
+                return base_value /  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Kilodaltons:
-                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e3);
+                return (base_value /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megadaltons:
-                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e6);
+                return (base_value /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Gigadaltons:
-                return (base_value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e9);
+                return (base_value /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e9);
 
             }
 
@@ -722,9 +670,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MassUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MassUnit value_unit_type_;       
     };
 }

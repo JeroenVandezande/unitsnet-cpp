@@ -25,31 +25,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == {{ name }}Unit::{{ base_unit }})
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const {{ name }}Unit unit) const
@@ -92,7 +72,7 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-    {{~ for unit in units }}
+    {{~ for unit in units ~}}
         {{~ if unit.xml_doc_summary != null && !(unit.xml_doc_summary | string.strip).empty? ~}}
         /// <summary>{{ unit.xml_doc_summary }}</summary>
         {{~ end ~}}
@@ -109,7 +89,7 @@ namespace unitsnet_cpp
             return {{ name }}(value, {{ name }}Unit::{{ unit.enum_name }});
         }
 
-    {{~ end }}
+    {{~ end ~}}
         [[nodiscard]] static constexpr {{ name }} from_invalid()
         {
             return {{ name }}(false);
@@ -136,7 +116,7 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
@@ -150,9 +130,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        {{ name }}Unit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        {{ name }}Unit value_unit_type_;       
     };
 }

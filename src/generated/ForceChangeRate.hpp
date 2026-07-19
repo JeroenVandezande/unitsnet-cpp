@@ -37,31 +37,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ForceChangeRateUnit::NewtonsPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ForceChangeRateUnit unit) const
@@ -104,7 +84,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t newtons_per_minute() const
         {
             return convert_from_base(ForceChangeRateUnit::NewtonsPerMinute);
@@ -114,7 +93,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::NewtonsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decanewtons_per_minute() const
         {
@@ -126,7 +104,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::DecanewtonsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilonewtons_per_minute() const
         {
             return convert_from_base(ForceChangeRateUnit::KilonewtonsPerMinute);
@@ -136,7 +113,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::KilonewtonsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t newtons_per_second() const
         {
@@ -148,7 +124,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::NewtonsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanonewtons_per_second() const
         {
             return convert_from_base(ForceChangeRateUnit::NanonewtonsPerSecond);
@@ -158,7 +133,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::NanonewtonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micronewtons_per_second() const
         {
@@ -170,7 +144,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::MicronewtonsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millinewtons_per_second() const
         {
             return convert_from_base(ForceChangeRateUnit::MillinewtonsPerSecond);
@@ -180,7 +153,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::MillinewtonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centinewtons_per_second() const
         {
@@ -192,7 +164,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::CentinewtonsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decinewtons_per_second() const
         {
             return convert_from_base(ForceChangeRateUnit::DecinewtonsPerSecond);
@@ -202,7 +173,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::DecinewtonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decanewtons_per_second() const
         {
@@ -214,7 +184,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::DecanewtonsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilonewtons_per_second() const
         {
             return convert_from_base(ForceChangeRateUnit::KilonewtonsPerSecond);
@@ -224,7 +193,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::KilonewtonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_minute() const
         {
@@ -236,7 +204,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::PoundsForcePerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_minute() const
         {
             return convert_from_base(ForceChangeRateUnit::KilopoundsForcePerMinute);
@@ -246,7 +213,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::KilopoundsForcePerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_second() const
         {
@@ -258,7 +224,6 @@ namespace unitsnet_cpp
             return ForceChangeRate(value, ForceChangeRateUnit::PoundsForcePerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_second() const
         {
             return convert_from_base(ForceChangeRateUnit::KilopoundsForcePerSecond);
@@ -268,7 +233,6 @@ namespace unitsnet_cpp
         {
             return ForceChangeRate(value, ForceChangeRateUnit::KilopoundsForcePerSecond);
         }
-
 
         [[nodiscard]] static constexpr ForceChangeRate from_invalid()
         {
@@ -338,55 +302,55 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ForceChangeRateUnit::NewtonsPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::DecanewtonsPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e1);
 
             case ForceChangeRateUnit::KilonewtonsPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::NewtonsPerSecond:
-                return base_value_;
+                return base_value;
 
             case ForceChangeRateUnit::NanonewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ForceChangeRateUnit::MicronewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ForceChangeRateUnit::MillinewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ForceChangeRateUnit::CentinewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case ForceChangeRateUnit::DecinewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case ForceChangeRateUnit::DecanewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case ForceChangeRateUnit::KilonewtonsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::PoundsForcePerMinute:
-                return base_value_ / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60);
+                return base_value / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::KilopoundsForcePerMinute:
-                return (base_value_ / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::PoundsForcePerSecond:
-                return base_value_ / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceChangeRateUnit::KilopoundsForcePerSecond:
-                return (base_value_ / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -394,9 +358,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ForceChangeRateUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ForceChangeRateUnit value_unit_type_;       
     };
 }

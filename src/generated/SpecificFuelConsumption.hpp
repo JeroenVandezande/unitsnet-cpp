@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpecificFuelConsumptionUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_mass_per_pound_force_hour() const
         {
             return convert_from_base(SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilogram_force_hour() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_kilonewton_second() const
         {
             return convert_from_base(SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilonewton_second() const
         {
             return convert_from_base(SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond);
         }
-
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
-                return base_value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
+                return base_value * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
-                return base_value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
+                return base_value * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
-                return base_value_;
+                return base_value;
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        SpecificFuelConsumptionUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        SpecificFuelConsumptionUnit value_unit_type_;       
     };
 }

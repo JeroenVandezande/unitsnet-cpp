@@ -35,31 +35,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MolarMassUnit::KilogramsPerMole)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MolarMassUnit unit) const
@@ -102,7 +82,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_mole() const
         {
             return convert_from_base(MolarMassUnit::GramsPerMole);
@@ -112,7 +91,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::GramsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_mole() const
         {
@@ -124,7 +102,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::NanogramsPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrograms_per_mole() const
         {
             return convert_from_base(MolarMassUnit::MicrogramsPerMole);
@@ -134,7 +111,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::MicrogramsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_mole() const
         {
@@ -146,7 +122,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::MilligramsPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centigrams_per_mole() const
         {
             return convert_from_base(MolarMassUnit::CentigramsPerMole);
@@ -156,7 +131,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::CentigramsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_mole() const
         {
@@ -168,7 +142,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::DecigramsPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decagrams_per_mole() const
         {
             return convert_from_base(MolarMassUnit::DecagramsPerMole);
@@ -178,7 +151,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::DecagramsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectograms_per_mole() const
         {
@@ -190,7 +162,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::HectogramsPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_mole() const
         {
             return convert_from_base(MolarMassUnit::KilogramsPerMole);
@@ -200,7 +171,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::KilogramsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilomole() const
         {
@@ -212,7 +182,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::KilogramsPerKilomole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_per_mole() const
         {
             return convert_from_base(MolarMassUnit::PoundsPerMole);
@@ -222,7 +191,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::PoundsPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_per_mole() const
         {
@@ -234,7 +202,6 @@ namespace unitsnet_cpp
             return MolarMass(value, MolarMassUnit::KilopoundsPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megapounds_per_mole() const
         {
             return convert_from_base(MolarMassUnit::MegapoundsPerMole);
@@ -244,7 +211,6 @@ namespace unitsnet_cpp
         {
             return MolarMass(value, MolarMassUnit::MegapoundsPerMole);
         }
-
 
         [[nodiscard]] static constexpr MolarMass from_invalid()
         {
@@ -308,49 +274,49 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MolarMassUnit::GramsPerMole:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::NanogramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MolarMassUnit::MicrogramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MolarMassUnit::MilligramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarMassUnit::CentigramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MolarMassUnit::DecigramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MolarMassUnit::DecagramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MolarMassUnit::HectogramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MolarMassUnit::KilogramsPerMole:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::KilogramsPerKilomole:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::PoundsPerMole:
-                return base_value_ / static_cast<un_scalar_t>(0.45359237);
+                return base_value / static_cast<un_scalar_t>(0.45359237);
 
             case MolarMassUnit::KilopoundsPerMole:
-                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::MegapoundsPerMole:
-                return (base_value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -358,9 +324,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MolarMassUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MolarMassUnit value_unit_type_;       
     };
 }

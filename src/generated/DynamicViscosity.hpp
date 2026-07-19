@@ -32,31 +32,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == DynamicViscosityUnit::NewtonSecondsPerMeterSquared)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const DynamicViscosityUnit unit) const
@@ -99,7 +79,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t newton_seconds_per_meter_squared() const
         {
             return convert_from_base(DynamicViscosityUnit::NewtonSecondsPerMeterSquared);
@@ -109,7 +88,6 @@ namespace unitsnet_cpp
         {
             return DynamicViscosity(value, DynamicViscosityUnit::NewtonSecondsPerMeterSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pascal_seconds() const
         {
@@ -121,7 +99,6 @@ namespace unitsnet_cpp
             return DynamicViscosity(value, DynamicViscosityUnit::PascalSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millipascal_seconds() const
         {
             return convert_from_base(DynamicViscosityUnit::MillipascalSeconds);
@@ -131,7 +108,6 @@ namespace unitsnet_cpp
         {
             return DynamicViscosity(value, DynamicViscosityUnit::MillipascalSeconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micropascal_seconds() const
         {
@@ -143,7 +119,6 @@ namespace unitsnet_cpp
             return DynamicViscosity(value, DynamicViscosityUnit::MicropascalSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t poise() const
         {
             return convert_from_base(DynamicViscosityUnit::Poise);
@@ -153,7 +128,6 @@ namespace unitsnet_cpp
         {
             return DynamicViscosity(value, DynamicViscosityUnit::Poise);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centipoise() const
         {
@@ -165,7 +139,6 @@ namespace unitsnet_cpp
             return DynamicViscosity(value, DynamicViscosityUnit::Centipoise);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t reyns() const
         {
             return convert_from_base(DynamicViscosityUnit::Reyns);
@@ -175,7 +148,6 @@ namespace unitsnet_cpp
         {
             return DynamicViscosity(value, DynamicViscosityUnit::Reyns);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_second_per_square_inch() const
         {
@@ -187,7 +159,6 @@ namespace unitsnet_cpp
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsForceSecondPerSquareInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_force_second_per_square_foot() const
         {
             return convert_from_base(DynamicViscosityUnit::PoundsForceSecondPerSquareFoot);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsForceSecondPerSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_per_foot_second() const
         {
             return convert_from_base(DynamicViscosityUnit::PoundsPerFootSecond);
@@ -208,7 +178,6 @@ namespace unitsnet_cpp
         {
             return DynamicViscosity(value, DynamicViscosityUnit::PoundsPerFootSecond);
         }
-
 
         [[nodiscard]] static constexpr DynamicViscosity from_invalid()
         {
@@ -263,40 +232,40 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case DynamicViscosityUnit::NewtonSecondsPerMeterSquared:
-                return base_value_;
+                return base_value;
 
             case DynamicViscosityUnit::PascalSeconds:
-                return base_value_;
+                return base_value;
 
             case DynamicViscosityUnit::MillipascalSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case DynamicViscosityUnit::MicropascalSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case DynamicViscosityUnit::Poise:
-                return base_value_ * static_cast<un_scalar_t>(10);
+                return base_value * static_cast<un_scalar_t>(10);
 
             case DynamicViscosityUnit::Centipoise:
-                return (base_value_ * static_cast<un_scalar_t>(10)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(10)) / static_cast<un_scalar_t>(1e-2);
 
             case DynamicViscosityUnit::Reyns:
-                return base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareInch:
-                return base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareFoot:
-                return base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsPerFootSecond:
-                return base_value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
+                return base_value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
 
             }
 
@@ -304,9 +273,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        DynamicViscosityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        DynamicViscosityUnit value_unit_type_;       
     };
 }

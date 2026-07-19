@@ -34,31 +34,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == FrequencyUnit::Hertz)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const FrequencyUnit unit) const
@@ -101,7 +81,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t hertz() const
         {
             return convert_from_base(FrequencyUnit::Hertz);
@@ -111,7 +90,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::Hertz);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microhertz() const
         {
@@ -123,7 +101,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::Microhertz);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millihertz() const
         {
             return convert_from_base(FrequencyUnit::Millihertz);
@@ -133,7 +110,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::Millihertz);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilohertz() const
         {
@@ -145,7 +121,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::Kilohertz);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megahertz() const
         {
             return convert_from_base(FrequencyUnit::Megahertz);
@@ -155,7 +130,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::Megahertz);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigahertz() const
         {
@@ -167,7 +141,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::Gigahertz);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terahertz() const
         {
             return convert_from_base(FrequencyUnit::Terahertz);
@@ -177,7 +150,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::Terahertz);
         }
-
 
         /// <summary>In SI units, angular frequency is normally presented with the unit radian per second, and need not express a rotational value. The unit hertz (Hz) is dimensionally equivalent, but by convention it is only used for frequency f, never for angular frequency ω. This convention is used to help avoid the confusion that arises when dealing with quantities such as frequency and angular quantities because the units of measure (such as cycle or radian) are considered to be one and hence may be omitted when expressing quantities in terms of SI units.</summary>
         [[nodiscard]] constexpr un_scalar_t radians_per_second() const
@@ -191,7 +163,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::RadiansPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cycles_per_minute() const
         {
             return convert_from_base(FrequencyUnit::CyclesPerMinute);
@@ -201,7 +172,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::CyclesPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cycles_per_hour() const
         {
@@ -213,7 +183,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::CyclesPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t beats_per_minute() const
         {
             return convert_from_base(FrequencyUnit::BeatsPerMinute);
@@ -224,7 +193,6 @@ namespace unitsnet_cpp
             return Frequency(value, FrequencyUnit::BeatsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t per_second() const
         {
             return convert_from_base(FrequencyUnit::PerSecond);
@@ -234,7 +202,6 @@ namespace unitsnet_cpp
         {
             return Frequency(value, FrequencyUnit::PerSecond);
         }
-
 
         [[nodiscard]] static constexpr Frequency from_invalid()
         {
@@ -295,46 +262,46 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case FrequencyUnit::Hertz:
-                return base_value_;
+                return base_value;
 
             case FrequencyUnit::Microhertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case FrequencyUnit::Millihertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case FrequencyUnit::Kilohertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case FrequencyUnit::Megahertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case FrequencyUnit::Gigahertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case FrequencyUnit::Terahertz:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case FrequencyUnit::RadiansPerSecond:
-                return base_value_ * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
+                return base_value * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::CyclesPerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600);
+                return base_value * static_cast<un_scalar_t>(3600);
 
             case FrequencyUnit::BeatsPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:
-                return base_value_;
+                return base_value;
 
             }
 
@@ -342,9 +309,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        FrequencyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        FrequencyUnit value_unit_type_;       
     };
 }

@@ -23,31 +23,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricChargeDensityUnit::CoulombsPerCubicMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricChargeDensityUnit unit) const
@@ -90,7 +70,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t coulombs_per_cubic_meter() const
         {
             return convert_from_base(ElectricChargeDensityUnit::CoulombsPerCubicMeter);
@@ -100,7 +79,6 @@ namespace unitsnet_cpp
         {
             return ElectricChargeDensity(value, ElectricChargeDensityUnit::CoulombsPerCubicMeter);
         }
-
 
         [[nodiscard]] static constexpr ElectricChargeDensity from_invalid()
         {
@@ -128,13 +106,13 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricChargeDensityUnit::CoulombsPerCubicMeter:
-                return base_value_;
+                return base_value;
 
             }
 
@@ -142,9 +120,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricChargeDensityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricChargeDensityUnit value_unit_type_;       
     };
 }

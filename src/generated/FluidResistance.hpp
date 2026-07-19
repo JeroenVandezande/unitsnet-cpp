@@ -41,31 +41,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == FluidResistanceUnit::PascalSecondsPerCubicMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const FluidResistanceUnit unit) const
@@ -108,7 +88,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerLiter);
@@ -118,7 +97,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_liter() const
         {
@@ -130,7 +108,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerMilliliter);
@@ -140,7 +117,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerMilliliter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_milliliter() const
         {
@@ -152,7 +128,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerMilliliter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalSecondsPerCubicMeter);
@@ -162,7 +137,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megapascal_seconds_per_cubic_meter() const
         {
@@ -174,7 +148,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::MegapascalSecondsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerCubicMeter);
@@ -184,7 +157,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pascal_seconds_per_cubic_centimeter() const
         {
@@ -196,7 +168,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::PascalSecondsPerCubicCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascal_minutes_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::PascalMinutesPerCubicCentimeter);
@@ -206,7 +177,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::PascalMinutesPerCubicCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t dyne_seconds_per_centimeter_to_the_fifth() const
         {
@@ -218,7 +188,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_liter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerLiter);
@@ -228,7 +197,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_liter() const
         {
@@ -240,7 +208,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_milliliter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter);
@@ -250,7 +217,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_milliliter() const
         {
@@ -262,7 +228,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_cubic_centimeter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter);
@@ -272,7 +237,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_cubic_centimeter() const
         {
@@ -284,7 +248,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_seconds_per_cubic_meter() const
         {
             return convert_from_base(FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter);
@@ -294,7 +257,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeter_mercury_minutes_per_cubic_meter() const
         {
@@ -306,7 +268,6 @@ namespace unitsnet_cpp
             return FluidResistance(value, FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t wood_units() const
         {
             return convert_from_base(FluidResistanceUnit::WoodUnits);
@@ -316,7 +277,6 @@ namespace unitsnet_cpp
         {
             return FluidResistance(value, FluidResistanceUnit::WoodUnits);
         }
-
 
         [[nodiscard]] static constexpr FluidResistance from_invalid()
         {
@@ -398,67 +358,67 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case FluidResistanceUnit::PascalSecondsPerLiter:
-                return base_value_ / static_cast<un_scalar_t>(1e3);
+                return base_value / static_cast<un_scalar_t>(1e3);
 
             case FluidResistanceUnit::PascalMinutesPerLiter:
-                return base_value_ / static_cast<un_scalar_t>(6e4);
+                return base_value / static_cast<un_scalar_t>(6e4);
 
             case FluidResistanceUnit::PascalSecondsPerMilliliter:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerMilliliter:
-                return base_value_ / static_cast<un_scalar_t>(6e7);
+                return base_value / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::PascalSecondsPerCubicMeter:
-                return base_value_;
+                return base_value;
 
             case FluidResistanceUnit::MegapascalSecondsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
-                return base_value_ / static_cast<un_scalar_t>(60);
+                return base_value / static_cast<un_scalar_t>(60);
 
             case FluidResistanceUnit::PascalSecondsPerCubicCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(6e7);
+                return base_value / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth:
-                return base_value_ / static_cast<un_scalar_t>(1e5);
+                return base_value / static_cast<un_scalar_t>(1e5);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerLiter:
-                return base_value_ / static_cast<un_scalar_t>(1.33322368e5);
+                return base_value / static_cast<un_scalar_t>(1.33322368e5);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerLiter:
-                return base_value_ / static_cast<un_scalar_t>(7.99934208e6);
+                return base_value / static_cast<un_scalar_t>(7.99934208e6);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter:
-                return base_value_ / static_cast<un_scalar_t>(1.33322368e8);
+                return base_value / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter:
-                return base_value_ / static_cast<un_scalar_t>(7.99934208e9);
+                return base_value / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(1.33322368e8);
+                return base_value / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(7.99934208e9);
+                return base_value / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter:
-                return base_value_ / static_cast<un_scalar_t>(133.322368);
+                return base_value / static_cast<un_scalar_t>(133.322368);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter:
-                return base_value_ / static_cast<un_scalar_t>(7.99934208e3);
+                return base_value / static_cast<un_scalar_t>(7.99934208e3);
 
             case FluidResistanceUnit::WoodUnits:
-                return base_value_ / static_cast<un_scalar_t>(7.99934208e6);
+                return base_value / static_cast<un_scalar_t>(7.99934208e6);
 
             }
 
@@ -466,9 +426,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        FluidResistanceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        FluidResistanceUnit value_unit_type_;       
     };
 }

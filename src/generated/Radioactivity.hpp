@@ -51,31 +51,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RadioactivityUnit::Becquerels)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RadioactivityUnit unit) const
@@ -118,7 +98,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t becquerels() const
         {
@@ -130,7 +109,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Becquerels);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t picobecquerels() const
@@ -144,7 +122,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Picobecquerels);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t nanobecquerels() const
         {
@@ -156,7 +133,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Nanobecquerels);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t microbecquerels() const
@@ -170,7 +146,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Microbecquerels);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millibecquerels() const
         {
@@ -182,7 +157,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Millibecquerels);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilobecquerels() const
@@ -196,7 +170,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Kilobecquerels);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t megabecquerels() const
         {
@@ -208,7 +181,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Megabecquerels);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t gigabecquerels() const
@@ -222,7 +194,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Gigabecquerels);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t terabecquerels() const
         {
@@ -234,7 +205,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Terabecquerels);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t petabecquerels() const
@@ -248,7 +218,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Petabecquerels);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one nucleus decays per second.</summary>
         [[nodiscard]] constexpr un_scalar_t exabecquerels() const
         {
@@ -261,7 +230,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Exabecquerels);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t curies() const
         {
             return convert_from_base(RadioactivityUnit::Curies);
@@ -271,7 +239,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Curies);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picocuries() const
         {
@@ -283,7 +250,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Picocuries);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanocuries() const
         {
             return convert_from_base(RadioactivityUnit::Nanocuries);
@@ -293,7 +259,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Nanocuries);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microcuries() const
         {
@@ -305,7 +270,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Microcuries);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millicuries() const
         {
             return convert_from_base(RadioactivityUnit::Millicuries);
@@ -315,7 +279,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Millicuries);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilocuries() const
         {
@@ -327,7 +290,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Kilocuries);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megacuries() const
         {
             return convert_from_base(RadioactivityUnit::Megacuries);
@@ -337,7 +299,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Megacuries);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigacuries() const
         {
@@ -349,7 +310,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Gigacuries);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t teracuries() const
         {
             return convert_from_base(RadioactivityUnit::Teracuries);
@@ -359,7 +319,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Teracuries);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t rutherfords() const
@@ -373,7 +332,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Rutherfords);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t picorutherfords() const
         {
@@ -385,7 +343,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Picorutherfords);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t nanorutherfords() const
@@ -399,7 +356,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Nanorutherfords);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t microrutherfords() const
         {
@@ -411,7 +367,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Microrutherfords);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millirutherfords() const
@@ -425,7 +380,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Millirutherfords);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilorutherfords() const
         {
@@ -437,7 +391,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Kilorutherfords);
         }
-
 
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t megarutherfords() const
@@ -451,7 +404,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Megarutherfords);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t gigarutherfords() const
         {
@@ -464,7 +416,6 @@ namespace unitsnet_cpp
             return Radioactivity(value, RadioactivityUnit::Gigarutherfords);
         }
 
-
         /// <summary>Activity of a quantity of radioactive material in which one million nuclei decay per second.</summary>
         [[nodiscard]] constexpr un_scalar_t terarutherfords() const
         {
@@ -476,7 +427,6 @@ namespace unitsnet_cpp
         {
             return Radioactivity(value, RadioactivityUnit::Terarutherfords);
         }
-
 
         [[nodiscard]] static constexpr Radioactivity from_invalid()
         {
@@ -588,97 +538,97 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RadioactivityUnit::Becquerels:
-                return base_value_;
+                return base_value;
 
             case RadioactivityUnit::Picobecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanobecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microbecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millibecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilobecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megabecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigabecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Terabecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case RadioactivityUnit::Petabecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value) / static_cast<un_scalar_t>(1e15);
 
             case RadioactivityUnit::Exabecquerels:
-                return (base_value_) / static_cast<un_scalar_t>(1e18);
+                return (base_value) / static_cast<un_scalar_t>(1e18);
 
             case RadioactivityUnit::Curies:
-                return base_value_ / static_cast<un_scalar_t>(3.7e10);
+                return base_value / static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Picocuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanocuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microcuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millicuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilocuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megacuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigacuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Teracuries:
-                return (base_value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e12);
+                return (base_value / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e12);
 
             case RadioactivityUnit::Rutherfords:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Picorutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanorutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microrutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millirutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilorutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megarutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigarutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Terarutherfords:
-                return (base_value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e12);
+                return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -686,9 +636,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RadioactivityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RadioactivityUnit value_unit_type_;       
     };
 }

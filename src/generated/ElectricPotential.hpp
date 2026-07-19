@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricPotentialUnit::Volts)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricPotentialUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t volts() const
         {
             return convert_from_base(ElectricPotentialUnit::Volts);
@@ -105,7 +84,6 @@ namespace unitsnet_cpp
         {
             return ElectricPotential(value, ElectricPotentialUnit::Volts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanovolts() const
         {
@@ -117,7 +95,6 @@ namespace unitsnet_cpp
             return ElectricPotential(value, ElectricPotentialUnit::Nanovolts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microvolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Microvolts);
@@ -127,7 +104,6 @@ namespace unitsnet_cpp
         {
             return ElectricPotential(value, ElectricPotentialUnit::Microvolts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millivolts() const
         {
@@ -139,7 +115,6 @@ namespace unitsnet_cpp
             return ElectricPotential(value, ElectricPotentialUnit::Millivolts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilovolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Kilovolts);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
             return ElectricPotential(value, ElectricPotentialUnit::Kilovolts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megavolts() const
         {
             return convert_from_base(ElectricPotentialUnit::Megavolts);
@@ -160,7 +134,6 @@ namespace unitsnet_cpp
         {
             return ElectricPotential(value, ElectricPotentialUnit::Megavolts);
         }
-
 
         [[nodiscard]] static constexpr ElectricPotential from_invalid()
         {
@@ -203,28 +176,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricPotentialUnit::Volts:
-                return base_value_;
+                return base_value;
 
             case ElectricPotentialUnit::Nanovolts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricPotentialUnit::Microvolts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialUnit::Millivolts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialUnit::Kilovolts:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialUnit::Megavolts:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -232,9 +205,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricPotentialUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricPotentialUnit value_unit_type_;       
     };
 }

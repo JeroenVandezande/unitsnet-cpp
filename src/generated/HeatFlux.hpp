@@ -47,31 +47,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == HeatFluxUnit::WattsPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const HeatFluxUnit unit) const
@@ -114,7 +94,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts_per_square_meter() const
         {
             return convert_from_base(HeatFluxUnit::WattsPerSquareMeter);
@@ -124,7 +103,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::WattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_square_meter() const
         {
@@ -136,7 +114,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::NanowattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microwatts_per_square_meter() const
         {
             return convert_from_base(HeatFluxUnit::MicrowattsPerSquareMeter);
@@ -146,7 +123,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::MicrowattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_square_meter() const
         {
@@ -158,7 +134,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::MilliwattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiwatts_per_square_meter() const
         {
             return convert_from_base(HeatFluxUnit::CentiwattsPerSquareMeter);
@@ -168,7 +143,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::CentiwattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_square_meter() const
         {
@@ -180,7 +154,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::DeciwattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_square_meter() const
         {
             return convert_from_base(HeatFluxUnit::KilowattsPerSquareMeter);
@@ -190,7 +163,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::KilowattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watts_per_square_millimeter() const
         {
@@ -202,7 +174,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::WattsPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_square_millimeter() const
         {
             return convert_from_base(HeatFluxUnit::NanowattsPerSquareMillimeter);
@@ -212,7 +183,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::NanowattsPerSquareMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microwatts_per_square_millimeter() const
         {
@@ -224,7 +194,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::MicrowattsPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_square_millimeter() const
         {
             return convert_from_base(HeatFluxUnit::MilliwattsPerSquareMillimeter);
@@ -234,7 +203,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::MilliwattsPerSquareMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centiwatts_per_square_millimeter() const
         {
@@ -246,7 +214,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::CentiwattsPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_square_millimeter() const
         {
             return convert_from_base(HeatFluxUnit::DeciwattsPerSquareMillimeter);
@@ -256,7 +223,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::DeciwattsPerSquareMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_square_millimeter() const
         {
@@ -268,7 +234,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::KilowattsPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts_per_square_inch() const
         {
             return convert_from_base(HeatFluxUnit::WattsPerSquareInch);
@@ -278,7 +243,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::WattsPerSquareInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watts_per_square_foot() const
         {
@@ -290,7 +254,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::WattsPerSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btus_per_second_square_inch() const
         {
             return convert_from_base(HeatFluxUnit::BtusPerSecondSquareInch);
@@ -300,7 +263,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::BtusPerSecondSquareInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t btus_per_second_square_foot() const
         {
@@ -312,7 +274,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::BtusPerSecondSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btus_per_minute_square_foot() const
         {
             return convert_from_base(HeatFluxUnit::BtusPerMinuteSquareFoot);
@@ -322,7 +283,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::BtusPerMinuteSquareFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t btus_per_hour_square_foot() const
         {
@@ -334,7 +294,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::BtusPerHourSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t calories_per_second_square_centimeter() const
         {
             return convert_from_base(HeatFluxUnit::CaloriesPerSecondSquareCentimeter);
@@ -344,7 +303,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::CaloriesPerSecondSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_second_square_centimeter() const
         {
@@ -356,7 +314,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::KilocaloriesPerSecondSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_hour_square_meter() const
         {
             return convert_from_base(HeatFluxUnit::KilocaloriesPerHourSquareMeter);
@@ -366,7 +323,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::KilocaloriesPerHourSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_foot_second() const
         {
@@ -378,7 +334,6 @@ namespace unitsnet_cpp
             return HeatFlux(value, HeatFluxUnit::PoundsForcePerFootSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_per_second_cubed() const
         {
             return convert_from_base(HeatFluxUnit::PoundsPerSecondCubed);
@@ -388,7 +343,6 @@ namespace unitsnet_cpp
         {
             return HeatFlux(value, HeatFluxUnit::PoundsPerSecondCubed);
         }
-
 
         [[nodiscard]] static constexpr HeatFlux from_invalid()
         {
@@ -488,85 +442,85 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case HeatFluxUnit::WattsPerSquareMeter:
-                return base_value_;
+                return base_value;
 
             case HeatFluxUnit::NanowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case HeatFluxUnit::MicrowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::MilliwattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case HeatFluxUnit::CentiwattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case HeatFluxUnit::DeciwattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case HeatFluxUnit::KilowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::WattsPerSquareMillimeter:
-                return base_value_ * static_cast<un_scalar_t>(1e-6);
+                return base_value * static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::NanowattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
 
             case HeatFluxUnit::MicrowattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::MilliwattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
             case HeatFluxUnit::CentiwattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
 
             case HeatFluxUnit::DeciwattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
 
             case HeatFluxUnit::KilowattsPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::WattsPerSquareInch:
-                return base_value_ * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
+                return base_value * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
 
             case HeatFluxUnit::WattsPerSquareFoot:
-                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
+                return base_value * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
 
             case HeatFluxUnit::BtusPerSecondSquareInch:
-                return base_value_ * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerSecondSquareFoot:
-                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerMinuteSquareFoot:
-                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerHourSquareFoot:
-                return base_value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::CaloriesPerSecondSquareCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(4.184e4);
+                return base_value / static_cast<un_scalar_t>(4.184e4);
 
             case HeatFluxUnit::KilocaloriesPerSecondSquareCentimeter:
-                return (base_value_ / static_cast<un_scalar_t>(4.184e4)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.184e4)) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::KilocaloriesPerHourSquareMeter:
-                return base_value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(4.184e3);
+                return base_value * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(4.184e3);
 
             case HeatFluxUnit::PoundsForcePerFootSecond:
-                return base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1.3558179483314004);
+                return base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1.3558179483314004);
 
             case HeatFluxUnit::PoundsPerSecondCubed:
-                return base_value_ / static_cast<un_scalar_t>(4.5359237e-1);
+                return base_value / static_cast<un_scalar_t>(4.5359237e-1);
 
             }
 
@@ -574,9 +528,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        HeatFluxUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        HeatFluxUnit value_unit_type_;       
     };
 }

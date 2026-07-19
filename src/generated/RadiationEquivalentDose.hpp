@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RadiationEquivalentDoseUnit::Sieverts)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RadiationEquivalentDoseUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t sieverts() const
         {
@@ -107,7 +86,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Sieverts);
         }
-
 
         /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t nanosieverts() const
@@ -121,7 +99,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Nanosieverts);
         }
 
-
         /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t microsieverts() const
         {
@@ -133,7 +110,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Microsieverts);
         }
-
 
         /// <summary>The sievert is a unit in the International System of Units (SI) intended to represent the stochastic health risk of ionizing radiation, which is defined as the probability of causing radiation-induced cancer and genetic damage.</summary>
         [[nodiscard]] constexpr un_scalar_t millisieverts() const
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::Millisieverts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t roentgens_equivalent_man() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::RoentgensEquivalentMan);
@@ -158,7 +133,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::RoentgensEquivalentMan);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliroentgens_equivalent_man() const
         {
             return convert_from_base(RadiationEquivalentDoseUnit::MilliroentgensEquivalentMan);
@@ -168,7 +142,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDose(value, RadiationEquivalentDoseUnit::MilliroentgensEquivalentMan);
         }
-
 
         [[nodiscard]] static constexpr RadiationEquivalentDose from_invalid()
         {
@@ -211,28 +184,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RadiationEquivalentDoseUnit::Sieverts:
-                return base_value_;
+                return base_value;
 
             case RadiationEquivalentDoseUnit::Nanosieverts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case RadiationEquivalentDoseUnit::Microsieverts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationEquivalentDoseUnit::Millisieverts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationEquivalentDoseUnit::RoentgensEquivalentMan:
-                return base_value_ * static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(100);
 
             case RadiationEquivalentDoseUnit::MilliroentgensEquivalentMan:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -240,9 +213,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RadiationEquivalentDoseUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RadiationEquivalentDoseUnit value_unit_type_;       
     };
 }

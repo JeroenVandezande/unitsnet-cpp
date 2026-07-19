@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == WarpingMomentOfInertiaUnit::MetersToTheSixth)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const WarpingMomentOfInertiaUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meters_to_the_sixth() const
         {
             return convert_from_base(WarpingMomentOfInertiaUnit::MetersToTheSixth);
@@ -105,7 +84,6 @@ namespace unitsnet_cpp
         {
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::MetersToTheSixth);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decimeters_to_the_sixth() const
         {
@@ -117,7 +95,6 @@ namespace unitsnet_cpp
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::DecimetersToTheSixth);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centimeters_to_the_sixth() const
         {
             return convert_from_base(WarpingMomentOfInertiaUnit::CentimetersToTheSixth);
@@ -127,7 +104,6 @@ namespace unitsnet_cpp
         {
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::CentimetersToTheSixth);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeters_to_the_sixth() const
         {
@@ -139,7 +115,6 @@ namespace unitsnet_cpp
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::MillimetersToTheSixth);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t feet_to_the_sixth() const
         {
             return convert_from_base(WarpingMomentOfInertiaUnit::FeetToTheSixth);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::FeetToTheSixth);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t inches_to_the_sixth() const
         {
             return convert_from_base(WarpingMomentOfInertiaUnit::InchesToTheSixth);
@@ -160,7 +134,6 @@ namespace unitsnet_cpp
         {
             return WarpingMomentOfInertia(value, WarpingMomentOfInertiaUnit::InchesToTheSixth);
         }
-
 
         [[nodiscard]] static constexpr WarpingMomentOfInertia from_invalid()
         {
@@ -203,28 +176,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case WarpingMomentOfInertiaUnit::MetersToTheSixth:
-                return base_value_;
+                return base_value;
 
             case WarpingMomentOfInertiaUnit::DecimetersToTheSixth:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case WarpingMomentOfInertiaUnit::CentimetersToTheSixth:
-                return base_value_ * static_cast<un_scalar_t>(1e12);
+                return base_value * static_cast<un_scalar_t>(1e12);
 
             case WarpingMomentOfInertiaUnit::MillimetersToTheSixth:
-                return base_value_ * static_cast<un_scalar_t>(1e18);
+                return base_value * static_cast<un_scalar_t>(1e18);
 
             case WarpingMomentOfInertiaUnit::FeetToTheSixth:
-                return base_value_ / static_cast<un_scalar_t>(0.000801843800914862014464);
+                return base_value / static_cast<un_scalar_t>(0.000801843800914862014464);
 
             case WarpingMomentOfInertiaUnit::InchesToTheSixth:
-                return base_value_ / static_cast<un_scalar_t>(0.000000000268535866540096);
+                return base_value / static_cast<un_scalar_t>(0.000000000268535866540096);
 
             }
 
@@ -232,9 +205,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        WarpingMomentOfInertiaUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        WarpingMomentOfInertiaUnit value_unit_type_;       
     };
 }

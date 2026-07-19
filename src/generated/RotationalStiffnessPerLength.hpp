@@ -27,31 +27,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RotationalStiffnessPerLengthUnit unit) const
@@ -94,7 +74,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t newton_meters_per_radian_per_meter() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter);
@@ -104,7 +83,6 @@ namespace unitsnet_cpp
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilonewton_meters_per_radian_per_meter() const
         {
@@ -116,7 +94,6 @@ namespace unitsnet_cpp
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meganewton_meters_per_radian_per_meter() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pound_force_feet_per_degrees_per_feet() const
         {
@@ -138,7 +114,6 @@ namespace unitsnet_cpp
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopound_force_feet_per_degrees_per_feet() const
         {
             return convert_from_base(RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet);
@@ -148,7 +123,6 @@ namespace unitsnet_cpp
         {
             return RotationalStiffnessPerLength(value, RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet);
         }
-
 
         [[nodiscard]] static constexpr RotationalStiffnessPerLength from_invalid()
         {
@@ -188,25 +162,25 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RotationalStiffnessPerLengthUnit::NewtonMetersPerRadianPerMeter:
-                return base_value_;
+                return base_value;
 
             case RotationalStiffnessPerLengthUnit::KilonewtonMetersPerRadianPerMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case RotationalStiffnessPerLengthUnit::MeganewtonMetersPerRadianPerMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             }
 
@@ -214,9 +188,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RotationalStiffnessPerLengthUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RotationalStiffnessPerLengthUnit value_unit_type_;       
     };
 }

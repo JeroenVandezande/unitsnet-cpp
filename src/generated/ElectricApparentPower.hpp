@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricApparentPowerUnit::Voltamperes)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricApparentPowerUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t voltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Voltamperes);
@@ -105,7 +84,6 @@ namespace unitsnet_cpp
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Voltamperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microvoltamperes() const
         {
@@ -117,7 +95,6 @@ namespace unitsnet_cpp
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Microvoltamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millivoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Millivoltamperes);
@@ -127,7 +104,6 @@ namespace unitsnet_cpp
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Millivoltamperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilovoltamperes() const
         {
@@ -139,7 +115,6 @@ namespace unitsnet_cpp
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Kilovoltamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megavoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Megavoltamperes);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Megavoltamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigavoltamperes() const
         {
             return convert_from_base(ElectricApparentPowerUnit::Gigavoltamperes);
@@ -160,7 +134,6 @@ namespace unitsnet_cpp
         {
             return ElectricApparentPower(value, ElectricApparentPowerUnit::Gigavoltamperes);
         }
-
 
         [[nodiscard]] static constexpr ElectricApparentPower from_invalid()
         {
@@ -203,28 +176,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricApparentPowerUnit::Voltamperes:
-                return base_value_;
+                return base_value;
 
             case ElectricApparentPowerUnit::Microvoltamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricApparentPowerUnit::Millivoltamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricApparentPowerUnit::Kilovoltamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricApparentPowerUnit::Megavoltamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricApparentPowerUnit::Gigavoltamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             }
 
@@ -232,9 +205,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricApparentPowerUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricApparentPowerUnit value_unit_type_;       
     };
 }

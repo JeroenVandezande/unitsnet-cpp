@@ -29,31 +29,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ThermalInsulanceUnit unit) const
@@ -96,7 +76,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_meter_kelvins_per_kilowatt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt);
@@ -106,7 +85,6 @@ namespace unitsnet_cpp
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t square_meter_kelvins_per_watt() const
         {
@@ -118,7 +96,6 @@ namespace unitsnet_cpp
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterKelvinsPerWatt);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_meter_degrees_celsius_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt);
@@ -128,7 +105,6 @@ namespace unitsnet_cpp
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t square_centimeter_kelvins_per_watt() const
         {
@@ -140,7 +116,6 @@ namespace unitsnet_cpp
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_millimeter_kelvins_per_watt() const
         {
             return convert_from_base(ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t square_centimeter_hour_degrees_celsius_per_kilocalorie() const
         {
@@ -162,7 +136,6 @@ namespace unitsnet_cpp
             return ThermalInsulance(value, ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t hour_square_feet_degrees_fahrenheit_per_btu() const
         {
             return convert_from_base(ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu);
@@ -172,7 +145,6 @@ namespace unitsnet_cpp
         {
             return ThermalInsulance(value, ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu);
         }
-
 
         [[nodiscard]] static constexpr ThermalInsulance from_invalid()
         {
@@ -218,31 +190,31 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt:
-                return base_value_;
+                return base_value;
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerWatt:
-                return base_value_ / static_cast<un_scalar_t>(1000);
+                return base_value / static_cast<un_scalar_t>(1000);
 
             case ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt:
-                return base_value_ / static_cast<un_scalar_t>(1000.0);
+                return base_value / static_cast<un_scalar_t>(1000.0);
 
             case ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt:
-                return base_value_ / static_cast<un_scalar_t>(0.1);
+                return base_value / static_cast<un_scalar_t>(0.1);
 
             case ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt:
-                return base_value_ / static_cast<un_scalar_t>(0.001);
+                return base_value / static_cast<un_scalar_t>(0.001);
 
             case ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie:
-                return base_value_ * static_cast<un_scalar_t>(4.184) / (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600));
+                return base_value * static_cast<un_scalar_t>(4.184) / (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600));
 
             case ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu:
-                return base_value_ * (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
+                return base_value * (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
 
             }
 
@@ -250,9 +222,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ThermalInsulanceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ThermalInsulanceUnit value_unit_type_;       
     };
 }

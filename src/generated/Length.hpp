@@ -64,31 +64,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == LengthUnit::Meters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LengthUnit unit) const
@@ -131,7 +111,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meters() const
         {
             return convert_from_base(LengthUnit::Meters);
@@ -141,7 +120,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Meters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t femtometers() const
         {
@@ -153,7 +131,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Femtometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picometers() const
         {
             return convert_from_base(LengthUnit::Picometers);
@@ -163,7 +140,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Picometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanometers() const
         {
@@ -175,7 +151,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Nanometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrometers() const
         {
             return convert_from_base(LengthUnit::Micrometers);
@@ -185,7 +160,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Micrometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeters() const
         {
@@ -197,7 +171,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Millimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centimeters() const
         {
             return convert_from_base(LengthUnit::Centimeters);
@@ -207,7 +180,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Centimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decimeters() const
         {
@@ -219,7 +191,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Decimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decameters() const
         {
             return convert_from_base(LengthUnit::Decameters);
@@ -229,7 +200,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Decameters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectometers() const
         {
@@ -241,7 +211,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Hectometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilometers() const
         {
             return convert_from_base(LengthUnit::Kilometers);
@@ -251,7 +220,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Kilometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megameters() const
         {
@@ -263,7 +231,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Megameters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigameters() const
         {
             return convert_from_base(LengthUnit::Gigameters);
@@ -273,7 +240,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Gigameters);
         }
-
 
         /// <summary>The statute mile was standardised between the British Commonwealth and the United States by an international agreement in 1959, when it was formally redefined with respect to SI units as exactly 1,609.344 metres.</summary>
         [[nodiscard]] constexpr un_scalar_t miles() const
@@ -287,7 +253,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Miles);
         }
 
-
         /// <summary>The yard (symbol: yd) is an English unit of length in both the British imperial and US customary systems of measurement equalling 3 feet (or 36 inches). Since 1959 the yard has been by international agreement standardized as exactly 0.9144 meter. A distance of 1,760 yards is equal to 1 mile.</summary>
         [[nodiscard]] constexpr un_scalar_t yards() const
         {
@@ -299,7 +264,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Yards);
         }
-
 
         /// <summary>The yard (symbol: yd) is an English unit of length in both the British imperial and US customary systems of measurement equalling 3 feet (or 36 inches). Since 1959 the yard has been by international agreement standardized as exactly 0.9144 meter. A distance of 1,760 yards is equal to 1 mile.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloyards() const
@@ -313,7 +277,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Kiloyards);
         }
 
-
         /// <summary>The foot (pl. feet; standard symbol: ft) is a unit of length in the British imperial and United States customary systems of measurement. The prime symbol, ′, is commonly used to represent the foot. In both customary and imperial units, one foot comprises 12 inches, and one yard comprises three feet. Since an international agreement in 1959, the foot is defined as equal to exactly 0.3048 meters.</summary>
         [[nodiscard]] constexpr un_scalar_t feet() const
         {
@@ -325,7 +288,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Feet);
         }
-
 
         /// <summary>The foot (pl. feet; standard symbol: ft) is a unit of length in the British imperial and United States customary systems of measurement. The prime symbol, ′, is commonly used to represent the foot. In both customary and imperial units, one foot comprises 12 inches, and one yard comprises three feet. Since an international agreement in 1959, the foot is defined as equal to exactly 0.3048 meters.</summary>
         [[nodiscard]] constexpr un_scalar_t kilofeet() const
@@ -339,7 +301,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Kilofeet);
         }
 
-
         /// <summary>In the United States, the foot was defined as 12 inches, with the inch being defined by the Mendenhall Order of 1893 as 39.37 inches = 1 m. This makes a U.S. survey foot exactly 1200/3937 meters.</summary>
         [[nodiscard]] constexpr un_scalar_t us_survey_feet() const
         {
@@ -351,7 +312,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::UsSurveyFeet);
         }
-
 
         /// <summary>The inch (symbol: in or ″) is a unit of length in the British Imperial and the United States customary systems of measurement. It is equal to 1/36 yard or 1/12 of a foot. Derived from the Roman uncia ("twelfth"), the word inch is also sometimes used to translate similar units in other measurement systems, usually understood as deriving from the width of the human thumb.</summary>
         [[nodiscard]] constexpr un_scalar_t inches() const
@@ -365,7 +325,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Inches);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t mils() const
         {
             return convert_from_base(LengthUnit::Mils);
@@ -375,7 +334,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Mils);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nautical_miles() const
         {
@@ -387,7 +345,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::NauticalMiles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t fathoms() const
         {
             return convert_from_base(LengthUnit::Fathoms);
@@ -397,7 +354,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Fathoms);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t shackles() const
         {
@@ -409,7 +365,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Shackles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microinches() const
         {
             return convert_from_base(LengthUnit::Microinches);
@@ -419,7 +374,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Microinches);
         }
-
 
         /// <summary>In typography, the point is the smallest unit of measure. It is used for measuring font size, leading, and other items on a printed page. In modern times this size of the point has been approximated as exactly 1⁄72.27 (0.01383700013837) of the inch by Donald Knuth for the default unit of his TeX computer typesetting system and is thus sometimes known as the TeX point.</summary>
         [[nodiscard]] constexpr un_scalar_t printer_points() const
@@ -433,7 +387,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::PrinterPoints);
         }
 
-
         /// <summary>The desktop publishing point (DTP) is defined as 1⁄72 of an inch (1/72 × 25.4 mm ≈ 0.353 mm) and, as with earlier American point sizes, is considered to be 1⁄12 of a pica.</summary>
         [[nodiscard]] constexpr un_scalar_t dtp_points() const
         {
@@ -445,7 +398,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::DtpPoints);
         }
-
 
         /// <summary>The American pica of 0.16604 inches (~4.217 mm) was established by the United States Type Founders' Association in 1886. In TeX one pica is 400⁄2409 of an inch.</summary>
         [[nodiscard]] constexpr un_scalar_t printer_picas() const
@@ -459,7 +411,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::PrinterPicas);
         }
 
-
         /// <summary>The pica is a typographic unit of measure corresponding to approximately 1⁄6 of an inch, or from 1⁄68 to 1⁄73 of a foot. One pica is further divided into 12 points.</summary>
         [[nodiscard]] constexpr un_scalar_t dtp_picas() const
         {
@@ -471,7 +422,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::DtpPicas);
         }
-
 
         /// <summary>A twip (abbreviating "twentieth of a point" or "twentieth of an inch point") is a typographical measurement, defined as 1⁄20 of a typographical point. One twip is 1⁄1440 inch, or ~17.64 μm.</summary>
         [[nodiscard]] constexpr un_scalar_t twips() const
@@ -485,7 +435,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Twips);
         }
 
-
         /// <summary>The hand is a non-SI unit of measurement of length standardized to 4 in (101.6 mm). It is used to measure the height of horses in many English-speaking countries, including Australia, Canada, Ireland, the United Kingdom, and the United States. It was originally based on the breadth of a human hand.</summary>
         [[nodiscard]] constexpr un_scalar_t hands() const
         {
@@ -497,7 +446,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Hands);
         }
-
 
         /// <summary>One Astronomical Unit is the distance from the solar system Star, the sun, to planet Earth.</summary>
         [[nodiscard]] constexpr un_scalar_t astronomical_units() const
@@ -511,7 +459,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::AstronomicalUnits);
         }
 
-
         /// <summary>A parsec is defined as the distance at which one astronomical unit (AU) subtends an angle of one arcsecond.</summary>
         [[nodiscard]] constexpr un_scalar_t parsecs() const
         {
@@ -523,7 +470,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Parsecs);
         }
-
 
         /// <summary>A parsec is defined as the distance at which one astronomical unit (AU) subtends an angle of one arcsecond.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloparsecs() const
@@ -537,7 +483,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Kiloparsecs);
         }
 
-
         /// <summary>A parsec is defined as the distance at which one astronomical unit (AU) subtends an angle of one arcsecond.</summary>
         [[nodiscard]] constexpr un_scalar_t megaparsecs() const
         {
@@ -549,7 +494,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::Megaparsecs);
         }
-
 
         /// <summary>A Light Year (ly) is the distance that light travel during an Earth year, ie 365 days.</summary>
         [[nodiscard]] constexpr un_scalar_t light_years() const
@@ -563,7 +507,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::LightYears);
         }
 
-
         /// <summary>A Light Year (ly) is the distance that light travel during an Earth year, ie 365 days.</summary>
         [[nodiscard]] constexpr un_scalar_t kilolight_years() const
         {
@@ -575,7 +518,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::KilolightYears);
         }
-
 
         /// <summary>A Light Year (ly) is the distance that light travel during an Earth year, ie 365 days.</summary>
         [[nodiscard]] constexpr un_scalar_t megalight_years() const
@@ -589,7 +531,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::MegalightYears);
         }
 
-
         /// <summary>Solar radius is a ratio unit to the radius of the solar system star, the sun.</summary>
         [[nodiscard]] constexpr un_scalar_t solar_radiuses() const
         {
@@ -601,7 +542,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::SolarRadiuses);
         }
-
 
         /// <summary>The chain (abbreviated ch) is a unit of length equal to 66 feet (22 yards), used in both the US customary and Imperial unit systems. It is subdivided into 100 links. There are 10 chains in a furlong, and 80 chains in one statute mile. In metric terms, it is 20.1168 m long.</summary>
         [[nodiscard]] constexpr un_scalar_t chains() const
@@ -615,7 +555,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Chains);
         }
 
-
         /// <summary>Angstrom is a metric unit of length equal to 1e-10 meter</summary>
         [[nodiscard]] constexpr un_scalar_t angstroms() const
         {
@@ -628,7 +567,6 @@ namespace unitsnet_cpp
             return Length(value, LengthUnit::Angstroms);
         }
 
-
         /// <summary>In radar-related subjects and in JTIDS, a data mile is a unit of distance equal to 6000 feet (1.8288 kilometres or 0.987 nautical miles).</summary>
         [[nodiscard]] constexpr un_scalar_t data_miles() const
         {
@@ -640,7 +578,6 @@ namespace unitsnet_cpp
         {
             return Length(value, LengthUnit::DataMiles);
         }
-
 
         [[nodiscard]] static constexpr Length from_invalid()
         {
@@ -791,136 +728,136 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case LengthUnit::Meters:
-                return base_value_;
+                return base_value;
 
             case LengthUnit::Femtometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value) / static_cast<un_scalar_t>(1e-15);
 
             case LengthUnit::Picometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case LengthUnit::Nanometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case LengthUnit::Micrometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case LengthUnit::Millimeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case LengthUnit::Centimeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case LengthUnit::Decimeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case LengthUnit::Decameters:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case LengthUnit::Hectometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e2);
+                return (base_value) / static_cast<un_scalar_t>(1e2);
 
             case LengthUnit::Kilometers:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megameters:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::Gigameters:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case LengthUnit::Miles:
-                return base_value_ / static_cast<un_scalar_t>(1609.344);
+                return base_value / static_cast<un_scalar_t>(1609.344);
 
             case LengthUnit::Yards:
-                return base_value_ / static_cast<un_scalar_t>(0.9144);
+                return base_value / static_cast<un_scalar_t>(0.9144);
 
             case LengthUnit::Kiloyards:
-                return (base_value_ / static_cast<un_scalar_t>(0.9144)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.9144)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Feet:
-                return base_value_ / static_cast<un_scalar_t>(0.3048);
+                return base_value / static_cast<un_scalar_t>(0.3048);
 
             case LengthUnit::Kilofeet:
-                return (base_value_ / static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::UsSurveyFeet:
-                return base_value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
+                return base_value * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case LengthUnit::Inches:
-                return base_value_ / static_cast<un_scalar_t>(2.54e-2);
+                return base_value / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Mils:
-                return base_value_ / static_cast<un_scalar_t>(2.54e-5);
+                return base_value / static_cast<un_scalar_t>(2.54e-5);
 
             case LengthUnit::NauticalMiles:
-                return base_value_ / static_cast<un_scalar_t>(1852);
+                return base_value / static_cast<un_scalar_t>(1852);
 
             case LengthUnit::Fathoms:
-                return base_value_ / static_cast<un_scalar_t>(1.8288);
+                return base_value / static_cast<un_scalar_t>(1.8288);
 
             case LengthUnit::Shackles:
-                return base_value_ / static_cast<un_scalar_t>(27.432);
+                return base_value / static_cast<un_scalar_t>(27.432);
 
             case LengthUnit::Microinches:
-                return base_value_ / static_cast<un_scalar_t>(2.54e-8);
+                return base_value / static_cast<un_scalar_t>(2.54e-8);
 
             case LengthUnit::PrinterPoints:
-                return base_value_ * static_cast<un_scalar_t>(72.27) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value * static_cast<un_scalar_t>(72.27) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::DtpPoints:
-                return base_value_ * static_cast<un_scalar_t>(72) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value * static_cast<un_scalar_t>(72) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::PrinterPicas:
-                return base_value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409));
+                return base_value / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409));
 
             case LengthUnit::DtpPicas:
-                return base_value_ * static_cast<un_scalar_t>(6) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value * static_cast<un_scalar_t>(6) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Twips:
-                return base_value_ * static_cast<un_scalar_t>(1440) / static_cast<un_scalar_t>(2.54e-2);
+                return base_value * static_cast<un_scalar_t>(1440) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Hands:
-                return base_value_ / static_cast<un_scalar_t>(1.016e-1);
+                return base_value / static_cast<un_scalar_t>(1.016e-1);
 
             case LengthUnit::AstronomicalUnits:
-                return base_value_ / static_cast<un_scalar_t>(1.4959787070e11);
+                return base_value / static_cast<un_scalar_t>(1.4959787070e11);
 
             case LengthUnit::Parsecs:
-                return base_value_ / static_cast<un_scalar_t>(3.08567758128e16);
+                return base_value / static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::Kiloparsecs:
-                return (base_value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megaparsecs:
-                return (base_value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::LightYears:
-                return base_value_ / static_cast<un_scalar_t>(9.46073047258e15);
+                return base_value / static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::KilolightYears:
-                return (base_value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::MegalightYears:
-                return (base_value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::SolarRadiuses:
-                return base_value_ / static_cast<un_scalar_t>(6.95700e8);
+                return base_value / static_cast<un_scalar_t>(6.95700e8);
 
             case LengthUnit::Chains:
-                return base_value_ / static_cast<un_scalar_t>(20.1168);
+                return base_value / static_cast<un_scalar_t>(20.1168);
 
             case LengthUnit::Angstroms:
-                return base_value_ / static_cast<un_scalar_t>(1e-10);
+                return base_value / static_cast<un_scalar_t>(1e-10);
 
             case LengthUnit::DataMiles:
-                return base_value_ / static_cast<un_scalar_t>(1828.8);
+                return base_value / static_cast<un_scalar_t>(1828.8);
 
             }
 
@@ -928,9 +865,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        LengthUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        LengthUnit value_unit_type_;       
     };
 }

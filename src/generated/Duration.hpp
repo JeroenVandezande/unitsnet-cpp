@@ -35,31 +35,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == DurationUnit::Seconds)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const DurationUnit unit) const
@@ -102,7 +82,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t years365() const
         {
             return convert_from_base(DurationUnit::Years365);
@@ -112,7 +91,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Years365);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t months30() const
         {
@@ -124,7 +102,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::Months30);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t weeks() const
         {
             return convert_from_base(DurationUnit::Weeks);
@@ -134,7 +111,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Weeks);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t days() const
         {
@@ -146,7 +122,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::Days);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t hours() const
         {
             return convert_from_base(DurationUnit::Hours);
@@ -156,7 +131,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Hours);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t minutes() const
         {
@@ -168,7 +142,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::Minutes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t seconds() const
         {
             return convert_from_base(DurationUnit::Seconds);
@@ -178,7 +151,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Seconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picoseconds() const
         {
@@ -190,7 +162,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::Picoseconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanoseconds() const
         {
             return convert_from_base(DurationUnit::Nanoseconds);
@@ -200,7 +171,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Nanoseconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microseconds() const
         {
@@ -212,7 +182,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::Microseconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliseconds() const
         {
             return convert_from_base(DurationUnit::Milliseconds);
@@ -222,7 +191,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Milliseconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t julian_years() const
         {
@@ -234,7 +202,6 @@ namespace unitsnet_cpp
             return Duration(value, DurationUnit::JulianYears);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t sols() const
         {
             return convert_from_base(DurationUnit::Sols);
@@ -244,7 +211,6 @@ namespace unitsnet_cpp
         {
             return Duration(value, DurationUnit::Sols);
         }
-
 
         [[nodiscard]] static constexpr Duration from_invalid()
         {
@@ -308,49 +274,49 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case DurationUnit::Years365:
-                return base_value_ / (static_cast<un_scalar_t>(365) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(365) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Months30:
-                return base_value_ / (static_cast<un_scalar_t>(30) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(30) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Weeks:
-                return base_value_ / (static_cast<un_scalar_t>(7) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(7) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Days:
-                return base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Hours:
-                return base_value_ / static_cast<un_scalar_t>(3600);
+                return base_value / static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Minutes:
-                return base_value_ / static_cast<un_scalar_t>(60);
+                return base_value / static_cast<un_scalar_t>(60);
 
             case DurationUnit::Seconds:
-                return base_value_;
+                return base_value;
 
             case DurationUnit::Picoseconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case DurationUnit::Nanoseconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case DurationUnit::Microseconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case DurationUnit::Milliseconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case DurationUnit::JulianYears:
-                return base_value_ / (static_cast<un_scalar_t>(365.25) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(365.25) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Sols:
-                return base_value_ / static_cast<un_scalar_t>(88775.244);
+                return base_value / static_cast<un_scalar_t>(88775.244);
 
             }
 
@@ -358,9 +324,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        DurationUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        DurationUnit value_unit_type_;       
     };
 }

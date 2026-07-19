@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == TemperatureDeltaUnit::Kelvins)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const TemperatureDeltaUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kelvins() const
         {
             return convert_from_base(TemperatureDeltaUnit::Kelvins);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return TemperatureDelta(value, TemperatureDeltaUnit::Kelvins);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_celsius() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millidegrees_celsius() const
         {
             return convert_from_base(TemperatureDeltaUnit::MillidegreesCelsius);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return TemperatureDelta(value, TemperatureDeltaUnit::MillidegreesCelsius);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_delisle() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesDelisle);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit() const
         {
             return convert_from_base(TemperatureDeltaUnit::DegreesFahrenheit);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesFahrenheit);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_newton() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesNewton);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_rankine() const
         {
             return convert_from_base(TemperatureDeltaUnit::DegreesRankine);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesRankine);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_reaumur() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesReaumur);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_roemer() const
         {
             return convert_from_base(TemperatureDeltaUnit::DegreesRoemer);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return TemperatureDelta(value, TemperatureDeltaUnit::DegreesRoemer);
         }
-
 
         [[nodiscard]] static constexpr TemperatureDelta from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case TemperatureDeltaUnit::Kelvins:
-                return base_value_;
+                return base_value;
 
             case TemperatureDeltaUnit::DegreesCelsius:
-                return base_value_;
+                return base_value;
 
             case TemperatureDeltaUnit::MillidegreesCelsius:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case TemperatureDeltaUnit::DegreesDelisle:
-                return base_value_ * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
+                return base_value * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
 
             case TemperatureDeltaUnit::DegreesFahrenheit:
-                return base_value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
+                return base_value * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesNewton:
-                return base_value_ * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
 
             case TemperatureDeltaUnit::DegreesRankine:
-                return base_value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
+                return base_value * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesReaumur:
-                return base_value_ * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
+                return base_value * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesRoemer:
-                return base_value_ * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
+                return base_value * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        TemperatureDeltaUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        TemperatureDeltaUnit value_unit_type_;       
     };
 }

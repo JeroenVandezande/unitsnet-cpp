@@ -25,31 +25,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricApparentEnergyUnit::VoltampereHours)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricApparentEnergyUnit unit) const
@@ -92,7 +72,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t voltampere_hours() const
         {
             return convert_from_base(ElectricApparentEnergyUnit::VoltampereHours);
@@ -102,7 +81,6 @@ namespace unitsnet_cpp
         {
             return ElectricApparentEnergy(value, ElectricApparentEnergyUnit::VoltampereHours);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilovoltampere_hours() const
         {
@@ -114,7 +92,6 @@ namespace unitsnet_cpp
             return ElectricApparentEnergy(value, ElectricApparentEnergyUnit::KilovoltampereHours);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megavoltampere_hours() const
         {
             return convert_from_base(ElectricApparentEnergyUnit::MegavoltampereHours);
@@ -124,7 +101,6 @@ namespace unitsnet_cpp
         {
             return ElectricApparentEnergy(value, ElectricApparentEnergyUnit::MegavoltampereHours);
         }
-
 
         [[nodiscard]] static constexpr ElectricApparentEnergy from_invalid()
         {
@@ -158,19 +134,19 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricApparentEnergyUnit::VoltampereHours:
-                return base_value_;
+                return base_value;
 
             case ElectricApparentEnergyUnit::KilovoltampereHours:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricApparentEnergyUnit::MegavoltampereHours:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -178,9 +154,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricApparentEnergyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricApparentEnergyUnit value_unit_type_;       
     };
 }

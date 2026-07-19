@@ -36,31 +36,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AccelerationUnit::MetersPerSecondSquared)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AccelerationUnit unit) const
@@ -103,7 +83,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::MetersPerSecondSquared);
@@ -113,7 +92,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::MetersPerSecondSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanometers_per_second_squared() const
         {
@@ -125,7 +103,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::NanometersPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrometers_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::MicrometersPerSecondSquared);
@@ -135,7 +112,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::MicrometersPerSecondSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeters_per_second_squared() const
         {
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::MillimetersPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centimeters_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::CentimetersPerSecondSquared);
@@ -157,7 +132,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::CentimetersPerSecondSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decimeters_per_second_squared() const
         {
@@ -169,7 +143,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::DecimetersPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilometers_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::KilometersPerSecondSquared);
@@ -179,7 +152,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::KilometersPerSecondSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t inches_per_second_squared() const
         {
@@ -191,7 +163,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::InchesPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t feet_per_second_squared() const
         {
             return convert_from_base(AccelerationUnit::FeetPerSecondSquared);
@@ -202,7 +173,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::FeetPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t knots_per_second() const
         {
             return convert_from_base(AccelerationUnit::KnotsPerSecond);
@@ -212,7 +182,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::KnotsPerSecond);
         }
-
 
         /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] constexpr un_scalar_t knots_per_minute() const
@@ -226,7 +195,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::KnotsPerMinute);
         }
 
-
         /// <summary>The knot (/nɒt/) is a unit of speed equal to one nautical mile per hour, exactly 1.852 km/h (approximately 1.151 mph or 0.514 m/s).</summary>
         [[nodiscard]] constexpr un_scalar_t knots_per_hour() const
         {
@@ -239,7 +207,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::KnotsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_gravity() const
         {
             return convert_from_base(AccelerationUnit::StandardGravity);
@@ -250,7 +217,6 @@ namespace unitsnet_cpp
             return Acceleration(value, AccelerationUnit::StandardGravity);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millistandard_gravity() const
         {
             return convert_from_base(AccelerationUnit::MillistandardGravity);
@@ -260,7 +226,6 @@ namespace unitsnet_cpp
         {
             return Acceleration(value, AccelerationUnit::MillistandardGravity);
         }
-
 
         [[nodiscard]] static constexpr Acceleration from_invalid()
         {
@@ -327,52 +292,52 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AccelerationUnit::MetersPerSecondSquared:
-                return base_value_;
+                return base_value;
 
             case AccelerationUnit::NanometersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case AccelerationUnit::MicrometersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case AccelerationUnit::MillimetersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case AccelerationUnit::CentimetersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case AccelerationUnit::DecimetersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case AccelerationUnit::KilometersPerSecondSquared:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case AccelerationUnit::InchesPerSecondSquared:
-                return base_value_ / static_cast<un_scalar_t>(0.0254);
+                return base_value / static_cast<un_scalar_t>(0.0254);
 
             case AccelerationUnit::FeetPerSecondSquared:
-                return base_value_ / static_cast<un_scalar_t>(0.304800);
+                return base_value / static_cast<un_scalar_t>(0.304800);
 
             case AccelerationUnit::KnotsPerSecond:
-                return base_value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
+                return base_value * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::StandardGravity:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case AccelerationUnit::MillistandardGravity:
-                return (base_value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -380,9 +345,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AccelerationUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AccelerationUnit value_unit_type_;       
     };
 }

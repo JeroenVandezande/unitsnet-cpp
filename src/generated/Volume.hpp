@@ -77,31 +77,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == VolumeUnit::CubicMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const VolumeUnit unit) const
@@ -144,7 +124,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters() const
         {
             return convert_from_base(VolumeUnit::Liters);
@@ -154,7 +133,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::Liters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoliters() const
         {
@@ -166,7 +144,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::Nanoliters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microliters() const
         {
             return convert_from_base(VolumeUnit::Microliters);
@@ -176,7 +153,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::Microliters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliliters() const
         {
@@ -188,7 +164,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::Milliliters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiliters() const
         {
             return convert_from_base(VolumeUnit::Centiliters);
@@ -198,7 +173,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::Centiliters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciliters() const
         {
@@ -210,7 +184,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::Deciliters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decaliters() const
         {
             return convert_from_base(VolumeUnit::Decaliters);
@@ -220,7 +193,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::Decaliters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectoliters() const
         {
@@ -232,7 +204,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::Hectoliters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloliters() const
         {
             return convert_from_base(VolumeUnit::Kiloliters);
@@ -242,7 +213,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::Kiloliters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaliters() const
         {
@@ -254,7 +224,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::Megaliters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_meters() const
         {
             return convert_from_base(VolumeUnit::CubicMeters);
@@ -264,7 +233,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::CubicMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectocubic_meters() const
         {
@@ -276,7 +244,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::HectocubicMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilocubic_meters() const
         {
             return convert_from_base(VolumeUnit::KilocubicMeters);
@@ -286,7 +253,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::KilocubicMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_kilometers() const
         {
@@ -298,7 +264,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicKilometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_hectometers() const
         {
             return convert_from_base(VolumeUnit::CubicHectometers);
@@ -308,7 +273,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::CubicHectometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_decimeters() const
         {
@@ -320,7 +284,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicDecimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_centimeters() const
         {
             return convert_from_base(VolumeUnit::CubicCentimeters);
@@ -330,7 +293,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::CubicCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_millimeters() const
         {
@@ -342,7 +304,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_micrometers() const
         {
             return convert_from_base(VolumeUnit::CubicMicrometers);
@@ -352,7 +313,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::CubicMicrometers);
         }
-
 
         /// <summary>A cubic mile (abbreviation: cu mi or mi3) is an imperial and US customary (non-SI non-metric) unit of volume, used in the United States, Canada and the United Kingdom. It is defined as the volume of a cube with sides of 1 mile (63360 inches, 5280 feet, 1760 yards or ~1.609 kilometres) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_miles() const
@@ -366,7 +326,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicMiles);
         }
 
-
         /// <summary>A cubic yard is an Imperial / U.S. customary (non-SI non-metric) unit of volume, used in Canada and the United States. It is defined as the volume of a cube with sides of 1 yard (3 feet, 36 inches, 0.9144 meters) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_yards() const
         {
@@ -378,7 +337,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::CubicYards);
         }
-
 
         /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_feet() const
@@ -392,7 +350,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicFeet);
         }
 
-
         /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t hectocubic_feet() const
         {
@@ -404,7 +361,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::HectocubicFeet);
         }
-
 
         /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t kilocubic_feet() const
@@ -418,7 +374,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::KilocubicFeet);
         }
 
-
         /// <summary>The cubic foot (symbol ft3 or cu ft) is an imperial and US customary (non-metric) unit of volume, used in the United States and the United Kingdom. It is defined as the volume of a cube with sides of one foot (0.3048 m) in length.</summary>
         [[nodiscard]] constexpr un_scalar_t megacubic_feet() const
         {
@@ -430,7 +385,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::MegacubicFeet);
         }
-
 
         /// <summary>The cubic inch (symbol in3) is a unit of volume in the Imperial units and United States customary units systems. It is the volume of a cube with each of its three dimensions (length, width, and height) being one inch long which is equivalent to 1/231 of a US gallon.</summary>
         [[nodiscard]] constexpr un_scalar_t cubic_inches() const
@@ -444,7 +398,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::CubicInches);
         }
 
-
         /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_gallons() const
         {
@@ -456,7 +409,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::ImperialGallons);
         }
-
 
         /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloimperial_gallons() const
@@ -470,7 +422,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::KiloimperialGallons);
         }
 
-
         /// <summary>The British imperial gallon (frequently called simply "gallon") is defined as exactly 4.54609 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t megaimperial_gallons() const
         {
@@ -482,7 +433,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::MegaimperialGallons);
         }
-
 
         /// <summary>An imperial fluid ounce is 1⁄20 of an imperial pint, 1⁄160 of an imperial gallon or exactly 28.4130625 mL.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_ounces() const
@@ -496,7 +446,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::ImperialOunces);
         }
 
-
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t us_gallons() const
         {
@@ -508,7 +457,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::UsGallons);
         }
-
 
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t decaus_gallons() const
@@ -522,7 +470,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::DecausGallons);
         }
 
-
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t decius_gallons() const
         {
@@ -534,7 +481,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::DeciusGallons);
         }
-
 
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t hectous_gallons() const
@@ -548,7 +494,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::HectousGallons);
         }
 
-
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t kilous_gallons() const
         {
@@ -560,7 +505,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::KilousGallons);
         }
-
 
         /// <summary>The US liquid gallon (frequently called simply "gallon") is legally defined as 231 cubic inches, which is exactly 3.785411784 litres.</summary>
         [[nodiscard]] constexpr un_scalar_t megaus_gallons() const
@@ -574,7 +518,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::MegausGallons);
         }
 
-
         /// <summary>A US customary fluid ounce is 1⁄16 of a US liquid pint and 1⁄128 of a US liquid gallon or exactly 29.5735295625 mL, making it about 4.08% larger than the imperial fluid ounce.</summary>
         [[nodiscard]] constexpr un_scalar_t us_ounces() const
         {
@@ -586,7 +529,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::UsOunces);
         }
-
 
         /// <summary>The traditional U.S. interpretation of the tablespoon as a unit of volume is: 1 US tablespoon = 4 fluid drams, or 3 teaspoons or 1/2 US fluid ounce (≈ 14.8 ml)</summary>
         [[nodiscard]] constexpr un_scalar_t us_tablespoons() const
@@ -600,7 +542,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::UsTablespoons);
         }
 
-
         /// <summary>In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] constexpr un_scalar_t au_tablespoons() const
         {
@@ -612,7 +553,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::AuTablespoons);
         }
-
 
         /// <summary>An international metric tablespoon is exactly equal to 15 mL. It is the equivalence of 1⁠ 1/2 metric dessert spoons or 3 metric teaspoons.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_tablespoons() const
@@ -626,7 +566,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::MetricTablespoons);
         }
 
-
         /// <summary>In nutrition labeling in the U.S. and the U.K., a tablespoon is defined as 15 ml (0.51 US fl oz). In Australia, the definition of the tablespoon is 20 ml (0.70 imp fl oz).</summary>
         [[nodiscard]] constexpr un_scalar_t uk_tablespoons() const
         {
@@ -638,7 +577,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::UkTablespoons);
         }
-
 
         /// <summary>The metric teaspoon as a unit of culinary measure is 5 ml (0.18 imp fl oz; 0.17 US fl oz),[17] equal to 5 cm3, 1⁄3 UK/Canadian metric tablespoon, or 1⁄4 Australian metric tablespoon.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_teaspoons() const
@@ -652,7 +590,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::MetricTeaspoons);
         }
 
-
         /// <summary>As a unit of culinary measure, one teaspoon in the United States is 1⁄3 tablespoon, exactly 4.92892159375 ml, 1 1⁄3 US fluid drams, 1⁄6 US fl oz, 1⁄48 US cup, 1⁄768 US liquid gallon, or 77⁄256 (0.30078125) cubic inches.</summary>
         [[nodiscard]] constexpr un_scalar_t us_teaspoons() const
         {
@@ -664,7 +601,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::UsTeaspoons);
         }
-
 
         /// <summary>Australia, Canada, New Zealand, and some other members of the Commonwealth of Nations, being former British colonies that have since metricated, employ a metric cup of 250 millilitres. Although derived from the metric system, it is not an SI unit.</summary>
         [[nodiscard]] constexpr un_scalar_t metric_cups() const
@@ -678,7 +614,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::MetricCups);
         }
 
-
         /// <summary>In the United States, the customary cup is half of a liquid pint or 1⁄16 US customary gallon which is 236.5882365 milliliters exactly.</summary>
         [[nodiscard]] constexpr un_scalar_t us_customary_cups() const
         {
@@ -690,7 +625,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::UsCustomaryCups);
         }
-
 
         /// <summary>The cup currently used in the United States for nutrition labelling is defined in United States law as 240 ml.</summary>
         [[nodiscard]] constexpr un_scalar_t us_legal_cups() const
@@ -704,7 +638,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::UsLegalCups);
         }
 
-
         /// <summary>In the oil industry, one barrel (unit symbol bbl) is a unit of volume used for measuring oil defined as exactly 42 US gallons, approximately 159 liters, or 35 imperial gallons.</summary>
         [[nodiscard]] constexpr un_scalar_t oil_barrels() const
         {
@@ -716,7 +649,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::OilBarrels);
         }
-
 
         /// <summary>Fluid barrels vary depending on what is being measured and where. In the US most fluid barrels (apart from oil) are 31.5 US gallons (26 imp gal; 119 L) (half a hogshead), but a beer barrel is 31 US gallons (26 imp gal; 117 L).</summary>
         [[nodiscard]] constexpr un_scalar_t us_beer_barrels() const
@@ -730,7 +662,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::UsBeerBarrels);
         }
 
-
         /// <summary>Fluid barrels vary depending on what is being measured and where. In the UK a beer barrel is 36 imperial gallons (43 US gal; ~164 L).</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_beer_barrels() const
         {
@@ -742,7 +673,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::ImperialBeerBarrels);
         }
-
 
         /// <summary>The US liquid quart equals 57.75 cubic inches, which is exactly equal to 0.946352946 L.</summary>
         [[nodiscard]] constexpr un_scalar_t us_quarts() const
@@ -756,7 +686,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::UsQuarts);
         }
 
-
         /// <summary>The imperial quart, which is used for both liquid and dry capacity, is equal to one quarter of an imperial gallon, or exactly 1.1365225 liters.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_quarts() const
         {
@@ -768,7 +697,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::ImperialQuarts);
         }
-
 
         /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] constexpr un_scalar_t us_pints() const
@@ -782,7 +710,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::UsPints);
         }
 
-
         /// <summary>An acre-foot is 43,560 cubic feet (~1,233.5 m3).</summary>
         [[nodiscard]] constexpr un_scalar_t acre_feet() const
         {
@@ -794,7 +721,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::AcreFeet);
         }
-
 
         /// <summary>The pint is a unit of volume or capacity in both the imperial and United States customary measurement systems. In both of those systems it is traditionally one eighth of a gallon. The British imperial pint is about 20% larger than the American pint because the two systems are defined differently.</summary>
         [[nodiscard]] constexpr un_scalar_t imperial_pints() const
@@ -808,7 +734,6 @@ namespace unitsnet_cpp
             return Volume(value, VolumeUnit::ImperialPints);
         }
 
-
         /// <summary>The board foot or board-foot is a unit of measurement for the volume of lumber in the United States and Canada. It equals the volume of a board that is one-foot (305 mm) in length, one-foot (305 mm) in width, and one-inch (25.4 mm) in thickness.</summary>
         [[nodiscard]] constexpr un_scalar_t board_feet() const
         {
@@ -820,7 +745,6 @@ namespace unitsnet_cpp
         {
             return Volume(value, VolumeUnit::BoardFeet);
         }
-
 
         [[nodiscard]] static constexpr Volume from_invalid()
         {
@@ -1010,175 +934,175 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case VolumeUnit::Liters:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Nanoliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeUnit::Microliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeUnit::Milliliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeUnit::Centiliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeUnit::Deciliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::Decaliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::Hectoliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::Kiloliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Megaliters:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMeters:
-                return base_value_;
+                return base_value;
 
             case VolumeUnit::HectocubicMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e2);
+                return (base_value) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilocubicMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicKilometers:
-                return base_value_ / static_cast<un_scalar_t>(1e9);
+                return base_value / static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicHectometers:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicDecimeters:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicCentimeters:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMillimeters:
-                return base_value_ * static_cast<un_scalar_t>(1e9);
+                return base_value * static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicMicrometers:
-                return base_value_ * static_cast<un_scalar_t>(1e18);
+                return base_value * static_cast<un_scalar_t>(1e18);
 
             case VolumeUnit::CubicMiles:
-                return base_value_ / static_cast<un_scalar_t>(4.168181825440579584e9);
+                return base_value / static_cast<un_scalar_t>(4.168181825440579584e9);
 
             case VolumeUnit::CubicYards:
-                return base_value_ / static_cast<un_scalar_t>(0.764554857984);
+                return base_value / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeUnit::CubicFeet:
-                return base_value_ / static_cast<un_scalar_t>(0.028316846592);
+                return base_value / static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::HectocubicFeet:
-                return (base_value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e2);
+                return (base_value / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilocubicFeet:
-                return (base_value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegacubicFeet:
-                return (base_value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicInches:
-                return base_value_ / static_cast<un_scalar_t>(1.6387064e-5);
+                return base_value / static_cast<un_scalar_t>(1.6387064e-5);
 
             case VolumeUnit::ImperialGallons:
-                return base_value_ / static_cast<un_scalar_t>(0.00454609);
+                return base_value / static_cast<un_scalar_t>(0.00454609);
 
             case VolumeUnit::KiloimperialGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegaimperialGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::ImperialOunces:
-                return base_value_ / static_cast<un_scalar_t>(2.84130625e-5);
+                return base_value / static_cast<un_scalar_t>(2.84130625e-5);
 
             case VolumeUnit::UsGallons:
-                return base_value_ / static_cast<un_scalar_t>(0.003785411784);
+                return base_value / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::DecausGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e1);
+                return (base_value / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::DeciusGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::HectousGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e2);
+                return (base_value / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilousGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegausGallons:
-                return (base_value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::UsOunces:
-                return base_value_ / static_cast<un_scalar_t>(2.95735295625e-5);
+                return base_value / static_cast<un_scalar_t>(2.95735295625e-5);
 
             case VolumeUnit::UsTablespoons:
-                return base_value_ / static_cast<un_scalar_t>(1.478676478125e-5);
+                return base_value / static_cast<un_scalar_t>(1.478676478125e-5);
 
             case VolumeUnit::AuTablespoons:
-                return base_value_ / static_cast<un_scalar_t>(2e-5);
+                return base_value / static_cast<un_scalar_t>(2e-5);
 
             case VolumeUnit::MetricTablespoons:
-                return base_value_ / static_cast<un_scalar_t>(1.5e-5);
+                return base_value / static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::UkTablespoons:
-                return base_value_ / static_cast<un_scalar_t>(1.5e-5);
+                return base_value / static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::MetricTeaspoons:
-                return base_value_ / static_cast<un_scalar_t>(0.5e-5);
+                return base_value / static_cast<un_scalar_t>(0.5e-5);
 
             case VolumeUnit::UsTeaspoons:
-                return base_value_ / static_cast<un_scalar_t>(4.92892159375e-6);
+                return base_value / static_cast<un_scalar_t>(4.92892159375e-6);
 
             case VolumeUnit::MetricCups:
-                return base_value_ / static_cast<un_scalar_t>(0.00025);
+                return base_value / static_cast<un_scalar_t>(0.00025);
 
             case VolumeUnit::UsCustomaryCups:
-                return base_value_ / static_cast<un_scalar_t>(0.0002365882365);
+                return base_value / static_cast<un_scalar_t>(0.0002365882365);
 
             case VolumeUnit::UsLegalCups:
-                return base_value_ / static_cast<un_scalar_t>(0.00024);
+                return base_value / static_cast<un_scalar_t>(0.00024);
 
             case VolumeUnit::OilBarrels:
-                return base_value_ / static_cast<un_scalar_t>(0.158987294928);
+                return base_value / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeUnit::UsBeerBarrels:
-                return base_value_ / static_cast<un_scalar_t>(0.117347765304);
+                return base_value / static_cast<un_scalar_t>(0.117347765304);
 
             case VolumeUnit::ImperialBeerBarrels:
-                return base_value_ / static_cast<un_scalar_t>(0.16365924);
+                return base_value / static_cast<un_scalar_t>(0.16365924);
 
             case VolumeUnit::UsQuarts:
-                return base_value_ / static_cast<un_scalar_t>(9.46352946e-4);
+                return base_value / static_cast<un_scalar_t>(9.46352946e-4);
 
             case VolumeUnit::ImperialQuarts:
-                return base_value_ / static_cast<un_scalar_t>(1.1365225e-3);
+                return base_value / static_cast<un_scalar_t>(1.1365225e-3);
 
             case VolumeUnit::UsPints:
-                return base_value_ / static_cast<un_scalar_t>(4.73176473e-4);
+                return base_value / static_cast<un_scalar_t>(4.73176473e-4);
 
             case VolumeUnit::AcreFeet:
-                return base_value_ / static_cast<un_scalar_t>(1233.48183754752);
+                return base_value / static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeUnit::ImperialPints:
-                return base_value_ / static_cast<un_scalar_t>(5.6826125e-4);
+                return base_value / static_cast<un_scalar_t>(5.6826125e-4);
 
             case VolumeUnit::BoardFeet:
-                return base_value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(12));
+                return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(12));
 
             }
 
@@ -1186,9 +1110,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        VolumeUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        VolumeUnit value_unit_type_;       
     };
 }

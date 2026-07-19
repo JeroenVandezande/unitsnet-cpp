@@ -35,31 +35,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ImpulseUnit::NewtonSeconds)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ImpulseUnit unit) const
@@ -102,7 +82,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilogram_meters_per_second() const
         {
             return convert_from_base(ImpulseUnit::KilogramMetersPerSecond);
@@ -112,7 +91,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::KilogramMetersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t newton_seconds() const
         {
@@ -124,7 +102,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::NewtonSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanonewton_seconds() const
         {
             return convert_from_base(ImpulseUnit::NanonewtonSeconds);
@@ -134,7 +111,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::NanonewtonSeconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micronewton_seconds() const
         {
@@ -146,7 +122,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::MicronewtonSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millinewton_seconds() const
         {
             return convert_from_base(ImpulseUnit::MillinewtonSeconds);
@@ -156,7 +131,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::MillinewtonSeconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centinewton_seconds() const
         {
@@ -168,7 +142,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::CentinewtonSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decinewton_seconds() const
         {
             return convert_from_base(ImpulseUnit::DecinewtonSeconds);
@@ -178,7 +151,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::DecinewtonSeconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decanewton_seconds() const
         {
@@ -190,7 +162,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::DecanewtonSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilonewton_seconds() const
         {
             return convert_from_base(ImpulseUnit::KilonewtonSeconds);
@@ -200,7 +171,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::KilonewtonSeconds);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t meganewton_seconds() const
         {
@@ -212,7 +182,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::MeganewtonSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pound_feet_per_second() const
         {
             return convert_from_base(ImpulseUnit::PoundFeetPerSecond);
@@ -222,7 +191,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::PoundFeetPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pound_force_seconds() const
         {
@@ -234,7 +202,6 @@ namespace unitsnet_cpp
             return Impulse(value, ImpulseUnit::PoundForceSeconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t slug_feet_per_second() const
         {
             return convert_from_base(ImpulseUnit::SlugFeetPerSecond);
@@ -244,7 +211,6 @@ namespace unitsnet_cpp
         {
             return Impulse(value, ImpulseUnit::SlugFeetPerSecond);
         }
-
 
         [[nodiscard]] static constexpr Impulse from_invalid()
         {
@@ -308,49 +274,49 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ImpulseUnit::KilogramMetersPerSecond:
-                return base_value_;
+                return base_value;
 
             case ImpulseUnit::NewtonSeconds:
-                return base_value_;
+                return base_value;
 
             case ImpulseUnit::NanonewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ImpulseUnit::MicronewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ImpulseUnit::MillinewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ImpulseUnit::CentinewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case ImpulseUnit::DecinewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case ImpulseUnit::DecanewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case ImpulseUnit::KilonewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ImpulseUnit::MeganewtonSeconds:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ImpulseUnit::PoundFeetPerSecond:
-                return base_value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.3048));
+                return base_value / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.3048));
 
             case ImpulseUnit::PoundForceSeconds:
-                return base_value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case ImpulseUnit::SlugFeetPerSecond:
-                return base_value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
+                return base_value / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             }
 
@@ -358,9 +324,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ImpulseUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ImpulseUnit value_unit_type_;       
     };
 }

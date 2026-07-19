@@ -36,31 +36,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricResistivityUnit::OhmMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricResistivityUnit unit) const
@@ -103,7 +83,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t ohm_meters() const
         {
             return convert_from_base(ElectricResistivityUnit::OhmMeters);
@@ -113,7 +92,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::OhmMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picoohm_meters() const
         {
@@ -125,7 +103,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::PicoohmMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanoohm_meters() const
         {
             return convert_from_base(ElectricResistivityUnit::NanoohmMeters);
@@ -135,7 +112,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::NanoohmMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microohm_meters() const
         {
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::MicroohmMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliohm_meters() const
         {
             return convert_from_base(ElectricResistivityUnit::MilliohmMeters);
@@ -157,7 +132,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::MilliohmMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kiloohm_meters() const
         {
@@ -169,7 +143,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::KiloohmMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megaohm_meters() const
         {
             return convert_from_base(ElectricResistivityUnit::MegaohmMeters);
@@ -179,7 +152,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::MegaohmMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t ohms_centimeter() const
         {
@@ -191,7 +163,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::OhmsCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picoohms_centimeter() const
         {
             return convert_from_base(ElectricResistivityUnit::PicoohmsCentimeter);
@@ -201,7 +172,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::PicoohmsCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoohms_centimeter() const
         {
@@ -213,7 +183,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::NanoohmsCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microohms_centimeter() const
         {
             return convert_from_base(ElectricResistivityUnit::MicroohmsCentimeter);
@@ -223,7 +192,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::MicroohmsCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliohms_centimeter() const
         {
@@ -235,7 +203,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::MilliohmsCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloohms_centimeter() const
         {
             return convert_from_base(ElectricResistivityUnit::KiloohmsCentimeter);
@@ -246,7 +213,6 @@ namespace unitsnet_cpp
             return ElectricResistivity(value, ElectricResistivityUnit::KiloohmsCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megaohms_centimeter() const
         {
             return convert_from_base(ElectricResistivityUnit::MegaohmsCentimeter);
@@ -256,7 +222,6 @@ namespace unitsnet_cpp
         {
             return ElectricResistivity(value, ElectricResistivityUnit::MegaohmsCentimeter);
         }
-
 
         [[nodiscard]] static constexpr ElectricResistivity from_invalid()
         {
@@ -323,52 +288,52 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricResistivityUnit::OhmMeters:
-                return base_value_;
+                return base_value;
 
             case ElectricResistivityUnit::PicoohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricResistivityUnit::NanoohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricResistivityUnit::MicroohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricResistivityUnit::MilliohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricResistivityUnit::KiloohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricResistivityUnit::MegaohmMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricResistivityUnit::OhmsCentimeter:
-                return base_value_ * static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::PicoohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricResistivityUnit::NanoohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricResistivityUnit::MicroohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricResistivityUnit::MilliohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricResistivityUnit::KiloohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricResistivityUnit::MegaohmsCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -376,9 +341,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricResistivityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricResistivityUnit value_unit_type_;       
     };
 }

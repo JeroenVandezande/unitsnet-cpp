@@ -36,31 +36,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == IrradianceUnit::WattsPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const IrradianceUnit unit) const
@@ -103,7 +83,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts_per_square_meter() const
         {
             return convert_from_base(IrradianceUnit::WattsPerSquareMeter);
@@ -113,7 +92,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::WattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picowatts_per_square_meter() const
         {
@@ -125,7 +103,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::PicowattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_square_meter() const
         {
             return convert_from_base(IrradianceUnit::NanowattsPerSquareMeter);
@@ -135,7 +112,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::NanowattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microwatts_per_square_meter() const
         {
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::MicrowattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_square_meter() const
         {
             return convert_from_base(IrradianceUnit::MilliwattsPerSquareMeter);
@@ -157,7 +132,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::MilliwattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_square_meter() const
         {
@@ -169,7 +143,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::KilowattsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatts_per_square_meter() const
         {
             return convert_from_base(IrradianceUnit::MegawattsPerSquareMeter);
@@ -179,7 +152,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::MegawattsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watts_per_square_centimeter() const
         {
@@ -191,7 +163,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::WattsPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picowatts_per_square_centimeter() const
         {
             return convert_from_base(IrradianceUnit::PicowattsPerSquareCentimeter);
@@ -201,7 +172,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::PicowattsPerSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_square_centimeter() const
         {
@@ -213,7 +183,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::NanowattsPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microwatts_per_square_centimeter() const
         {
             return convert_from_base(IrradianceUnit::MicrowattsPerSquareCentimeter);
@@ -223,7 +192,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::MicrowattsPerSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_square_centimeter() const
         {
@@ -235,7 +203,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::MilliwattsPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_square_centimeter() const
         {
             return convert_from_base(IrradianceUnit::KilowattsPerSquareCentimeter);
@@ -246,7 +213,6 @@ namespace unitsnet_cpp
             return Irradiance(value, IrradianceUnit::KilowattsPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatts_per_square_centimeter() const
         {
             return convert_from_base(IrradianceUnit::MegawattsPerSquareCentimeter);
@@ -256,7 +222,6 @@ namespace unitsnet_cpp
         {
             return Irradiance(value, IrradianceUnit::MegawattsPerSquareCentimeter);
         }
-
 
         [[nodiscard]] static constexpr Irradiance from_invalid()
         {
@@ -323,52 +288,52 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case IrradianceUnit::WattsPerSquareMeter:
-                return base_value_;
+                return base_value;
 
             case IrradianceUnit::PicowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case IrradianceUnit::NanowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case IrradianceUnit::MicrowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case IrradianceUnit::MilliwattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case IrradianceUnit::KilowattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case IrradianceUnit::MegawattsPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case IrradianceUnit::WattsPerSquareCentimeter:
-                return base_value_ * static_cast<un_scalar_t>(0.0001);
+                return base_value * static_cast<un_scalar_t>(0.0001);
 
             case IrradianceUnit::PicowattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-12);
 
             case IrradianceUnit::NanowattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-9);
 
             case IrradianceUnit::MicrowattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-6);
 
             case IrradianceUnit::MilliwattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradianceUnit::KilowattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e3);
 
             case IrradianceUnit::MegawattsPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -376,9 +341,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        IrradianceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        IrradianceUnit value_unit_type_;       
     };
 }

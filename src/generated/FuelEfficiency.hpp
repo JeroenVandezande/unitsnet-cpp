@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == FuelEfficiencyUnit::KilometersPerLiter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const FuelEfficiencyUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters_per100_kilometers() const
         {
             return convert_from_base(FuelEfficiencyUnit::LitersPer100Kilometers);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::LitersPer100Kilometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t miles_per_us_gallon() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUsGallon);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t miles_per_uk_gallon() const
         {
             return convert_from_base(FuelEfficiencyUnit::MilesPerUkGallon);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUkGallon);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilometers_per_liter() const
         {
             return convert_from_base(FuelEfficiencyUnit::KilometersPerLiter);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return FuelEfficiency(value, FuelEfficiencyUnit::KilometersPerLiter);
         }
-
 
         [[nodiscard]] static constexpr FuelEfficiency from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case FuelEfficiencyUnit::LitersPer100Kilometers:
-                return static_cast<un_scalar_t>(100) / base_value_;
+                return static_cast<un_scalar_t>(100) / base_value;
 
             case FuelEfficiencyUnit::MilesPerUsGallon:
-                return base_value_ * static_cast<un_scalar_t>(3.785411784) / static_cast<un_scalar_t>(1.609344);
+                return base_value * static_cast<un_scalar_t>(3.785411784) / static_cast<un_scalar_t>(1.609344);
 
             case FuelEfficiencyUnit::MilesPerUkGallon:
-                return base_value_ * static_cast<un_scalar_t>(4.54609) / static_cast<un_scalar_t>(1.609344);
+                return base_value * static_cast<un_scalar_t>(4.54609) / static_cast<un_scalar_t>(1.609344);
 
             case FuelEfficiencyUnit::KilometersPerLiter:
-                return base_value_;
+                return base_value;
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        FuelEfficiencyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        FuelEfficiencyUnit value_unit_type_;       
     };
 }

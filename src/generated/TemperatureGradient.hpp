@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == TemperatureGradientUnit::KelvinsPerMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const TemperatureGradientUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kelvins_per_meter() const
         {
             return convert_from_base(TemperatureGradientUnit::KelvinsPerMeter);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return TemperatureGradient(value, TemperatureGradientUnit::KelvinsPerMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_meter() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesCelsiusPerMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit_per_foot() const
         {
             return convert_from_base(TemperatureGradientUnit::DegreesFahrenheitPerFoot);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesFahrenheitPerFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_celsius_per_kilometer() const
         {
             return convert_from_base(TemperatureGradientUnit::DegreesCelsiusPerKilometer);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return TemperatureGradient(value, TemperatureGradientUnit::DegreesCelsiusPerKilometer);
         }
-
 
         [[nodiscard]] static constexpr TemperatureGradient from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case TemperatureGradientUnit::KelvinsPerMeter:
-                return base_value_;
+                return base_value;
 
             case TemperatureGradientUnit::DegreesCelsiusPerMeter:
-                return base_value_;
+                return base_value;
 
             case TemperatureGradientUnit::DegreesFahrenheitPerFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.3048)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
+                return (base_value * static_cast<un_scalar_t>(0.3048)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureGradientUnit::DegreesCelsiusPerKilometer:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        TemperatureGradientUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        TemperatureGradientUnit value_unit_type_;       
     };
 }

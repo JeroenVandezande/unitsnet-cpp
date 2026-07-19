@@ -40,31 +40,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == LinearDensityUnit::KilogramsPerMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LinearDensityUnit unit) const
@@ -107,7 +87,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_millimeter() const
         {
             return convert_from_base(LinearDensityUnit::GramsPerMillimeter);
@@ -117,7 +96,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::GramsPerMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_millimeter() const
         {
@@ -129,7 +107,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::MicrogramsPerMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_millimeter() const
         {
             return convert_from_base(LinearDensityUnit::MilligramsPerMillimeter);
@@ -139,7 +116,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::MilligramsPerMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_millimeter() const
         {
@@ -151,7 +127,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::KilogramsPerMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_centimeter() const
         {
             return convert_from_base(LinearDensityUnit::GramsPerCentimeter);
@@ -161,7 +136,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::GramsPerCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_centimeter() const
         {
@@ -173,7 +147,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::MicrogramsPerCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_centimeter() const
         {
             return convert_from_base(LinearDensityUnit::MilligramsPerCentimeter);
@@ -183,7 +156,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::MilligramsPerCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_centimeter() const
         {
@@ -195,7 +167,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::KilogramsPerCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_meter() const
         {
             return convert_from_base(LinearDensityUnit::GramsPerMeter);
@@ -205,7 +176,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::GramsPerMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_meter() const
         {
@@ -217,7 +187,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::MicrogramsPerMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_meter() const
         {
             return convert_from_base(LinearDensityUnit::MilligramsPerMeter);
@@ -227,7 +196,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::MilligramsPerMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_meter() const
         {
@@ -239,7 +207,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::KilogramsPerMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_per_inch() const
         {
             return convert_from_base(LinearDensityUnit::PoundsPerInch);
@@ -249,7 +216,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::PoundsPerInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_foot() const
         {
@@ -261,7 +227,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::PoundsPerFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_foot() const
         {
             return convert_from_base(LinearDensityUnit::GramsPerFoot);
@@ -271,7 +236,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::GramsPerFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_foot() const
         {
@@ -283,7 +247,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::MicrogramsPerFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_foot() const
         {
             return convert_from_base(LinearDensityUnit::MilligramsPerFoot);
@@ -294,7 +257,6 @@ namespace unitsnet_cpp
             return LinearDensity(value, LinearDensityUnit::MilligramsPerFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_foot() const
         {
             return convert_from_base(LinearDensityUnit::KilogramsPerFoot);
@@ -304,7 +266,6 @@ namespace unitsnet_cpp
         {
             return LinearDensity(value, LinearDensityUnit::KilogramsPerFoot);
         }
-
 
         [[nodiscard]] static constexpr LinearDensity from_invalid()
         {
@@ -383,64 +344,64 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case LinearDensityUnit::GramsPerMillimeter:
-                return base_value_;
+                return base_value;
 
             case LinearDensityUnit::MicrogramsPerMillimeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerMillimeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerMillimeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::GramsPerCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(1e-1);
+                return base_value / static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::MicrogramsPerCentimeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerCentimeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerCentimeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::GramsPerMeter:
-                return base_value_ / static_cast<un_scalar_t>(1e-3);
+                return base_value / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::MicrogramsPerMeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerMeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerMeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::PoundsPerInch:
-                return base_value_ * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(0.45359237);
+                return base_value * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(0.45359237);
 
             case LinearDensityUnit::PoundsPerFoot:
-                return base_value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
+                return base_value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
 
             case LinearDensityUnit::GramsPerFoot:
-                return base_value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
+                return base_value / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             case LinearDensityUnit::MicrogramsPerFoot:
-                return (base_value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerFoot:
-                return (base_value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerFoot:
-                return (base_value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e3);
+                return (base_value / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -448,9 +409,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        LinearDensityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        LinearDensityUnit value_unit_type_;       
     };
 }

@@ -32,31 +32,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == TemperatureUnit::Kelvins)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const TemperatureUnit unit) const
@@ -99,7 +79,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kelvins() const
         {
             return convert_from_base(TemperatureUnit::Kelvins);
@@ -109,7 +88,6 @@ namespace unitsnet_cpp
         {
             return Temperature(value, TemperatureUnit::Kelvins);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_celsius() const
         {
@@ -121,7 +99,6 @@ namespace unitsnet_cpp
             return Temperature(value, TemperatureUnit::DegreesCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millidegrees_celsius() const
         {
             return convert_from_base(TemperatureUnit::MillidegreesCelsius);
@@ -131,7 +108,6 @@ namespace unitsnet_cpp
         {
             return Temperature(value, TemperatureUnit::MillidegreesCelsius);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_delisle() const
         {
@@ -143,7 +119,6 @@ namespace unitsnet_cpp
             return Temperature(value, TemperatureUnit::DegreesDelisle);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_fahrenheit() const
         {
             return convert_from_base(TemperatureUnit::DegreesFahrenheit);
@@ -153,7 +128,6 @@ namespace unitsnet_cpp
         {
             return Temperature(value, TemperatureUnit::DegreesFahrenheit);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_newton() const
         {
@@ -165,7 +139,6 @@ namespace unitsnet_cpp
             return Temperature(value, TemperatureUnit::DegreesNewton);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_rankine() const
         {
             return convert_from_base(TemperatureUnit::DegreesRankine);
@@ -175,7 +148,6 @@ namespace unitsnet_cpp
         {
             return Temperature(value, TemperatureUnit::DegreesRankine);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_reaumur() const
         {
@@ -187,7 +159,6 @@ namespace unitsnet_cpp
             return Temperature(value, TemperatureUnit::DegreesReaumur);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees_roemer() const
         {
             return convert_from_base(TemperatureUnit::DegreesRoemer);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
             return Temperature(value, TemperatureUnit::DegreesRoemer);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t solar_temperatures() const
         {
             return convert_from_base(TemperatureUnit::SolarTemperatures);
@@ -208,7 +178,6 @@ namespace unitsnet_cpp
         {
             return Temperature(value, TemperatureUnit::SolarTemperatures);
         }
-
 
         [[nodiscard]] static constexpr Temperature from_invalid()
         {
@@ -263,40 +232,40 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case TemperatureUnit::Kelvins:
-                return base_value_;
+                return base_value;
 
             case TemperatureUnit::DegreesCelsius:
-                return base_value_ - static_cast<un_scalar_t>(273.15);
+                return base_value - static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::MillidegreesCelsius:
-                return (base_value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(1000);
+                return (base_value - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(1000);
 
             case TemperatureUnit::DegreesDelisle:
-                return (base_value_ - static_cast<un_scalar_t>(373.15)) * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
+                return (base_value - static_cast<un_scalar_t>(373.15)) * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
 
             case TemperatureUnit::DegreesFahrenheit:
-                return (base_value_ - static_cast<un_scalar_t>(459.67) * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
+                return (base_value - static_cast<un_scalar_t>(459.67) * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesNewton:
-                return (base_value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
+                return (base_value - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
 
             case TemperatureUnit::DegreesRankine:
-                return base_value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
+                return base_value * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesReaumur:
-                return (base_value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
+                return (base_value - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesRoemer:
-                return (base_value_ - (static_cast<un_scalar_t>(273.15) - static_cast<un_scalar_t>(7.5) * static_cast<un_scalar_t>(40.0) / static_cast<un_scalar_t>(21))) * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
+                return (base_value - (static_cast<un_scalar_t>(273.15) - static_cast<un_scalar_t>(7.5) * static_cast<un_scalar_t>(40.0) / static_cast<un_scalar_t>(21))) * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
 
             case TemperatureUnit::SolarTemperatures:
-                return base_value_ / static_cast<un_scalar_t>(5778);
+                return base_value / static_cast<un_scalar_t>(5778);
 
             }
 
@@ -304,9 +273,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        TemperatureUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        TemperatureUnit value_unit_type_;       
     };
 }

@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RotationalAccelerationUnit::RadiansPerSecondSquared)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RotationalAccelerationUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t radians_per_second_squared() const
         {
             return convert_from_base(RotationalAccelerationUnit::RadiansPerSecondSquared);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::RadiansPerSecondSquared);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t degrees_per_second_squared() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return RotationalAcceleration(value, RotationalAccelerationUnit::DegreesPerSecondSquared);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t revolutions_per_minute_per_second() const
         {
             return convert_from_base(RotationalAccelerationUnit::RevolutionsPerMinutePerSecond);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return RotationalAcceleration(value, RotationalAccelerationUnit::RevolutionsPerMinutePerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t revolutions_per_second_squared() const
         {
             return convert_from_base(RotationalAccelerationUnit::RevolutionsPerSecondSquared);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return RotationalAcceleration(value, RotationalAccelerationUnit::RevolutionsPerSecondSquared);
         }
-
 
         [[nodiscard]] static constexpr RotationalAcceleration from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RotationalAccelerationUnit::RadiansPerSecondSquared:
-                return base_value_;
+                return base_value;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * base_value_;
+                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * base_value;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return (static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value_;
+                return (static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (static_cast<un_scalar_t>(1) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value_;
+                return (static_cast<un_scalar_t>(1) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * base_value;
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RotationalAccelerationUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RotationalAccelerationUnit value_unit_type_;       
     };
 }

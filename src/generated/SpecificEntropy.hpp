@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == SpecificEntropyUnit::JoulesPerKilogramKelvin)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpecificEntropyUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_kilogram_kelvin() const
         {
             return convert_from_base(SpecificEntropyUnit::JoulesPerKilogramKelvin);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return SpecificEntropy(value, SpecificEntropyUnit::JoulesPerKilogramKelvin);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_kilogram_kelvin() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return SpecificEntropy(value, SpecificEntropyUnit::KilojoulesPerKilogramKelvin);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megajoules_per_kilogram_kelvin() const
         {
             return convert_from_base(SpecificEntropyUnit::MegajoulesPerKilogramKelvin);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return SpecificEntropy(value, SpecificEntropyUnit::MegajoulesPerKilogramKelvin);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t joules_per_kilogram_degree_celsius() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return SpecificEntropy(value, SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_kilogram_degree_celsius() const
         {
             return convert_from_base(SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return SpecificEntropy(value, SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megajoules_per_kilogram_degree_celsius() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return SpecificEntropy(value, SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t calories_per_gram_kelvin() const
         {
             return convert_from_base(SpecificEntropyUnit::CaloriesPerGramKelvin);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return SpecificEntropy(value, SpecificEntropyUnit::CaloriesPerGramKelvin);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_gram_kelvin() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return SpecificEntropy(value, SpecificEntropyUnit::KilocaloriesPerGramKelvin);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btus_per_pound_fahrenheit() const
         {
             return convert_from_base(SpecificEntropyUnit::BtusPerPoundFahrenheit);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return SpecificEntropy(value, SpecificEntropyUnit::BtusPerPoundFahrenheit);
         }
-
 
         [[nodiscard]] static constexpr SpecificEntropy from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case SpecificEntropyUnit::JoulesPerKilogramKelvin:
-                return base_value_;
+                return base_value;
 
             case SpecificEntropyUnit::KilojoulesPerKilogramKelvin:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEntropyUnit::MegajoulesPerKilogramKelvin:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius:
-                return base_value_;
+                return base_value;
 
             case SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEntropyUnit::CaloriesPerGramKelvin:
-                return base_value_ / static_cast<un_scalar_t>(4.184e3);
+                return base_value / static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
-                return (base_value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEntropyUnit::BtusPerPoundFahrenheit:
-                return base_value_ / static_cast<un_scalar_t>(4.1868e3);
+                return base_value / static_cast<un_scalar_t>(4.1868e3);
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        SpecificEntropyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        SpecificEntropyUnit value_unit_type_;       
     };
 }

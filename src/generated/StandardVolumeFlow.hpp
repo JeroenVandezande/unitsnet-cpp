@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == StandardVolumeFlowUnit::StandardCubicMetersPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const StandardVolumeFlowUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_second() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerSecond);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_minute() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_hour() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicMetersPerHour);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t standard_cubic_meters_per_day() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicMetersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_cubic_centimeters_per_minute() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t standard_liters_per_minute() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardLitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_second() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicFeetPerSecond);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_minute() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t standard_cubic_feet_per_hour() const
         {
             return convert_from_base(StandardVolumeFlowUnit::StandardCubicFeetPerHour);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return StandardVolumeFlow(value, StandardVolumeFlowUnit::StandardCubicFeetPerHour);
         }
-
 
         [[nodiscard]] static constexpr StandardVolumeFlow from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerSecond:
-                return base_value_;
+                return base_value;
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600);
+                return base_value * static_cast<un_scalar_t>(3600);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerDay:
-                return base_value_ * static_cast<un_scalar_t>(86400);
+                return base_value * static_cast<un_scalar_t>(86400);
 
             case StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(6e7);
+                return base_value * static_cast<un_scalar_t>(6e7);
 
             case StandardVolumeFlowUnit::StandardLitersPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60000);
+                return base_value * static_cast<un_scalar_t>(60000);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.028316846592);
+                return base_value / static_cast<un_scalar_t>(0.028316846592);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        StandardVolumeFlowUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        StandardVolumeFlowUnit value_unit_type_;       
     };
 }

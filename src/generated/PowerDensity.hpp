@@ -68,31 +68,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == PowerDensityUnit::WattsPerCubicMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PowerDensityUnit unit) const
@@ -135,7 +115,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::WattsPerCubicMeter);
@@ -145,7 +124,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::WattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picowatts_per_cubic_meter() const
         {
@@ -157,7 +135,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::PicowattsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::NanowattsPerCubicMeter);
@@ -167,7 +144,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::NanowattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microwatts_per_cubic_meter() const
         {
@@ -179,7 +155,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MicrowattsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::MilliwattsPerCubicMeter);
@@ -189,7 +164,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MilliwattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_cubic_meter() const
         {
@@ -201,7 +175,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::DeciwattsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decawatts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::DecawattsPerCubicMeter);
@@ -211,7 +184,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::DecawattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_cubic_meter() const
         {
@@ -223,7 +195,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::KilowattsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::MegawattsPerCubicMeter);
@@ -233,7 +204,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MegawattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_cubic_meter() const
         {
@@ -245,7 +215,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::GigawattsPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terawatts_per_cubic_meter() const
         {
             return convert_from_base(PowerDensityUnit::TerawattsPerCubicMeter);
@@ -255,7 +224,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::TerawattsPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watts_per_cubic_inch() const
         {
@@ -267,7 +235,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::WattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picowatts_per_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::PicowattsPerCubicInch);
@@ -277,7 +244,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::PicowattsPerCubicInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_cubic_inch() const
         {
@@ -289,7 +255,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::NanowattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microwatts_per_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::MicrowattsPerCubicInch);
@@ -299,7 +264,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MicrowattsPerCubicInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_cubic_inch() const
         {
@@ -311,7 +275,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MilliwattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::DeciwattsPerCubicInch);
@@ -321,7 +284,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::DeciwattsPerCubicInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decawatts_per_cubic_inch() const
         {
@@ -333,7 +295,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::DecawattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::KilowattsPerCubicInch);
@@ -343,7 +304,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::KilowattsPerCubicInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_cubic_inch() const
         {
@@ -355,7 +315,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MegawattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::GigawattsPerCubicInch);
@@ -365,7 +324,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::GigawattsPerCubicInch);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t terawatts_per_cubic_inch() const
         {
@@ -377,7 +335,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::TerawattsPerCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::WattsPerCubicFoot);
@@ -387,7 +344,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::WattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picowatts_per_cubic_foot() const
         {
@@ -399,7 +355,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::PicowattsPerCubicFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::NanowattsPerCubicFoot);
@@ -409,7 +364,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::NanowattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microwatts_per_cubic_foot() const
         {
@@ -421,7 +375,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MicrowattsPerCubicFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::MilliwattsPerCubicFoot);
@@ -431,7 +384,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MilliwattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_cubic_foot() const
         {
@@ -443,7 +395,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::DeciwattsPerCubicFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decawatts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::DecawattsPerCubicFoot);
@@ -453,7 +404,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::DecawattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_cubic_foot() const
         {
@@ -465,7 +415,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::KilowattsPerCubicFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::MegawattsPerCubicFoot);
@@ -475,7 +424,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MegawattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_cubic_foot() const
         {
@@ -487,7 +435,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::GigawattsPerCubicFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terawatts_per_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::TerawattsPerCubicFoot);
@@ -497,7 +444,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::TerawattsPerCubicFoot);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watts_per_liter() const
         {
@@ -509,7 +455,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::WattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picowatts_per_liter() const
         {
             return convert_from_base(PowerDensityUnit::PicowattsPerLiter);
@@ -519,7 +464,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::PicowattsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanowatts_per_liter() const
         {
@@ -531,7 +475,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::NanowattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microwatts_per_liter() const
         {
             return convert_from_base(PowerDensityUnit::MicrowattsPerLiter);
@@ -541,7 +484,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::MicrowattsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_liter() const
         {
@@ -553,7 +495,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MilliwattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t deciwatts_per_liter() const
         {
             return convert_from_base(PowerDensityUnit::DeciwattsPerLiter);
@@ -563,7 +504,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::DeciwattsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decawatts_per_liter() const
         {
@@ -575,7 +515,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::DecawattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_liter() const
         {
             return convert_from_base(PowerDensityUnit::KilowattsPerLiter);
@@ -585,7 +524,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::KilowattsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_liter() const
         {
@@ -597,7 +535,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::MegawattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_liter() const
         {
             return convert_from_base(PowerDensityUnit::GigawattsPerLiter);
@@ -607,7 +544,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::GigawattsPerLiter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t terawatts_per_liter() const
         {
@@ -619,7 +555,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::TerawattsPerLiter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btus_per_second_cubic_inch() const
         {
             return convert_from_base(PowerDensityUnit::BtusPerSecondCubicInch);
@@ -630,7 +565,6 @@ namespace unitsnet_cpp
             return PowerDensity(value, PowerDensityUnit::BtusPerSecondCubicInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btus_per_second_cubic_foot() const
         {
             return convert_from_base(PowerDensityUnit::BtusPerSecondCubicFoot);
@@ -640,7 +574,6 @@ namespace unitsnet_cpp
         {
             return PowerDensity(value, PowerDensityUnit::BtusPerSecondCubicFoot);
         }
-
 
         [[nodiscard]] static constexpr PowerDensity from_invalid()
         {
@@ -803,148 +736,148 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case PowerDensityUnit::WattsPerCubicMeter:
-                return base_value_;
+                return base_value;
 
             case PowerDensityUnit::PicowattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case PowerDensityUnit::NanowattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case PowerDensityUnit::MicrowattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case PowerDensityUnit::MilliwattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case PowerDensityUnit::DeciwattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case PowerDensityUnit::DecawattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case PowerDensityUnit::KilowattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case PowerDensityUnit::MegawattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case PowerDensityUnit::GigawattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case PowerDensityUnit::TerawattsPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case PowerDensityUnit::WattsPerCubicInch:
-                return base_value_ * static_cast<un_scalar_t>(1.6387064e-5);
+                return base_value * static_cast<un_scalar_t>(1.6387064e-5);
 
             case PowerDensityUnit::PicowattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-12);
 
             case PowerDensityUnit::NanowattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-9);
 
             case PowerDensityUnit::MicrowattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-6);
 
             case PowerDensityUnit::MilliwattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-3);
 
             case PowerDensityUnit::DeciwattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e-1);
 
             case PowerDensityUnit::DecawattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e1);
 
             case PowerDensityUnit::KilowattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e3);
 
             case PowerDensityUnit::MegawattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e6);
 
             case PowerDensityUnit::GigawattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e9);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e9);
 
             case PowerDensityUnit::TerawattsPerCubicInch:
-                return (base_value_ * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e12);
+                return (base_value * static_cast<un_scalar_t>(1.6387064e-5)) / static_cast<un_scalar_t>(1e12);
 
             case PowerDensityUnit::WattsPerCubicFoot:
-                return base_value_ * static_cast<un_scalar_t>(0.028316846592);
+                return base_value * static_cast<un_scalar_t>(0.028316846592);
 
             case PowerDensityUnit::PicowattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-12);
 
             case PowerDensityUnit::NanowattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-9);
 
             case PowerDensityUnit::MicrowattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-6);
 
             case PowerDensityUnit::MilliwattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-3);
 
             case PowerDensityUnit::DeciwattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e-1);
 
             case PowerDensityUnit::DecawattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e1);
 
             case PowerDensityUnit::KilowattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e3);
 
             case PowerDensityUnit::MegawattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e6);
 
             case PowerDensityUnit::GigawattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e9);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e9);
 
             case PowerDensityUnit::TerawattsPerCubicFoot:
-                return (base_value_ * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e12);
+                return (base_value * static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e12);
 
             case PowerDensityUnit::WattsPerLiter:
-                return base_value_ / static_cast<un_scalar_t>(1.0e3);
+                return base_value / static_cast<un_scalar_t>(1.0e3);
 
             case PowerDensityUnit::PicowattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-12);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-12);
 
             case PowerDensityUnit::NanowattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-9);
 
             case PowerDensityUnit::MicrowattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-6);
 
             case PowerDensityUnit::MilliwattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-3);
 
             case PowerDensityUnit::DeciwattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e-1);
 
             case PowerDensityUnit::DecawattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e1);
 
             case PowerDensityUnit::KilowattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e3);
 
             case PowerDensityUnit::MegawattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e6);
 
             case PowerDensityUnit::GigawattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e9);
 
             case PowerDensityUnit::TerawattsPerLiter:
-                return (base_value_ / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e12);
+                return (base_value / static_cast<un_scalar_t>(1.0e3)) / static_cast<un_scalar_t>(1e12);
 
             case PowerDensityUnit::BtusPerSecondCubicInch:
-                return base_value_ / static_cast<un_scalar_t>(1055.05585262) * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
+                return base_value / static_cast<un_scalar_t>(1055.05585262) * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
 
             case PowerDensityUnit::BtusPerSecondCubicFoot:
-                return base_value_ / static_cast<un_scalar_t>(1055.05585262) * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
+                return base_value / static_cast<un_scalar_t>(1055.05585262) * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
 
             }
 
@@ -952,9 +885,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        PowerDensityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        PowerDensityUnit value_unit_type_;       
     };
 }

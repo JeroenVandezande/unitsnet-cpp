@@ -34,31 +34,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MassFluxUnit::KilogramsPerSecondPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassFluxUnit unit) const
@@ -101,7 +81,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_meter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareMeter);
@@ -111,7 +90,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_meter() const
         {
@@ -123,7 +101,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_centimeter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareCentimeter);
@@ -133,7 +110,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_centimeter() const
         {
@@ -145,7 +121,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_millimeter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareMillimeter);
@@ -155,7 +130,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_millimeter() const
         {
@@ -167,7 +141,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_meter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerHourPerSquareMeter);
@@ -177,7 +150,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_meter() const
         {
@@ -189,7 +161,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_centimeter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerHourPerSquareCentimeter);
@@ -199,7 +170,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_centimeter() const
         {
@@ -211,7 +181,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_millimeter() const
         {
             return convert_from_base(MassFluxUnit::GramsPerHourPerSquareMillimeter);
@@ -222,7 +191,6 @@ namespace unitsnet_cpp
             return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareMillimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_millimeter() const
         {
             return convert_from_base(MassFluxUnit::KilogramsPerHourPerSquareMillimeter);
@@ -232,7 +200,6 @@ namespace unitsnet_cpp
         {
             return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareMillimeter);
         }
-
 
         [[nodiscard]] static constexpr MassFlux from_invalid()
         {
@@ -293,46 +260,46 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MassFluxUnit::GramsPerSecondPerSquareMeter:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
-                return base_value_ * static_cast<un_scalar_t>(1e-1);
+                return base_value * static_cast<un_scalar_t>(1e-1);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
-                return base_value_ * static_cast<un_scalar_t>(1e-3);
+                return base_value * static_cast<un_scalar_t>(1e-3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareMeter:
-                return base_value_ * static_cast<un_scalar_t>(3.6e6);
+                return base_value * static_cast<un_scalar_t>(3.6e6);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMeter:
-                return (base_value_ * static_cast<un_scalar_t>(3.6e6)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(3.6e6)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareCentimeter:
-                return base_value_ * static_cast<un_scalar_t>(3.6e2);
+                return base_value * static_cast<un_scalar_t>(3.6e2);
 
             case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
-                return (base_value_ * static_cast<un_scalar_t>(3.6e2)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(3.6e2)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareMillimeter:
-                return base_value_ * static_cast<un_scalar_t>(3.6e0);
+                return base_value * static_cast<un_scalar_t>(3.6e0);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
-                return (base_value_ * static_cast<un_scalar_t>(3.6e0)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(3.6e0)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -340,9 +307,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MassFluxUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MassFluxUnit value_unit_type_;       
     };
 }

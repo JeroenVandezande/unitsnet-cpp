@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == CoefficientOfThermalExpansionUnit::PerKelvin)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const CoefficientOfThermalExpansionUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t per_kelvin() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PerKelvin);
@@ -105,7 +84,6 @@ namespace unitsnet_cpp
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerKelvin);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t per_degree_celsius() const
         {
@@ -117,7 +95,6 @@ namespace unitsnet_cpp
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerDegreeCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t per_degree_fahrenheit() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit);
@@ -127,7 +104,6 @@ namespace unitsnet_cpp
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t ppm_per_kelvin() const
         {
@@ -139,7 +115,6 @@ namespace unitsnet_cpp
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerKelvin);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t ppm_per_degree_celsius() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t ppm_per_degree_fahrenheit() const
         {
             return convert_from_base(CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit);
@@ -160,7 +134,6 @@ namespace unitsnet_cpp
         {
             return CoefficientOfThermalExpansion(value, CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit);
         }
-
 
         [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_invalid()
         {
@@ -203,28 +176,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case CoefficientOfThermalExpansionUnit::PerKelvin:
-                return base_value_;
+                return base_value;
 
             case CoefficientOfThermalExpansionUnit::PerDegreeCelsius:
-                return base_value_;
+                return base_value;
 
             case CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit:
-                return base_value_ * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
+                return base_value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case CoefficientOfThermalExpansionUnit::PpmPerKelvin:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit:
-                return base_value_ * static_cast<un_scalar_t>(5e6) / static_cast<un_scalar_t>(9);
+                return base_value * static_cast<un_scalar_t>(5e6) / static_cast<un_scalar_t>(9);
 
             }
 
@@ -232,9 +205,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        CoefficientOfThermalExpansionUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        CoefficientOfThermalExpansionUnit value_unit_type_;       
     };
 }

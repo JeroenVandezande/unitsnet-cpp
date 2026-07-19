@@ -33,31 +33,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricChargeUnit::Coulombs)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricChargeUnit unit) const
@@ -100,7 +80,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t coulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Coulombs);
@@ -110,7 +89,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::Coulombs);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t picocoulombs() const
         {
@@ -122,7 +100,6 @@ namespace unitsnet_cpp
             return ElectricCharge(value, ElectricChargeUnit::Picocoulombs);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanocoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Nanocoulombs);
@@ -132,7 +109,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::Nanocoulombs);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microcoulombs() const
         {
@@ -144,7 +120,6 @@ namespace unitsnet_cpp
             return ElectricCharge(value, ElectricChargeUnit::Microcoulombs);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millicoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Millicoulombs);
@@ -154,7 +129,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::Millicoulombs);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilocoulombs() const
         {
@@ -166,7 +140,6 @@ namespace unitsnet_cpp
             return ElectricCharge(value, ElectricChargeUnit::Kilocoulombs);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megacoulombs() const
         {
             return convert_from_base(ElectricChargeUnit::Megacoulombs);
@@ -176,7 +149,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::Megacoulombs);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t ampere_hours() const
         {
@@ -188,7 +160,6 @@ namespace unitsnet_cpp
             return ElectricCharge(value, ElectricChargeUnit::AmpereHours);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::MilliampereHours);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::MilliampereHours);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kiloampere_hours() const
         {
@@ -210,7 +180,6 @@ namespace unitsnet_cpp
             return ElectricCharge(value, ElectricChargeUnit::KiloampereHours);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megaampere_hours() const
         {
             return convert_from_base(ElectricChargeUnit::MegaampereHours);
@@ -220,7 +189,6 @@ namespace unitsnet_cpp
         {
             return ElectricCharge(value, ElectricChargeUnit::MegaampereHours);
         }
-
 
         [[nodiscard]] static constexpr ElectricCharge from_invalid()
         {
@@ -278,43 +246,43 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricChargeUnit::Coulombs:
-                return base_value_;
+                return base_value;
 
             case ElectricChargeUnit::Picocoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricChargeUnit::Nanocoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricChargeUnit::Microcoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricChargeUnit::Millicoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricChargeUnit::Kilocoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricChargeUnit::Megacoulombs:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricChargeUnit::AmpereHours:
-                return base_value_ / static_cast<un_scalar_t>(3600);
+                return base_value / static_cast<un_scalar_t>(3600);
 
             case ElectricChargeUnit::MilliampereHours:
-                return (base_value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricChargeUnit::KiloampereHours:
-                return (base_value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricChargeUnit::MegaampereHours:
-                return (base_value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -322,9 +290,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricChargeUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricChargeUnit value_unit_type_;       
     };
 }

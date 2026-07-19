@@ -40,31 +40,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == PressureChangeRateUnit::PascalsPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PressureChangeRateUnit unit) const
@@ -107,7 +87,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pascals_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::PascalsPerSecond);
@@ -117,7 +96,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::PascalsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilopascals_per_second() const
         {
@@ -129,7 +107,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::KilopascalsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megapascals_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::MegapascalsPerSecond);
@@ -139,7 +116,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::MegapascalsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pascals_per_minute() const
         {
@@ -151,7 +127,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::PascalsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopascals_per_minute() const
         {
             return convert_from_base(PressureChangeRateUnit::KilopascalsPerMinute);
@@ -161,7 +136,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::KilopascalsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megapascals_per_minute() const
         {
@@ -173,7 +147,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::MegapascalsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millimeters_of_mercury_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::MillimetersOfMercuryPerSecond);
@@ -183,7 +156,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::MillimetersOfMercuryPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t atmospheres_per_second() const
         {
@@ -195,7 +167,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::AtmospheresPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_inch_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond);
@@ -205,7 +176,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_inch_per_second() const
         {
@@ -217,7 +187,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::KilopoundsForcePerSquareInchPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megapounds_force_per_square_inch_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond);
@@ -227,7 +196,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_inch_per_minute() const
         {
@@ -239,7 +207,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::PoundsForcePerSquareInchPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_inch_per_minute() const
         {
             return convert_from_base(PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute);
@@ -249,7 +216,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megapounds_force_per_square_inch_per_minute() const
         {
@@ -261,7 +227,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::MegapoundsForcePerSquareInchPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t bars_per_second() const
         {
             return convert_from_base(PressureChangeRateUnit::BarsPerSecond);
@@ -271,7 +236,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::BarsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millibars_per_second() const
         {
@@ -283,7 +247,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::MillibarsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t bars_per_minute() const
         {
             return convert_from_base(PressureChangeRateUnit::BarsPerMinute);
@@ -294,7 +257,6 @@ namespace unitsnet_cpp
             return PressureChangeRate(value, PressureChangeRateUnit::BarsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millibars_per_minute() const
         {
             return convert_from_base(PressureChangeRateUnit::MillibarsPerMinute);
@@ -304,7 +266,6 @@ namespace unitsnet_cpp
         {
             return PressureChangeRate(value, PressureChangeRateUnit::MillibarsPerMinute);
         }
-
 
         [[nodiscard]] static constexpr PressureChangeRate from_invalid()
         {
@@ -383,64 +344,64 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case PressureChangeRateUnit::PascalsPerSecond:
-                return base_value_;
+                return base_value;
 
             case PressureChangeRateUnit::KilopascalsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapascalsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::PascalsPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::KilopascalsPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapascalsPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::MillimetersOfMercuryPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(133.322387415);
+                return base_value / static_cast<un_scalar_t>(133.322387415);
 
             case PressureChangeRateUnit::AtmospheresPerSecond:
-                return base_value_ / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
+                return base_value / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond:
-                return base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
+                return base_value * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::BarsPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(1e5);
+                return base_value / static_cast<un_scalar_t>(1e5);
 
             case PressureChangeRateUnit::MillibarsPerSecond:
-                return (base_value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureChangeRateUnit::BarsPerMinute:
-                return base_value_ / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60);
+                return base_value / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MillibarsPerMinute:
-                return (base_value_ / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -448,9 +409,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        PressureChangeRateUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        PressureChangeRateUnit value_unit_type_;       
     };
 }

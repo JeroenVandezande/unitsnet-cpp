@@ -32,31 +32,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == LuminanceUnit::CandelasPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LuminanceUnit unit) const
@@ -99,7 +79,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t candelas_per_square_meter() const
         {
             return convert_from_base(LuminanceUnit::CandelasPerSquareMeter);
@@ -109,7 +88,6 @@ namespace unitsnet_cpp
         {
             return Luminance(value, LuminanceUnit::CandelasPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanocandelas_per_square_meter() const
         {
@@ -121,7 +99,6 @@ namespace unitsnet_cpp
             return Luminance(value, LuminanceUnit::NanocandelasPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microcandelas_per_square_meter() const
         {
             return convert_from_base(LuminanceUnit::MicrocandelasPerSquareMeter);
@@ -131,7 +108,6 @@ namespace unitsnet_cpp
         {
             return Luminance(value, LuminanceUnit::MicrocandelasPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millicandelas_per_square_meter() const
         {
@@ -143,7 +119,6 @@ namespace unitsnet_cpp
             return Luminance(value, LuminanceUnit::MillicandelasPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centicandelas_per_square_meter() const
         {
             return convert_from_base(LuminanceUnit::CenticandelasPerSquareMeter);
@@ -153,7 +128,6 @@ namespace unitsnet_cpp
         {
             return Luminance(value, LuminanceUnit::CenticandelasPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decicandelas_per_square_meter() const
         {
@@ -165,7 +139,6 @@ namespace unitsnet_cpp
             return Luminance(value, LuminanceUnit::DecicandelasPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilocandelas_per_square_meter() const
         {
             return convert_from_base(LuminanceUnit::KilocandelasPerSquareMeter);
@@ -175,7 +148,6 @@ namespace unitsnet_cpp
         {
             return Luminance(value, LuminanceUnit::KilocandelasPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t candelas_per_square_foot() const
         {
@@ -187,7 +159,6 @@ namespace unitsnet_cpp
             return Luminance(value, LuminanceUnit::CandelasPerSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t candelas_per_square_inch() const
         {
             return convert_from_base(LuminanceUnit::CandelasPerSquareInch);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
             return Luminance(value, LuminanceUnit::CandelasPerSquareInch);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nits() const
         {
             return convert_from_base(LuminanceUnit::Nits);
@@ -208,7 +178,6 @@ namespace unitsnet_cpp
         {
             return Luminance(value, LuminanceUnit::Nits);
         }
-
 
         [[nodiscard]] static constexpr Luminance from_invalid()
         {
@@ -263,40 +232,40 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case LuminanceUnit::CandelasPerSquareMeter:
-                return base_value_;
+                return base_value;
 
             case LuminanceUnit::NanocandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case LuminanceUnit::MicrocandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case LuminanceUnit::MillicandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case LuminanceUnit::CenticandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case LuminanceUnit::DecicandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case LuminanceUnit::KilocandelasPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case LuminanceUnit::CandelasPerSquareFoot:
-                return base_value_ * static_cast<un_scalar_t>(9.290304e-2);
+                return base_value * static_cast<un_scalar_t>(9.290304e-2);
 
             case LuminanceUnit::CandelasPerSquareInch:
-                return base_value_ * static_cast<un_scalar_t>(0.00064516);
+                return base_value * static_cast<un_scalar_t>(0.00064516);
 
             case LuminanceUnit::Nits:
-                return base_value_;
+                return base_value;
 
             }
 
@@ -304,9 +273,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        LuminanceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        LuminanceUnit value_unit_type_;       
     };
 }

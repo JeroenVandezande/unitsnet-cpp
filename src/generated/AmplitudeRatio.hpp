@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AmplitudeRatioUnit::DecibelVolts)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AmplitudeRatioUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decibel_volts() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelVolts);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelVolts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decibel_microvolts() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelMicrovolts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decibel_millivolts() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelMillivolts);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelMillivolts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decibels_unloaded() const
         {
             return convert_from_base(AmplitudeRatioUnit::DecibelsUnloaded);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return AmplitudeRatio(value, AmplitudeRatioUnit::DecibelsUnloaded);
         }
-
 
         [[nodiscard]] static constexpr AmplitudeRatio from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AmplitudeRatioUnit::DecibelVolts:
-                return base_value_;
+                return base_value;
 
             case AmplitudeRatioUnit::DecibelMicrovolts:
-                return base_value_ + static_cast<un_scalar_t>(120);
+                return base_value + static_cast<un_scalar_t>(120);
 
             case AmplitudeRatioUnit::DecibelMillivolts:
-                return base_value_ + static_cast<un_scalar_t>(60);
+                return base_value + static_cast<un_scalar_t>(60);
 
             case AmplitudeRatioUnit::DecibelsUnloaded:
-                return base_value_ + static_cast<un_scalar_t>(2.218487499);
+                return base_value + static_cast<un_scalar_t>(2.218487499);
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AmplitudeRatioUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AmplitudeRatioUnit value_unit_type_;       
     };
 }

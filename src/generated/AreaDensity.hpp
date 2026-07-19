@@ -27,31 +27,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AreaDensityUnit::KilogramsPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AreaDensityUnit unit) const
@@ -94,7 +74,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::KilogramsPerSquareMeter);
@@ -104,7 +83,6 @@ namespace unitsnet_cpp
         {
             return AreaDensity(value, AreaDensityUnit::KilogramsPerSquareMeter);
         }
-
 
         /// <summary>Also known as grammage for paper industry. In fiber industry used with abbreviation 'gsm'.</summary>
         [[nodiscard]] constexpr un_scalar_t grams_per_square_meter() const
@@ -118,7 +96,6 @@ namespace unitsnet_cpp
             return AreaDensity(value, AreaDensityUnit::GramsPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_square_meter() const
         {
             return convert_from_base(AreaDensityUnit::MilligramsPerSquareMeter);
@@ -128,7 +105,6 @@ namespace unitsnet_cpp
         {
             return AreaDensity(value, AreaDensityUnit::MilligramsPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_square_foot() const
         {
@@ -140,7 +116,6 @@ namespace unitsnet_cpp
             return AreaDensity(value, AreaDensityUnit::PoundsPerSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pounds_per_thousand_square_feet() const
         {
             return convert_from_base(AreaDensityUnit::PoundsPerThousandSquareFeet);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
         {
             return AreaDensity(value, AreaDensityUnit::PoundsPerThousandSquareFeet);
         }
-
 
         [[nodiscard]] static constexpr AreaDensity from_invalid()
         {
@@ -190,25 +164,25 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AreaDensityUnit::KilogramsPerSquareMeter:
-                return base_value_;
+                return base_value;
 
             case AreaDensityUnit::GramsPerSquareMeter:
-                return base_value_ * static_cast<un_scalar_t>(1000);
+                return base_value * static_cast<un_scalar_t>(1000);
 
             case AreaDensityUnit::MilligramsPerSquareMeter:
-                return base_value_ * static_cast<un_scalar_t>(1000000);
+                return base_value * static_cast<un_scalar_t>(1000000);
 
             case AreaDensityUnit::PoundsPerSquareFoot:
-                return base_value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
+                return base_value / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
 
             case AreaDensityUnit::PoundsPerThousandSquareFeet:
-                return base_value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) * static_cast<un_scalar_t>(1000);
+                return base_value / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) * static_cast<un_scalar_t>(1000);
 
             }
 
@@ -216,9 +190,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AreaDensityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AreaDensityUnit value_unit_type_;       
     };
 }

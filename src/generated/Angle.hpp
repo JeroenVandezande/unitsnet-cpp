@@ -37,31 +37,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AngleUnit::Radians)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AngleUnit unit) const
@@ -104,7 +84,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t radians() const
         {
             return convert_from_base(AngleUnit::Radians);
@@ -114,7 +93,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Radians);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoradians() const
         {
@@ -126,7 +104,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Nanoradians);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microradians() const
         {
             return convert_from_base(AngleUnit::Microradians);
@@ -136,7 +113,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Microradians);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliradians() const
         {
@@ -148,7 +124,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Milliradians);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiradians() const
         {
             return convert_from_base(AngleUnit::Centiradians);
@@ -158,7 +133,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Centiradians);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciradians() const
         {
@@ -170,7 +144,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Deciradians);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t degrees() const
         {
             return convert_from_base(AngleUnit::Degrees);
@@ -180,7 +153,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Degrees);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanodegrees() const
         {
@@ -192,7 +164,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Nanodegrees);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microdegrees() const
         {
             return convert_from_base(AngleUnit::Microdegrees);
@@ -202,7 +173,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Microdegrees);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millidegrees() const
         {
@@ -214,7 +184,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Millidegrees);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t arcminutes() const
         {
             return convert_from_base(AngleUnit::Arcminutes);
@@ -224,7 +193,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Arcminutes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t arcseconds() const
         {
@@ -236,7 +204,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::Arcseconds);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gradians() const
         {
             return convert_from_base(AngleUnit::Gradians);
@@ -246,7 +213,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Gradians);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nato_mils() const
         {
@@ -258,7 +224,6 @@ namespace unitsnet_cpp
             return Angle(value, AngleUnit::NatoMils);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t revolutions() const
         {
             return convert_from_base(AngleUnit::Revolutions);
@@ -268,7 +233,6 @@ namespace unitsnet_cpp
         {
             return Angle(value, AngleUnit::Revolutions);
         }
-
 
         [[nodiscard]] static constexpr Angle from_invalid()
         {
@@ -338,55 +302,55 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AngleUnit::Radians:
-                return base_value_;
+                return base_value;
 
             case AngleUnit::Nanoradians:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case AngleUnit::Microradians:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case AngleUnit::Milliradians:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case AngleUnit::Centiradians:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case AngleUnit::Deciradians:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case AngleUnit::Degrees:
-                return base_value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
+                return base_value * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Nanodegrees:
-                return (base_value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-9);
 
             case AngleUnit::Microdegrees:
-                return (base_value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-6);
 
             case AngleUnit::Millidegrees:
-                return (base_value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-3);
 
             case AngleUnit::Arcminutes:
-                return base_value_ * static_cast<un_scalar_t>(60) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
+                return base_value * static_cast<un_scalar_t>(60) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Arcseconds:
-                return base_value_ * static_cast<un_scalar_t>(3600) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
+                return base_value * static_cast<un_scalar_t>(3600) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Gradians:
-                return base_value_ * static_cast<un_scalar_t>(200) / std::numbers::pi_v<un_scalar_t>;
+                return base_value * static_cast<un_scalar_t>(200) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::NatoMils:
-                return base_value_ * static_cast<un_scalar_t>(3200) / std::numbers::pi_v<un_scalar_t>;
+                return base_value * static_cast<un_scalar_t>(3200) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Revolutions:
-                return base_value_ / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
+                return base_value / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             }
 
@@ -394,9 +358,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AngleUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AngleUnit value_unit_type_;       
     };
 }

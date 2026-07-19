@@ -38,31 +38,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ForceUnit::Newtons)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ForceUnit unit) const
@@ -105,7 +85,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         /// <summary>One dyne is equal to 10 micronewtons, 10e−5 N or to 10 nsn (nanosthenes) in the old metre–tonne–second system of units.</summary>
         [[nodiscard]] constexpr un_scalar_t dyne() const
         {
@@ -117,7 +96,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::Dyne);
         }
-
 
         /// <summary>The gram-force is a unit of force equal to the magnitude of force exerted by a gram of mass in standard gravity (9.80665 m/s²). It is equal to 9.80665 × 10⁻³ N.</summary>
         [[nodiscard]] constexpr un_scalar_t grams_force() const
@@ -131,7 +109,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::GramsForce);
         }
 
-
         /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kilograms_force() const
         {
@@ -143,7 +120,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::KilogramsForce);
         }
-
 
         /// <summary>The tonne-force, metric ton-force, megagram-force, and megapond (Mp) are each 1000 kilograms-force.</summary>
         [[nodiscard]] constexpr un_scalar_t tonnes_force() const
@@ -157,7 +133,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::TonnesForce);
         }
 
-
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t newtons() const
         {
@@ -169,7 +144,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::Newtons);
         }
-
 
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t micronewtons() const
@@ -183,7 +157,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::Micronewtons);
         }
 
-
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t millinewtons() const
         {
@@ -195,7 +168,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::Millinewtons);
         }
-
 
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t decanewtons() const
@@ -209,7 +181,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::Decanewtons);
         }
 
-
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t kilonewtons() const
         {
@@ -221,7 +192,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::Kilonewtons);
         }
-
 
         /// <summary>The newton (symbol: N) is the unit of force in the International System of Units (SI). It is defined as 1 kg⋅m/s2, the force which gives a mass of 1 kilogram an acceleration of 1 metre per second per second.</summary>
         [[nodiscard]] constexpr un_scalar_t meganewtons() const
@@ -235,7 +205,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::Meganewtons);
         }
 
-
         /// <summary>The kilogram-force, or kilopond, is equal to the magnitude of the force exerted on one kilogram of mass in a 9.80665 m/s2 gravitational field (standard gravity). Therefore, one kilogram-force is by definition equal to 9.80665 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloponds() const
         {
@@ -247,7 +216,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::Kiloponds);
         }
-
 
         /// <summary>The poundal is defined as the force necessary to accelerate 1 pound-mass at 1 foot per second per second. 1 pdl = 0.138254954376 N exactly.</summary>
         [[nodiscard]] constexpr un_scalar_t poundals() const
@@ -261,7 +229,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::Poundals);
         }
 
-
         /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] constexpr un_scalar_t pounds_force() const
         {
@@ -273,7 +240,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::PoundsForce);
         }
-
 
         /// <summary>The standard values of acceleration of the standard gravitational field (gn) and the international avoirdupois pound (lb) result in a pound-force equal to 4.4482216152605 N.</summary>
         [[nodiscard]] constexpr un_scalar_t kilopounds_force() const
@@ -287,7 +253,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::KilopoundsForce);
         }
 
-
         /// <summary>An ounce-force is 1⁄16 of a pound-force, or about 0.2780139 newtons.</summary>
         [[nodiscard]] constexpr un_scalar_t ounce_force() const
         {
@@ -300,7 +265,6 @@ namespace unitsnet_cpp
             return Force(value, ForceUnit::OunceForce);
         }
 
-
         /// <summary>The short ton-force is a unit of force equal to 2,000 pounds-force (907.18474 kgf), that is most commonly used in the United States – known there simply as the ton or US ton.</summary>
         [[nodiscard]] constexpr un_scalar_t short_tons_force() const
         {
@@ -312,7 +276,6 @@ namespace unitsnet_cpp
         {
             return Force(value, ForceUnit::ShortTonsForce);
         }
-
 
         [[nodiscard]] static constexpr Force from_invalid()
         {
@@ -385,58 +348,58 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ForceUnit::Dyne:
-                return base_value_ * static_cast<un_scalar_t>(1e5);
+                return base_value * static_cast<un_scalar_t>(1e5);
 
             case ForceUnit::GramsForce:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-3);
+                return base_value / static_cast<un_scalar_t>(9.80665e-3);
 
             case ForceUnit::KilogramsForce:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::TonnesForce:
-                return base_value_ / (static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(1000));
+                return base_value / (static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(1000));
 
             case ForceUnit::Newtons:
-                return base_value_;
+                return base_value;
 
             case ForceUnit::Micronewtons:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ForceUnit::Millinewtons:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ForceUnit::Decanewtons:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case ForceUnit::Kilonewtons:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ForceUnit::Meganewtons:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ForceUnit::Kiloponds:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::Poundals:
-                return base_value_ / static_cast<un_scalar_t>(0.138254954376);
+                return base_value / static_cast<un_scalar_t>(0.138254954376);
 
             case ForceUnit::PoundsForce:
-                return base_value_ / static_cast<un_scalar_t>(4.4482216152605);
+                return base_value / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceUnit::KilopoundsForce:
-                return (base_value_ / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case ForceUnit::OunceForce:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(16));
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(16));
 
             case ForceUnit::ShortTonsForce:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2000));
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2000));
 
             }
 
@@ -444,9 +407,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ForceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ForceUnit value_unit_type_;       
     };
 }

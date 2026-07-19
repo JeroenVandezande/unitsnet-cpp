@@ -47,31 +47,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == DoseAreaProductUnit::GraySquareMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const DoseAreaProductUnit unit) const
@@ -114,7 +94,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gray_square_meters() const
         {
             return convert_from_base(DoseAreaProductUnit::GraySquareMeters);
@@ -124,7 +103,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::GraySquareMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microgray_square_meters() const
         {
@@ -136,7 +114,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::MicrograySquareMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligray_square_meters() const
         {
             return convert_from_base(DoseAreaProductUnit::MilligraySquareMeters);
@@ -146,7 +123,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::MilligraySquareMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centigray_square_meters() const
         {
@@ -158,7 +134,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::CentigraySquareMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decigray_square_meters() const
         {
             return convert_from_base(DoseAreaProductUnit::DecigraySquareMeters);
@@ -168,7 +143,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::DecigraySquareMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gray_square_decimeters() const
         {
@@ -180,7 +154,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::GraySquareDecimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microgray_square_decimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::MicrograySquareDecimeters);
@@ -190,7 +163,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::MicrograySquareDecimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milligray_square_decimeters() const
         {
@@ -202,7 +174,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::MilligraySquareDecimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centigray_square_decimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::CentigraySquareDecimeters);
@@ -212,7 +183,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::CentigraySquareDecimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decigray_square_decimeters() const
         {
@@ -224,7 +194,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::DecigraySquareDecimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gray_square_centimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::GraySquareCentimeters);
@@ -234,7 +203,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::GraySquareCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microgray_square_centimeters() const
         {
@@ -246,7 +214,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::MicrograySquareCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligray_square_centimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::MilligraySquareCentimeters);
@@ -256,7 +223,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::MilligraySquareCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centigray_square_centimeters() const
         {
@@ -268,7 +234,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::CentigraySquareCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decigray_square_centimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::DecigraySquareCentimeters);
@@ -278,7 +243,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::DecigraySquareCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gray_square_millimeters() const
         {
@@ -290,7 +254,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::GraySquareMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microgray_square_millimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::MicrograySquareMillimeters);
@@ -300,7 +263,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::MicrograySquareMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milligray_square_millimeters() const
         {
@@ -312,7 +274,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::MilligraySquareMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centigray_square_millimeters() const
         {
             return convert_from_base(DoseAreaProductUnit::CentigraySquareMillimeters);
@@ -322,7 +283,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::CentigraySquareMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decigray_square_millimeters() const
         {
@@ -334,7 +294,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::DecigraySquareMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gray_square_micrometers() const
         {
             return convert_from_base(DoseAreaProductUnit::GraySquareMicrometers);
@@ -344,7 +303,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::GraySquareMicrometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t microgray_square_micrometers() const
         {
@@ -356,7 +314,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::MicrograySquareMicrometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligray_square_micrometers() const
         {
             return convert_from_base(DoseAreaProductUnit::MilligraySquareMicrometers);
@@ -366,7 +323,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::MilligraySquareMicrometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centigray_square_micrometers() const
         {
@@ -378,7 +334,6 @@ namespace unitsnet_cpp
             return DoseAreaProduct(value, DoseAreaProductUnit::CentigraySquareMicrometers);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decigray_square_micrometers() const
         {
             return convert_from_base(DoseAreaProductUnit::DecigraySquareMicrometers);
@@ -388,7 +343,6 @@ namespace unitsnet_cpp
         {
             return DoseAreaProduct(value, DoseAreaProductUnit::DecigraySquareMicrometers);
         }
-
 
         [[nodiscard]] static constexpr DoseAreaProduct from_invalid()
         {
@@ -488,85 +442,85 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case DoseAreaProductUnit::GraySquareMeters:
-                return base_value_;
+                return base_value;
 
             case DoseAreaProductUnit::MicrograySquareMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareDecimeters:
-                return base_value_ * static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::MicrograySquareDecimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareDecimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareDecimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareDecimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareCentimeters:
-                return base_value_ * static_cast<un_scalar_t>(10000);
+                return base_value * static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::MicrograySquareCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareMillimeters:
-                return base_value_ * static_cast<un_scalar_t>(1000000);
+                return base_value * static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::MicrograySquareMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareMicrometers:
-                return base_value_ * static_cast<un_scalar_t>(1000000000000);
+                return base_value * static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::MicrograySquareMicrometers:
-                return (base_value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareMicrometers:
-                return (base_value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareMicrometers:
-                return (base_value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareMicrometers:
-                return (base_value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-1);
 
             }
 
@@ -574,9 +528,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        DoseAreaProductUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        DoseAreaProductUnit value_unit_type_;       
     };
 }

@@ -33,31 +33,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == JerkUnit::MetersPerSecondCubed)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const JerkUnit unit) const
@@ -100,7 +80,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meters_per_second_cubed() const
         {
             return convert_from_base(JerkUnit::MetersPerSecondCubed);
@@ -110,7 +89,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::MetersPerSecondCubed);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanometers_per_second_cubed() const
         {
@@ -122,7 +100,6 @@ namespace unitsnet_cpp
             return Jerk(value, JerkUnit::NanometersPerSecondCubed);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrometers_per_second_cubed() const
         {
             return convert_from_base(JerkUnit::MicrometersPerSecondCubed);
@@ -132,7 +109,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::MicrometersPerSecondCubed);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimeters_per_second_cubed() const
         {
@@ -144,7 +120,6 @@ namespace unitsnet_cpp
             return Jerk(value, JerkUnit::MillimetersPerSecondCubed);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centimeters_per_second_cubed() const
         {
             return convert_from_base(JerkUnit::CentimetersPerSecondCubed);
@@ -154,7 +129,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::CentimetersPerSecondCubed);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decimeters_per_second_cubed() const
         {
@@ -166,7 +140,6 @@ namespace unitsnet_cpp
             return Jerk(value, JerkUnit::DecimetersPerSecondCubed);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilometers_per_second_cubed() const
         {
             return convert_from_base(JerkUnit::KilometersPerSecondCubed);
@@ -176,7 +149,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::KilometersPerSecondCubed);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t inches_per_second_cubed() const
         {
@@ -188,7 +160,6 @@ namespace unitsnet_cpp
             return Jerk(value, JerkUnit::InchesPerSecondCubed);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t feet_per_second_cubed() const
         {
             return convert_from_base(JerkUnit::FeetPerSecondCubed);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::FeetPerSecondCubed);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t standard_gravities_per_second() const
         {
@@ -210,7 +180,6 @@ namespace unitsnet_cpp
             return Jerk(value, JerkUnit::StandardGravitiesPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t millistandard_gravities_per_second() const
         {
             return convert_from_base(JerkUnit::MillistandardGravitiesPerSecond);
@@ -220,7 +189,6 @@ namespace unitsnet_cpp
         {
             return Jerk(value, JerkUnit::MillistandardGravitiesPerSecond);
         }
-
 
         [[nodiscard]] static constexpr Jerk from_invalid()
         {
@@ -278,43 +246,43 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case JerkUnit::MetersPerSecondCubed:
-                return base_value_;
+                return base_value;
 
             case JerkUnit::NanometersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case JerkUnit::MicrometersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case JerkUnit::MillimetersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case JerkUnit::CentimetersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case JerkUnit::DecimetersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case JerkUnit::KilometersPerSecondCubed:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case JerkUnit::InchesPerSecondCubed:
-                return base_value_ / static_cast<un_scalar_t>(0.0254);
+                return base_value / static_cast<un_scalar_t>(0.0254);
 
             case JerkUnit::FeetPerSecondCubed:
-                return base_value_ / static_cast<un_scalar_t>(0.304800);
+                return base_value / static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case JerkUnit::MillistandardGravitiesPerSecond:
-                return (base_value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -322,9 +290,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        JerkUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        JerkUnit value_unit_type_;       
     };
 }

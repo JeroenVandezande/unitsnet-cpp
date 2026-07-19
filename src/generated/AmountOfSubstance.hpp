@@ -39,31 +39,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AmountOfSubstanceUnit::Moles)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AmountOfSubstanceUnit unit) const
@@ -106,7 +86,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t moles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::Moles);
@@ -116,7 +95,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Moles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t femtomoles() const
         {
@@ -128,7 +106,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Femtomoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picomoles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::Picomoles);
@@ -138,7 +115,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Picomoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanomoles() const
         {
@@ -150,7 +126,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Nanomoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micromoles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::Micromoles);
@@ -160,7 +135,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Micromoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimoles() const
         {
@@ -172,7 +146,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Millimoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centimoles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::Centimoles);
@@ -182,7 +155,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Centimoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decimoles() const
         {
@@ -194,7 +166,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Decimoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilomoles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::Kilomoles);
@@ -204,7 +175,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Kilomoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megamoles() const
         {
@@ -216,7 +186,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::Megamoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pound_moles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::PoundMoles);
@@ -226,7 +195,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::PoundMoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanopound_moles() const
         {
@@ -238,7 +206,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::NanopoundMoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micropound_moles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::MicropoundMoles);
@@ -248,7 +215,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::MicropoundMoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millipound_moles() const
         {
@@ -260,7 +226,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::MillipoundMoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centipound_moles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::CentipoundMoles);
@@ -270,7 +235,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::CentipoundMoles);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decipound_moles() const
         {
@@ -282,7 +246,6 @@ namespace unitsnet_cpp
             return AmountOfSubstance(value, AmountOfSubstanceUnit::DecipoundMoles);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopound_moles() const
         {
             return convert_from_base(AmountOfSubstanceUnit::KilopoundMoles);
@@ -292,7 +255,6 @@ namespace unitsnet_cpp
         {
             return AmountOfSubstance(value, AmountOfSubstanceUnit::KilopoundMoles);
         }
-
 
         [[nodiscard]] static constexpr AmountOfSubstance from_invalid()
         {
@@ -368,61 +330,61 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AmountOfSubstanceUnit::Moles:
-                return base_value_;
+                return base_value;
 
             case AmountOfSubstanceUnit::Femtomoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value) / static_cast<un_scalar_t>(1e-15);
 
             case AmountOfSubstanceUnit::Picomoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case AmountOfSubstanceUnit::Nanomoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case AmountOfSubstanceUnit::Micromoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case AmountOfSubstanceUnit::Millimoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case AmountOfSubstanceUnit::Centimoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case AmountOfSubstanceUnit::Decimoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case AmountOfSubstanceUnit::Kilomoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case AmountOfSubstanceUnit::Megamoles:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case AmountOfSubstanceUnit::PoundMoles:
-                return base_value_ / static_cast<un_scalar_t>(453.59237);
+                return base_value / static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::NanopoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-9);
 
             case AmountOfSubstanceUnit::MicropoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-6);
 
             case AmountOfSubstanceUnit::MillipoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-3);
 
             case AmountOfSubstanceUnit::CentipoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-2);
 
             case AmountOfSubstanceUnit::DecipoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-1);
 
             case AmountOfSubstanceUnit::KilopoundMoles:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -430,9 +392,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AmountOfSubstanceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AmountOfSubstanceUnit value_unit_type_;       
     };
 }

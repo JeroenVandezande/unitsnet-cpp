@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MolarFlowUnit::MolesPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MolarFlowUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t moles_per_second() const
         {
             return convert_from_base(MolarFlowUnit::MolesPerSecond);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return MolarFlow(value, MolarFlowUnit::MolesPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_second() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return MolarFlow(value, MolarFlowUnit::KilomolesPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t moles_per_minute() const
         {
             return convert_from_base(MolarFlowUnit::MolesPerMinute);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return MolarFlow(value, MolarFlowUnit::MolesPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_minute() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return MolarFlow(value, MolarFlowUnit::KilomolesPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t moles_per_hour() const
         {
             return convert_from_base(MolarFlowUnit::MolesPerHour);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return MolarFlow(value, MolarFlowUnit::MolesPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_hour() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return MolarFlow(value, MolarFlowUnit::KilomolesPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_second() const
         {
             return convert_from_base(MolarFlowUnit::PoundMolesPerSecond);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return MolarFlow(value, MolarFlowUnit::PoundMolesPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_minute() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return MolarFlow(value, MolarFlowUnit::PoundMolesPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_hour() const
         {
             return convert_from_base(MolarFlowUnit::PoundMolesPerHour);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return MolarFlow(value, MolarFlowUnit::PoundMolesPerHour);
         }
-
 
         [[nodiscard]] static constexpr MolarFlow from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MolarFlowUnit::MolesPerSecond:
-                return base_value_;
+                return base_value;
 
             case MolarFlowUnit::KilomolesPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::MolesPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::KilomolesPerMinute:
-                return (base_value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::MolesPerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600);
+                return base_value * static_cast<un_scalar_t>(3600);
 
             case MolarFlowUnit::KilomolesPerHour:
-                return (base_value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::PoundMolesPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(453.59237);
+                return base_value / static_cast<un_scalar_t>(453.59237);
 
             case MolarFlowUnit::PoundMolesPerMinute:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(60);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::PoundMolesPerHour:
-                return (base_value_ / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(3600);
+                return (base_value / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(3600);
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MolarFlowUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MolarFlowUnit value_unit_type_;       
     };
 }

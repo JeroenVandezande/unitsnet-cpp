@@ -32,31 +32,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RadiationEquivalentDoseRateUnit::SievertsPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RadiationEquivalentDoseRateUnit unit) const
@@ -99,7 +79,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t sieverts_per_hour() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::SievertsPerHour);
@@ -109,7 +88,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::SievertsPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanosieverts_per_hour() const
         {
@@ -121,7 +99,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::NanosievertsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microsieverts_per_hour() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::MicrosievertsPerHour);
@@ -131,7 +108,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::MicrosievertsPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millisieverts_per_hour() const
         {
@@ -143,7 +119,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::MillisievertsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t sieverts_per_second() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::SievertsPerSecond);
@@ -153,7 +128,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::SievertsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanosieverts_per_second() const
         {
@@ -165,7 +139,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::NanosievertsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microsieverts_per_second() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::MicrosievertsPerSecond);
@@ -175,7 +148,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::MicrosievertsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millisieverts_per_second() const
         {
@@ -187,7 +159,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::MillisievertsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t roentgens_equivalent_man_per_hour() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour);
@@ -198,7 +169,6 @@ namespace unitsnet_cpp
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milliroentgens_equivalent_man_per_hour() const
         {
             return convert_from_base(RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour);
@@ -208,7 +178,6 @@ namespace unitsnet_cpp
         {
             return RadiationEquivalentDoseRate(value, RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour);
         }
-
 
         [[nodiscard]] static constexpr RadiationEquivalentDoseRate from_invalid()
         {
@@ -263,40 +232,40 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RadiationEquivalentDoseRateUnit::SievertsPerHour:
-                return base_value_*static_cast<un_scalar_t>(3600);
+                return base_value*static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::NanosievertsPerHour:
-                return (base_value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-9);
 
             case RadiationEquivalentDoseRateUnit::MicrosievertsPerHour:
-                return (base_value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationEquivalentDoseRateUnit::MillisievertsPerHour:
-                return (base_value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationEquivalentDoseRateUnit::SievertsPerSecond:
-                return base_value_;
+                return base_value;
 
             case RadiationEquivalentDoseRateUnit::NanosievertsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case RadiationEquivalentDoseRateUnit::MicrosievertsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationEquivalentDoseRateUnit::MillisievertsPerSecond:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour:
-                return base_value_ * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600);
+                return base_value * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour:
-                return (base_value_ * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -304,9 +273,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RadiationEquivalentDoseRateUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RadiationEquivalentDoseRateUnit value_unit_type_;       
     };
 }

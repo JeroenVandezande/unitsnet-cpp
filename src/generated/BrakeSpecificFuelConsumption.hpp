@@ -25,31 +25,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const BrakeSpecificFuelConsumptionUnit unit) const
@@ -92,7 +72,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_kilo_watt_hour() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_joule() const
         {
             return convert_from_base(BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule);
@@ -113,7 +91,6 @@ namespace unitsnet_cpp
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule);
         }
-
 
         /// <summary>The pound per horse power hour uses mechanical horse power and the imperial pound</summary>
         [[nodiscard]] constexpr un_scalar_t pounds_per_mechanical_horsepower_hour() const
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
         {
             return BrakeSpecificFuelConsumption(value, BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour);
         }
-
 
         [[nodiscard]] static constexpr BrakeSpecificFuelConsumption from_invalid()
         {
@@ -160,19 +136,19 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour:
-                return base_value_ * static_cast<un_scalar_t>(3.6e9);
+                return base_value * static_cast<un_scalar_t>(3.6e9);
 
             case BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule:
-                return base_value_;
+                return base_value;
 
             case BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)));
+                return base_value * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)));
 
             }
 
@@ -180,9 +156,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        BrakeSpecificFuelConsumptionUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        BrakeSpecificFuelConsumptionUnit value_unit_type_;       
     };
 }

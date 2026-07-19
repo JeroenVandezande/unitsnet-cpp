@@ -36,31 +36,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AreaUnit::SquareMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AreaUnit unit) const
@@ -103,7 +83,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_kilometers() const
         {
             return convert_from_base(AreaUnit::SquareKilometers);
@@ -113,7 +92,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareKilometers);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t square_meters() const
         {
@@ -125,7 +103,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::SquareMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_decimeters() const
         {
             return convert_from_base(AreaUnit::SquareDecimeters);
@@ -135,7 +112,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareDecimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t square_centimeters() const
         {
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::SquareCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_millimeters() const
         {
             return convert_from_base(AreaUnit::SquareMillimeters);
@@ -158,7 +133,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::SquareMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_micrometers() const
         {
             return convert_from_base(AreaUnit::SquareMicrometers);
@@ -168,7 +142,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareMicrometers);
         }
-
 
         /// <summary>The statute mile was standardised between the British Commonwealth and the United States by an international agreement in 1959, when it was formally redefined with respect to SI units as exactly 1,609.344 metres.</summary>
         [[nodiscard]] constexpr un_scalar_t square_miles() const
@@ -182,7 +155,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::SquareMiles);
         }
 
-
         /// <summary>The yard (symbol: yd) is an English unit of length in both the British imperial and US customary systems of measurement equalling 3 feet (or 36 inches). Since 1959 the yard has been by international agreement standardized as exactly 0.9144 meter. A distance of 1,760 yards is equal to 1 mile.</summary>
         [[nodiscard]] constexpr un_scalar_t square_yards() const
         {
@@ -195,7 +167,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::SquareYards);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_feet() const
         {
             return convert_from_base(AreaUnit::SquareFeet);
@@ -205,7 +176,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareFeet);
         }
-
 
         /// <summary>In the United States, the foot was defined as 12 inches, with the inch being defined by the Mendenhall Order of 1893 as 39.37 inches = 1 m. This makes a U.S. survey foot exactly 1200/3937 meters.</summary>
         [[nodiscard]] constexpr un_scalar_t us_survey_square_feet() const
@@ -219,7 +189,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::UsSurveySquareFeet);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_inches() const
         {
             return convert_from_base(AreaUnit::SquareInches);
@@ -229,7 +198,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareInches);
         }
-
 
         /// <summary>Based upon the international yard and pound agreement of 1959, an acre may be declared as exactly 4,046.8564224 square metres.</summary>
         [[nodiscard]] constexpr un_scalar_t acres() const
@@ -243,7 +211,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::Acres);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t hectares() const
         {
             return convert_from_base(AreaUnit::Hectares);
@@ -254,7 +221,6 @@ namespace unitsnet_cpp
             return Area(value, AreaUnit::Hectares);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_nautical_miles() const
         {
             return convert_from_base(AreaUnit::SquareNauticalMiles);
@@ -264,7 +230,6 @@ namespace unitsnet_cpp
         {
             return Area(value, AreaUnit::SquareNauticalMiles);
         }
-
 
         [[nodiscard]] static constexpr Area from_invalid()
         {
@@ -331,52 +296,52 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AreaUnit::SquareKilometers:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case AreaUnit::SquareMeters:
-                return base_value_;
+                return base_value;
 
             case AreaUnit::SquareDecimeters:
-                return base_value_ / static_cast<un_scalar_t>(1e-2);
+                return base_value / static_cast<un_scalar_t>(1e-2);
 
             case AreaUnit::SquareCentimeters:
-                return base_value_ / static_cast<un_scalar_t>(1e-4);
+                return base_value / static_cast<un_scalar_t>(1e-4);
 
             case AreaUnit::SquareMillimeters:
-                return base_value_ / static_cast<un_scalar_t>(1e-6);
+                return base_value / static_cast<un_scalar_t>(1e-6);
 
             case AreaUnit::SquareMicrometers:
-                return base_value_ / static_cast<un_scalar_t>(1e-12);
+                return base_value / static_cast<un_scalar_t>(1e-12);
 
             case AreaUnit::SquareMiles:
-                return base_value_ / static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(1609.344);
+                return base_value / static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(1609.344);
 
             case AreaUnit::SquareYards:
-                return base_value_ / static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(0.9144);
+                return base_value / static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(0.9144);
 
             case AreaUnit::SquareFeet:
-                return base_value_ / static_cast<un_scalar_t>(9.290304e-2);
+                return base_value / static_cast<un_scalar_t>(9.290304e-2);
 
             case AreaUnit::UsSurveySquareFeet:
-                return base_value_ / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
+                return base_value / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case AreaUnit::SquareInches:
-                return base_value_ / static_cast<un_scalar_t>(0.00064516);
+                return base_value / static_cast<un_scalar_t>(0.00064516);
 
             case AreaUnit::Acres:
-                return base_value_ / static_cast<un_scalar_t>(4046.8564224);
+                return base_value / static_cast<un_scalar_t>(4046.8564224);
 
             case AreaUnit::Hectares:
-                return base_value_ / static_cast<un_scalar_t>(1e4);
+                return base_value / static_cast<un_scalar_t>(1e4);
 
             case AreaUnit::SquareNauticalMiles:
-                return base_value_ / static_cast<un_scalar_t>(3429904);
+                return base_value / static_cast<un_scalar_t>(3429904);
 
             }
 
@@ -384,9 +349,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AreaUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AreaUnit value_unit_type_;       
     };
 }

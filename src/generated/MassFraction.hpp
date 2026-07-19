@@ -46,31 +46,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MassFractionUnit::DecimalFractions)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MassFractionUnit unit) const
@@ -113,7 +93,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decimal_fractions() const
         {
             return convert_from_base(MassFractionUnit::DecimalFractions);
@@ -123,7 +102,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::DecimalFractions);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t grams_per_gram() const
         {
@@ -135,7 +113,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::GramsPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t nanograms_per_gram() const
         {
             return convert_from_base(MassFractionUnit::NanogramsPerGram);
@@ -145,7 +122,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::NanogramsPerGram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_gram() const
         {
@@ -157,7 +133,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::MicrogramsPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t milligrams_per_gram() const
         {
             return convert_from_base(MassFractionUnit::MilligramsPerGram);
@@ -167,7 +142,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::MilligramsPerGram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t centigrams_per_gram() const
         {
@@ -179,7 +153,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::CentigramsPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decigrams_per_gram() const
         {
             return convert_from_base(MassFractionUnit::DecigramsPerGram);
@@ -189,7 +162,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::DecigramsPerGram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decagrams_per_gram() const
         {
@@ -201,7 +173,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::DecagramsPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t hectograms_per_gram() const
         {
             return convert_from_base(MassFractionUnit::HectogramsPerGram);
@@ -211,7 +182,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::HectogramsPerGram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_gram() const
         {
@@ -223,7 +193,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::KilogramsPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t grams_per_kilogram() const
         {
             return convert_from_base(MassFractionUnit::GramsPerKilogram);
@@ -233,7 +202,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::GramsPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_kilogram() const
         {
@@ -245,7 +213,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::NanogramsPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micrograms_per_kilogram() const
         {
             return convert_from_base(MassFractionUnit::MicrogramsPerKilogram);
@@ -255,7 +222,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::MicrogramsPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_kilogram() const
         {
@@ -267,7 +233,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::MilligramsPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centigrams_per_kilogram() const
         {
             return convert_from_base(MassFractionUnit::CentigramsPerKilogram);
@@ -277,7 +242,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::CentigramsPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_kilogram() const
         {
@@ -289,7 +253,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::DecigramsPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decagrams_per_kilogram() const
         {
             return convert_from_base(MassFractionUnit::DecagramsPerKilogram);
@@ -299,7 +262,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::DecagramsPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectograms_per_kilogram() const
         {
@@ -311,7 +273,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::HectogramsPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilogram() const
         {
             return convert_from_base(MassFractionUnit::KilogramsPerKilogram);
@@ -321,7 +282,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::KilogramsPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t percent() const
         {
@@ -333,7 +293,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::Percent);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_thousand() const
         {
             return convert_from_base(MassFractionUnit::PartsPerThousand);
@@ -343,7 +302,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::PartsPerThousand);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t parts_per_million() const
         {
@@ -355,7 +313,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::PartsPerMillion);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_billion() const
         {
             return convert_from_base(MassFractionUnit::PartsPerBillion);
@@ -366,7 +323,6 @@ namespace unitsnet_cpp
             return MassFraction(value, MassFractionUnit::PartsPerBillion);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_trillion() const
         {
             return convert_from_base(MassFractionUnit::PartsPerTrillion);
@@ -376,7 +332,6 @@ namespace unitsnet_cpp
         {
             return MassFraction(value, MassFractionUnit::PartsPerTrillion);
         }
-
 
         [[nodiscard]] static constexpr MassFraction from_invalid()
         {
@@ -473,82 +428,82 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MassFractionUnit::DecimalFractions:
-                return base_value_;
+                return base_value;
 
             case MassFractionUnit::GramsPerGram:
-                return base_value_;
+                return base_value;
 
             case MassFractionUnit::NanogramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case MassFractionUnit::MicrogramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case MassFractionUnit::MilligramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case MassFractionUnit::CentigramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case MassFractionUnit::DecigramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case MassFractionUnit::DecagramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case MassFractionUnit::HectogramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e2);
+                return (base_value) / static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::KilogramsPerGram:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::GramsPerKilogram:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::NanogramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassFractionUnit::MicrogramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassFractionUnit::MilligramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassFractionUnit::CentigramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassFractionUnit::DecigramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassFractionUnit::DecagramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MassFractionUnit::HectogramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::KilogramsPerKilogram:
-                return (base_value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::Percent:
-                return base_value_ * static_cast<un_scalar_t>(1e2);
+                return base_value * static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::PartsPerThousand:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::PartsPerMillion:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case MassFractionUnit::PartsPerBillion:
-                return base_value_ * static_cast<un_scalar_t>(1e9);
+                return base_value * static_cast<un_scalar_t>(1e9);
 
             case MassFractionUnit::PartsPerTrillion:
-                return base_value_ * static_cast<un_scalar_t>(1e12);
+                return base_value * static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -556,9 +511,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MassFractionUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MassFractionUnit value_unit_type_;       
     };
 }

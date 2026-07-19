@@ -80,7 +80,7 @@ namespace
         using namespace unitsnet_cpp;
 
         constexpr auto trip = Length::from_kilometers(5.0);
-       // static_assert(trip.meters() == 5000.0);
+        static_assert(trip.meters() == 5000.0);
 
         const auto mile = Length::from_miles(1.0);
         expect_near(mile.meters(), 1609.344, 1e-9, "miles convert to meters");

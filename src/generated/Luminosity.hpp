@@ -36,31 +36,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == LuminosityUnit::Watts)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const LuminosityUnit unit) const
@@ -103,7 +83,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watts() const
         {
             return convert_from_base(LuminosityUnit::Watts);
@@ -113,7 +92,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Watts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t femtowatts() const
         {
@@ -125,7 +103,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Femtowatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picowatts() const
         {
             return convert_from_base(LuminosityUnit::Picowatts);
@@ -135,7 +112,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Picowatts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanowatts() const
         {
@@ -147,7 +123,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Nanowatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microwatts() const
         {
             return convert_from_base(LuminosityUnit::Microwatts);
@@ -157,7 +132,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Microwatts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliwatts() const
         {
@@ -169,7 +143,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Milliwatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t deciwatts() const
         {
             return convert_from_base(LuminosityUnit::Deciwatts);
@@ -179,7 +152,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Deciwatts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t decawatts() const
         {
@@ -191,7 +163,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Decawatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatts() const
         {
             return convert_from_base(LuminosityUnit::Kilowatts);
@@ -201,7 +172,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Kilowatts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megawatts() const
         {
@@ -213,7 +183,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Megawatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigawatts() const
         {
             return convert_from_base(LuminosityUnit::Gigawatts);
@@ -223,7 +192,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Gigawatts);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t terawatts() const
         {
@@ -235,7 +203,6 @@ namespace unitsnet_cpp
             return Luminosity(value, LuminosityUnit::Terawatts);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t petawatts() const
         {
             return convert_from_base(LuminosityUnit::Petawatts);
@@ -245,7 +212,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::Petawatts);
         }
-
 
         /// <summary>The IAU has defined a nominal solar luminosity of 3.828×10^26 W to promote publication of consistent and comparable values in units of the solar luminosity.</summary>
         [[nodiscard]] constexpr un_scalar_t solar_luminosities() const
@@ -258,7 +224,6 @@ namespace unitsnet_cpp
         {
             return Luminosity(value, LuminosityUnit::SolarLuminosities);
         }
-
 
         [[nodiscard]] static constexpr Luminosity from_invalid()
         {
@@ -325,52 +290,52 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case LuminosityUnit::Watts:
-                return base_value_;
+                return base_value;
 
             case LuminosityUnit::Femtowatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value) / static_cast<un_scalar_t>(1e-15);
 
             case LuminosityUnit::Picowatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case LuminosityUnit::Nanowatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case LuminosityUnit::Microwatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case LuminosityUnit::Milliwatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case LuminosityUnit::Deciwatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case LuminosityUnit::Decawatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e1);
+                return (base_value) / static_cast<un_scalar_t>(1e1);
 
             case LuminosityUnit::Kilowatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case LuminosityUnit::Megawatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case LuminosityUnit::Gigawatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case LuminosityUnit::Terawatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case LuminosityUnit::Petawatts:
-                return (base_value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value) / static_cast<un_scalar_t>(1e15);
 
             case LuminosityUnit::SolarLuminosities:
-                return base_value_ / static_cast<un_scalar_t>(3.828e26);
+                return base_value / static_cast<un_scalar_t>(3.828e26);
 
             }
 
@@ -378,9 +343,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        LuminosityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        LuminosityUnit value_unit_type_;       
     };
 }

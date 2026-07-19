@@ -34,31 +34,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == EnergyDensityUnit::JoulesPerCubicMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const EnergyDensityUnit unit) const
@@ -101,7 +81,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::JoulesPerCubicMeter);
@@ -111,7 +90,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::JoulesPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_cubic_meter() const
         {
@@ -123,7 +101,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::KilojoulesPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megajoules_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::MegajoulesPerCubicMeter);
@@ -133,7 +110,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::MegajoulesPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigajoules_per_cubic_meter() const
         {
@@ -145,7 +121,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::GigajoulesPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terajoules_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::TerajoulesPerCubicMeter);
@@ -155,7 +130,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::TerajoulesPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t petajoules_per_cubic_meter() const
         {
@@ -167,7 +141,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::PetajoulesPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watt_hours_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::WattHoursPerCubicMeter);
@@ -177,7 +150,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::WattHoursPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_hours_per_cubic_meter() const
         {
@@ -189,7 +161,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::KilowattHoursPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatt_hours_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::MegawattHoursPerCubicMeter);
@@ -199,7 +170,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::MegawattHoursPerCubicMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_hours_per_cubic_meter() const
         {
@@ -211,7 +181,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::GigawattHoursPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terawatt_hours_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::TerawattHoursPerCubicMeter);
@@ -222,7 +191,6 @@ namespace unitsnet_cpp
             return EnergyDensity(value, EnergyDensityUnit::TerawattHoursPerCubicMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t petawatt_hours_per_cubic_meter() const
         {
             return convert_from_base(EnergyDensityUnit::PetawattHoursPerCubicMeter);
@@ -232,7 +200,6 @@ namespace unitsnet_cpp
         {
             return EnergyDensity(value, EnergyDensityUnit::PetawattHoursPerCubicMeter);
         }
-
 
         [[nodiscard]] static constexpr EnergyDensity from_invalid()
         {
@@ -293,46 +260,46 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case EnergyDensityUnit::JoulesPerCubicMeter:
-                return base_value_;
+                return base_value;
 
             case EnergyDensityUnit::KilojoulesPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case EnergyDensityUnit::MegajoulesPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case EnergyDensityUnit::GigajoulesPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case EnergyDensityUnit::TerajoulesPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case EnergyDensityUnit::PetajoulesPerCubicMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value) / static_cast<un_scalar_t>(1e15);
 
             case EnergyDensityUnit::WattHoursPerCubicMeter:
-                return base_value_ / static_cast<un_scalar_t>(3.6e+3);
+                return base_value / static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::KilowattHoursPerCubicMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyDensityUnit::MegawattHoursPerCubicMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyDensityUnit::GigawattHoursPerCubicMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e9);
 
             case EnergyDensityUnit::TerawattHoursPerCubicMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e12);
+                return (base_value / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e12);
 
             case EnergyDensityUnit::PetawattHoursPerCubicMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e15);
+                return (base_value / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e15);
 
             }
 
@@ -340,9 +307,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        EnergyDensityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        EnergyDensityUnit value_unit_type_;       
     };
 }

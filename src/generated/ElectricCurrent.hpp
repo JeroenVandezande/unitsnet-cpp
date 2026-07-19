@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricCurrentUnit::Amperes)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricCurrentUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t amperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Amperes);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Amperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t femtoamperes() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return ElectricCurrent(value, ElectricCurrentUnit::Femtoamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t picoamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Picoamperes);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Picoamperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoamperes() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return ElectricCurrent(value, ElectricCurrentUnit::Nanoamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Microamperes);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Microamperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliamperes() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return ElectricCurrent(value, ElectricCurrentUnit::Milliamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Centiamperes);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Centiamperes);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kiloamperes() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return ElectricCurrent(value, ElectricCurrentUnit::Kiloamperes);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megaamperes() const
         {
             return convert_from_base(ElectricCurrentUnit::Megaamperes);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return ElectricCurrent(value, ElectricCurrentUnit::Megaamperes);
         }
-
 
         [[nodiscard]] static constexpr ElectricCurrent from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricCurrentUnit::Amperes:
-                return base_value_;
+                return base_value;
 
             case ElectricCurrentUnit::Femtoamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value) / static_cast<un_scalar_t>(1e-15);
 
             case ElectricCurrentUnit::Picoamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricCurrentUnit::Nanoamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricCurrentUnit::Microamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricCurrentUnit::Milliamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentUnit::Centiamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case ElectricCurrentUnit::Kiloamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricCurrentUnit::Megaamperes:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricCurrentUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricCurrentUnit value_unit_type_;       
     };
 }

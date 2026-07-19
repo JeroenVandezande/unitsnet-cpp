@@ -39,31 +39,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == AbsorbedDoseOfIonizingRadiationUnit::Grays)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const AbsorbedDoseOfIonizingRadiationUnit unit) const
@@ -106,7 +86,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t grays() const
         {
@@ -118,7 +97,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Grays);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t femtograys() const
@@ -132,7 +110,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Femtograys);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t picograys() const
         {
@@ -144,7 +121,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Picograys);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t nanograys() const
@@ -158,7 +134,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Nanograys);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t micrograys() const
         {
@@ -170,7 +145,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Micrograys);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t milligrays() const
@@ -184,7 +158,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Milligrays);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t centigrays() const
         {
@@ -196,7 +169,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Centigrays);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t decigrays() const
@@ -210,7 +182,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Decigrays);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t kilograys() const
         {
@@ -222,7 +193,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Kilograys);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t megagrays() const
@@ -236,7 +206,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Megagrays);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t gigagrays() const
         {
@@ -248,7 +217,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Gigagrays);
         }
-
 
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t teragrays() const
@@ -262,7 +230,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Teragrays);
         }
 
-
         /// <summary>The gray is the unit of ionizing radiation dose in the SI, defined as the absorption of one joule of radiation energy per kilogram of matter.</summary>
         [[nodiscard]] constexpr un_scalar_t petagrays() const
         {
@@ -274,7 +241,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Petagrays);
         }
-
 
         /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t rads() const
@@ -288,7 +254,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Rads);
         }
 
-
         /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t millirads() const
         {
@@ -300,7 +265,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Millirads);
         }
-
 
         /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t kilorads() const
@@ -314,7 +278,6 @@ namespace unitsnet_cpp
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Kilorads);
         }
 
-
         /// <summary>The rad is a unit of absorbed radiation dose, defined as 1 rad = 0.01 Gy = 0.01 J/kg.</summary>
         [[nodiscard]] constexpr un_scalar_t megarads() const
         {
@@ -326,7 +289,6 @@ namespace unitsnet_cpp
         {
             return AbsorbedDoseOfIonizingRadiation(value, AbsorbedDoseOfIonizingRadiationUnit::Megarads);
         }
-
 
         [[nodiscard]] static constexpr AbsorbedDoseOfIonizingRadiation from_invalid()
         {
@@ -402,61 +364,61 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case AbsorbedDoseOfIonizingRadiationUnit::Grays:
-                return base_value_;
+                return base_value;
 
             case AbsorbedDoseOfIonizingRadiationUnit::Femtograys:
-                return (base_value_) / static_cast<un_scalar_t>(1e-15);
+                return (base_value) / static_cast<un_scalar_t>(1e-15);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Picograys:
-                return (base_value_) / static_cast<un_scalar_t>(1e-12);
+                return (base_value) / static_cast<un_scalar_t>(1e-12);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Nanograys:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Micrograys:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Milligrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Centigrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e-2);
+                return (base_value) / static_cast<un_scalar_t>(1e-2);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Decigrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e-1);
+                return (base_value) / static_cast<un_scalar_t>(1e-1);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilograys:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megagrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Gigagrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Teragrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Petagrays:
-                return (base_value_) / static_cast<un_scalar_t>(1e15);
+                return (base_value) / static_cast<un_scalar_t>(1e15);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Rads:
-                return base_value_ * static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Millirads:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilorads:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megarads:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -464,9 +426,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        AbsorbedDoseOfIonizingRadiationUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        AbsorbedDoseOfIonizingRadiationUnit value_unit_type_;       
     };
 }

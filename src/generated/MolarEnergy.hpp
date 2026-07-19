@@ -25,31 +25,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == MolarEnergyUnit::JoulesPerMole)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const MolarEnergyUnit unit) const
@@ -92,7 +72,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_mole() const
         {
             return convert_from_base(MolarEnergyUnit::JoulesPerMole);
@@ -102,7 +81,6 @@ namespace unitsnet_cpp
         {
             return MolarEnergy(value, MolarEnergyUnit::JoulesPerMole);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_mole() const
         {
@@ -114,7 +92,6 @@ namespace unitsnet_cpp
             return MolarEnergy(value, MolarEnergyUnit::KilojoulesPerMole);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megajoules_per_mole() const
         {
             return convert_from_base(MolarEnergyUnit::MegajoulesPerMole);
@@ -124,7 +101,6 @@ namespace unitsnet_cpp
         {
             return MolarEnergy(value, MolarEnergyUnit::MegajoulesPerMole);
         }
-
 
         [[nodiscard]] static constexpr MolarEnergy from_invalid()
         {
@@ -158,19 +134,19 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case MolarEnergyUnit::JoulesPerMole:
-                return base_value_;
+                return base_value;
 
             case MolarEnergyUnit::KilojoulesPerMole:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case MolarEnergyUnit::MegajoulesPerMole:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -178,9 +154,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        MolarEnergyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        MolarEnergyUnit value_unit_type_;       
     };
 }

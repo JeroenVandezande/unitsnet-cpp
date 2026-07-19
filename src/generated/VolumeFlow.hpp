@@ -97,31 +97,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == VolumeFlowUnit::CubicMetersPerSecond)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const VolumeFlowUnit unit) const
@@ -164,7 +144,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::CubicMetersPerSecond);
@@ -174,7 +153,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_minute() const
         {
@@ -186,7 +164,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::CubicMetersPerHour);
@@ -196,7 +173,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_day() const
         {
@@ -208,7 +184,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::CubicFeetPerSecond);
@@ -218,7 +193,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_minute() const
         {
@@ -230,7 +204,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::CubicFeetPerHour);
@@ -240,7 +213,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_second() const
         {
@@ -252,7 +224,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::CubicYardsPerMinute);
@@ -262,7 +233,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_hour() const
         {
@@ -274,7 +244,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::CubicYardsPerDay);
@@ -284,7 +253,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t million_us_gallons_per_day() const
         {
@@ -296,7 +264,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MillionUsGallonsPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::UsGallonsPerDay);
@@ -306,7 +273,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaus_gallons_per_day() const
         {
@@ -318,7 +284,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegausGallonsPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::LitersPerSecond);
@@ -328,7 +293,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::LitersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_second() const
         {
@@ -340,7 +304,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::NanolitersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microliters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::MicrolitersPerSecond);
@@ -350,7 +313,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_second() const
         {
@@ -362,7 +324,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MillilitersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiliters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::CentilitersPerSecond);
@@ -372,7 +333,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CentilitersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_second() const
         {
@@ -384,7 +344,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::DecilitersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decaliters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::DecalitersPerSecond);
@@ -394,7 +353,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::DecalitersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_second() const
         {
@@ -406,7 +364,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::HectolitersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::KilolitersPerSecond);
@@ -416,7 +373,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::KilolitersPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_second() const
         {
@@ -428,7 +384,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegalitersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::LitersPerMinute);
@@ -438,7 +393,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::LitersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_minute() const
         {
@@ -450,7 +404,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::NanolitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microliters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::MicrolitersPerMinute);
@@ -460,7 +413,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_minute() const
         {
@@ -472,7 +424,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MillilitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiliters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::CentilitersPerMinute);
@@ -482,7 +433,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CentilitersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_minute() const
         {
@@ -494,7 +444,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::DecilitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decaliters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::DecalitersPerMinute);
@@ -504,7 +453,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::DecalitersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_minute() const
         {
@@ -516,7 +464,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::HectolitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::KilolitersPerMinute);
@@ -526,7 +473,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::KilolitersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_minute() const
         {
@@ -538,7 +484,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegalitersPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::LitersPerHour);
@@ -548,7 +493,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::LitersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_hour() const
         {
@@ -560,7 +504,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::NanolitersPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microliters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::MicrolitersPerHour);
@@ -570,7 +513,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_hour() const
         {
@@ -582,7 +524,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MillilitersPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiliters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::CentilitersPerHour);
@@ -592,7 +533,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CentilitersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_hour() const
         {
@@ -604,7 +544,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::DecilitersPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decaliters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::DecalitersPerHour);
@@ -614,7 +553,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::DecalitersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_hour() const
         {
@@ -626,7 +564,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::HectolitersPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::KilolitersPerHour);
@@ -636,7 +573,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::KilolitersPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_hour() const
         {
@@ -648,7 +584,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegalitersPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t liters_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::LitersPerDay);
@@ -658,7 +593,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::LitersPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_day() const
         {
@@ -670,7 +604,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::NanolitersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microliters_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::MicrolitersPerDay);
@@ -680,7 +613,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_day() const
         {
@@ -692,7 +624,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MillilitersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t centiliters_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::CentilitersPerDay);
@@ -702,7 +633,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CentilitersPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_day() const
         {
@@ -714,7 +644,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::DecilitersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decaliters_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::DecalitersPerDay);
@@ -724,7 +653,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::DecalitersPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_day() const
         {
@@ -736,7 +664,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::HectolitersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::KilolitersPerDay);
@@ -746,7 +673,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::KilolitersPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_day() const
         {
@@ -758,7 +684,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegalitersPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::UsGallonsPerSecond);
@@ -768,7 +693,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_minute() const
         {
@@ -780,7 +704,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_day() const
         {
             return convert_from_base(VolumeFlowUnit::UkGallonsPerDay);
@@ -790,7 +713,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerDay);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megauk_gallons_per_day() const
         {
@@ -802,7 +724,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegaukGallonsPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::UkGallonsPerHour);
@@ -812,7 +733,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_minute() const
         {
@@ -824,7 +744,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::UkGallonsPerSecond);
@@ -834,7 +753,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megauk_gallons_per_second() const
         {
@@ -846,7 +764,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::MegaukGallonsPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilous_gallons_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::KilousGallonsPerMinute);
@@ -856,7 +773,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::KilousGallonsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_hour() const
         {
@@ -868,7 +784,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_decimeters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::CubicDecimetersPerMinute);
@@ -878,7 +793,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicDecimetersPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_day() const
         {
@@ -890,7 +804,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::OilBarrelsPerMinute);
@@ -900,7 +813,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerMinute);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_hour() const
         {
@@ -912,7 +824,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerHour);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::OilBarrelsPerSecond);
@@ -922,7 +833,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t cubic_millimeters_per_second() const
         {
@@ -934,7 +844,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::CubicMillimetersPerSecond);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_second() const
         {
             return convert_from_base(VolumeFlowUnit::AcreFeetPerSecond);
@@ -944,7 +853,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerSecond);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_minute() const
         {
@@ -956,7 +864,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerMinute);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_hour() const
         {
             return convert_from_base(VolumeFlowUnit::AcreFeetPerHour);
@@ -966,7 +873,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerHour);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_day() const
         {
@@ -978,7 +884,6 @@ namespace unitsnet_cpp
             return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerDay);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t cubic_centimeters_per_minute() const
         {
             return convert_from_base(VolumeFlowUnit::CubicCentimetersPerMinute);
@@ -988,7 +893,6 @@ namespace unitsnet_cpp
         {
             return VolumeFlow(value, VolumeFlowUnit::CubicCentimetersPerMinute);
         }
-
 
         [[nodiscard]] static constexpr VolumeFlow from_invalid()
         {
@@ -1238,235 +1142,235 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case VolumeFlowUnit::CubicMetersPerSecond:
-                return base_value_;
+                return base_value;
 
             case VolumeFlowUnit::CubicMetersPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60);
+                return base_value * static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::CubicMetersPerHour:
-                return base_value_ * static_cast<un_scalar_t>(3600);
+                return base_value * static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicMetersPerDay:
-                return base_value_ * static_cast<un_scalar_t>(86400);
+                return base_value * static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::CubicFeetPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.028316846592);
+                return base_value / static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeFlowUnit::CubicFeetPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::CubicFeetPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicYardsPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.764554857984);
+                return base_value / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeFlowUnit::CubicYardsPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::CubicYardsPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicYardsPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MillionUsGallonsPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::UsGallonsPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MegausGallonsPerDay:
-                return (base_value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerSecond:
-                return base_value_ * static_cast<un_scalar_t>(1000);
+                return base_value * static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::NanolitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e2);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerSecond:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerMinute:
-                return base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
+                return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::NanolitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerMinute:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerHour:
-                return base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
+                return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::NanolitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerHour:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerDay:
-                return base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
+                return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::NanolitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-9);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e1);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e2);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e3);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerDay:
-                return (base_value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
+                return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::UsGallonsPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.003785411784);
+                return base_value / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeFlowUnit::UsGallonsPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UkGallonsPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MegaukGallonsPerDay:
-                return (base_value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::UkGallonsPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::UkGallonsPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UkGallonsPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.00454609);
+                return base_value / static_cast<un_scalar_t>(0.00454609);
 
             case VolumeFlowUnit::MegaukGallonsPerSecond:
-                return (base_value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::KilousGallonsPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UsGallonsPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicDecimetersPerMinute:
-                return base_value_ * static_cast<un_scalar_t>(60000.00000);
+                return base_value * static_cast<un_scalar_t>(60000.00000);
 
             case VolumeFlowUnit::OilBarrelsPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::OilBarrelsPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::OilBarrelsPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::OilBarrelsPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(0.158987294928);
+                return base_value / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeFlowUnit::CubicMillimetersPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(1e-9);
+                return base_value / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::AcreFeetPerSecond:
-                return base_value_ / static_cast<un_scalar_t>(1233.48183754752);
+                return base_value / static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeFlowUnit::AcreFeetPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::AcreFeetPerHour:
-                return base_value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600));
+                return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::AcreFeetPerDay:
-                return base_value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400));
+                return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::CubicCentimetersPerMinute:
-                return base_value_ / (static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60));
+                return base_value / (static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60));
 
             }
 
@@ -1474,9 +1378,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        VolumeFlowUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        VolumeFlowUnit value_unit_type_;       
     };
 }

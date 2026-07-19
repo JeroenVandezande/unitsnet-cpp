@@ -26,31 +26,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricReactivePowerUnit::VoltamperesReactive)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricReactivePowerUnit unit) const
@@ -93,7 +73,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t voltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::VoltamperesReactive);
@@ -103,7 +82,6 @@ namespace unitsnet_cpp
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::VoltamperesReactive);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilovoltamperes_reactive() const
         {
@@ -115,7 +93,6 @@ namespace unitsnet_cpp
             return ElectricReactivePower(value, ElectricReactivePowerUnit::KilovoltamperesReactive);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megavoltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::MegavoltamperesReactive);
@@ -126,7 +103,6 @@ namespace unitsnet_cpp
             return ElectricReactivePower(value, ElectricReactivePowerUnit::MegavoltamperesReactive);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigavoltamperes_reactive() const
         {
             return convert_from_base(ElectricReactivePowerUnit::GigavoltamperesReactive);
@@ -136,7 +112,6 @@ namespace unitsnet_cpp
         {
             return ElectricReactivePower(value, ElectricReactivePowerUnit::GigavoltamperesReactive);
         }
-
 
         [[nodiscard]] static constexpr ElectricReactivePower from_invalid()
         {
@@ -173,22 +148,22 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricReactivePowerUnit::VoltamperesReactive:
-                return base_value_;
+                return base_value;
 
             case ElectricReactivePowerUnit::KilovoltamperesReactive:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricReactivePowerUnit::MegavoltamperesReactive:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricReactivePowerUnit::GigavoltamperesReactive:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             }
 
@@ -196,9 +171,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricReactivePowerUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricReactivePowerUnit value_unit_type_;       
     };
 }

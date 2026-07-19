@@ -52,31 +52,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == SpecificEnergyUnit::JoulesPerKilogram)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const SpecificEnergyUnit unit) const
@@ -119,7 +99,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::JoulesPerKilogram);
@@ -129,7 +108,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::JoulesPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_kilogram() const
         {
@@ -141,7 +119,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::KilojoulesPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megajoules_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::MegajoulesPerKilogram);
@@ -151,7 +128,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::MegajoulesPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megajoules_per_tonne() const
         {
@@ -163,7 +139,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::MegajoulesPerTonne);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t calories_per_gram() const
         {
             return convert_from_base(SpecificEnergyUnit::CaloriesPerGram);
@@ -173,7 +148,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::CaloriesPerGram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_gram() const
         {
@@ -185,7 +159,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::KilocaloriesPerGram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watt_hours_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::WattHoursPerKilogram);
@@ -195,7 +168,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::WattHoursPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_hours_per_kilogram() const
         {
@@ -207,7 +179,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::KilowattHoursPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatt_hours_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::MegawattHoursPerKilogram);
@@ -217,7 +188,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::MegawattHoursPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_hours_per_kilogram() const
         {
@@ -229,7 +199,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::GigawattHoursPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watt_days_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::WattDaysPerKilogram);
@@ -239,7 +208,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::WattDaysPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_days_per_kilogram() const
         {
@@ -251,7 +219,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::KilowattDaysPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatt_days_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::MegawattDaysPerKilogram);
@@ -261,7 +228,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::MegawattDaysPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_days_per_kilogram() const
         {
@@ -273,7 +239,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::GigawattDaysPerKilogram);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terawatt_days_per_kilogram() const
         {
             return convert_from_base(SpecificEnergyUnit::TerawattDaysPerKilogram);
@@ -283,7 +248,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::TerawattDaysPerKilogram);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watt_days_per_tonne() const
         {
@@ -295,7 +259,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::WattDaysPerTonne);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatt_days_per_tonne() const
         {
             return convert_from_base(SpecificEnergyUnit::KilowattDaysPerTonne);
@@ -305,7 +268,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::KilowattDaysPerTonne);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megawatt_days_per_tonne() const
         {
@@ -317,7 +279,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::MegawattDaysPerTonne);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigawatt_days_per_tonne() const
         {
             return convert_from_base(SpecificEnergyUnit::GigawattDaysPerTonne);
@@ -327,7 +288,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::GigawattDaysPerTonne);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t terawatt_days_per_tonne() const
         {
@@ -339,7 +299,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::TerawattDaysPerTonne);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t watt_days_per_short_ton() const
         {
             return convert_from_base(SpecificEnergyUnit::WattDaysPerShortTon);
@@ -349,7 +308,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::WattDaysPerShortTon);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_days_per_short_ton() const
         {
@@ -361,7 +319,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::KilowattDaysPerShortTon);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megawatt_days_per_short_ton() const
         {
             return convert_from_base(SpecificEnergyUnit::MegawattDaysPerShortTon);
@@ -371,7 +328,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::MegawattDaysPerShortTon);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_days_per_short_ton() const
         {
@@ -383,7 +339,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::GigawattDaysPerShortTon);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t terawatt_days_per_short_ton() const
         {
             return convert_from_base(SpecificEnergyUnit::TerawattDaysPerShortTon);
@@ -393,7 +348,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::TerawattDaysPerShortTon);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watt_hours_per_pound() const
         {
@@ -405,7 +359,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::WattHoursPerPound);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatt_hours_per_pound() const
         {
             return convert_from_base(SpecificEnergyUnit::KilowattHoursPerPound);
@@ -415,7 +368,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::KilowattHoursPerPound);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megawatt_hours_per_pound() const
         {
@@ -427,7 +379,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::MegawattHoursPerPound);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigawatt_hours_per_pound() const
         {
             return convert_from_base(SpecificEnergyUnit::GigawattHoursPerPound);
@@ -438,7 +389,6 @@ namespace unitsnet_cpp
             return SpecificEnergy(value, SpecificEnergyUnit::GigawattHoursPerPound);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t btu_per_pound() const
         {
             return convert_from_base(SpecificEnergyUnit::BtuPerPound);
@@ -448,7 +398,6 @@ namespace unitsnet_cpp
         {
             return SpecificEnergy(value, SpecificEnergyUnit::BtuPerPound);
         }
-
 
         [[nodiscard]] static constexpr SpecificEnergy from_invalid()
         {
@@ -563,100 +512,100 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case SpecificEnergyUnit::JoulesPerKilogram:
-                return base_value_;
+                return base_value;
 
             case SpecificEnergyUnit::KilojoulesPerKilogram:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegajoulesPerKilogram:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::MegajoulesPerTonne:
-                return base_value_ / static_cast<un_scalar_t>(1e3);
+                return base_value / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::CaloriesPerGram:
-                return base_value_ / static_cast<un_scalar_t>(4.184e3);
+                return base_value / static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEnergyUnit::KilocaloriesPerGram:
-                return (base_value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::WattHoursPerKilogram:
-                return base_value_ / static_cast<un_scalar_t>(3.6e3);
+                return base_value / static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::KilowattHoursPerKilogram:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerKilogram:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerKilogram:
-                return (base_value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::WattDaysPerKilogram:
-                return base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
+                return base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::KilowattDaysPerKilogram:
-                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e3);
+                return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerKilogram:
-                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerKilogram:
-                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e9);
+                return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerKilogram:
-                return (base_value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e12);
+                return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerTonne:
-                return base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
+                return base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::KilowattDaysPerTonne:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e3);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerTonne:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerTonne:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e9);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerTonne:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e12);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerShortTon:
-                return base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
+                return base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::KilowattDaysPerShortTon:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e3);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerShortTon:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerShortTon:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e9);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerShortTon:
-                return (base_value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e12);
+                return (base_value / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattHoursPerPound:
-                return base_value_ / static_cast<un_scalar_t>(7.93664e3);
+                return base_value / static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::KilowattHoursPerPound:
-                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerPound:
-                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e6);
+                return (base_value / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerPound:
-                return (base_value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e9);
+                return (base_value / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::BtuPerPound:
-                return base_value_ * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1055.05585262);
 
             }
 
@@ -664,9 +613,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        SpecificEnergyUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        SpecificEnergyUnit value_unit_type_;       
     };
 }

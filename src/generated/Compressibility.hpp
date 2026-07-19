@@ -29,31 +29,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == CompressibilityUnit::InversePascals)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const CompressibilityUnit unit) const
@@ -96,7 +76,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t inverse_pascals() const
         {
             return convert_from_base(CompressibilityUnit::InversePascals);
@@ -106,7 +85,6 @@ namespace unitsnet_cpp
         {
             return Compressibility(value, CompressibilityUnit::InversePascals);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t inverse_kilopascals() const
         {
@@ -118,7 +96,6 @@ namespace unitsnet_cpp
             return Compressibility(value, CompressibilityUnit::InverseKilopascals);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t inverse_megapascals() const
         {
             return convert_from_base(CompressibilityUnit::InverseMegapascals);
@@ -128,7 +105,6 @@ namespace unitsnet_cpp
         {
             return Compressibility(value, CompressibilityUnit::InverseMegapascals);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t inverse_atmospheres() const
         {
@@ -140,7 +116,6 @@ namespace unitsnet_cpp
             return Compressibility(value, CompressibilityUnit::InverseAtmospheres);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t inverse_millibars() const
         {
             return convert_from_base(CompressibilityUnit::InverseMillibars);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
         {
             return Compressibility(value, CompressibilityUnit::InverseMillibars);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t inverse_bars() const
         {
@@ -162,7 +136,6 @@ namespace unitsnet_cpp
             return Compressibility(value, CompressibilityUnit::InverseBars);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t inverse_pounds_force_per_square_inch() const
         {
             return convert_from_base(CompressibilityUnit::InversePoundsForcePerSquareInch);
@@ -172,7 +145,6 @@ namespace unitsnet_cpp
         {
             return Compressibility(value, CompressibilityUnit::InversePoundsForcePerSquareInch);
         }
-
 
         [[nodiscard]] static constexpr Compressibility from_invalid()
         {
@@ -218,31 +190,31 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case CompressibilityUnit::InversePascals:
-                return base_value_;
+                return base_value;
 
             case CompressibilityUnit::InverseKilopascals:
-                return base_value_ / static_cast<un_scalar_t>(1e3);
+                return base_value / static_cast<un_scalar_t>(1e3);
 
             case CompressibilityUnit::InverseMegapascals:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case CompressibilityUnit::InverseAtmospheres:
-                return base_value_ / static_cast<un_scalar_t>(101325);
+                return base_value / static_cast<un_scalar_t>(101325);
 
             case CompressibilityUnit::InverseMillibars:
-                return base_value_ / static_cast<un_scalar_t>(100);
+                return base_value / static_cast<un_scalar_t>(100);
 
             case CompressibilityUnit::InverseBars:
-                return base_value_ / static_cast<un_scalar_t>(1e5);
+                return base_value / static_cast<un_scalar_t>(1e5);
 
             case CompressibilityUnit::InversePoundsForcePerSquareInch:
-                return base_value_ / static_cast<un_scalar_t>(6.894757293168361e3);
+                return base_value / static_cast<un_scalar_t>(6.894757293168361e3);
 
             }
 
@@ -250,9 +222,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        CompressibilityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        CompressibilityUnit value_unit_type_;       
     };
 }

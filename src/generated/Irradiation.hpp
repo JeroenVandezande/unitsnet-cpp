@@ -31,31 +31,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == IrradiationUnit::JoulesPerSquareMeter)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const IrradiationUnit unit) const
@@ -98,7 +78,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_square_meter() const
         {
             return convert_from_base(IrradiationUnit::JoulesPerSquareMeter);
@@ -108,7 +87,6 @@ namespace unitsnet_cpp
         {
             return Irradiation(value, IrradiationUnit::JoulesPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_square_meter() const
         {
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return Irradiation(value, IrradiationUnit::KilojoulesPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_square_centimeter() const
         {
             return convert_from_base(IrradiationUnit::JoulesPerSquareCentimeter);
@@ -130,7 +107,6 @@ namespace unitsnet_cpp
         {
             return Irradiation(value, IrradiationUnit::JoulesPerSquareCentimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millijoules_per_square_centimeter() const
         {
@@ -142,7 +118,6 @@ namespace unitsnet_cpp
             return Irradiation(value, IrradiationUnit::MillijoulesPerSquareCentimeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t joules_per_square_millimeter() const
         {
             return convert_from_base(IrradiationUnit::JoulesPerSquareMillimeter);
@@ -152,7 +127,6 @@ namespace unitsnet_cpp
         {
             return Irradiation(value, IrradiationUnit::JoulesPerSquareMillimeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t watt_hours_per_square_meter() const
         {
@@ -164,7 +138,6 @@ namespace unitsnet_cpp
             return Irradiation(value, IrradiationUnit::WattHoursPerSquareMeter);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilowatt_hours_per_square_meter() const
         {
             return convert_from_base(IrradiationUnit::KilowattHoursPerSquareMeter);
@@ -174,7 +147,6 @@ namespace unitsnet_cpp
         {
             return Irradiation(value, IrradiationUnit::KilowattHoursPerSquareMeter);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t btus_per_square_foot() const
         {
@@ -186,7 +158,6 @@ namespace unitsnet_cpp
             return Irradiation(value, IrradiationUnit::BtusPerSquareFoot);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilobtus_per_square_foot() const
         {
             return convert_from_base(IrradiationUnit::KilobtusPerSquareFoot);
@@ -196,7 +167,6 @@ namespace unitsnet_cpp
         {
             return Irradiation(value, IrradiationUnit::KilobtusPerSquareFoot);
         }
-
 
         [[nodiscard]] static constexpr Irradiation from_invalid()
         {
@@ -248,37 +218,37 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case IrradiationUnit::JoulesPerSquareMeter:
-                return base_value_;
+                return base_value;
 
             case IrradiationUnit::KilojoulesPerSquareMeter:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::JoulesPerSquareCentimeter:
-                return base_value_ / static_cast<un_scalar_t>(1e4);
+                return base_value / static_cast<un_scalar_t>(1e4);
 
             case IrradiationUnit::MillijoulesPerSquareCentimeter:
-                return (base_value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradiationUnit::JoulesPerSquareMillimeter:
-                return base_value_ / static_cast<un_scalar_t>(1e6);
+                return base_value / static_cast<un_scalar_t>(1e6);
 
             case IrradiationUnit::WattHoursPerSquareMeter:
-                return base_value_ / static_cast<un_scalar_t>(3600.0);
+                return base_value / static_cast<un_scalar_t>(3600.0);
 
             case IrradiationUnit::KilowattHoursPerSquareMeter:
-                return (base_value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
+                return (base_value / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::BtusPerSquareFoot:
-                return base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262);
+                return base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262);
 
             case IrradiationUnit::KilobtusPerSquareFoot:
-                return (base_value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -286,9 +256,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        IrradiationUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        IrradiationUnit value_unit_type_;       
     };
 }

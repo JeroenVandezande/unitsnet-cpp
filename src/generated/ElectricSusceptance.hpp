@@ -38,31 +38,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == ElectricSusceptanceUnit::Siemens)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const ElectricSusceptanceUnit unit) const
@@ -105,7 +85,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t siemens() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Siemens);
@@ -115,7 +94,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Siemens);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanosiemens() const
         {
@@ -127,7 +105,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Nanosiemens);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t microsiemens() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Microsiemens);
@@ -137,7 +114,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Microsiemens);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millisiemens() const
         {
@@ -149,7 +125,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Millisiemens);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilosiemens() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Kilosiemens);
@@ -159,7 +134,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Kilosiemens);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megasiemens() const
         {
@@ -171,7 +145,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Megasiemens);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigasiemens() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Gigasiemens);
@@ -181,7 +154,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Gigasiemens);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t terasiemens() const
         {
@@ -193,7 +165,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Terasiemens);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t mhos() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Mhos);
@@ -203,7 +174,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Mhos);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t nanomhos() const
         {
@@ -215,7 +185,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Nanomhos);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t micromhos() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Micromhos);
@@ -225,7 +194,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Micromhos);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t millimhos() const
         {
@@ -237,7 +205,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Millimhos);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilomhos() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Kilomhos);
@@ -247,7 +214,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Kilomhos);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megamhos() const
         {
@@ -259,7 +225,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Megamhos);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gigamhos() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Gigamhos);
@@ -270,7 +235,6 @@ namespace unitsnet_cpp
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Gigamhos);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t teramhos() const
         {
             return convert_from_base(ElectricSusceptanceUnit::Teramhos);
@@ -280,7 +244,6 @@ namespace unitsnet_cpp
         {
             return ElectricSusceptance(value, ElectricSusceptanceUnit::Teramhos);
         }
-
 
         [[nodiscard]] static constexpr ElectricSusceptance from_invalid()
         {
@@ -353,58 +316,58 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case ElectricSusceptanceUnit::Siemens:
-                return base_value_;
+                return base_value;
 
             case ElectricSusceptanceUnit::Nanosiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricSusceptanceUnit::Microsiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricSusceptanceUnit::Millisiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricSusceptanceUnit::Kilosiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricSusceptanceUnit::Megasiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricSusceptanceUnit::Gigasiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case ElectricSusceptanceUnit::Terasiemens:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             case ElectricSusceptanceUnit::Mhos:
-                return base_value_;
+                return base_value;
 
             case ElectricSusceptanceUnit::Nanomhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e-9);
+                return (base_value) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricSusceptanceUnit::Micromhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e-6);
+                return (base_value) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricSusceptanceUnit::Millimhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e-3);
+                return (base_value) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricSusceptanceUnit::Kilomhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case ElectricSusceptanceUnit::Megamhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case ElectricSusceptanceUnit::Gigamhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e9);
+                return (base_value) / static_cast<un_scalar_t>(1e9);
 
             case ElectricSusceptanceUnit::Teramhos:
-                return (base_value_) / static_cast<un_scalar_t>(1e12);
+                return (base_value) / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -412,9 +375,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        ElectricSusceptanceUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        ElectricSusceptanceUnit value_unit_type_;       
     };
 }

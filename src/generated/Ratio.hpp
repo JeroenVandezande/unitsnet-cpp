@@ -28,31 +28,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == RatioUnit::DecimalFractions)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const RatioUnit unit) const
@@ -95,7 +75,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t decimal_fractions() const
         {
             return convert_from_base(RatioUnit::DecimalFractions);
@@ -105,7 +84,6 @@ namespace unitsnet_cpp
         {
             return Ratio(value, RatioUnit::DecimalFractions);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t percent() const
         {
@@ -117,7 +95,6 @@ namespace unitsnet_cpp
             return Ratio(value, RatioUnit::Percent);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_thousand() const
         {
             return convert_from_base(RatioUnit::PartsPerThousand);
@@ -127,7 +104,6 @@ namespace unitsnet_cpp
         {
             return Ratio(value, RatioUnit::PartsPerThousand);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t parts_per_million() const
         {
@@ -139,7 +115,6 @@ namespace unitsnet_cpp
             return Ratio(value, RatioUnit::PartsPerMillion);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_billion() const
         {
             return convert_from_base(RatioUnit::PartsPerBillion);
@@ -150,7 +125,6 @@ namespace unitsnet_cpp
             return Ratio(value, RatioUnit::PartsPerBillion);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t parts_per_trillion() const
         {
             return convert_from_base(RatioUnit::PartsPerTrillion);
@@ -160,7 +134,6 @@ namespace unitsnet_cpp
         {
             return Ratio(value, RatioUnit::PartsPerTrillion);
         }
-
 
         [[nodiscard]] static constexpr Ratio from_invalid()
         {
@@ -203,28 +176,28 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case RatioUnit::DecimalFractions:
-                return base_value_;
+                return base_value;
 
             case RatioUnit::Percent:
-                return base_value_ * static_cast<un_scalar_t>(1e2);
+                return base_value * static_cast<un_scalar_t>(1e2);
 
             case RatioUnit::PartsPerThousand:
-                return base_value_ * static_cast<un_scalar_t>(1e3);
+                return base_value * static_cast<un_scalar_t>(1e3);
 
             case RatioUnit::PartsPerMillion:
-                return base_value_ * static_cast<un_scalar_t>(1e6);
+                return base_value * static_cast<un_scalar_t>(1e6);
 
             case RatioUnit::PartsPerBillion:
-                return base_value_ * static_cast<un_scalar_t>(1e9);
+                return base_value * static_cast<un_scalar_t>(1e9);
 
             case RatioUnit::PartsPerTrillion:
-                return base_value_ * static_cast<un_scalar_t>(1e12);
+                return base_value * static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -232,9 +205,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        RatioUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        RatioUnit value_unit_type_;       
     };
 }

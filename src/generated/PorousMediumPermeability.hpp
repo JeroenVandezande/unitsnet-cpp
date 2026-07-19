@@ -27,31 +27,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == PorousMediumPermeabilityUnit::SquareMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const PorousMediumPermeabilityUnit unit) const
@@ -94,7 +74,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t darcys() const
         {
@@ -106,7 +85,6 @@ namespace unitsnet_cpp
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Darcys);
         }
-
 
         /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t microdarcys() const
@@ -120,7 +98,6 @@ namespace unitsnet_cpp
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Microdarcys);
         }
 
-
         /// <summary>The darcy (or darcy unit) and millidarcy (md or mD) are units of permeability, named after Henry Darcy. They are not SI units, but they are widely used in petroleum engineering and geology.</summary>
         [[nodiscard]] constexpr un_scalar_t millidarcys() const
         {
@@ -133,7 +110,6 @@ namespace unitsnet_cpp
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::Millidarcys);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_meters() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::SquareMeters);
@@ -144,7 +120,6 @@ namespace unitsnet_cpp
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::SquareMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t square_centimeters() const
         {
             return convert_from_base(PorousMediumPermeabilityUnit::SquareCentimeters);
@@ -154,7 +129,6 @@ namespace unitsnet_cpp
         {
             return PorousMediumPermeability(value, PorousMediumPermeabilityUnit::SquareCentimeters);
         }
-
 
         [[nodiscard]] static constexpr PorousMediumPermeability from_invalid()
         {
@@ -194,25 +168,25 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case PorousMediumPermeabilityUnit::Darcys:
-                return base_value_ / static_cast<un_scalar_t>(9.869233e-13);
+                return base_value / static_cast<un_scalar_t>(9.869233e-13);
 
             case PorousMediumPermeabilityUnit::Microdarcys:
-                return (base_value_ / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-6);
+                return (base_value / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-6);
 
             case PorousMediumPermeabilityUnit::Millidarcys:
-                return (base_value_ / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-3);
+                return (base_value / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-3);
 
             case PorousMediumPermeabilityUnit::SquareMeters:
-                return base_value_;
+                return base_value;
 
             case PorousMediumPermeabilityUnit::SquareCentimeters:
-                return base_value_ / static_cast<un_scalar_t>(1e-4);
+                return base_value / static_cast<un_scalar_t>(1e-4);
 
             }
 
@@ -220,9 +194,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        PorousMediumPermeabilityUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        PorousMediumPermeabilityUnit value_unit_type_;       
     };
 }

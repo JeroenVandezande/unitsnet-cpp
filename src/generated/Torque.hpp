@@ -47,31 +47,11 @@ namespace unitsnet_cpp
         {
             value_ = value;
             value_unit_type_ = unit;
-            if(unit == TorqueUnit::NewtonMeters)
-            {
-                base_value_ = value;
-                base_value_exists_ = true;
-            }
-            else
-            {
-                base_value_ = 0;
-                base_value_exists_ = false;
-            }
-        }
-        
-        constexpr void create_base_value_if_needed() const noexcept
-        {
-            if(!base_value_exists_)
-            {
-                base_value_ = convert_to_base(value_, value_unit_type_);
-                base_value_exists_ = true;
-            }
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
-            create_base_value_if_needed();    
-            return base_value_;    
+            return convert_to_base(value_, value_unit_type_);    
         }
 
         [[nodiscard]] constexpr un_scalar_t value(const TorqueUnit unit) const
@@ -114,7 +94,6 @@ namespace unitsnet_cpp
             return base_value() > other.base_value();
         }
 
-
         [[nodiscard]] constexpr un_scalar_t newton_millimeters() const
         {
             return convert_from_base(TorqueUnit::NewtonMillimeters);
@@ -124,7 +103,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::NewtonMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilonewton_millimeters() const
         {
@@ -136,7 +114,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::KilonewtonMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meganewton_millimeters() const
         {
             return convert_from_base(TorqueUnit::MeganewtonMillimeters);
@@ -146,7 +123,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::MeganewtonMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t newton_centimeters() const
         {
@@ -158,7 +134,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::NewtonCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilonewton_centimeters() const
         {
             return convert_from_base(TorqueUnit::KilonewtonCentimeters);
@@ -168,7 +143,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::KilonewtonCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t meganewton_centimeters() const
         {
@@ -180,7 +154,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::MeganewtonCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t newton_meters() const
         {
             return convert_from_base(TorqueUnit::NewtonMeters);
@@ -190,7 +163,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::NewtonMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilonewton_meters() const
         {
@@ -202,7 +174,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::KilonewtonMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t meganewton_meters() const
         {
             return convert_from_base(TorqueUnit::MeganewtonMeters);
@@ -212,7 +183,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::MeganewtonMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t poundal_feet() const
         {
@@ -224,7 +194,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::PoundalFeet);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t pound_force_inches() const
         {
             return convert_from_base(TorqueUnit::PoundForceInches);
@@ -234,7 +203,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::PoundForceInches);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilopound_force_inches() const
         {
@@ -246,7 +214,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::KilopoundForceInches);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t megapound_force_inches() const
         {
             return convert_from_base(TorqueUnit::MegapoundForceInches);
@@ -256,7 +223,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::MegapoundForceInches);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t pound_force_feet() const
         {
@@ -268,7 +234,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::PoundForceFeet);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilopound_force_feet() const
         {
             return convert_from_base(TorqueUnit::KilopoundForceFeet);
@@ -278,7 +243,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::KilopoundForceFeet);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t megapound_force_feet() const
         {
@@ -290,7 +254,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::MegapoundForceFeet);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gram_force_millimeters() const
         {
             return convert_from_base(TorqueUnit::GramForceMillimeters);
@@ -300,7 +263,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::GramForceMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t gram_force_centimeters() const
         {
@@ -312,7 +274,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::GramForceCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t gram_force_meters() const
         {
             return convert_from_base(TorqueUnit::GramForceMeters);
@@ -322,7 +283,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::GramForceMeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilogram_force_millimeters() const
         {
@@ -334,7 +294,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::KilogramForceMillimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t kilogram_force_centimeters() const
         {
             return convert_from_base(TorqueUnit::KilogramForceCentimeters);
@@ -344,7 +303,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::KilogramForceCentimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t kilogram_force_meters() const
         {
@@ -356,7 +314,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::KilogramForceMeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t tonne_force_millimeters() const
         {
             return convert_from_base(TorqueUnit::TonneForceMillimeters);
@@ -366,7 +323,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::TonneForceMillimeters);
         }
-
 
         [[nodiscard]] constexpr un_scalar_t tonne_force_centimeters() const
         {
@@ -378,7 +334,6 @@ namespace unitsnet_cpp
             return Torque(value, TorqueUnit::TonneForceCentimeters);
         }
 
-
         [[nodiscard]] constexpr un_scalar_t tonne_force_meters() const
         {
             return convert_from_base(TorqueUnit::TonneForceMeters);
@@ -388,7 +343,6 @@ namespace unitsnet_cpp
         {
             return Torque(value, TorqueUnit::TonneForceMeters);
         }
-
 
         [[nodiscard]] static constexpr Torque from_invalid()
         {
@@ -488,85 +442,85 @@ namespace unitsnet_cpp
                 return value_;
             }
             
-            create_base_value_if_needed();
+            auto base_value = convert_to_base(value_, value_unit_type_);
             
             switch (unit)
             {
 
             case TorqueUnit::NewtonMillimeters:
-                return base_value_ * static_cast<un_scalar_t>(1000);
+                return base_value * static_cast<un_scalar_t>(1000);
 
             case TorqueUnit::KilonewtonMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonMillimeters:
-                return (base_value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonCentimeters:
-                return base_value_ * static_cast<un_scalar_t>(100);
+                return base_value * static_cast<un_scalar_t>(100);
 
             case TorqueUnit::KilonewtonCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonCentimeters:
-                return (base_value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
+                return (base_value * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonMeters:
-                return base_value_;
+                return base_value;
 
             case TorqueUnit::KilonewtonMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e3);
+                return (base_value) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonMeters:
-                return (base_value_) / static_cast<un_scalar_t>(1e6);
+                return (base_value) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundalFeet:
-                return base_value_ / (static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048));
+                return base_value / (static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::PoundForceInches:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2));
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2));
 
             case TorqueUnit::KilopoundForceInches:
-                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e3);
+                return (base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceInches:
-                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundForceFeet:
-                return base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
+                return base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::KilopoundForceFeet:
-                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e3);
+                return (base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceFeet:
-                return (base_value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e6);
+                return (base_value / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::GramForceMillimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-6);
+                return base_value / static_cast<un_scalar_t>(9.80665e-6);
 
             case TorqueUnit::GramForceCentimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-5);
+                return base_value / static_cast<un_scalar_t>(9.80665e-5);
 
             case TorqueUnit::GramForceMeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-3);
+                return base_value / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceMillimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-3);
+                return base_value / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceCentimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e-2);
+                return base_value / static_cast<un_scalar_t>(9.80665e-2);
 
             case TorqueUnit::KilogramForceMeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceMillimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665);
+                return base_value / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceCentimeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e1);
+                return base_value / static_cast<un_scalar_t>(9.80665e1);
 
             case TorqueUnit::TonneForceMeters:
-                return base_value_ / static_cast<un_scalar_t>(9.80665e3);
+                return base_value / static_cast<un_scalar_t>(9.80665e3);
 
             }
 
@@ -574,9 +528,6 @@ namespace unitsnet_cpp
         }
 
         un_scalar_t value_;
-        TorqueUnit value_unit_type_;
-        mutable un_scalar_t base_value_;
-        mutable bool base_value_exists_ = false;
-       
+        TorqueUnit value_unit_type_;       
     };
 }
