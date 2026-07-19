@@ -56,6 +56,125 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MassFlow"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassFlowUnit::GramsPerSecond:
+                return "GramsPerSecond";
+
+            case MassFlowUnit::NanogramsPerSecond:
+                return "NanogramsPerSecond";
+
+            case MassFlowUnit::MicrogramsPerSecond:
+                return "MicrogramsPerSecond";
+
+            case MassFlowUnit::MilligramsPerSecond:
+                return "MilligramsPerSecond";
+
+            case MassFlowUnit::CentigramsPerSecond:
+                return "CentigramsPerSecond";
+
+            case MassFlowUnit::DecigramsPerSecond:
+                return "DecigramsPerSecond";
+
+            case MassFlowUnit::DecagramsPerSecond:
+                return "DecagramsPerSecond";
+
+            case MassFlowUnit::HectogramsPerSecond:
+                return "HectogramsPerSecond";
+
+            case MassFlowUnit::KilogramsPerSecond:
+                return "KilogramsPerSecond";
+
+            case MassFlowUnit::GramsPerDay:
+                return "GramsPerDay";
+
+            case MassFlowUnit::NanogramsPerDay:
+                return "NanogramsPerDay";
+
+            case MassFlowUnit::MicrogramsPerDay:
+                return "MicrogramsPerDay";
+
+            case MassFlowUnit::MilligramsPerDay:
+                return "MilligramsPerDay";
+
+            case MassFlowUnit::CentigramsPerDay:
+                return "CentigramsPerDay";
+
+            case MassFlowUnit::DecigramsPerDay:
+                return "DecigramsPerDay";
+
+            case MassFlowUnit::DecagramsPerDay:
+                return "DecagramsPerDay";
+
+            case MassFlowUnit::HectogramsPerDay:
+                return "HectogramsPerDay";
+
+            case MassFlowUnit::KilogramsPerDay:
+                return "KilogramsPerDay";
+
+            case MassFlowUnit::MegagramsPerDay:
+                return "MegagramsPerDay";
+
+            case MassFlowUnit::GramsPerHour:
+                return "GramsPerHour";
+
+            case MassFlowUnit::KilogramsPerHour:
+                return "KilogramsPerHour";
+
+            case MassFlowUnit::KilogramsPerMinute:
+                return "KilogramsPerMinute";
+
+            case MassFlowUnit::TonnesPerHour:
+                return "TonnesPerHour";
+
+            case MassFlowUnit::PoundsPerDay:
+                return "PoundsPerDay";
+
+            case MassFlowUnit::MegapoundsPerDay:
+                return "MegapoundsPerDay";
+
+            case MassFlowUnit::PoundsPerHour:
+                return "PoundsPerHour";
+
+            case MassFlowUnit::MegapoundsPerHour:
+                return "MegapoundsPerHour";
+
+            case MassFlowUnit::PoundsPerMinute:
+                return "PoundsPerMinute";
+
+            case MassFlowUnit::MegapoundsPerMinute:
+                return "MegapoundsPerMinute";
+
+            case MassFlowUnit::PoundsPerSecond:
+                return "PoundsPerSecond";
+
+            case MassFlowUnit::MegapoundsPerSecond:
+                return "MegapoundsPerSecond";
+
+            case MassFlowUnit::TonnesPerDay:
+                return "TonnesPerDay";
+
+            case MassFlowUnit::ShortTonsPerHour:
+                return "ShortTonsPerHour";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

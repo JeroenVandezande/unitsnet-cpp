@@ -37,6 +37,68 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Irradiance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case IrradianceUnit::WattsPerSquareMeter:
+                return "WattsPerSquareMeter";
+
+            case IrradianceUnit::PicowattsPerSquareMeter:
+                return "PicowattsPerSquareMeter";
+
+            case IrradianceUnit::NanowattsPerSquareMeter:
+                return "NanowattsPerSquareMeter";
+
+            case IrradianceUnit::MicrowattsPerSquareMeter:
+                return "MicrowattsPerSquareMeter";
+
+            case IrradianceUnit::MilliwattsPerSquareMeter:
+                return "MilliwattsPerSquareMeter";
+
+            case IrradianceUnit::KilowattsPerSquareMeter:
+                return "KilowattsPerSquareMeter";
+
+            case IrradianceUnit::MegawattsPerSquareMeter:
+                return "MegawattsPerSquareMeter";
+
+            case IrradianceUnit::WattsPerSquareCentimeter:
+                return "WattsPerSquareCentimeter";
+
+            case IrradianceUnit::PicowattsPerSquareCentimeter:
+                return "PicowattsPerSquareCentimeter";
+
+            case IrradianceUnit::NanowattsPerSquareCentimeter:
+                return "NanowattsPerSquareCentimeter";
+
+            case IrradianceUnit::MicrowattsPerSquareCentimeter:
+                return "MicrowattsPerSquareCentimeter";
+
+            case IrradianceUnit::MilliwattsPerSquareCentimeter:
+                return "MilliwattsPerSquareCentimeter";
+
+            case IrradianceUnit::KilowattsPerSquareCentimeter:
+                return "KilowattsPerSquareCentimeter";
+
+            case IrradianceUnit::MegawattsPerSquareCentimeter:
+                return "MegawattsPerSquareCentimeter";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -42,6 +42,83 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "FluidResistance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case FluidResistanceUnit::PascalSecondsPerLiter:
+                return "PascalSecondsPerLiter";
+
+            case FluidResistanceUnit::PascalMinutesPerLiter:
+                return "PascalMinutesPerLiter";
+
+            case FluidResistanceUnit::PascalSecondsPerMilliliter:
+                return "PascalSecondsPerMilliliter";
+
+            case FluidResistanceUnit::PascalMinutesPerMilliliter:
+                return "PascalMinutesPerMilliliter";
+
+            case FluidResistanceUnit::PascalSecondsPerCubicMeter:
+                return "PascalSecondsPerCubicMeter";
+
+            case FluidResistanceUnit::MegapascalSecondsPerCubicMeter:
+                return "MegapascalSecondsPerCubicMeter";
+
+            case FluidResistanceUnit::PascalMinutesPerCubicMeter:
+                return "PascalMinutesPerCubicMeter";
+
+            case FluidResistanceUnit::PascalSecondsPerCubicCentimeter:
+                return "PascalSecondsPerCubicCentimeter";
+
+            case FluidResistanceUnit::PascalMinutesPerCubicCentimeter:
+                return "PascalMinutesPerCubicCentimeter";
+
+            case FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth:
+                return "DyneSecondsPerCentimeterToTheFifth";
+
+            case FluidResistanceUnit::MillimeterMercurySecondsPerLiter:
+                return "MillimeterMercurySecondsPerLiter";
+
+            case FluidResistanceUnit::MillimeterMercuryMinutesPerLiter:
+                return "MillimeterMercuryMinutesPerLiter";
+
+            case FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter:
+                return "MillimeterMercurySecondsPerMilliliter";
+
+            case FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter:
+                return "MillimeterMercuryMinutesPerMilliliter";
+
+            case FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter:
+                return "MillimeterMercurySecondsPerCubicCentimeter";
+
+            case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter:
+                return "MillimeterMercuryMinutesPerCubicCentimeter";
+
+            case FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter:
+                return "MillimeterMercurySecondsPerCubicMeter";
+
+            case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter:
+                return "MillimeterMercuryMinutesPerCubicMeter";
+
+            case FluidResistanceUnit::WoodUnits:
+                return "WoodUnits";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -30,6 +30,47 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ThermalInsulance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ThermalInsulanceUnit::SquareMeterKelvinsPerKilowatt:
+                return "SquareMeterKelvinsPerKilowatt";
+
+            case ThermalInsulanceUnit::SquareMeterKelvinsPerWatt:
+                return "SquareMeterKelvinsPerWatt";
+
+            case ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt:
+                return "SquareMeterDegreesCelsiusPerWatt";
+
+            case ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt:
+                return "SquareCentimeterKelvinsPerWatt";
+
+            case ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt:
+                return "SquareMillimeterKelvinsPerWatt";
+
+            case ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie:
+                return "SquareCentimeterHourDegreesCelsiusPerKilocalorie";
+
+            case ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu:
+                return "HourSquareFeetDegreesFahrenheitPerBtu";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

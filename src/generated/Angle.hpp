@@ -38,6 +38,71 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Angle"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case AngleUnit::Radians:
+                return "Radians";
+
+            case AngleUnit::Nanoradians:
+                return "Nanoradians";
+
+            case AngleUnit::Microradians:
+                return "Microradians";
+
+            case AngleUnit::Milliradians:
+                return "Milliradians";
+
+            case AngleUnit::Centiradians:
+                return "Centiradians";
+
+            case AngleUnit::Deciradians:
+                return "Deciradians";
+
+            case AngleUnit::Degrees:
+                return "Degrees";
+
+            case AngleUnit::Nanodegrees:
+                return "Nanodegrees";
+
+            case AngleUnit::Microdegrees:
+                return "Microdegrees";
+
+            case AngleUnit::Millidegrees:
+                return "Millidegrees";
+
+            case AngleUnit::Arcminutes:
+                return "Arcminutes";
+
+            case AngleUnit::Arcseconds:
+                return "Arcseconds";
+
+            case AngleUnit::Gradians:
+                return "Gradians";
+
+            case AngleUnit::NatoMils:
+                return "NatoMils";
+
+            case AngleUnit::Revolutions:
+                return "Revolutions";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

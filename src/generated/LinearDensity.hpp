@@ -41,6 +41,80 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "LinearDensity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case LinearDensityUnit::GramsPerMillimeter:
+                return "GramsPerMillimeter";
+
+            case LinearDensityUnit::MicrogramsPerMillimeter:
+                return "MicrogramsPerMillimeter";
+
+            case LinearDensityUnit::MilligramsPerMillimeter:
+                return "MilligramsPerMillimeter";
+
+            case LinearDensityUnit::KilogramsPerMillimeter:
+                return "KilogramsPerMillimeter";
+
+            case LinearDensityUnit::GramsPerCentimeter:
+                return "GramsPerCentimeter";
+
+            case LinearDensityUnit::MicrogramsPerCentimeter:
+                return "MicrogramsPerCentimeter";
+
+            case LinearDensityUnit::MilligramsPerCentimeter:
+                return "MilligramsPerCentimeter";
+
+            case LinearDensityUnit::KilogramsPerCentimeter:
+                return "KilogramsPerCentimeter";
+
+            case LinearDensityUnit::GramsPerMeter:
+                return "GramsPerMeter";
+
+            case LinearDensityUnit::MicrogramsPerMeter:
+                return "MicrogramsPerMeter";
+
+            case LinearDensityUnit::MilligramsPerMeter:
+                return "MilligramsPerMeter";
+
+            case LinearDensityUnit::KilogramsPerMeter:
+                return "KilogramsPerMeter";
+
+            case LinearDensityUnit::PoundsPerInch:
+                return "PoundsPerInch";
+
+            case LinearDensityUnit::PoundsPerFoot:
+                return "PoundsPerFoot";
+
+            case LinearDensityUnit::GramsPerFoot:
+                return "GramsPerFoot";
+
+            case LinearDensityUnit::MicrogramsPerFoot:
+                return "MicrogramsPerFoot";
+
+            case LinearDensityUnit::MilligramsPerFoot:
+                return "MilligramsPerFoot";
+
+            case LinearDensityUnit::KilogramsPerFoot:
+                return "KilogramsPerFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

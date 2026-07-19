@@ -31,6 +31,50 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "RadiationExposure"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case RadiationExposureUnit::CoulombsPerKilogram:
+                return "CoulombsPerKilogram";
+
+            case RadiationExposureUnit::PicocoulombsPerKilogram:
+                return "PicocoulombsPerKilogram";
+
+            case RadiationExposureUnit::NanocoulombsPerKilogram:
+                return "NanocoulombsPerKilogram";
+
+            case RadiationExposureUnit::MicrocoulombsPerKilogram:
+                return "MicrocoulombsPerKilogram";
+
+            case RadiationExposureUnit::MillicoulombsPerKilogram:
+                return "MillicoulombsPerKilogram";
+
+            case RadiationExposureUnit::Roentgens:
+                return "Roentgens";
+
+            case RadiationExposureUnit::Microroentgens:
+                return "Microroentgens";
+
+            case RadiationExposureUnit::Milliroentgens:
+                return "Milliroentgens";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -98,6 +98,251 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "VolumeFlow"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case VolumeFlowUnit::CubicMetersPerSecond:
+                return "CubicMetersPerSecond";
+
+            case VolumeFlowUnit::CubicMetersPerMinute:
+                return "CubicMetersPerMinute";
+
+            case VolumeFlowUnit::CubicMetersPerHour:
+                return "CubicMetersPerHour";
+
+            case VolumeFlowUnit::CubicMetersPerDay:
+                return "CubicMetersPerDay";
+
+            case VolumeFlowUnit::CubicFeetPerSecond:
+                return "CubicFeetPerSecond";
+
+            case VolumeFlowUnit::CubicFeetPerMinute:
+                return "CubicFeetPerMinute";
+
+            case VolumeFlowUnit::CubicFeetPerHour:
+                return "CubicFeetPerHour";
+
+            case VolumeFlowUnit::CubicYardsPerSecond:
+                return "CubicYardsPerSecond";
+
+            case VolumeFlowUnit::CubicYardsPerMinute:
+                return "CubicYardsPerMinute";
+
+            case VolumeFlowUnit::CubicYardsPerHour:
+                return "CubicYardsPerHour";
+
+            case VolumeFlowUnit::CubicYardsPerDay:
+                return "CubicYardsPerDay";
+
+            case VolumeFlowUnit::MillionUsGallonsPerDay:
+                return "MillionUsGallonsPerDay";
+
+            case VolumeFlowUnit::UsGallonsPerDay:
+                return "UsGallonsPerDay";
+
+            case VolumeFlowUnit::MegausGallonsPerDay:
+                return "MegausGallonsPerDay";
+
+            case VolumeFlowUnit::LitersPerSecond:
+                return "LitersPerSecond";
+
+            case VolumeFlowUnit::NanolitersPerSecond:
+                return "NanolitersPerSecond";
+
+            case VolumeFlowUnit::MicrolitersPerSecond:
+                return "MicrolitersPerSecond";
+
+            case VolumeFlowUnit::MillilitersPerSecond:
+                return "MillilitersPerSecond";
+
+            case VolumeFlowUnit::CentilitersPerSecond:
+                return "CentilitersPerSecond";
+
+            case VolumeFlowUnit::DecilitersPerSecond:
+                return "DecilitersPerSecond";
+
+            case VolumeFlowUnit::DecalitersPerSecond:
+                return "DecalitersPerSecond";
+
+            case VolumeFlowUnit::HectolitersPerSecond:
+                return "HectolitersPerSecond";
+
+            case VolumeFlowUnit::KilolitersPerSecond:
+                return "KilolitersPerSecond";
+
+            case VolumeFlowUnit::MegalitersPerSecond:
+                return "MegalitersPerSecond";
+
+            case VolumeFlowUnit::LitersPerMinute:
+                return "LitersPerMinute";
+
+            case VolumeFlowUnit::NanolitersPerMinute:
+                return "NanolitersPerMinute";
+
+            case VolumeFlowUnit::MicrolitersPerMinute:
+                return "MicrolitersPerMinute";
+
+            case VolumeFlowUnit::MillilitersPerMinute:
+                return "MillilitersPerMinute";
+
+            case VolumeFlowUnit::CentilitersPerMinute:
+                return "CentilitersPerMinute";
+
+            case VolumeFlowUnit::DecilitersPerMinute:
+                return "DecilitersPerMinute";
+
+            case VolumeFlowUnit::DecalitersPerMinute:
+                return "DecalitersPerMinute";
+
+            case VolumeFlowUnit::HectolitersPerMinute:
+                return "HectolitersPerMinute";
+
+            case VolumeFlowUnit::KilolitersPerMinute:
+                return "KilolitersPerMinute";
+
+            case VolumeFlowUnit::MegalitersPerMinute:
+                return "MegalitersPerMinute";
+
+            case VolumeFlowUnit::LitersPerHour:
+                return "LitersPerHour";
+
+            case VolumeFlowUnit::NanolitersPerHour:
+                return "NanolitersPerHour";
+
+            case VolumeFlowUnit::MicrolitersPerHour:
+                return "MicrolitersPerHour";
+
+            case VolumeFlowUnit::MillilitersPerHour:
+                return "MillilitersPerHour";
+
+            case VolumeFlowUnit::CentilitersPerHour:
+                return "CentilitersPerHour";
+
+            case VolumeFlowUnit::DecilitersPerHour:
+                return "DecilitersPerHour";
+
+            case VolumeFlowUnit::DecalitersPerHour:
+                return "DecalitersPerHour";
+
+            case VolumeFlowUnit::HectolitersPerHour:
+                return "HectolitersPerHour";
+
+            case VolumeFlowUnit::KilolitersPerHour:
+                return "KilolitersPerHour";
+
+            case VolumeFlowUnit::MegalitersPerHour:
+                return "MegalitersPerHour";
+
+            case VolumeFlowUnit::LitersPerDay:
+                return "LitersPerDay";
+
+            case VolumeFlowUnit::NanolitersPerDay:
+                return "NanolitersPerDay";
+
+            case VolumeFlowUnit::MicrolitersPerDay:
+                return "MicrolitersPerDay";
+
+            case VolumeFlowUnit::MillilitersPerDay:
+                return "MillilitersPerDay";
+
+            case VolumeFlowUnit::CentilitersPerDay:
+                return "CentilitersPerDay";
+
+            case VolumeFlowUnit::DecilitersPerDay:
+                return "DecilitersPerDay";
+
+            case VolumeFlowUnit::DecalitersPerDay:
+                return "DecalitersPerDay";
+
+            case VolumeFlowUnit::HectolitersPerDay:
+                return "HectolitersPerDay";
+
+            case VolumeFlowUnit::KilolitersPerDay:
+                return "KilolitersPerDay";
+
+            case VolumeFlowUnit::MegalitersPerDay:
+                return "MegalitersPerDay";
+
+            case VolumeFlowUnit::UsGallonsPerSecond:
+                return "UsGallonsPerSecond";
+
+            case VolumeFlowUnit::UsGallonsPerMinute:
+                return "UsGallonsPerMinute";
+
+            case VolumeFlowUnit::UkGallonsPerDay:
+                return "UkGallonsPerDay";
+
+            case VolumeFlowUnit::MegaukGallonsPerDay:
+                return "MegaukGallonsPerDay";
+
+            case VolumeFlowUnit::UkGallonsPerHour:
+                return "UkGallonsPerHour";
+
+            case VolumeFlowUnit::UkGallonsPerMinute:
+                return "UkGallonsPerMinute";
+
+            case VolumeFlowUnit::UkGallonsPerSecond:
+                return "UkGallonsPerSecond";
+
+            case VolumeFlowUnit::MegaukGallonsPerSecond:
+                return "MegaukGallonsPerSecond";
+
+            case VolumeFlowUnit::KilousGallonsPerMinute:
+                return "KilousGallonsPerMinute";
+
+            case VolumeFlowUnit::UsGallonsPerHour:
+                return "UsGallonsPerHour";
+
+            case VolumeFlowUnit::CubicDecimetersPerMinute:
+                return "CubicDecimetersPerMinute";
+
+            case VolumeFlowUnit::OilBarrelsPerDay:
+                return "OilBarrelsPerDay";
+
+            case VolumeFlowUnit::OilBarrelsPerMinute:
+                return "OilBarrelsPerMinute";
+
+            case VolumeFlowUnit::OilBarrelsPerHour:
+                return "OilBarrelsPerHour";
+
+            case VolumeFlowUnit::OilBarrelsPerSecond:
+                return "OilBarrelsPerSecond";
+
+            case VolumeFlowUnit::CubicMillimetersPerSecond:
+                return "CubicMillimetersPerSecond";
+
+            case VolumeFlowUnit::AcreFeetPerSecond:
+                return "AcreFeetPerSecond";
+
+            case VolumeFlowUnit::AcreFeetPerMinute:
+                return "AcreFeetPerMinute";
+
+            case VolumeFlowUnit::AcreFeetPerHour:
+                return "AcreFeetPerHour";
+
+            case VolumeFlowUnit::AcreFeetPerDay:
+                return "AcreFeetPerDay";
+
+            case VolumeFlowUnit::CubicCentimetersPerMinute:
+                return "CubicCentimetersPerMinute";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

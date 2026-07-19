@@ -36,6 +36,65 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "RotationalSpeed"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case RotationalSpeedUnit::RadiansPerSecond:
+                return "RadiansPerSecond";
+
+            case RotationalSpeedUnit::NanoradiansPerSecond:
+                return "NanoradiansPerSecond";
+
+            case RotationalSpeedUnit::MicroradiansPerSecond:
+                return "MicroradiansPerSecond";
+
+            case RotationalSpeedUnit::MilliradiansPerSecond:
+                return "MilliradiansPerSecond";
+
+            case RotationalSpeedUnit::CentiradiansPerSecond:
+                return "CentiradiansPerSecond";
+
+            case RotationalSpeedUnit::DeciradiansPerSecond:
+                return "DeciradiansPerSecond";
+
+            case RotationalSpeedUnit::DegreesPerSecond:
+                return "DegreesPerSecond";
+
+            case RotationalSpeedUnit::NanodegreesPerSecond:
+                return "NanodegreesPerSecond";
+
+            case RotationalSpeedUnit::MicrodegreesPerSecond:
+                return "MicrodegreesPerSecond";
+
+            case RotationalSpeedUnit::MillidegreesPerSecond:
+                return "MillidegreesPerSecond";
+
+            case RotationalSpeedUnit::DegreesPerMinute:
+                return "DegreesPerMinute";
+
+            case RotationalSpeedUnit::RevolutionsPerSecond:
+                return "RevolutionsPerSecond";
+
+            case RotationalSpeedUnit::RevolutionsPerMinute:
+                return "RevolutionsPerMinute";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

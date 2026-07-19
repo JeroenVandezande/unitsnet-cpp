@@ -43,6 +43,86 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricPotentialChangeRate"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricPotentialChangeRateUnit::VoltsPerSecond:
+                return "VoltsPerSecond";
+
+            case ElectricPotentialChangeRateUnit::MicrovoltsPerSecond:
+                return "MicrovoltsPerSecond";
+
+            case ElectricPotentialChangeRateUnit::MillivoltsPerSecond:
+                return "MillivoltsPerSecond";
+
+            case ElectricPotentialChangeRateUnit::KilovoltsPerSecond:
+                return "KilovoltsPerSecond";
+
+            case ElectricPotentialChangeRateUnit::MegavoltsPerSecond:
+                return "MegavoltsPerSecond";
+
+            case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
+                return "VoltsPerMicrosecond";
+
+            case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
+                return "MicrovoltsPerMicrosecond";
+
+            case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
+                return "MillivoltsPerMicrosecond";
+
+            case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
+                return "KilovoltsPerMicrosecond";
+
+            case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
+                return "MegavoltsPerMicrosecond";
+
+            case ElectricPotentialChangeRateUnit::VoltsPerMinute:
+                return "VoltsPerMinute";
+
+            case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
+                return "MicrovoltsPerMinute";
+
+            case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
+                return "MillivoltsPerMinute";
+
+            case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
+                return "KilovoltsPerMinute";
+
+            case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
+                return "MegavoltsPerMinute";
+
+            case ElectricPotentialChangeRateUnit::VoltsPerHour:
+                return "VoltsPerHour";
+
+            case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
+                return "MicrovoltsPerHour";
+
+            case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
+                return "MillivoltsPerHour";
+
+            case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
+                return "KilovoltsPerHour";
+
+            case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
+                return "MegavoltsPerHour";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

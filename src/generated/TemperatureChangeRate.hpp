@@ -40,6 +40,77 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "TemperatureChangeRate"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case TemperatureChangeRateUnit::DegreesCelsiusPerSecond:
+                return "DegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::NanodegreesCelsiusPerSecond:
+                return "NanodegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::MicrodegreesCelsiusPerSecond:
+                return "MicrodegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::MillidegreesCelsiusPerSecond:
+                return "MillidegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::CentidegreesCelsiusPerSecond:
+                return "CentidegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::DecidegreesCelsiusPerSecond:
+                return "DecidegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::DecadegreesCelsiusPerSecond:
+                return "DecadegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::HectodegreesCelsiusPerSecond:
+                return "HectodegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::KilodegreesCelsiusPerSecond:
+                return "KilodegreesCelsiusPerSecond";
+
+            case TemperatureChangeRateUnit::DegreesCelsiusPerMinute:
+                return "DegreesCelsiusPerMinute";
+
+            case TemperatureChangeRateUnit::DegreesKelvinPerMinute:
+                return "DegreesKelvinPerMinute";
+
+            case TemperatureChangeRateUnit::DegreesFahrenheitPerMinute:
+                return "DegreesFahrenheitPerMinute";
+
+            case TemperatureChangeRateUnit::DegreesFahrenheitPerSecond:
+                return "DegreesFahrenheitPerSecond";
+
+            case TemperatureChangeRateUnit::DegreesKelvinPerSecond:
+                return "DegreesKelvinPerSecond";
+
+            case TemperatureChangeRateUnit::DegreesCelsiusPerHour:
+                return "DegreesCelsiusPerHour";
+
+            case TemperatureChangeRateUnit::DegreesKelvinPerHour:
+                return "DegreesKelvinPerHour";
+
+            case TemperatureChangeRateUnit::DegreesFahrenheitPerHour:
+                return "DegreesFahrenheitPerHour";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

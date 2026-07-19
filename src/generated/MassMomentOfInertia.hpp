@@ -51,6 +51,110 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MassMomentOfInertia"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassMomentOfInertiaUnit::GramSquareMeters:
+                return "GramSquareMeters";
+
+            case MassMomentOfInertiaUnit::MilligramSquareMeters:
+                return "MilligramSquareMeters";
+
+            case MassMomentOfInertiaUnit::KilogramSquareMeters:
+                return "KilogramSquareMeters";
+
+            case MassMomentOfInertiaUnit::GramSquareDecimeters:
+                return "GramSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::MilligramSquareDecimeters:
+                return "MilligramSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::KilogramSquareDecimeters:
+                return "KilogramSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::GramSquareCentimeters:
+                return "GramSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::MilligramSquareCentimeters:
+                return "MilligramSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::KilogramSquareCentimeters:
+                return "KilogramSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::GramSquareMillimeters:
+                return "GramSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::MilligramSquareMillimeters:
+                return "MilligramSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::KilogramSquareMillimeters:
+                return "KilogramSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::TonneSquareMeters:
+                return "TonneSquareMeters";
+
+            case MassMomentOfInertiaUnit::KilotonneSquareMeters:
+                return "KilotonneSquareMeters";
+
+            case MassMomentOfInertiaUnit::MegatonneSquareMeters:
+                return "MegatonneSquareMeters";
+
+            case MassMomentOfInertiaUnit::TonneSquareDecimeters:
+                return "TonneSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::KilotonneSquareDecimeters:
+                return "KilotonneSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::MegatonneSquareDecimeters:
+                return "MegatonneSquareDecimeters";
+
+            case MassMomentOfInertiaUnit::TonneSquareCentimeters:
+                return "TonneSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::KilotonneSquareCentimeters:
+                return "KilotonneSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::MegatonneSquareCentimeters:
+                return "MegatonneSquareCentimeters";
+
+            case MassMomentOfInertiaUnit::TonneSquareMillimeters:
+                return "TonneSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::KilotonneSquareMillimeters:
+                return "KilotonneSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::MegatonneSquareMillimeters:
+                return "MegatonneSquareMillimeters";
+
+            case MassMomentOfInertiaUnit::PoundSquareFeet:
+                return "PoundSquareFeet";
+
+            case MassMomentOfInertiaUnit::PoundSquareInches:
+                return "PoundSquareInches";
+
+            case MassMomentOfInertiaUnit::SlugSquareFeet:
+                return "SlugSquareFeet";
+
+            case MassMomentOfInertiaUnit::SlugSquareInches:
+                return "SlugSquareInches";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

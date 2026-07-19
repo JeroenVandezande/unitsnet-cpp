@@ -39,6 +39,74 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricConductance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricConductanceUnit::Siemens:
+                return "Siemens";
+
+            case ElectricConductanceUnit::Nanosiemens:
+                return "Nanosiemens";
+
+            case ElectricConductanceUnit::Microsiemens:
+                return "Microsiemens";
+
+            case ElectricConductanceUnit::Millisiemens:
+                return "Millisiemens";
+
+            case ElectricConductanceUnit::Kilosiemens:
+                return "Kilosiemens";
+
+            case ElectricConductanceUnit::Megasiemens:
+                return "Megasiemens";
+
+            case ElectricConductanceUnit::Gigasiemens:
+                return "Gigasiemens";
+
+            case ElectricConductanceUnit::Terasiemens:
+                return "Terasiemens";
+
+            case ElectricConductanceUnit::Mhos:
+                return "Mhos";
+
+            case ElectricConductanceUnit::Nanomhos:
+                return "Nanomhos";
+
+            case ElectricConductanceUnit::Micromhos:
+                return "Micromhos";
+
+            case ElectricConductanceUnit::Millimhos:
+                return "Millimhos";
+
+            case ElectricConductanceUnit::Kilomhos:
+                return "Kilomhos";
+
+            case ElectricConductanceUnit::Megamhos:
+                return "Megamhos";
+
+            case ElectricConductanceUnit::Gigamhos:
+                return "Gigamhos";
+
+            case ElectricConductanceUnit::Teramhos:
+                return "Teramhos";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

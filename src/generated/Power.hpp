@@ -50,6 +50,107 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Power"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case PowerUnit::Watts:
+                return "Watts";
+
+            case PowerUnit::Femtowatts:
+                return "Femtowatts";
+
+            case PowerUnit::Picowatts:
+                return "Picowatts";
+
+            case PowerUnit::Nanowatts:
+                return "Nanowatts";
+
+            case PowerUnit::Microwatts:
+                return "Microwatts";
+
+            case PowerUnit::Milliwatts:
+                return "Milliwatts";
+
+            case PowerUnit::Deciwatts:
+                return "Deciwatts";
+
+            case PowerUnit::Decawatts:
+                return "Decawatts";
+
+            case PowerUnit::Kilowatts:
+                return "Kilowatts";
+
+            case PowerUnit::Megawatts:
+                return "Megawatts";
+
+            case PowerUnit::Gigawatts:
+                return "Gigawatts";
+
+            case PowerUnit::Terawatts:
+                return "Terawatts";
+
+            case PowerUnit::Petawatts:
+                return "Petawatts";
+
+            case PowerUnit::MechanicalHorsepower:
+                return "MechanicalHorsepower";
+
+            case PowerUnit::MetricHorsepower:
+                return "MetricHorsepower";
+
+            case PowerUnit::ElectricalHorsepower:
+                return "ElectricalHorsepower";
+
+            case PowerUnit::BoilerHorsepower:
+                return "BoilerHorsepower";
+
+            case PowerUnit::HydraulicHorsepower:
+                return "HydraulicHorsepower";
+
+            case PowerUnit::BritishThermalUnitsPerHour:
+                return "BritishThermalUnitsPerHour";
+
+            case PowerUnit::KilobritishThermalUnitsPerHour:
+                return "KilobritishThermalUnitsPerHour";
+
+            case PowerUnit::MegabritishThermalUnitsPerHour:
+                return "MegabritishThermalUnitsPerHour";
+
+            case PowerUnit::JoulesPerHour:
+                return "JoulesPerHour";
+
+            case PowerUnit::MillijoulesPerHour:
+                return "MillijoulesPerHour";
+
+            case PowerUnit::KilojoulesPerHour:
+                return "KilojoulesPerHour";
+
+            case PowerUnit::MegajoulesPerHour:
+                return "MegajoulesPerHour";
+
+            case PowerUnit::GigajoulesPerHour:
+                return "GigajoulesPerHour";
+
+            case PowerUnit::TonsOfRefrigeration:
+                return "TonsOfRefrigeration";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

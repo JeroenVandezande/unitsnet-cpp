@@ -26,6 +26,35 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "SpecificVolume"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case SpecificVolumeUnit::CubicMetersPerKilogram:
+                return "CubicMetersPerKilogram";
+
+            case SpecificVolumeUnit::MillicubicMetersPerKilogram:
+                return "MillicubicMetersPerKilogram";
+
+            case SpecificVolumeUnit::CubicFeetPerPound:
+                return "CubicFeetPerPound";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

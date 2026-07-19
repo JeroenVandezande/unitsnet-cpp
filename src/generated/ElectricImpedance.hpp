@@ -31,6 +31,50 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricImpedance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricImpedanceUnit::Ohms:
+                return "Ohms";
+
+            case ElectricImpedanceUnit::Nanoohms:
+                return "Nanoohms";
+
+            case ElectricImpedanceUnit::Microohms:
+                return "Microohms";
+
+            case ElectricImpedanceUnit::Milliohms:
+                return "Milliohms";
+
+            case ElectricImpedanceUnit::Kiloohms:
+                return "Kiloohms";
+
+            case ElectricImpedanceUnit::Megaohms:
+                return "Megaohms";
+
+            case ElectricImpedanceUnit::Gigaohms:
+                return "Gigaohms";
+
+            case ElectricImpedanceUnit::Teraohms:
+                return "Teraohms";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

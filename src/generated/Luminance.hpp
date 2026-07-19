@@ -33,6 +33,56 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Luminance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case LuminanceUnit::CandelasPerSquareMeter:
+                return "CandelasPerSquareMeter";
+
+            case LuminanceUnit::NanocandelasPerSquareMeter:
+                return "NanocandelasPerSquareMeter";
+
+            case LuminanceUnit::MicrocandelasPerSquareMeter:
+                return "MicrocandelasPerSquareMeter";
+
+            case LuminanceUnit::MillicandelasPerSquareMeter:
+                return "MillicandelasPerSquareMeter";
+
+            case LuminanceUnit::CenticandelasPerSquareMeter:
+                return "CenticandelasPerSquareMeter";
+
+            case LuminanceUnit::DecicandelasPerSquareMeter:
+                return "DecicandelasPerSquareMeter";
+
+            case LuminanceUnit::KilocandelasPerSquareMeter:
+                return "KilocandelasPerSquareMeter";
+
+            case LuminanceUnit::CandelasPerSquareFoot:
+                return "CandelasPerSquareFoot";
+
+            case LuminanceUnit::CandelasPerSquareInch:
+                return "CandelasPerSquareInch";
+
+            case LuminanceUnit::Nits:
+                return "Nits";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

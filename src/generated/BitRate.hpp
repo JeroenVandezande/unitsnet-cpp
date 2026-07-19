@@ -62,6 +62,143 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "BitRate"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case BitRateUnit::BitsPerSecond:
+                return "BitsPerSecond";
+
+            case BitRateUnit::KilobitsPerSecond:
+                return "KilobitsPerSecond";
+
+            case BitRateUnit::MegabitsPerSecond:
+                return "MegabitsPerSecond";
+
+            case BitRateUnit::GigabitsPerSecond:
+                return "GigabitsPerSecond";
+
+            case BitRateUnit::TerabitsPerSecond:
+                return "TerabitsPerSecond";
+
+            case BitRateUnit::PetabitsPerSecond:
+                return "PetabitsPerSecond";
+
+            case BitRateUnit::ExabitsPerSecond:
+                return "ExabitsPerSecond";
+
+            case BitRateUnit::KibibitsPerSecond:
+                return "KibibitsPerSecond";
+
+            case BitRateUnit::MebibitsPerSecond:
+                return "MebibitsPerSecond";
+
+            case BitRateUnit::GibibitsPerSecond:
+                return "GibibitsPerSecond";
+
+            case BitRateUnit::TebibitsPerSecond:
+                return "TebibitsPerSecond";
+
+            case BitRateUnit::PebibitsPerSecond:
+                return "PebibitsPerSecond";
+
+            case BitRateUnit::ExbibitsPerSecond:
+                return "ExbibitsPerSecond";
+
+            case BitRateUnit::BytesPerSecond:
+                return "BytesPerSecond";
+
+            case BitRateUnit::KilobytesPerSecond:
+                return "KilobytesPerSecond";
+
+            case BitRateUnit::MegabytesPerSecond:
+                return "MegabytesPerSecond";
+
+            case BitRateUnit::GigabytesPerSecond:
+                return "GigabytesPerSecond";
+
+            case BitRateUnit::TerabytesPerSecond:
+                return "TerabytesPerSecond";
+
+            case BitRateUnit::PetabytesPerSecond:
+                return "PetabytesPerSecond";
+
+            case BitRateUnit::ExabytesPerSecond:
+                return "ExabytesPerSecond";
+
+            case BitRateUnit::KibibytesPerSecond:
+                return "KibibytesPerSecond";
+
+            case BitRateUnit::MebibytesPerSecond:
+                return "MebibytesPerSecond";
+
+            case BitRateUnit::GibibytesPerSecond:
+                return "GibibytesPerSecond";
+
+            case BitRateUnit::TebibytesPerSecond:
+                return "TebibytesPerSecond";
+
+            case BitRateUnit::PebibytesPerSecond:
+                return "PebibytesPerSecond";
+
+            case BitRateUnit::ExbibytesPerSecond:
+                return "ExbibytesPerSecond";
+
+            case BitRateUnit::OctetsPerSecond:
+                return "OctetsPerSecond";
+
+            case BitRateUnit::KilooctetsPerSecond:
+                return "KilooctetsPerSecond";
+
+            case BitRateUnit::MegaoctetsPerSecond:
+                return "MegaoctetsPerSecond";
+
+            case BitRateUnit::GigaoctetsPerSecond:
+                return "GigaoctetsPerSecond";
+
+            case BitRateUnit::TeraoctetsPerSecond:
+                return "TeraoctetsPerSecond";
+
+            case BitRateUnit::PetaoctetsPerSecond:
+                return "PetaoctetsPerSecond";
+
+            case BitRateUnit::ExaoctetsPerSecond:
+                return "ExaoctetsPerSecond";
+
+            case BitRateUnit::KibioctetsPerSecond:
+                return "KibioctetsPerSecond";
+
+            case BitRateUnit::MebioctetsPerSecond:
+                return "MebioctetsPerSecond";
+
+            case BitRateUnit::GibioctetsPerSecond:
+                return "GibioctetsPerSecond";
+
+            case BitRateUnit::TebioctetsPerSecond:
+                return "TebioctetsPerSecond";
+
+            case BitRateUnit::PebioctetsPerSecond:
+                return "PebioctetsPerSecond";
+
+            case BitRateUnit::ExbioctetsPerSecond:
+                return "ExbioctetsPerSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

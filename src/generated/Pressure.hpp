@@ -73,6 +73,176 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Pressure"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case PressureUnit::Pascals:
+                return "Pascals";
+
+            case PressureUnit::Micropascals:
+                return "Micropascals";
+
+            case PressureUnit::Millipascals:
+                return "Millipascals";
+
+            case PressureUnit::Decapascals:
+                return "Decapascals";
+
+            case PressureUnit::Hectopascals:
+                return "Hectopascals";
+
+            case PressureUnit::Kilopascals:
+                return "Kilopascals";
+
+            case PressureUnit::Megapascals:
+                return "Megapascals";
+
+            case PressureUnit::Gigapascals:
+                return "Gigapascals";
+
+            case PressureUnit::Atmospheres:
+                return "Atmospheres";
+
+            case PressureUnit::Bars:
+                return "Bars";
+
+            case PressureUnit::Microbars:
+                return "Microbars";
+
+            case PressureUnit::Millibars:
+                return "Millibars";
+
+            case PressureUnit::Centibars:
+                return "Centibars";
+
+            case PressureUnit::Decibars:
+                return "Decibars";
+
+            case PressureUnit::Kilobars:
+                return "Kilobars";
+
+            case PressureUnit::Megabars:
+                return "Megabars";
+
+            case PressureUnit::KilogramsForcePerSquareMeter:
+                return "KilogramsForcePerSquareMeter";
+
+            case PressureUnit::KilogramsForcePerSquareCentimeter:
+                return "KilogramsForcePerSquareCentimeter";
+
+            case PressureUnit::KilogramsForcePerSquareMillimeter:
+                return "KilogramsForcePerSquareMillimeter";
+
+            case PressureUnit::NewtonsPerSquareMeter:
+                return "NewtonsPerSquareMeter";
+
+            case PressureUnit::KilonewtonsPerSquareMeter:
+                return "KilonewtonsPerSquareMeter";
+
+            case PressureUnit::MeganewtonsPerSquareMeter:
+                return "MeganewtonsPerSquareMeter";
+
+            case PressureUnit::NewtonsPerSquareCentimeter:
+                return "NewtonsPerSquareCentimeter";
+
+            case PressureUnit::KilonewtonsPerSquareCentimeter:
+                return "KilonewtonsPerSquareCentimeter";
+
+            case PressureUnit::NewtonsPerSquareMillimeter:
+                return "NewtonsPerSquareMillimeter";
+
+            case PressureUnit::KilonewtonsPerSquareMillimeter:
+                return "KilonewtonsPerSquareMillimeter";
+
+            case PressureUnit::TechnicalAtmospheres:
+                return "TechnicalAtmospheres";
+
+            case PressureUnit::Torrs:
+                return "Torrs";
+
+            case PressureUnit::Millitorrs:
+                return "Millitorrs";
+
+            case PressureUnit::PoundsForcePerSquareInch:
+                return "PoundsForcePerSquareInch";
+
+            case PressureUnit::KilopoundsForcePerSquareInch:
+                return "KilopoundsForcePerSquareInch";
+
+            case PressureUnit::PoundsForcePerSquareMil:
+                return "PoundsForcePerSquareMil";
+
+            case PressureUnit::KilopoundsForcePerSquareMil:
+                return "KilopoundsForcePerSquareMil";
+
+            case PressureUnit::PoundsForcePerSquareFoot:
+                return "PoundsForcePerSquareFoot";
+
+            case PressureUnit::KilopoundsForcePerSquareFoot:
+                return "KilopoundsForcePerSquareFoot";
+
+            case PressureUnit::TonnesForcePerSquareMillimeter:
+                return "TonnesForcePerSquareMillimeter";
+
+            case PressureUnit::TonnesForcePerSquareMeter:
+                return "TonnesForcePerSquareMeter";
+
+            case PressureUnit::MetersOfHead:
+                return "MetersOfHead";
+
+            case PressureUnit::TonnesForcePerSquareCentimeter:
+                return "TonnesForcePerSquareCentimeter";
+
+            case PressureUnit::FeetOfHead:
+                return "FeetOfHead";
+
+            case PressureUnit::MillimetersOfMercury:
+                return "MillimetersOfMercury";
+
+            case PressureUnit::InchesOfMercury:
+                return "InchesOfMercury";
+
+            case PressureUnit::DynesPerSquareCentimeter:
+                return "DynesPerSquareCentimeter";
+
+            case PressureUnit::PoundsPerInchSecondSquared:
+                return "PoundsPerInchSecondSquared";
+
+            case PressureUnit::MetersOfWaterColumn:
+                return "MetersOfWaterColumn";
+
+            case PressureUnit::MillimetersOfWaterColumn:
+                return "MillimetersOfWaterColumn";
+
+            case PressureUnit::CentimetersOfWaterColumn:
+                return "CentimetersOfWaterColumn";
+
+            case PressureUnit::InchesOfWaterColumn:
+                return "InchesOfWaterColumn";
+
+            case PressureUnit::MilligramsForcePerSquareMeter:
+                return "MilligramsForcePerSquareMeter";
+
+            case PressureUnit::MilligramsForcePerSquareFoot:
+                return "MilligramsForcePerSquareFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

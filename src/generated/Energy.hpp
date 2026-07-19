@@ -63,6 +63,146 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Energy"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case EnergyUnit::Joules:
+                return "Joules";
+
+            case EnergyUnit::Nanojoules:
+                return "Nanojoules";
+
+            case EnergyUnit::Microjoules:
+                return "Microjoules";
+
+            case EnergyUnit::Millijoules:
+                return "Millijoules";
+
+            case EnergyUnit::Kilojoules:
+                return "Kilojoules";
+
+            case EnergyUnit::Megajoules:
+                return "Megajoules";
+
+            case EnergyUnit::Gigajoules:
+                return "Gigajoules";
+
+            case EnergyUnit::Terajoules:
+                return "Terajoules";
+
+            case EnergyUnit::Petajoules:
+                return "Petajoules";
+
+            case EnergyUnit::Calories:
+                return "Calories";
+
+            case EnergyUnit::Kilocalories:
+                return "Kilocalories";
+
+            case EnergyUnit::Megacalories:
+                return "Megacalories";
+
+            case EnergyUnit::BritishThermalUnits:
+                return "BritishThermalUnits";
+
+            case EnergyUnit::KilobritishThermalUnits:
+                return "KilobritishThermalUnits";
+
+            case EnergyUnit::MegabritishThermalUnits:
+                return "MegabritishThermalUnits";
+
+            case EnergyUnit::GigabritishThermalUnits:
+                return "GigabritishThermalUnits";
+
+            case EnergyUnit::ElectronVolts:
+                return "ElectronVolts";
+
+            case EnergyUnit::KiloelectronVolts:
+                return "KiloelectronVolts";
+
+            case EnergyUnit::MegaelectronVolts:
+                return "MegaelectronVolts";
+
+            case EnergyUnit::GigaelectronVolts:
+                return "GigaelectronVolts";
+
+            case EnergyUnit::TeraelectronVolts:
+                return "TeraelectronVolts";
+
+            case EnergyUnit::FootPounds:
+                return "FootPounds";
+
+            case EnergyUnit::Ergs:
+                return "Ergs";
+
+            case EnergyUnit::WattHours:
+                return "WattHours";
+
+            case EnergyUnit::KilowattHours:
+                return "KilowattHours";
+
+            case EnergyUnit::MegawattHours:
+                return "MegawattHours";
+
+            case EnergyUnit::GigawattHours:
+                return "GigawattHours";
+
+            case EnergyUnit::TerawattHours:
+                return "TerawattHours";
+
+            case EnergyUnit::WattDays:
+                return "WattDays";
+
+            case EnergyUnit::KilowattDays:
+                return "KilowattDays";
+
+            case EnergyUnit::MegawattDays:
+                return "MegawattDays";
+
+            case EnergyUnit::GigawattDays:
+                return "GigawattDays";
+
+            case EnergyUnit::TerawattDays:
+                return "TerawattDays";
+
+            case EnergyUnit::ThermsEc:
+                return "ThermsEc";
+
+            case EnergyUnit::DecathermsEc:
+                return "DecathermsEc";
+
+            case EnergyUnit::ThermsUs:
+                return "ThermsUs";
+
+            case EnergyUnit::DecathermsUs:
+                return "DecathermsUs";
+
+            case EnergyUnit::ThermsImperial:
+                return "ThermsImperial";
+
+            case EnergyUnit::DecathermsImperial:
+                return "DecathermsImperial";
+
+            case EnergyUnit::HorsepowerHours:
+                return "HorsepowerHours";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -40,6 +40,77 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "SpecificWeight"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case SpecificWeightUnit::NewtonsPerCubicMillimeter:
+                return "NewtonsPerCubicMillimeter";
+
+            case SpecificWeightUnit::KilonewtonsPerCubicMillimeter:
+                return "KilonewtonsPerCubicMillimeter";
+
+            case SpecificWeightUnit::NewtonsPerCubicCentimeter:
+                return "NewtonsPerCubicCentimeter";
+
+            case SpecificWeightUnit::KilonewtonsPerCubicCentimeter:
+                return "KilonewtonsPerCubicCentimeter";
+
+            case SpecificWeightUnit::NewtonsPerCubicMeter:
+                return "NewtonsPerCubicMeter";
+
+            case SpecificWeightUnit::KilonewtonsPerCubicMeter:
+                return "KilonewtonsPerCubicMeter";
+
+            case SpecificWeightUnit::MeganewtonsPerCubicMeter:
+                return "MeganewtonsPerCubicMeter";
+
+            case SpecificWeightUnit::KilogramsForcePerCubicMillimeter:
+                return "KilogramsForcePerCubicMillimeter";
+
+            case SpecificWeightUnit::KilogramsForcePerCubicCentimeter:
+                return "KilogramsForcePerCubicCentimeter";
+
+            case SpecificWeightUnit::KilogramsForcePerCubicMeter:
+                return "KilogramsForcePerCubicMeter";
+
+            case SpecificWeightUnit::PoundsForcePerCubicInch:
+                return "PoundsForcePerCubicInch";
+
+            case SpecificWeightUnit::KilopoundsForcePerCubicInch:
+                return "KilopoundsForcePerCubicInch";
+
+            case SpecificWeightUnit::PoundsForcePerCubicFoot:
+                return "PoundsForcePerCubicFoot";
+
+            case SpecificWeightUnit::KilopoundsForcePerCubicFoot:
+                return "KilopoundsForcePerCubicFoot";
+
+            case SpecificWeightUnit::TonnesForcePerCubicMillimeter:
+                return "TonnesForcePerCubicMillimeter";
+
+            case SpecificWeightUnit::TonnesForcePerCubicCentimeter:
+                return "TonnesForcePerCubicCentimeter";
+
+            case SpecificWeightUnit::TonnesForcePerCubicMeter:
+                return "TonnesForcePerCubicMeter";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

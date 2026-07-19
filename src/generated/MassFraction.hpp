@@ -47,6 +47,98 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MassFraction"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassFractionUnit::DecimalFractions:
+                return "DecimalFractions";
+
+            case MassFractionUnit::GramsPerGram:
+                return "GramsPerGram";
+
+            case MassFractionUnit::NanogramsPerGram:
+                return "NanogramsPerGram";
+
+            case MassFractionUnit::MicrogramsPerGram:
+                return "MicrogramsPerGram";
+
+            case MassFractionUnit::MilligramsPerGram:
+                return "MilligramsPerGram";
+
+            case MassFractionUnit::CentigramsPerGram:
+                return "CentigramsPerGram";
+
+            case MassFractionUnit::DecigramsPerGram:
+                return "DecigramsPerGram";
+
+            case MassFractionUnit::DecagramsPerGram:
+                return "DecagramsPerGram";
+
+            case MassFractionUnit::HectogramsPerGram:
+                return "HectogramsPerGram";
+
+            case MassFractionUnit::KilogramsPerGram:
+                return "KilogramsPerGram";
+
+            case MassFractionUnit::GramsPerKilogram:
+                return "GramsPerKilogram";
+
+            case MassFractionUnit::NanogramsPerKilogram:
+                return "NanogramsPerKilogram";
+
+            case MassFractionUnit::MicrogramsPerKilogram:
+                return "MicrogramsPerKilogram";
+
+            case MassFractionUnit::MilligramsPerKilogram:
+                return "MilligramsPerKilogram";
+
+            case MassFractionUnit::CentigramsPerKilogram:
+                return "CentigramsPerKilogram";
+
+            case MassFractionUnit::DecigramsPerKilogram:
+                return "DecigramsPerKilogram";
+
+            case MassFractionUnit::DecagramsPerKilogram:
+                return "DecagramsPerKilogram";
+
+            case MassFractionUnit::HectogramsPerKilogram:
+                return "HectogramsPerKilogram";
+
+            case MassFractionUnit::KilogramsPerKilogram:
+                return "KilogramsPerKilogram";
+
+            case MassFractionUnit::Percent:
+                return "Percent";
+
+            case MassFractionUnit::PartsPerThousand:
+                return "PartsPerThousand";
+
+            case MassFractionUnit::PartsPerMillion:
+                return "PartsPerMillion";
+
+            case MassFractionUnit::PartsPerBillion:
+                return "PartsPerBillion";
+
+            case MassFractionUnit::PartsPerTrillion:
+                return "PartsPerTrillion";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

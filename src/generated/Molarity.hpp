@@ -34,6 +34,59 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Molarity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MolarityUnit::MolesPerCubicMeter:
+                return "MolesPerCubicMeter";
+
+            case MolarityUnit::KilomolesPerCubicMeter:
+                return "KilomolesPerCubicMeter";
+
+            case MolarityUnit::MolesPerLiter:
+                return "MolesPerLiter";
+
+            case MolarityUnit::FemtomolesPerLiter:
+                return "FemtomolesPerLiter";
+
+            case MolarityUnit::PicomolesPerLiter:
+                return "PicomolesPerLiter";
+
+            case MolarityUnit::NanomolesPerLiter:
+                return "NanomolesPerLiter";
+
+            case MolarityUnit::MicromolesPerLiter:
+                return "MicromolesPerLiter";
+
+            case MolarityUnit::MillimolesPerLiter:
+                return "MillimolesPerLiter";
+
+            case MolarityUnit::CentimolesPerLiter:
+                return "CentimolesPerLiter";
+
+            case MolarityUnit::DecimolesPerLiter:
+                return "DecimolesPerLiter";
+
+            case MolarityUnit::PoundMolesPerCubicFoot:
+                return "PoundMolesPerCubicFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

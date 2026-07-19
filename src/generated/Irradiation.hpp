@@ -32,6 +32,53 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Irradiation"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case IrradiationUnit::JoulesPerSquareMeter:
+                return "JoulesPerSquareMeter";
+
+            case IrradiationUnit::KilojoulesPerSquareMeter:
+                return "KilojoulesPerSquareMeter";
+
+            case IrradiationUnit::JoulesPerSquareCentimeter:
+                return "JoulesPerSquareCentimeter";
+
+            case IrradiationUnit::MillijoulesPerSquareCentimeter:
+                return "MillijoulesPerSquareCentimeter";
+
+            case IrradiationUnit::JoulesPerSquareMillimeter:
+                return "JoulesPerSquareMillimeter";
+
+            case IrradiationUnit::WattHoursPerSquareMeter:
+                return "WattHoursPerSquareMeter";
+
+            case IrradiationUnit::KilowattHoursPerSquareMeter:
+                return "KilowattHoursPerSquareMeter";
+
+            case IrradiationUnit::BtusPerSquareFoot:
+                return "BtusPerSquareFoot";
+
+            case IrradiationUnit::KilobtusPerSquareFoot:
+                return "KilobtusPerSquareFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

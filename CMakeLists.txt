@@ -240,4 +240,10 @@ if (UNITSNET_CPP_BUILD_TESTS)
             PRIVATE
             UNITSNET_CPP_USE_FLOAT
     )
+
+    target_compile_definitions(
+            unitsnet_cpp_tests
+            PRIVATE
+            UNITSNET_ENABLE_JSON
+    )
 endif ()

@@ -48,6 +48,101 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "HeatFlux"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case HeatFluxUnit::WattsPerSquareMeter:
+                return "WattsPerSquareMeter";
+
+            case HeatFluxUnit::NanowattsPerSquareMeter:
+                return "NanowattsPerSquareMeter";
+
+            case HeatFluxUnit::MicrowattsPerSquareMeter:
+                return "MicrowattsPerSquareMeter";
+
+            case HeatFluxUnit::MilliwattsPerSquareMeter:
+                return "MilliwattsPerSquareMeter";
+
+            case HeatFluxUnit::CentiwattsPerSquareMeter:
+                return "CentiwattsPerSquareMeter";
+
+            case HeatFluxUnit::DeciwattsPerSquareMeter:
+                return "DeciwattsPerSquareMeter";
+
+            case HeatFluxUnit::KilowattsPerSquareMeter:
+                return "KilowattsPerSquareMeter";
+
+            case HeatFluxUnit::WattsPerSquareMillimeter:
+                return "WattsPerSquareMillimeter";
+
+            case HeatFluxUnit::NanowattsPerSquareMillimeter:
+                return "NanowattsPerSquareMillimeter";
+
+            case HeatFluxUnit::MicrowattsPerSquareMillimeter:
+                return "MicrowattsPerSquareMillimeter";
+
+            case HeatFluxUnit::MilliwattsPerSquareMillimeter:
+                return "MilliwattsPerSquareMillimeter";
+
+            case HeatFluxUnit::CentiwattsPerSquareMillimeter:
+                return "CentiwattsPerSquareMillimeter";
+
+            case HeatFluxUnit::DeciwattsPerSquareMillimeter:
+                return "DeciwattsPerSquareMillimeter";
+
+            case HeatFluxUnit::KilowattsPerSquareMillimeter:
+                return "KilowattsPerSquareMillimeter";
+
+            case HeatFluxUnit::WattsPerSquareInch:
+                return "WattsPerSquareInch";
+
+            case HeatFluxUnit::WattsPerSquareFoot:
+                return "WattsPerSquareFoot";
+
+            case HeatFluxUnit::BtusPerSecondSquareInch:
+                return "BtusPerSecondSquareInch";
+
+            case HeatFluxUnit::BtusPerSecondSquareFoot:
+                return "BtusPerSecondSquareFoot";
+
+            case HeatFluxUnit::BtusPerMinuteSquareFoot:
+                return "BtusPerMinuteSquareFoot";
+
+            case HeatFluxUnit::BtusPerHourSquareFoot:
+                return "BtusPerHourSquareFoot";
+
+            case HeatFluxUnit::CaloriesPerSecondSquareCentimeter:
+                return "CaloriesPerSecondSquareCentimeter";
+
+            case HeatFluxUnit::KilocaloriesPerSecondSquareCentimeter:
+                return "KilocaloriesPerSecondSquareCentimeter";
+
+            case HeatFluxUnit::KilocaloriesPerHourSquareMeter:
+                return "KilocaloriesPerHourSquareMeter";
+
+            case HeatFluxUnit::PoundsForcePerFootSecond:
+                return "PoundsForcePerFootSecond";
+
+            case HeatFluxUnit::PoundsPerSecondCubed:
+                return "PoundsPerSecondCubed";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

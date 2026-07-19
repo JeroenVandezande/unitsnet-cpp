@@ -69,6 +69,164 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "PowerDensity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case PowerDensityUnit::WattsPerCubicMeter:
+                return "WattsPerCubicMeter";
+
+            case PowerDensityUnit::PicowattsPerCubicMeter:
+                return "PicowattsPerCubicMeter";
+
+            case PowerDensityUnit::NanowattsPerCubicMeter:
+                return "NanowattsPerCubicMeter";
+
+            case PowerDensityUnit::MicrowattsPerCubicMeter:
+                return "MicrowattsPerCubicMeter";
+
+            case PowerDensityUnit::MilliwattsPerCubicMeter:
+                return "MilliwattsPerCubicMeter";
+
+            case PowerDensityUnit::DeciwattsPerCubicMeter:
+                return "DeciwattsPerCubicMeter";
+
+            case PowerDensityUnit::DecawattsPerCubicMeter:
+                return "DecawattsPerCubicMeter";
+
+            case PowerDensityUnit::KilowattsPerCubicMeter:
+                return "KilowattsPerCubicMeter";
+
+            case PowerDensityUnit::MegawattsPerCubicMeter:
+                return "MegawattsPerCubicMeter";
+
+            case PowerDensityUnit::GigawattsPerCubicMeter:
+                return "GigawattsPerCubicMeter";
+
+            case PowerDensityUnit::TerawattsPerCubicMeter:
+                return "TerawattsPerCubicMeter";
+
+            case PowerDensityUnit::WattsPerCubicInch:
+                return "WattsPerCubicInch";
+
+            case PowerDensityUnit::PicowattsPerCubicInch:
+                return "PicowattsPerCubicInch";
+
+            case PowerDensityUnit::NanowattsPerCubicInch:
+                return "NanowattsPerCubicInch";
+
+            case PowerDensityUnit::MicrowattsPerCubicInch:
+                return "MicrowattsPerCubicInch";
+
+            case PowerDensityUnit::MilliwattsPerCubicInch:
+                return "MilliwattsPerCubicInch";
+
+            case PowerDensityUnit::DeciwattsPerCubicInch:
+                return "DeciwattsPerCubicInch";
+
+            case PowerDensityUnit::DecawattsPerCubicInch:
+                return "DecawattsPerCubicInch";
+
+            case PowerDensityUnit::KilowattsPerCubicInch:
+                return "KilowattsPerCubicInch";
+
+            case PowerDensityUnit::MegawattsPerCubicInch:
+                return "MegawattsPerCubicInch";
+
+            case PowerDensityUnit::GigawattsPerCubicInch:
+                return "GigawattsPerCubicInch";
+
+            case PowerDensityUnit::TerawattsPerCubicInch:
+                return "TerawattsPerCubicInch";
+
+            case PowerDensityUnit::WattsPerCubicFoot:
+                return "WattsPerCubicFoot";
+
+            case PowerDensityUnit::PicowattsPerCubicFoot:
+                return "PicowattsPerCubicFoot";
+
+            case PowerDensityUnit::NanowattsPerCubicFoot:
+                return "NanowattsPerCubicFoot";
+
+            case PowerDensityUnit::MicrowattsPerCubicFoot:
+                return "MicrowattsPerCubicFoot";
+
+            case PowerDensityUnit::MilliwattsPerCubicFoot:
+                return "MilliwattsPerCubicFoot";
+
+            case PowerDensityUnit::DeciwattsPerCubicFoot:
+                return "DeciwattsPerCubicFoot";
+
+            case PowerDensityUnit::DecawattsPerCubicFoot:
+                return "DecawattsPerCubicFoot";
+
+            case PowerDensityUnit::KilowattsPerCubicFoot:
+                return "KilowattsPerCubicFoot";
+
+            case PowerDensityUnit::MegawattsPerCubicFoot:
+                return "MegawattsPerCubicFoot";
+
+            case PowerDensityUnit::GigawattsPerCubicFoot:
+                return "GigawattsPerCubicFoot";
+
+            case PowerDensityUnit::TerawattsPerCubicFoot:
+                return "TerawattsPerCubicFoot";
+
+            case PowerDensityUnit::WattsPerLiter:
+                return "WattsPerLiter";
+
+            case PowerDensityUnit::PicowattsPerLiter:
+                return "PicowattsPerLiter";
+
+            case PowerDensityUnit::NanowattsPerLiter:
+                return "NanowattsPerLiter";
+
+            case PowerDensityUnit::MicrowattsPerLiter:
+                return "MicrowattsPerLiter";
+
+            case PowerDensityUnit::MilliwattsPerLiter:
+                return "MilliwattsPerLiter";
+
+            case PowerDensityUnit::DeciwattsPerLiter:
+                return "DeciwattsPerLiter";
+
+            case PowerDensityUnit::DecawattsPerLiter:
+                return "DecawattsPerLiter";
+
+            case PowerDensityUnit::KilowattsPerLiter:
+                return "KilowattsPerLiter";
+
+            case PowerDensityUnit::MegawattsPerLiter:
+                return "MegawattsPerLiter";
+
+            case PowerDensityUnit::GigawattsPerLiter:
+                return "GigawattsPerLiter";
+
+            case PowerDensityUnit::TerawattsPerLiter:
+                return "TerawattsPerLiter";
+
+            case PowerDensityUnit::BtusPerSecondCubicInch:
+                return "BtusPerSecondCubicInch";
+
+            case PowerDensityUnit::BtusPerSecondCubicFoot:
+                return "BtusPerSecondCubicFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

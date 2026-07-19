@@ -72,6 +72,173 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MassConcentration"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassConcentrationUnit::GramsPerCubicMillimeter:
+                return "GramsPerCubicMillimeter";
+
+            case MassConcentrationUnit::KilogramsPerCubicMillimeter:
+                return "KilogramsPerCubicMillimeter";
+
+            case MassConcentrationUnit::GramsPerCubicCentimeter:
+                return "GramsPerCubicCentimeter";
+
+            case MassConcentrationUnit::KilogramsPerCubicCentimeter:
+                return "KilogramsPerCubicCentimeter";
+
+            case MassConcentrationUnit::GramsPerCubicMeter:
+                return "GramsPerCubicMeter";
+
+            case MassConcentrationUnit::KilogramsPerCubicMeter:
+                return "KilogramsPerCubicMeter";
+
+            case MassConcentrationUnit::MilligramsPerCubicMeter:
+                return "MilligramsPerCubicMeter";
+
+            case MassConcentrationUnit::MicrogramsPerCubicMeter:
+                return "MicrogramsPerCubicMeter";
+
+            case MassConcentrationUnit::GramsPerMicroliter:
+                return "GramsPerMicroliter";
+
+            case MassConcentrationUnit::PicogramsPerMicroliter:
+                return "PicogramsPerMicroliter";
+
+            case MassConcentrationUnit::NanogramsPerMicroliter:
+                return "NanogramsPerMicroliter";
+
+            case MassConcentrationUnit::MicrogramsPerMicroliter:
+                return "MicrogramsPerMicroliter";
+
+            case MassConcentrationUnit::MilligramsPerMicroliter:
+                return "MilligramsPerMicroliter";
+
+            case MassConcentrationUnit::CentigramsPerMicroliter:
+                return "CentigramsPerMicroliter";
+
+            case MassConcentrationUnit::DecigramsPerMicroliter:
+                return "DecigramsPerMicroliter";
+
+            case MassConcentrationUnit::GramsPerMilliliter:
+                return "GramsPerMilliliter";
+
+            case MassConcentrationUnit::PicogramsPerMilliliter:
+                return "PicogramsPerMilliliter";
+
+            case MassConcentrationUnit::NanogramsPerMilliliter:
+                return "NanogramsPerMilliliter";
+
+            case MassConcentrationUnit::MicrogramsPerMilliliter:
+                return "MicrogramsPerMilliliter";
+
+            case MassConcentrationUnit::MilligramsPerMilliliter:
+                return "MilligramsPerMilliliter";
+
+            case MassConcentrationUnit::CentigramsPerMilliliter:
+                return "CentigramsPerMilliliter";
+
+            case MassConcentrationUnit::DecigramsPerMilliliter:
+                return "DecigramsPerMilliliter";
+
+            case MassConcentrationUnit::GramsPerDeciliter:
+                return "GramsPerDeciliter";
+
+            case MassConcentrationUnit::PicogramsPerDeciliter:
+                return "PicogramsPerDeciliter";
+
+            case MassConcentrationUnit::NanogramsPerDeciliter:
+                return "NanogramsPerDeciliter";
+
+            case MassConcentrationUnit::MicrogramsPerDeciliter:
+                return "MicrogramsPerDeciliter";
+
+            case MassConcentrationUnit::MilligramsPerDeciliter:
+                return "MilligramsPerDeciliter";
+
+            case MassConcentrationUnit::CentigramsPerDeciliter:
+                return "CentigramsPerDeciliter";
+
+            case MassConcentrationUnit::DecigramsPerDeciliter:
+                return "DecigramsPerDeciliter";
+
+            case MassConcentrationUnit::GramsPerLiter:
+                return "GramsPerLiter";
+
+            case MassConcentrationUnit::PicogramsPerLiter:
+                return "PicogramsPerLiter";
+
+            case MassConcentrationUnit::NanogramsPerLiter:
+                return "NanogramsPerLiter";
+
+            case MassConcentrationUnit::MicrogramsPerLiter:
+                return "MicrogramsPerLiter";
+
+            case MassConcentrationUnit::MilligramsPerLiter:
+                return "MilligramsPerLiter";
+
+            case MassConcentrationUnit::CentigramsPerLiter:
+                return "CentigramsPerLiter";
+
+            case MassConcentrationUnit::DecigramsPerLiter:
+                return "DecigramsPerLiter";
+
+            case MassConcentrationUnit::KilogramsPerLiter:
+                return "KilogramsPerLiter";
+
+            case MassConcentrationUnit::TonnesPerCubicMillimeter:
+                return "TonnesPerCubicMillimeter";
+
+            case MassConcentrationUnit::TonnesPerCubicCentimeter:
+                return "TonnesPerCubicCentimeter";
+
+            case MassConcentrationUnit::TonnesPerCubicMeter:
+                return "TonnesPerCubicMeter";
+
+            case MassConcentrationUnit::PoundsPerCubicInch:
+                return "PoundsPerCubicInch";
+
+            case MassConcentrationUnit::KilopoundsPerCubicInch:
+                return "KilopoundsPerCubicInch";
+
+            case MassConcentrationUnit::PoundsPerCubicFoot:
+                return "PoundsPerCubicFoot";
+
+            case MassConcentrationUnit::KilopoundsPerCubicFoot:
+                return "KilopoundsPerCubicFoot";
+
+            case MassConcentrationUnit::SlugsPerCubicFoot:
+                return "SlugsPerCubicFoot";
+
+            case MassConcentrationUnit::PoundsPerUSGallon:
+                return "PoundsPerUSGallon";
+
+            case MassConcentrationUnit::OuncesPerUSGallon:
+                return "OuncesPerUSGallon";
+
+            case MassConcentrationUnit::OuncesPerImperialGallon:
+                return "OuncesPerImperialGallon";
+
+            case MassConcentrationUnit::PoundsPerImperialGallon:
+                return "PoundsPerImperialGallon";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -27,6 +27,38 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "SpecificFuelConsumption"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
+                return "PoundsMassPerPoundForceHour";
+
+            case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
+                return "KilogramsPerKilogramForceHour";
+
+            case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
+                return "GramsPerKilonewtonSecond";
+
+            case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
+                return "KilogramsPerKilonewtonSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

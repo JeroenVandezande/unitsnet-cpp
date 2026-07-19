@@ -33,6 +33,56 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "RadiationEquivalentDoseRate"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case RadiationEquivalentDoseRateUnit::SievertsPerHour:
+                return "SievertsPerHour";
+
+            case RadiationEquivalentDoseRateUnit::NanosievertsPerHour:
+                return "NanosievertsPerHour";
+
+            case RadiationEquivalentDoseRateUnit::MicrosievertsPerHour:
+                return "MicrosievertsPerHour";
+
+            case RadiationEquivalentDoseRateUnit::MillisievertsPerHour:
+                return "MillisievertsPerHour";
+
+            case RadiationEquivalentDoseRateUnit::SievertsPerSecond:
+                return "SievertsPerSecond";
+
+            case RadiationEquivalentDoseRateUnit::NanosievertsPerSecond:
+                return "NanosievertsPerSecond";
+
+            case RadiationEquivalentDoseRateUnit::MicrosievertsPerSecond:
+                return "MicrosievertsPerSecond";
+
+            case RadiationEquivalentDoseRateUnit::MillisievertsPerSecond:
+                return "MillisievertsPerSecond";
+
+            case RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour:
+                return "RoentgensEquivalentManPerHour";
+
+            case RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour:
+                return "MilliroentgensEquivalentManPerHour";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -34,6 +34,59 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ReciprocalArea"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ReciprocalAreaUnit::InverseSquareMeters:
+                return "InverseSquareMeters";
+
+            case ReciprocalAreaUnit::InverseSquareKilometers:
+                return "InverseSquareKilometers";
+
+            case ReciprocalAreaUnit::InverseSquareDecimeters:
+                return "InverseSquareDecimeters";
+
+            case ReciprocalAreaUnit::InverseSquareCentimeters:
+                return "InverseSquareCentimeters";
+
+            case ReciprocalAreaUnit::InverseSquareMillimeters:
+                return "InverseSquareMillimeters";
+
+            case ReciprocalAreaUnit::InverseSquareMicrometers:
+                return "InverseSquareMicrometers";
+
+            case ReciprocalAreaUnit::InverseSquareMiles:
+                return "InverseSquareMiles";
+
+            case ReciprocalAreaUnit::InverseSquareYards:
+                return "InverseSquareYards";
+
+            case ReciprocalAreaUnit::InverseSquareFeet:
+                return "InverseSquareFeet";
+
+            case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
+                return "InverseUsSurveySquareFeet";
+
+            case ReciprocalAreaUnit::InverseSquareInches:
+                return "InverseSquareInches";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

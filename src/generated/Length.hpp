@@ -65,6 +65,152 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Length"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case LengthUnit::Meters:
+                return "Meters";
+
+            case LengthUnit::Femtometers:
+                return "Femtometers";
+
+            case LengthUnit::Picometers:
+                return "Picometers";
+
+            case LengthUnit::Nanometers:
+                return "Nanometers";
+
+            case LengthUnit::Micrometers:
+                return "Micrometers";
+
+            case LengthUnit::Millimeters:
+                return "Millimeters";
+
+            case LengthUnit::Centimeters:
+                return "Centimeters";
+
+            case LengthUnit::Decimeters:
+                return "Decimeters";
+
+            case LengthUnit::Decameters:
+                return "Decameters";
+
+            case LengthUnit::Hectometers:
+                return "Hectometers";
+
+            case LengthUnit::Kilometers:
+                return "Kilometers";
+
+            case LengthUnit::Megameters:
+                return "Megameters";
+
+            case LengthUnit::Gigameters:
+                return "Gigameters";
+
+            case LengthUnit::Miles:
+                return "Miles";
+
+            case LengthUnit::Yards:
+                return "Yards";
+
+            case LengthUnit::Kiloyards:
+                return "Kiloyards";
+
+            case LengthUnit::Feet:
+                return "Feet";
+
+            case LengthUnit::Kilofeet:
+                return "Kilofeet";
+
+            case LengthUnit::UsSurveyFeet:
+                return "UsSurveyFeet";
+
+            case LengthUnit::Inches:
+                return "Inches";
+
+            case LengthUnit::Mils:
+                return "Mils";
+
+            case LengthUnit::NauticalMiles:
+                return "NauticalMiles";
+
+            case LengthUnit::Fathoms:
+                return "Fathoms";
+
+            case LengthUnit::Shackles:
+                return "Shackles";
+
+            case LengthUnit::Microinches:
+                return "Microinches";
+
+            case LengthUnit::PrinterPoints:
+                return "PrinterPoints";
+
+            case LengthUnit::DtpPoints:
+                return "DtpPoints";
+
+            case LengthUnit::PrinterPicas:
+                return "PrinterPicas";
+
+            case LengthUnit::DtpPicas:
+                return "DtpPicas";
+
+            case LengthUnit::Twips:
+                return "Twips";
+
+            case LengthUnit::Hands:
+                return "Hands";
+
+            case LengthUnit::AstronomicalUnits:
+                return "AstronomicalUnits";
+
+            case LengthUnit::Parsecs:
+                return "Parsecs";
+
+            case LengthUnit::Kiloparsecs:
+                return "Kiloparsecs";
+
+            case LengthUnit::Megaparsecs:
+                return "Megaparsecs";
+
+            case LengthUnit::LightYears:
+                return "LightYears";
+
+            case LengthUnit::KilolightYears:
+                return "KilolightYears";
+
+            case LengthUnit::MegalightYears:
+                return "MegalightYears";
+
+            case LengthUnit::SolarRadiuses:
+                return "SolarRadiuses";
+
+            case LengthUnit::Chains:
+                return "Chains";
+
+            case LengthUnit::Angstroms:
+                return "Angstroms";
+
+            case LengthUnit::DataMiles:
+                return "DataMiles";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -41,6 +41,80 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "PressureChangeRate"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case PressureChangeRateUnit::PascalsPerSecond:
+                return "PascalsPerSecond";
+
+            case PressureChangeRateUnit::KilopascalsPerSecond:
+                return "KilopascalsPerSecond";
+
+            case PressureChangeRateUnit::MegapascalsPerSecond:
+                return "MegapascalsPerSecond";
+
+            case PressureChangeRateUnit::PascalsPerMinute:
+                return "PascalsPerMinute";
+
+            case PressureChangeRateUnit::KilopascalsPerMinute:
+                return "KilopascalsPerMinute";
+
+            case PressureChangeRateUnit::MegapascalsPerMinute:
+                return "MegapascalsPerMinute";
+
+            case PressureChangeRateUnit::MillimetersOfMercuryPerSecond:
+                return "MillimetersOfMercuryPerSecond";
+
+            case PressureChangeRateUnit::AtmospheresPerSecond:
+                return "AtmospheresPerSecond";
+
+            case PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond:
+                return "PoundsForcePerSquareInchPerSecond";
+
+            case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerSecond:
+                return "KilopoundsForcePerSquareInchPerSecond";
+
+            case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond:
+                return "MegapoundsForcePerSquareInchPerSecond";
+
+            case PressureChangeRateUnit::PoundsForcePerSquareInchPerMinute:
+                return "PoundsForcePerSquareInchPerMinute";
+
+            case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute:
+                return "KilopoundsForcePerSquareInchPerMinute";
+
+            case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerMinute:
+                return "MegapoundsForcePerSquareInchPerMinute";
+
+            case PressureChangeRateUnit::BarsPerSecond:
+                return "BarsPerSecond";
+
+            case PressureChangeRateUnit::MillibarsPerSecond:
+                return "MillibarsPerSecond";
+
+            case PressureChangeRateUnit::BarsPerMinute:
+                return "BarsPerMinute";
+
+            case PressureChangeRateUnit::MillibarsPerMinute:
+                return "MillibarsPerMinute";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

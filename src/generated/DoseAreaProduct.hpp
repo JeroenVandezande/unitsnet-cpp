@@ -48,6 +48,101 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "DoseAreaProduct"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case DoseAreaProductUnit::GraySquareMeters:
+                return "GraySquareMeters";
+
+            case DoseAreaProductUnit::MicrograySquareMeters:
+                return "MicrograySquareMeters";
+
+            case DoseAreaProductUnit::MilligraySquareMeters:
+                return "MilligraySquareMeters";
+
+            case DoseAreaProductUnit::CentigraySquareMeters:
+                return "CentigraySquareMeters";
+
+            case DoseAreaProductUnit::DecigraySquareMeters:
+                return "DecigraySquareMeters";
+
+            case DoseAreaProductUnit::GraySquareDecimeters:
+                return "GraySquareDecimeters";
+
+            case DoseAreaProductUnit::MicrograySquareDecimeters:
+                return "MicrograySquareDecimeters";
+
+            case DoseAreaProductUnit::MilligraySquareDecimeters:
+                return "MilligraySquareDecimeters";
+
+            case DoseAreaProductUnit::CentigraySquareDecimeters:
+                return "CentigraySquareDecimeters";
+
+            case DoseAreaProductUnit::DecigraySquareDecimeters:
+                return "DecigraySquareDecimeters";
+
+            case DoseAreaProductUnit::GraySquareCentimeters:
+                return "GraySquareCentimeters";
+
+            case DoseAreaProductUnit::MicrograySquareCentimeters:
+                return "MicrograySquareCentimeters";
+
+            case DoseAreaProductUnit::MilligraySquareCentimeters:
+                return "MilligraySquareCentimeters";
+
+            case DoseAreaProductUnit::CentigraySquareCentimeters:
+                return "CentigraySquareCentimeters";
+
+            case DoseAreaProductUnit::DecigraySquareCentimeters:
+                return "DecigraySquareCentimeters";
+
+            case DoseAreaProductUnit::GraySquareMillimeters:
+                return "GraySquareMillimeters";
+
+            case DoseAreaProductUnit::MicrograySquareMillimeters:
+                return "MicrograySquareMillimeters";
+
+            case DoseAreaProductUnit::MilligraySquareMillimeters:
+                return "MilligraySquareMillimeters";
+
+            case DoseAreaProductUnit::CentigraySquareMillimeters:
+                return "CentigraySquareMillimeters";
+
+            case DoseAreaProductUnit::DecigraySquareMillimeters:
+                return "DecigraySquareMillimeters";
+
+            case DoseAreaProductUnit::GraySquareMicrometers:
+                return "GraySquareMicrometers";
+
+            case DoseAreaProductUnit::MicrograySquareMicrometers:
+                return "MicrograySquareMicrometers";
+
+            case DoseAreaProductUnit::MilligraySquareMicrometers:
+                return "MilligraySquareMicrometers";
+
+            case DoseAreaProductUnit::CentigraySquareMicrometers:
+                return "CentigraySquareMicrometers";
+
+            case DoseAreaProductUnit::DecigraySquareMicrometers:
+                return "DecigraySquareMicrometers";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

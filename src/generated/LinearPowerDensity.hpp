@@ -48,6 +48,101 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "LinearPowerDensity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case LinearPowerDensityUnit::WattsPerMeter:
+                return "WattsPerMeter";
+
+            case LinearPowerDensityUnit::MilliwattsPerMeter:
+                return "MilliwattsPerMeter";
+
+            case LinearPowerDensityUnit::KilowattsPerMeter:
+                return "KilowattsPerMeter";
+
+            case LinearPowerDensityUnit::MegawattsPerMeter:
+                return "MegawattsPerMeter";
+
+            case LinearPowerDensityUnit::GigawattsPerMeter:
+                return "GigawattsPerMeter";
+
+            case LinearPowerDensityUnit::WattsPerCentimeter:
+                return "WattsPerCentimeter";
+
+            case LinearPowerDensityUnit::MilliwattsPerCentimeter:
+                return "MilliwattsPerCentimeter";
+
+            case LinearPowerDensityUnit::KilowattsPerCentimeter:
+                return "KilowattsPerCentimeter";
+
+            case LinearPowerDensityUnit::MegawattsPerCentimeter:
+                return "MegawattsPerCentimeter";
+
+            case LinearPowerDensityUnit::GigawattsPerCentimeter:
+                return "GigawattsPerCentimeter";
+
+            case LinearPowerDensityUnit::WattsPerMillimeter:
+                return "WattsPerMillimeter";
+
+            case LinearPowerDensityUnit::MilliwattsPerMillimeter:
+                return "MilliwattsPerMillimeter";
+
+            case LinearPowerDensityUnit::KilowattsPerMillimeter:
+                return "KilowattsPerMillimeter";
+
+            case LinearPowerDensityUnit::MegawattsPerMillimeter:
+                return "MegawattsPerMillimeter";
+
+            case LinearPowerDensityUnit::GigawattsPerMillimeter:
+                return "GigawattsPerMillimeter";
+
+            case LinearPowerDensityUnit::WattsPerInch:
+                return "WattsPerInch";
+
+            case LinearPowerDensityUnit::MilliwattsPerInch:
+                return "MilliwattsPerInch";
+
+            case LinearPowerDensityUnit::KilowattsPerInch:
+                return "KilowattsPerInch";
+
+            case LinearPowerDensityUnit::MegawattsPerInch:
+                return "MegawattsPerInch";
+
+            case LinearPowerDensityUnit::GigawattsPerInch:
+                return "GigawattsPerInch";
+
+            case LinearPowerDensityUnit::WattsPerFoot:
+                return "WattsPerFoot";
+
+            case LinearPowerDensityUnit::MilliwattsPerFoot:
+                return "MilliwattsPerFoot";
+
+            case LinearPowerDensityUnit::KilowattsPerFoot:
+                return "KilowattsPerFoot";
+
+            case LinearPowerDensityUnit::MegawattsPerFoot:
+                return "MegawattsPerFoot";
+
+            case LinearPowerDensityUnit::GigawattsPerFoot:
+                return "GigawattsPerFoot";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

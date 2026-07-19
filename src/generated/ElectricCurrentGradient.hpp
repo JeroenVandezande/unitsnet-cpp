@@ -30,6 +30,47 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricCurrentGradient"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricCurrentGradientUnit::AmperesPerSecond:
+                return "AmperesPerSecond";
+
+            case ElectricCurrentGradientUnit::MilliamperesPerSecond:
+                return "MilliamperesPerSecond";
+
+            case ElectricCurrentGradientUnit::AmperesPerMinute:
+                return "AmperesPerMinute";
+
+            case ElectricCurrentGradientUnit::MilliamperesPerMinute:
+                return "MilliamperesPerMinute";
+
+            case ElectricCurrentGradientUnit::AmperesPerMillisecond:
+                return "AmperesPerMillisecond";
+
+            case ElectricCurrentGradientUnit::AmperesPerMicrosecond:
+                return "AmperesPerMicrosecond";
+
+            case ElectricCurrentGradientUnit::AmperesPerNanosecond:
+                return "AmperesPerNanosecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -35,6 +35,62 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "EnergyDensity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case EnergyDensityUnit::JoulesPerCubicMeter:
+                return "JoulesPerCubicMeter";
+
+            case EnergyDensityUnit::KilojoulesPerCubicMeter:
+                return "KilojoulesPerCubicMeter";
+
+            case EnergyDensityUnit::MegajoulesPerCubicMeter:
+                return "MegajoulesPerCubicMeter";
+
+            case EnergyDensityUnit::GigajoulesPerCubicMeter:
+                return "GigajoulesPerCubicMeter";
+
+            case EnergyDensityUnit::TerajoulesPerCubicMeter:
+                return "TerajoulesPerCubicMeter";
+
+            case EnergyDensityUnit::PetajoulesPerCubicMeter:
+                return "PetajoulesPerCubicMeter";
+
+            case EnergyDensityUnit::WattHoursPerCubicMeter:
+                return "WattHoursPerCubicMeter";
+
+            case EnergyDensityUnit::KilowattHoursPerCubicMeter:
+                return "KilowattHoursPerCubicMeter";
+
+            case EnergyDensityUnit::MegawattHoursPerCubicMeter:
+                return "MegawattHoursPerCubicMeter";
+
+            case EnergyDensityUnit::GigawattHoursPerCubicMeter:
+                return "GigawattHoursPerCubicMeter";
+
+            case EnergyDensityUnit::TerawattHoursPerCubicMeter:
+                return "TerawattHoursPerCubicMeter";
+
+            case EnergyDensityUnit::PetawattHoursPerCubicMeter:
+                return "PetawattHoursPerCubicMeter";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

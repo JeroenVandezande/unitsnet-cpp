@@ -29,6 +29,44 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MagneticField"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MagneticFieldUnit::Teslas:
+                return "Teslas";
+
+            case MagneticFieldUnit::Nanoteslas:
+                return "Nanoteslas";
+
+            case MagneticFieldUnit::Microteslas:
+                return "Microteslas";
+
+            case MagneticFieldUnit::Milliteslas:
+                return "Milliteslas";
+
+            case MagneticFieldUnit::Gausses:
+                return "Gausses";
+
+            case MagneticFieldUnit::Milligausses:
+                return "Milligausses";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -52,6 +52,113 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Radioactivity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case RadioactivityUnit::Becquerels:
+                return "Becquerels";
+
+            case RadioactivityUnit::Picobecquerels:
+                return "Picobecquerels";
+
+            case RadioactivityUnit::Nanobecquerels:
+                return "Nanobecquerels";
+
+            case RadioactivityUnit::Microbecquerels:
+                return "Microbecquerels";
+
+            case RadioactivityUnit::Millibecquerels:
+                return "Millibecquerels";
+
+            case RadioactivityUnit::Kilobecquerels:
+                return "Kilobecquerels";
+
+            case RadioactivityUnit::Megabecquerels:
+                return "Megabecquerels";
+
+            case RadioactivityUnit::Gigabecquerels:
+                return "Gigabecquerels";
+
+            case RadioactivityUnit::Terabecquerels:
+                return "Terabecquerels";
+
+            case RadioactivityUnit::Petabecquerels:
+                return "Petabecquerels";
+
+            case RadioactivityUnit::Exabecquerels:
+                return "Exabecquerels";
+
+            case RadioactivityUnit::Curies:
+                return "Curies";
+
+            case RadioactivityUnit::Picocuries:
+                return "Picocuries";
+
+            case RadioactivityUnit::Nanocuries:
+                return "Nanocuries";
+
+            case RadioactivityUnit::Microcuries:
+                return "Microcuries";
+
+            case RadioactivityUnit::Millicuries:
+                return "Millicuries";
+
+            case RadioactivityUnit::Kilocuries:
+                return "Kilocuries";
+
+            case RadioactivityUnit::Megacuries:
+                return "Megacuries";
+
+            case RadioactivityUnit::Gigacuries:
+                return "Gigacuries";
+
+            case RadioactivityUnit::Teracuries:
+                return "Teracuries";
+
+            case RadioactivityUnit::Rutherfords:
+                return "Rutherfords";
+
+            case RadioactivityUnit::Picorutherfords:
+                return "Picorutherfords";
+
+            case RadioactivityUnit::Nanorutherfords:
+                return "Nanorutherfords";
+
+            case RadioactivityUnit::Microrutherfords:
+                return "Microrutherfords";
+
+            case RadioactivityUnit::Millirutherfords:
+                return "Millirutherfords";
+
+            case RadioactivityUnit::Kilorutherfords:
+                return "Kilorutherfords";
+
+            case RadioactivityUnit::Megarutherfords:
+                return "Megarutherfords";
+
+            case RadioactivityUnit::Gigarutherfords:
+                return "Gigarutherfords";
+
+            case RadioactivityUnit::Terarutherfords:
+                return "Terarutherfords";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

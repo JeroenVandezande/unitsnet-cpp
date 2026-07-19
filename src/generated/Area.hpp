@@ -37,6 +37,68 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Area"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case AreaUnit::SquareKilometers:
+                return "SquareKilometers";
+
+            case AreaUnit::SquareMeters:
+                return "SquareMeters";
+
+            case AreaUnit::SquareDecimeters:
+                return "SquareDecimeters";
+
+            case AreaUnit::SquareCentimeters:
+                return "SquareCentimeters";
+
+            case AreaUnit::SquareMillimeters:
+                return "SquareMillimeters";
+
+            case AreaUnit::SquareMicrometers:
+                return "SquareMicrometers";
+
+            case AreaUnit::SquareMiles:
+                return "SquareMiles";
+
+            case AreaUnit::SquareYards:
+                return "SquareYards";
+
+            case AreaUnit::SquareFeet:
+                return "SquareFeet";
+
+            case AreaUnit::UsSurveySquareFeet:
+                return "UsSurveySquareFeet";
+
+            case AreaUnit::SquareInches:
+                return "SquareInches";
+
+            case AreaUnit::Acres:
+                return "Acres";
+
+            case AreaUnit::Hectares:
+                return "Hectares";
+
+            case AreaUnit::SquareNauticalMiles:
+                return "SquareNauticalMiles";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

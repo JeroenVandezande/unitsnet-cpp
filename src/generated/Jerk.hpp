@@ -34,6 +34,59 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Jerk"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case JerkUnit::MetersPerSecondCubed:
+                return "MetersPerSecondCubed";
+
+            case JerkUnit::NanometersPerSecondCubed:
+                return "NanometersPerSecondCubed";
+
+            case JerkUnit::MicrometersPerSecondCubed:
+                return "MicrometersPerSecondCubed";
+
+            case JerkUnit::MillimetersPerSecondCubed:
+                return "MillimetersPerSecondCubed";
+
+            case JerkUnit::CentimetersPerSecondCubed:
+                return "CentimetersPerSecondCubed";
+
+            case JerkUnit::DecimetersPerSecondCubed:
+                return "DecimetersPerSecondCubed";
+
+            case JerkUnit::KilometersPerSecondCubed:
+                return "KilometersPerSecondCubed";
+
+            case JerkUnit::InchesPerSecondCubed:
+                return "InchesPerSecondCubed";
+
+            case JerkUnit::FeetPerSecondCubed:
+                return "FeetPerSecondCubed";
+
+            case JerkUnit::StandardGravitiesPerSecond:
+                return "StandardGravitiesPerSecond";
+
+            case JerkUnit::MillistandardGravitiesPerSecond:
+                return "MillistandardGravitiesPerSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

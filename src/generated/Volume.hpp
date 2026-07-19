@@ -78,6 +78,191 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Volume"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case VolumeUnit::Liters:
+                return "Liters";
+
+            case VolumeUnit::Nanoliters:
+                return "Nanoliters";
+
+            case VolumeUnit::Microliters:
+                return "Microliters";
+
+            case VolumeUnit::Milliliters:
+                return "Milliliters";
+
+            case VolumeUnit::Centiliters:
+                return "Centiliters";
+
+            case VolumeUnit::Deciliters:
+                return "Deciliters";
+
+            case VolumeUnit::Decaliters:
+                return "Decaliters";
+
+            case VolumeUnit::Hectoliters:
+                return "Hectoliters";
+
+            case VolumeUnit::Kiloliters:
+                return "Kiloliters";
+
+            case VolumeUnit::Megaliters:
+                return "Megaliters";
+
+            case VolumeUnit::CubicMeters:
+                return "CubicMeters";
+
+            case VolumeUnit::HectocubicMeters:
+                return "HectocubicMeters";
+
+            case VolumeUnit::KilocubicMeters:
+                return "KilocubicMeters";
+
+            case VolumeUnit::CubicKilometers:
+                return "CubicKilometers";
+
+            case VolumeUnit::CubicHectometers:
+                return "CubicHectometers";
+
+            case VolumeUnit::CubicDecimeters:
+                return "CubicDecimeters";
+
+            case VolumeUnit::CubicCentimeters:
+                return "CubicCentimeters";
+
+            case VolumeUnit::CubicMillimeters:
+                return "CubicMillimeters";
+
+            case VolumeUnit::CubicMicrometers:
+                return "CubicMicrometers";
+
+            case VolumeUnit::CubicMiles:
+                return "CubicMiles";
+
+            case VolumeUnit::CubicYards:
+                return "CubicYards";
+
+            case VolumeUnit::CubicFeet:
+                return "CubicFeet";
+
+            case VolumeUnit::HectocubicFeet:
+                return "HectocubicFeet";
+
+            case VolumeUnit::KilocubicFeet:
+                return "KilocubicFeet";
+
+            case VolumeUnit::MegacubicFeet:
+                return "MegacubicFeet";
+
+            case VolumeUnit::CubicInches:
+                return "CubicInches";
+
+            case VolumeUnit::ImperialGallons:
+                return "ImperialGallons";
+
+            case VolumeUnit::KiloimperialGallons:
+                return "KiloimperialGallons";
+
+            case VolumeUnit::MegaimperialGallons:
+                return "MegaimperialGallons";
+
+            case VolumeUnit::ImperialOunces:
+                return "ImperialOunces";
+
+            case VolumeUnit::UsGallons:
+                return "UsGallons";
+
+            case VolumeUnit::DecausGallons:
+                return "DecausGallons";
+
+            case VolumeUnit::DeciusGallons:
+                return "DeciusGallons";
+
+            case VolumeUnit::HectousGallons:
+                return "HectousGallons";
+
+            case VolumeUnit::KilousGallons:
+                return "KilousGallons";
+
+            case VolumeUnit::MegausGallons:
+                return "MegausGallons";
+
+            case VolumeUnit::UsOunces:
+                return "UsOunces";
+
+            case VolumeUnit::UsTablespoons:
+                return "UsTablespoons";
+
+            case VolumeUnit::AuTablespoons:
+                return "AuTablespoons";
+
+            case VolumeUnit::MetricTablespoons:
+                return "MetricTablespoons";
+
+            case VolumeUnit::UkTablespoons:
+                return "UkTablespoons";
+
+            case VolumeUnit::MetricTeaspoons:
+                return "MetricTeaspoons";
+
+            case VolumeUnit::UsTeaspoons:
+                return "UsTeaspoons";
+
+            case VolumeUnit::MetricCups:
+                return "MetricCups";
+
+            case VolumeUnit::UsCustomaryCups:
+                return "UsCustomaryCups";
+
+            case VolumeUnit::UsLegalCups:
+                return "UsLegalCups";
+
+            case VolumeUnit::OilBarrels:
+                return "OilBarrels";
+
+            case VolumeUnit::UsBeerBarrels:
+                return "UsBeerBarrels";
+
+            case VolumeUnit::ImperialBeerBarrels:
+                return "ImperialBeerBarrels";
+
+            case VolumeUnit::UsQuarts:
+                return "UsQuarts";
+
+            case VolumeUnit::ImperialQuarts:
+                return "ImperialQuarts";
+
+            case VolumeUnit::UsPints:
+                return "UsPints";
+
+            case VolumeUnit::AcreFeet:
+                return "AcreFeet";
+
+            case VolumeUnit::ImperialPints:
+                return "ImperialPints";
+
+            case VolumeUnit::BoardFeet:
+                return "BoardFeet";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

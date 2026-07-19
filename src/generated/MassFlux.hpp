@@ -35,6 +35,62 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MassFlux"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassFluxUnit::GramsPerSecondPerSquareMeter:
+                return "GramsPerSecondPerSquareMeter";
+
+            case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
+                return "KilogramsPerSecondPerSquareMeter";
+
+            case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
+                return "GramsPerSecondPerSquareCentimeter";
+
+            case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
+                return "KilogramsPerSecondPerSquareCentimeter";
+
+            case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
+                return "GramsPerSecondPerSquareMillimeter";
+
+            case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
+                return "KilogramsPerSecondPerSquareMillimeter";
+
+            case MassFluxUnit::GramsPerHourPerSquareMeter:
+                return "GramsPerHourPerSquareMeter";
+
+            case MassFluxUnit::KilogramsPerHourPerSquareMeter:
+                return "KilogramsPerHourPerSquareMeter";
+
+            case MassFluxUnit::GramsPerHourPerSquareCentimeter:
+                return "GramsPerHourPerSquareCentimeter";
+
+            case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
+                return "KilogramsPerHourPerSquareCentimeter";
+
+            case MassFluxUnit::GramsPerHourPerSquareMillimeter:
+                return "GramsPerHourPerSquareMillimeter";
+
+            case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
+                return "KilogramsPerHourPerSquareMillimeter";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

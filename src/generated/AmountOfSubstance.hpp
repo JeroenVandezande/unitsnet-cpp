@@ -40,6 +40,77 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "AmountOfSubstance"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case AmountOfSubstanceUnit::Moles:
+                return "Moles";
+
+            case AmountOfSubstanceUnit::Femtomoles:
+                return "Femtomoles";
+
+            case AmountOfSubstanceUnit::Picomoles:
+                return "Picomoles";
+
+            case AmountOfSubstanceUnit::Nanomoles:
+                return "Nanomoles";
+
+            case AmountOfSubstanceUnit::Micromoles:
+                return "Micromoles";
+
+            case AmountOfSubstanceUnit::Millimoles:
+                return "Millimoles";
+
+            case AmountOfSubstanceUnit::Centimoles:
+                return "Centimoles";
+
+            case AmountOfSubstanceUnit::Decimoles:
+                return "Decimoles";
+
+            case AmountOfSubstanceUnit::Kilomoles:
+                return "Kilomoles";
+
+            case AmountOfSubstanceUnit::Megamoles:
+                return "Megamoles";
+
+            case AmountOfSubstanceUnit::PoundMoles:
+                return "PoundMoles";
+
+            case AmountOfSubstanceUnit::NanopoundMoles:
+                return "NanopoundMoles";
+
+            case AmountOfSubstanceUnit::MicropoundMoles:
+                return "MicropoundMoles";
+
+            case AmountOfSubstanceUnit::MillipoundMoles:
+                return "MillipoundMoles";
+
+            case AmountOfSubstanceUnit::CentipoundMoles:
+                return "CentipoundMoles";
+
+            case AmountOfSubstanceUnit::DecipoundMoles:
+                return "DecipoundMoles";
+
+            case AmountOfSubstanceUnit::KilopoundMoles:
+                return "KilopoundMoles";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

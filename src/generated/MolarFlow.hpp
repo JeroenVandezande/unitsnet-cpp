@@ -32,6 +32,53 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MolarFlow"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MolarFlowUnit::MolesPerSecond:
+                return "MolesPerSecond";
+
+            case MolarFlowUnit::KilomolesPerSecond:
+                return "KilomolesPerSecond";
+
+            case MolarFlowUnit::MolesPerMinute:
+                return "MolesPerMinute";
+
+            case MolarFlowUnit::KilomolesPerMinute:
+                return "KilomolesPerMinute";
+
+            case MolarFlowUnit::MolesPerHour:
+                return "MolesPerHour";
+
+            case MolarFlowUnit::KilomolesPerHour:
+                return "KilomolesPerHour";
+
+            case MolarFlowUnit::PoundMolesPerSecond:
+                return "PoundMolesPerSecond";
+
+            case MolarFlowUnit::PoundMolesPerMinute:
+                return "PoundMolesPerMinute";
+
+            case MolarFlowUnit::PoundMolesPerHour:
+                return "PoundMolesPerHour";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

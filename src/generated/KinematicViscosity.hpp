@@ -32,6 +32,53 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "KinematicViscosity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case KinematicViscosityUnit::SquareMetersPerSecond:
+                return "SquareMetersPerSecond";
+
+            case KinematicViscosityUnit::Stokes:
+                return "Stokes";
+
+            case KinematicViscosityUnit::Nanostokes:
+                return "Nanostokes";
+
+            case KinematicViscosityUnit::Microstokes:
+                return "Microstokes";
+
+            case KinematicViscosityUnit::Millistokes:
+                return "Millistokes";
+
+            case KinematicViscosityUnit::Centistokes:
+                return "Centistokes";
+
+            case KinematicViscosityUnit::Decistokes:
+                return "Decistokes";
+
+            case KinematicViscosityUnit::Kilostokes:
+                return "Kilostokes";
+
+            case KinematicViscosityUnit::SquareFeetPerSecond:
+                return "SquareFeetPerSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

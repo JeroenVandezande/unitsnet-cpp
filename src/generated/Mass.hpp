@@ -54,6 +54,119 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Mass"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MassUnit::Grams:
+                return "Grams";
+
+            case MassUnit::Femtograms:
+                return "Femtograms";
+
+            case MassUnit::Picograms:
+                return "Picograms";
+
+            case MassUnit::Nanograms:
+                return "Nanograms";
+
+            case MassUnit::Micrograms:
+                return "Micrograms";
+
+            case MassUnit::Milligrams:
+                return "Milligrams";
+
+            case MassUnit::Centigrams:
+                return "Centigrams";
+
+            case MassUnit::Decigrams:
+                return "Decigrams";
+
+            case MassUnit::Decagrams:
+                return "Decagrams";
+
+            case MassUnit::Hectograms:
+                return "Hectograms";
+
+            case MassUnit::Kilograms:
+                return "Kilograms";
+
+            case MassUnit::Tonnes:
+                return "Tonnes";
+
+            case MassUnit::Kilotonnes:
+                return "Kilotonnes";
+
+            case MassUnit::Megatonnes:
+                return "Megatonnes";
+
+            case MassUnit::ShortTons:
+                return "ShortTons";
+
+            case MassUnit::LongTons:
+                return "LongTons";
+
+            case MassUnit::Pounds:
+                return "Pounds";
+
+            case MassUnit::Kilopounds:
+                return "Kilopounds";
+
+            case MassUnit::Megapounds:
+                return "Megapounds";
+
+            case MassUnit::Ounces:
+                return "Ounces";
+
+            case MassUnit::Slugs:
+                return "Slugs";
+
+            case MassUnit::Stone:
+                return "Stone";
+
+            case MassUnit::ShortHundredweight:
+                return "ShortHundredweight";
+
+            case MassUnit::LongHundredweight:
+                return "LongHundredweight";
+
+            case MassUnit::Grains:
+                return "Grains";
+
+            case MassUnit::SolarMasses:
+                return "SolarMasses";
+
+            case MassUnit::EarthMasses:
+                return "EarthMasses";
+
+            case MassUnit::Daltons:
+                return "Daltons";
+
+            case MassUnit::Kilodaltons:
+                return "Kilodaltons";
+
+            case MassUnit::Megadaltons:
+                return "Megadaltons";
+
+            case MassUnit::Gigadaltons:
+                return "Gigadaltons";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

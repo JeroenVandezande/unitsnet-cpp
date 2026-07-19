@@ -36,6 +36,65 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "MolarMass"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case MolarMassUnit::GramsPerMole:
+                return "GramsPerMole";
+
+            case MolarMassUnit::NanogramsPerMole:
+                return "NanogramsPerMole";
+
+            case MolarMassUnit::MicrogramsPerMole:
+                return "MicrogramsPerMole";
+
+            case MolarMassUnit::MilligramsPerMole:
+                return "MilligramsPerMole";
+
+            case MolarMassUnit::CentigramsPerMole:
+                return "CentigramsPerMole";
+
+            case MolarMassUnit::DecigramsPerMole:
+                return "DecigramsPerMole";
+
+            case MolarMassUnit::DecagramsPerMole:
+                return "DecagramsPerMole";
+
+            case MolarMassUnit::HectogramsPerMole:
+                return "HectogramsPerMole";
+
+            case MolarMassUnit::KilogramsPerMole:
+                return "KilogramsPerMole";
+
+            case MolarMassUnit::KilogramsPerKilomole:
+                return "KilogramsPerKilomole";
+
+            case MolarMassUnit::PoundsPerMole:
+                return "PoundsPerMole";
+
+            case MolarMassUnit::KilopoundsPerMole:
+                return "KilopoundsPerMole";
+
+            case MolarMassUnit::MegapoundsPerMole:
+                return "MegapoundsPerMole";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

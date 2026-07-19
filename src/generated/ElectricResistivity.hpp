@@ -37,6 +37,68 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricResistivity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricResistivityUnit::OhmMeters:
+                return "OhmMeters";
+
+            case ElectricResistivityUnit::PicoohmMeters:
+                return "PicoohmMeters";
+
+            case ElectricResistivityUnit::NanoohmMeters:
+                return "NanoohmMeters";
+
+            case ElectricResistivityUnit::MicroohmMeters:
+                return "MicroohmMeters";
+
+            case ElectricResistivityUnit::MilliohmMeters:
+                return "MilliohmMeters";
+
+            case ElectricResistivityUnit::KiloohmMeters:
+                return "KiloohmMeters";
+
+            case ElectricResistivityUnit::MegaohmMeters:
+                return "MegaohmMeters";
+
+            case ElectricResistivityUnit::OhmsCentimeter:
+                return "OhmsCentimeter";
+
+            case ElectricResistivityUnit::PicoohmsCentimeter:
+                return "PicoohmsCentimeter";
+
+            case ElectricResistivityUnit::NanoohmsCentimeter:
+                return "NanoohmsCentimeter";
+
+            case ElectricResistivityUnit::MicroohmsCentimeter:
+                return "MicroohmsCentimeter";
+
+            case ElectricResistivityUnit::MilliohmsCentimeter:
+                return "MilliohmsCentimeter";
+
+            case ElectricResistivityUnit::KiloohmsCentimeter:
+                return "KiloohmsCentimeter";
+
+            case ElectricResistivityUnit::MegaohmsCentimeter:
+                return "MegaohmsCentimeter";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

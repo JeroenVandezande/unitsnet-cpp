@@ -61,6 +61,140 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ForcePerLength"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ForcePerLengthUnit::NewtonsPerMeter:
+                return "NewtonsPerMeter";
+
+            case ForcePerLengthUnit::NanonewtonsPerMeter:
+                return "NanonewtonsPerMeter";
+
+            case ForcePerLengthUnit::MicronewtonsPerMeter:
+                return "MicronewtonsPerMeter";
+
+            case ForcePerLengthUnit::MillinewtonsPerMeter:
+                return "MillinewtonsPerMeter";
+
+            case ForcePerLengthUnit::CentinewtonsPerMeter:
+                return "CentinewtonsPerMeter";
+
+            case ForcePerLengthUnit::DecinewtonsPerMeter:
+                return "DecinewtonsPerMeter";
+
+            case ForcePerLengthUnit::DecanewtonsPerMeter:
+                return "DecanewtonsPerMeter";
+
+            case ForcePerLengthUnit::KilonewtonsPerMeter:
+                return "KilonewtonsPerMeter";
+
+            case ForcePerLengthUnit::MeganewtonsPerMeter:
+                return "MeganewtonsPerMeter";
+
+            case ForcePerLengthUnit::NewtonsPerCentimeter:
+                return "NewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::NanonewtonsPerCentimeter:
+                return "NanonewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::MicronewtonsPerCentimeter:
+                return "MicronewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::MillinewtonsPerCentimeter:
+                return "MillinewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::CentinewtonsPerCentimeter:
+                return "CentinewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::DecinewtonsPerCentimeter:
+                return "DecinewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::DecanewtonsPerCentimeter:
+                return "DecanewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::KilonewtonsPerCentimeter:
+                return "KilonewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::MeganewtonsPerCentimeter:
+                return "MeganewtonsPerCentimeter";
+
+            case ForcePerLengthUnit::NewtonsPerMillimeter:
+                return "NewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::NanonewtonsPerMillimeter:
+                return "NanonewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::MicronewtonsPerMillimeter:
+                return "MicronewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::MillinewtonsPerMillimeter:
+                return "MillinewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::CentinewtonsPerMillimeter:
+                return "CentinewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::DecinewtonsPerMillimeter:
+                return "DecinewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::DecanewtonsPerMillimeter:
+                return "DecanewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::KilonewtonsPerMillimeter:
+                return "KilonewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::MeganewtonsPerMillimeter:
+                return "MeganewtonsPerMillimeter";
+
+            case ForcePerLengthUnit::KilogramsForcePerMeter:
+                return "KilogramsForcePerMeter";
+
+            case ForcePerLengthUnit::KilogramsForcePerCentimeter:
+                return "KilogramsForcePerCentimeter";
+
+            case ForcePerLengthUnit::KilogramsForcePerMillimeter:
+                return "KilogramsForcePerMillimeter";
+
+            case ForcePerLengthUnit::TonnesForcePerMeter:
+                return "TonnesForcePerMeter";
+
+            case ForcePerLengthUnit::TonnesForcePerCentimeter:
+                return "TonnesForcePerCentimeter";
+
+            case ForcePerLengthUnit::TonnesForcePerMillimeter:
+                return "TonnesForcePerMillimeter";
+
+            case ForcePerLengthUnit::PoundsForcePerFoot:
+                return "PoundsForcePerFoot";
+
+            case ForcePerLengthUnit::PoundsForcePerInch:
+                return "PoundsForcePerInch";
+
+            case ForcePerLengthUnit::PoundsForcePerYard:
+                return "PoundsForcePerYard";
+
+            case ForcePerLengthUnit::KilopoundsForcePerFoot:
+                return "KilopoundsForcePerFoot";
+
+            case ForcePerLengthUnit::KilopoundsForcePerInch:
+                return "KilopoundsForcePerInch";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

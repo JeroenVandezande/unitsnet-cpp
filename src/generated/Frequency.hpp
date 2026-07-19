@@ -35,6 +35,62 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Frequency"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case FrequencyUnit::Hertz:
+                return "Hertz";
+
+            case FrequencyUnit::Microhertz:
+                return "Microhertz";
+
+            case FrequencyUnit::Millihertz:
+                return "Millihertz";
+
+            case FrequencyUnit::Kilohertz:
+                return "Kilohertz";
+
+            case FrequencyUnit::Megahertz:
+                return "Megahertz";
+
+            case FrequencyUnit::Gigahertz:
+                return "Gigahertz";
+
+            case FrequencyUnit::Terahertz:
+                return "Terahertz";
+
+            case FrequencyUnit::RadiansPerSecond:
+                return "RadiansPerSecond";
+
+            case FrequencyUnit::CyclesPerMinute:
+                return "CyclesPerMinute";
+
+            case FrequencyUnit::CyclesPerHour:
+                return "CyclesPerHour";
+
+            case FrequencyUnit::BeatsPerMinute:
+                return "BeatsPerMinute";
+
+            case FrequencyUnit::PerSecond:
+                return "PerSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -53,6 +53,116 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "SpecificEnergy"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case SpecificEnergyUnit::JoulesPerKilogram:
+                return "JoulesPerKilogram";
+
+            case SpecificEnergyUnit::KilojoulesPerKilogram:
+                return "KilojoulesPerKilogram";
+
+            case SpecificEnergyUnit::MegajoulesPerKilogram:
+                return "MegajoulesPerKilogram";
+
+            case SpecificEnergyUnit::MegajoulesPerTonne:
+                return "MegajoulesPerTonne";
+
+            case SpecificEnergyUnit::CaloriesPerGram:
+                return "CaloriesPerGram";
+
+            case SpecificEnergyUnit::KilocaloriesPerGram:
+                return "KilocaloriesPerGram";
+
+            case SpecificEnergyUnit::WattHoursPerKilogram:
+                return "WattHoursPerKilogram";
+
+            case SpecificEnergyUnit::KilowattHoursPerKilogram:
+                return "KilowattHoursPerKilogram";
+
+            case SpecificEnergyUnit::MegawattHoursPerKilogram:
+                return "MegawattHoursPerKilogram";
+
+            case SpecificEnergyUnit::GigawattHoursPerKilogram:
+                return "GigawattHoursPerKilogram";
+
+            case SpecificEnergyUnit::WattDaysPerKilogram:
+                return "WattDaysPerKilogram";
+
+            case SpecificEnergyUnit::KilowattDaysPerKilogram:
+                return "KilowattDaysPerKilogram";
+
+            case SpecificEnergyUnit::MegawattDaysPerKilogram:
+                return "MegawattDaysPerKilogram";
+
+            case SpecificEnergyUnit::GigawattDaysPerKilogram:
+                return "GigawattDaysPerKilogram";
+
+            case SpecificEnergyUnit::TerawattDaysPerKilogram:
+                return "TerawattDaysPerKilogram";
+
+            case SpecificEnergyUnit::WattDaysPerTonne:
+                return "WattDaysPerTonne";
+
+            case SpecificEnergyUnit::KilowattDaysPerTonne:
+                return "KilowattDaysPerTonne";
+
+            case SpecificEnergyUnit::MegawattDaysPerTonne:
+                return "MegawattDaysPerTonne";
+
+            case SpecificEnergyUnit::GigawattDaysPerTonne:
+                return "GigawattDaysPerTonne";
+
+            case SpecificEnergyUnit::TerawattDaysPerTonne:
+                return "TerawattDaysPerTonne";
+
+            case SpecificEnergyUnit::WattDaysPerShortTon:
+                return "WattDaysPerShortTon";
+
+            case SpecificEnergyUnit::KilowattDaysPerShortTon:
+                return "KilowattDaysPerShortTon";
+
+            case SpecificEnergyUnit::MegawattDaysPerShortTon:
+                return "MegawattDaysPerShortTon";
+
+            case SpecificEnergyUnit::GigawattDaysPerShortTon:
+                return "GigawattDaysPerShortTon";
+
+            case SpecificEnergyUnit::TerawattDaysPerShortTon:
+                return "TerawattDaysPerShortTon";
+
+            case SpecificEnergyUnit::WattHoursPerPound:
+                return "WattHoursPerPound";
+
+            case SpecificEnergyUnit::KilowattHoursPerPound:
+                return "KilowattHoursPerPound";
+
+            case SpecificEnergyUnit::MegawattHoursPerPound:
+                return "MegawattHoursPerPound";
+
+            case SpecificEnergyUnit::GigawattHoursPerPound:
+                return "GigawattHoursPerPound";
+
+            case SpecificEnergyUnit::BtuPerPound:
+                return "BtuPerPound";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

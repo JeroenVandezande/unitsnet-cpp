@@ -56,6 +56,125 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Speed"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case SpeedUnit::MetersPerSecond:
+                return "MetersPerSecond";
+
+            case SpeedUnit::NanometersPerSecond:
+                return "NanometersPerSecond";
+
+            case SpeedUnit::MicrometersPerSecond:
+                return "MicrometersPerSecond";
+
+            case SpeedUnit::MillimetersPerSecond:
+                return "MillimetersPerSecond";
+
+            case SpeedUnit::CentimetersPerSecond:
+                return "CentimetersPerSecond";
+
+            case SpeedUnit::DecimetersPerSecond:
+                return "DecimetersPerSecond";
+
+            case SpeedUnit::KilometersPerSecond:
+                return "KilometersPerSecond";
+
+            case SpeedUnit::MetersPerMinute:
+                return "MetersPerMinute";
+
+            case SpeedUnit::NanometersPerMinute:
+                return "NanometersPerMinute";
+
+            case SpeedUnit::MicrometersPerMinute:
+                return "MicrometersPerMinute";
+
+            case SpeedUnit::MillimetersPerMinute:
+                return "MillimetersPerMinute";
+
+            case SpeedUnit::CentimetersPerMinute:
+                return "CentimetersPerMinute";
+
+            case SpeedUnit::DecimetersPerMinute:
+                return "DecimetersPerMinute";
+
+            case SpeedUnit::KilometersPerMinute:
+                return "KilometersPerMinute";
+
+            case SpeedUnit::MetersPerHour:
+                return "MetersPerHour";
+
+            case SpeedUnit::MillimetersPerHour:
+                return "MillimetersPerHour";
+
+            case SpeedUnit::CentimetersPerHour:
+                return "CentimetersPerHour";
+
+            case SpeedUnit::KilometersPerHour:
+                return "KilometersPerHour";
+
+            case SpeedUnit::FeetPerSecond:
+                return "FeetPerSecond";
+
+            case SpeedUnit::FeetPerMinute:
+                return "FeetPerMinute";
+
+            case SpeedUnit::FeetPerHour:
+                return "FeetPerHour";
+
+            case SpeedUnit::UsSurveyFeetPerSecond:
+                return "UsSurveyFeetPerSecond";
+
+            case SpeedUnit::UsSurveyFeetPerMinute:
+                return "UsSurveyFeetPerMinute";
+
+            case SpeedUnit::UsSurveyFeetPerHour:
+                return "UsSurveyFeetPerHour";
+
+            case SpeedUnit::InchesPerSecond:
+                return "InchesPerSecond";
+
+            case SpeedUnit::InchesPerMinute:
+                return "InchesPerMinute";
+
+            case SpeedUnit::InchesPerHour:
+                return "InchesPerHour";
+
+            case SpeedUnit::YardsPerSecond:
+                return "YardsPerSecond";
+
+            case SpeedUnit::YardsPerMinute:
+                return "YardsPerMinute";
+
+            case SpeedUnit::YardsPerHour:
+                return "YardsPerHour";
+
+            case SpeedUnit::Knots:
+                return "Knots";
+
+            case SpeedUnit::MilesPerHour:
+                return "MilesPerHour";
+
+            case SpeedUnit::Mach:
+                return "Mach";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

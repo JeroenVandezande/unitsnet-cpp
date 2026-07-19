@@ -33,6 +33,56 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "DynamicViscosity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case DynamicViscosityUnit::NewtonSecondsPerMeterSquared:
+                return "NewtonSecondsPerMeterSquared";
+
+            case DynamicViscosityUnit::PascalSeconds:
+                return "PascalSeconds";
+
+            case DynamicViscosityUnit::MillipascalSeconds:
+                return "MillipascalSeconds";
+
+            case DynamicViscosityUnit::MicropascalSeconds:
+                return "MicropascalSeconds";
+
+            case DynamicViscosityUnit::Poise:
+                return "Poise";
+
+            case DynamicViscosityUnit::Centipoise:
+                return "Centipoise";
+
+            case DynamicViscosityUnit::Reyns:
+                return "Reyns";
+
+            case DynamicViscosityUnit::PoundsForceSecondPerSquareInch:
+                return "PoundsForceSecondPerSquareInch";
+
+            case DynamicViscosityUnit::PoundsForceSecondPerSquareFoot:
+                return "PoundsForceSecondPerSquareFoot";
+
+            case DynamicViscosityUnit::PoundsPerFootSecond:
+                return "PoundsPerFootSecond";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

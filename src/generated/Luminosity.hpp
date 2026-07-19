@@ -37,6 +37,68 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Luminosity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case LuminosityUnit::Watts:
+                return "Watts";
+
+            case LuminosityUnit::Femtowatts:
+                return "Femtowatts";
+
+            case LuminosityUnit::Picowatts:
+                return "Picowatts";
+
+            case LuminosityUnit::Nanowatts:
+                return "Nanowatts";
+
+            case LuminosityUnit::Microwatts:
+                return "Microwatts";
+
+            case LuminosityUnit::Milliwatts:
+                return "Milliwatts";
+
+            case LuminosityUnit::Deciwatts:
+                return "Deciwatts";
+
+            case LuminosityUnit::Decawatts:
+                return "Decawatts";
+
+            case LuminosityUnit::Kilowatts:
+                return "Kilowatts";
+
+            case LuminosityUnit::Megawatts:
+                return "Megawatts";
+
+            case LuminosityUnit::Gigawatts:
+                return "Gigawatts";
+
+            case LuminosityUnit::Terawatts:
+                return "Terawatts";
+
+            case LuminosityUnit::Petawatts:
+                return "Petawatts";
+
+            case LuminosityUnit::SolarLuminosities:
+                return "SolarLuminosities";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

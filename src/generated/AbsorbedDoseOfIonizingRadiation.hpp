@@ -40,6 +40,77 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "AbsorbedDoseOfIonizingRadiation"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Grays:
+                return "Grays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Femtograys:
+                return "Femtograys";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Picograys:
+                return "Picograys";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Nanograys:
+                return "Nanograys";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Micrograys:
+                return "Micrograys";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Milligrays:
+                return "Milligrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Centigrays:
+                return "Centigrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Decigrays:
+                return "Decigrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Kilograys:
+                return "Kilograys";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Megagrays:
+                return "Megagrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Gigagrays:
+                return "Gigagrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Teragrays:
+                return "Teragrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Petagrays:
+                return "Petagrays";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Rads:
+                return "Rads";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Millirads:
+                return "Millirads";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Kilorads:
+                return "Kilorads";
+
+            case AbsorbedDoseOfIonizingRadiationUnit::Megarads:
+                return "Megarads";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

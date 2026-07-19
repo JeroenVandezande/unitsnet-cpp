@@ -48,6 +48,101 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Torque"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case TorqueUnit::NewtonMillimeters:
+                return "NewtonMillimeters";
+
+            case TorqueUnit::KilonewtonMillimeters:
+                return "KilonewtonMillimeters";
+
+            case TorqueUnit::MeganewtonMillimeters:
+                return "MeganewtonMillimeters";
+
+            case TorqueUnit::NewtonCentimeters:
+                return "NewtonCentimeters";
+
+            case TorqueUnit::KilonewtonCentimeters:
+                return "KilonewtonCentimeters";
+
+            case TorqueUnit::MeganewtonCentimeters:
+                return "MeganewtonCentimeters";
+
+            case TorqueUnit::NewtonMeters:
+                return "NewtonMeters";
+
+            case TorqueUnit::KilonewtonMeters:
+                return "KilonewtonMeters";
+
+            case TorqueUnit::MeganewtonMeters:
+                return "MeganewtonMeters";
+
+            case TorqueUnit::PoundalFeet:
+                return "PoundalFeet";
+
+            case TorqueUnit::PoundForceInches:
+                return "PoundForceInches";
+
+            case TorqueUnit::KilopoundForceInches:
+                return "KilopoundForceInches";
+
+            case TorqueUnit::MegapoundForceInches:
+                return "MegapoundForceInches";
+
+            case TorqueUnit::PoundForceFeet:
+                return "PoundForceFeet";
+
+            case TorqueUnit::KilopoundForceFeet:
+                return "KilopoundForceFeet";
+
+            case TorqueUnit::MegapoundForceFeet:
+                return "MegapoundForceFeet";
+
+            case TorqueUnit::GramForceMillimeters:
+                return "GramForceMillimeters";
+
+            case TorqueUnit::GramForceCentimeters:
+                return "GramForceCentimeters";
+
+            case TorqueUnit::GramForceMeters:
+                return "GramForceMeters";
+
+            case TorqueUnit::KilogramForceMillimeters:
+                return "KilogramForceMillimeters";
+
+            case TorqueUnit::KilogramForceCentimeters:
+                return "KilogramForceCentimeters";
+
+            case TorqueUnit::KilogramForceMeters:
+                return "KilogramForceMeters";
+
+            case TorqueUnit::TonneForceMillimeters:
+                return "TonneForceMillimeters";
+
+            case TorqueUnit::TonneForceCentimeters:
+                return "TonneForceCentimeters";
+
+            case TorqueUnit::TonneForceMeters:
+                return "TonneForceMeters";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

@@ -32,6 +32,53 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "VolumePerLength"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case VolumePerLengthUnit::CubicMetersPerMeter:
+                return "CubicMetersPerMeter";
+
+            case VolumePerLengthUnit::LitersPerMeter:
+                return "LitersPerMeter";
+
+            case VolumePerLengthUnit::LitersPerKilometer:
+                return "LitersPerKilometer";
+
+            case VolumePerLengthUnit::LitersPerMillimeter:
+                return "LitersPerMillimeter";
+
+            case VolumePerLengthUnit::OilBarrelsPerFoot:
+                return "OilBarrelsPerFoot";
+
+            case VolumePerLengthUnit::CubicYardsPerFoot:
+                return "CubicYardsPerFoot";
+
+            case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
+                return "CubicYardsPerUsSurveyFoot";
+
+            case VolumePerLengthUnit::UsGallonsPerMile:
+                return "UsGallonsPerMile";
+
+            case VolumePerLengthUnit::ImperialGallonsPerMile:
+                return "ImperialGallonsPerMile";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

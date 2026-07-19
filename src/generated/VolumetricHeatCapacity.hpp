@@ -32,6 +32,53 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "VolumetricHeatCapacity"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case VolumetricHeatCapacityUnit::JoulesPerCubicMeterKelvin:
+                return "JoulesPerCubicMeterKelvin";
+
+            case VolumetricHeatCapacityUnit::KilojoulesPerCubicMeterKelvin:
+                return "KilojoulesPerCubicMeterKelvin";
+
+            case VolumetricHeatCapacityUnit::MegajoulesPerCubicMeterKelvin:
+                return "MegajoulesPerCubicMeterKelvin";
+
+            case VolumetricHeatCapacityUnit::JoulesPerCubicMeterDegreeCelsius:
+                return "JoulesPerCubicMeterDegreeCelsius";
+
+            case VolumetricHeatCapacityUnit::KilojoulesPerCubicMeterDegreeCelsius:
+                return "KilojoulesPerCubicMeterDegreeCelsius";
+
+            case VolumetricHeatCapacityUnit::MegajoulesPerCubicMeterDegreeCelsius:
+                return "MegajoulesPerCubicMeterDegreeCelsius";
+
+            case VolumetricHeatCapacityUnit::CaloriesPerCubicCentimeterDegreeCelsius:
+                return "CaloriesPerCubicCentimeterDegreeCelsius";
+
+            case VolumetricHeatCapacityUnit::KilocaloriesPerCubicCentimeterDegreeCelsius:
+                return "KilocaloriesPerCubicCentimeterDegreeCelsius";
+
+            case VolumetricHeatCapacityUnit::BtusPerCubicFootDegreeFahrenheit:
+                return "BtusPerCubicFootDegreeFahrenheit";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

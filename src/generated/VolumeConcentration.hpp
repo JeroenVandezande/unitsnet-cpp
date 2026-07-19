@@ -43,6 +43,86 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "VolumeConcentration"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case VolumeConcentrationUnit::DecimalFractions:
+                return "DecimalFractions";
+
+            case VolumeConcentrationUnit::LitersPerLiter:
+                return "LitersPerLiter";
+
+            case VolumeConcentrationUnit::PicolitersPerLiter:
+                return "PicolitersPerLiter";
+
+            case VolumeConcentrationUnit::NanolitersPerLiter:
+                return "NanolitersPerLiter";
+
+            case VolumeConcentrationUnit::MicrolitersPerLiter:
+                return "MicrolitersPerLiter";
+
+            case VolumeConcentrationUnit::MillilitersPerLiter:
+                return "MillilitersPerLiter";
+
+            case VolumeConcentrationUnit::CentilitersPerLiter:
+                return "CentilitersPerLiter";
+
+            case VolumeConcentrationUnit::DecilitersPerLiter:
+                return "DecilitersPerLiter";
+
+            case VolumeConcentrationUnit::LitersPerMilliliter:
+                return "LitersPerMilliliter";
+
+            case VolumeConcentrationUnit::PicolitersPerMilliliter:
+                return "PicolitersPerMilliliter";
+
+            case VolumeConcentrationUnit::NanolitersPerMilliliter:
+                return "NanolitersPerMilliliter";
+
+            case VolumeConcentrationUnit::MicrolitersPerMilliliter:
+                return "MicrolitersPerMilliliter";
+
+            case VolumeConcentrationUnit::MillilitersPerMilliliter:
+                return "MillilitersPerMilliliter";
+
+            case VolumeConcentrationUnit::CentilitersPerMilliliter:
+                return "CentilitersPerMilliliter";
+
+            case VolumeConcentrationUnit::DecilitersPerMilliliter:
+                return "DecilitersPerMilliliter";
+
+            case VolumeConcentrationUnit::Percent:
+                return "Percent";
+
+            case VolumeConcentrationUnit::PartsPerThousand:
+                return "PartsPerThousand";
+
+            case VolumeConcentrationUnit::PartsPerMillion:
+                return "PartsPerMillion";
+
+            case VolumeConcentrationUnit::PartsPerBillion:
+                return "PartsPerBillion";
+
+            case VolumeConcentrationUnit::PartsPerTrillion:
+                return "PartsPerTrillion";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

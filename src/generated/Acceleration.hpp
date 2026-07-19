@@ -37,6 +37,68 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Acceleration"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case AccelerationUnit::MetersPerSecondSquared:
+                return "MetersPerSecondSquared";
+
+            case AccelerationUnit::NanometersPerSecondSquared:
+                return "NanometersPerSecondSquared";
+
+            case AccelerationUnit::MicrometersPerSecondSquared:
+                return "MicrometersPerSecondSquared";
+
+            case AccelerationUnit::MillimetersPerSecondSquared:
+                return "MillimetersPerSecondSquared";
+
+            case AccelerationUnit::CentimetersPerSecondSquared:
+                return "CentimetersPerSecondSquared";
+
+            case AccelerationUnit::DecimetersPerSecondSquared:
+                return "DecimetersPerSecondSquared";
+
+            case AccelerationUnit::KilometersPerSecondSquared:
+                return "KilometersPerSecondSquared";
+
+            case AccelerationUnit::InchesPerSecondSquared:
+                return "InchesPerSecondSquared";
+
+            case AccelerationUnit::FeetPerSecondSquared:
+                return "FeetPerSecondSquared";
+
+            case AccelerationUnit::KnotsPerSecond:
+                return "KnotsPerSecond";
+
+            case AccelerationUnit::KnotsPerMinute:
+                return "KnotsPerMinute";
+
+            case AccelerationUnit::KnotsPerHour:
+                return "KnotsPerHour";
+
+            case AccelerationUnit::StandardGravity:
+                return "StandardGravity";
+
+            case AccelerationUnit::MillistandardGravity:
+                return "MillistandardGravity";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

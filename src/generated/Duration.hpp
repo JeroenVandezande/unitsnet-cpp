@@ -36,6 +36,65 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Duration"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case DurationUnit::Years365:
+                return "Years365";
+
+            case DurationUnit::Months30:
+                return "Months30";
+
+            case DurationUnit::Weeks:
+                return "Weeks";
+
+            case DurationUnit::Days:
+                return "Days";
+
+            case DurationUnit::Hours:
+                return "Hours";
+
+            case DurationUnit::Minutes:
+                return "Minutes";
+
+            case DurationUnit::Seconds:
+                return "Seconds";
+
+            case DurationUnit::Picoseconds:
+                return "Picoseconds";
+
+            case DurationUnit::Nanoseconds:
+                return "Nanoseconds";
+
+            case DurationUnit::Microseconds:
+                return "Microseconds";
+
+            case DurationUnit::Milliseconds:
+                return "Milliseconds";
+
+            case DurationUnit::JulianYears:
+                return "JulianYears";
+
+            case DurationUnit::Sols:
+                return "Sols";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

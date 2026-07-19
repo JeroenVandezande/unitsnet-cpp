@@ -34,6 +34,59 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricCharge"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricChargeUnit::Coulombs:
+                return "Coulombs";
+
+            case ElectricChargeUnit::Picocoulombs:
+                return "Picocoulombs";
+
+            case ElectricChargeUnit::Nanocoulombs:
+                return "Nanocoulombs";
+
+            case ElectricChargeUnit::Microcoulombs:
+                return "Microcoulombs";
+
+            case ElectricChargeUnit::Millicoulombs:
+                return "Millicoulombs";
+
+            case ElectricChargeUnit::Kilocoulombs:
+                return "Kilocoulombs";
+
+            case ElectricChargeUnit::Megacoulombs:
+                return "Megacoulombs";
+
+            case ElectricChargeUnit::AmpereHours:
+                return "AmpereHours";
+
+            case ElectricChargeUnit::MilliampereHours:
+                return "MilliampereHours";
+
+            case ElectricChargeUnit::KiloampereHours:
+                return "KiloampereHours";
+
+            case ElectricChargeUnit::MegaampereHours:
+                return "MegaampereHours";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

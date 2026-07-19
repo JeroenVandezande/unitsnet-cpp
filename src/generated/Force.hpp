@@ -39,6 +39,74 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Force"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ForceUnit::Dyne:
+                return "Dyne";
+
+            case ForceUnit::GramsForce:
+                return "GramsForce";
+
+            case ForceUnit::KilogramsForce:
+                return "KilogramsForce";
+
+            case ForceUnit::TonnesForce:
+                return "TonnesForce";
+
+            case ForceUnit::Newtons:
+                return "Newtons";
+
+            case ForceUnit::Micronewtons:
+                return "Micronewtons";
+
+            case ForceUnit::Millinewtons:
+                return "Millinewtons";
+
+            case ForceUnit::Decanewtons:
+                return "Decanewtons";
+
+            case ForceUnit::Kilonewtons:
+                return "Kilonewtons";
+
+            case ForceUnit::Meganewtons:
+                return "Meganewtons";
+
+            case ForceUnit::Kiloponds:
+                return "Kiloponds";
+
+            case ForceUnit::Poundals:
+                return "Poundals";
+
+            case ForceUnit::PoundsForce:
+                return "PoundsForce";
+
+            case ForceUnit::KilopoundsForce:
+                return "KilopoundsForce";
+
+            case ForceUnit::OunceForce:
+                return "OunceForce";
+
+            case ForceUnit::ShortTonsForce:
+                return "ShortTonsForce";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

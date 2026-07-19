@@ -29,6 +29,44 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "HeatTransferCoefficient"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin:
+                return "WattsPerSquareMeterKelvin";
+
+            case HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius:
+                return "WattsPerSquareMeterCelsius";
+
+            case HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit:
+                return "BtusPerHourSquareFootDegreeFahrenheit";
+
+            case HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit:
+                return "BtusPerSecondSquareInchDegreeFahrenheit";
+
+            case HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius:
+                return "CaloriesPerHourSquareMeterDegreeCelsius";
+
+            case HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius:
+                return "KilocaloriesPerHourSquareMeterDegreeCelsius";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

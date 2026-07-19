@@ -79,6 +79,194 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Density"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case DensityUnit::GramsPerCubicMillimeter:
+                return "GramsPerCubicMillimeter";
+
+            case DensityUnit::KilogramsPerCubicMillimeter:
+                return "KilogramsPerCubicMillimeter";
+
+            case DensityUnit::GramsPerCubicCentimeter:
+                return "GramsPerCubicCentimeter";
+
+            case DensityUnit::KilogramsPerCubicCentimeter:
+                return "KilogramsPerCubicCentimeter";
+
+            case DensityUnit::GramsPerCubicMeter:
+                return "GramsPerCubicMeter";
+
+            case DensityUnit::KilogramsPerCubicMeter:
+                return "KilogramsPerCubicMeter";
+
+            case DensityUnit::MilligramsPerCubicMeter:
+                return "MilligramsPerCubicMeter";
+
+            case DensityUnit::MicrogramsPerCubicMeter:
+                return "MicrogramsPerCubicMeter";
+
+            case DensityUnit::PoundsPerCubicInch:
+                return "PoundsPerCubicInch";
+
+            case DensityUnit::KilopoundsPerCubicInch:
+                return "KilopoundsPerCubicInch";
+
+            case DensityUnit::PoundsPerCubicFoot:
+                return "PoundsPerCubicFoot";
+
+            case DensityUnit::KilopoundsPerCubicFoot:
+                return "KilopoundsPerCubicFoot";
+
+            case DensityUnit::PoundsPerCubicYard:
+                return "PoundsPerCubicYard";
+
+            case DensityUnit::KilopoundsPerCubicYard:
+                return "KilopoundsPerCubicYard";
+
+            case DensityUnit::TonnesPerCubicMillimeter:
+                return "TonnesPerCubicMillimeter";
+
+            case DensityUnit::TonnesPerCubicCentimeter:
+                return "TonnesPerCubicCentimeter";
+
+            case DensityUnit::TonnesPerCubicMeter:
+                return "TonnesPerCubicMeter";
+
+            case DensityUnit::SlugsPerCubicFoot:
+                return "SlugsPerCubicFoot";
+
+            case DensityUnit::GramsPerLiter:
+                return "GramsPerLiter";
+
+            case DensityUnit::FemtogramsPerLiter:
+                return "FemtogramsPerLiter";
+
+            case DensityUnit::PicogramsPerLiter:
+                return "PicogramsPerLiter";
+
+            case DensityUnit::NanogramsPerLiter:
+                return "NanogramsPerLiter";
+
+            case DensityUnit::MicrogramsPerLiter:
+                return "MicrogramsPerLiter";
+
+            case DensityUnit::MilligramsPerLiter:
+                return "MilligramsPerLiter";
+
+            case DensityUnit::CentigramsPerLiter:
+                return "CentigramsPerLiter";
+
+            case DensityUnit::DecigramsPerLiter:
+                return "DecigramsPerLiter";
+
+            case DensityUnit::GramsPerDeciliter:
+                return "GramsPerDeciliter";
+
+            case DensityUnit::FemtogramsPerDeciliter:
+                return "FemtogramsPerDeciliter";
+
+            case DensityUnit::PicogramsPerDeciliter:
+                return "PicogramsPerDeciliter";
+
+            case DensityUnit::NanogramsPerDeciliter:
+                return "NanogramsPerDeciliter";
+
+            case DensityUnit::MicrogramsPerDeciliter:
+                return "MicrogramsPerDeciliter";
+
+            case DensityUnit::MilligramsPerDeciliter:
+                return "MilligramsPerDeciliter";
+
+            case DensityUnit::CentigramsPerDeciliter:
+                return "CentigramsPerDeciliter";
+
+            case DensityUnit::DecigramsPerDeciliter:
+                return "DecigramsPerDeciliter";
+
+            case DensityUnit::GramsPerMilliliter:
+                return "GramsPerMilliliter";
+
+            case DensityUnit::FemtogramsPerMilliliter:
+                return "FemtogramsPerMilliliter";
+
+            case DensityUnit::PicogramsPerMilliliter:
+                return "PicogramsPerMilliliter";
+
+            case DensityUnit::NanogramsPerMilliliter:
+                return "NanogramsPerMilliliter";
+
+            case DensityUnit::MicrogramsPerMilliliter:
+                return "MicrogramsPerMilliliter";
+
+            case DensityUnit::MilligramsPerMilliliter:
+                return "MilligramsPerMilliliter";
+
+            case DensityUnit::CentigramsPerMilliliter:
+                return "CentigramsPerMilliliter";
+
+            case DensityUnit::DecigramsPerMilliliter:
+                return "DecigramsPerMilliliter";
+
+            case DensityUnit::PoundsPerUSGallon:
+                return "PoundsPerUSGallon";
+
+            case DensityUnit::PoundsPerImperialGallon:
+                return "PoundsPerImperialGallon";
+
+            case DensityUnit::KilogramsPerLiter:
+                return "KilogramsPerLiter";
+
+            case DensityUnit::TonnesPerCubicFoot:
+                return "TonnesPerCubicFoot";
+
+            case DensityUnit::TonnesPerCubicInch:
+                return "TonnesPerCubicInch";
+
+            case DensityUnit::GramsPerCubicFoot:
+                return "GramsPerCubicFoot";
+
+            case DensityUnit::GramsPerCubicInch:
+                return "GramsPerCubicInch";
+
+            case DensityUnit::PoundsPerCubicMeter:
+                return "PoundsPerCubicMeter";
+
+            case DensityUnit::PoundsPerCubicCentimeter:
+                return "PoundsPerCubicCentimeter";
+
+            case DensityUnit::PoundsPerCubicMillimeter:
+                return "PoundsPerCubicMillimeter";
+
+            case DensityUnit::SlugsPerCubicMeter:
+                return "SlugsPerCubicMeter";
+
+            case DensityUnit::SlugsPerCubicCentimeter:
+                return "SlugsPerCubicCentimeter";
+
+            case DensityUnit::SlugsPerCubicMillimeter:
+                return "SlugsPerCubicMillimeter";
+
+            case DensityUnit::SlugsPerCubicInch:
+                return "SlugsPerCubicInch";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

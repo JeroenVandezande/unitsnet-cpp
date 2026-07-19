@@ -62,6 +62,143 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "Information"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case InformationUnit::Bytes:
+                return "Bytes";
+
+            case InformationUnit::Kilobytes:
+                return "Kilobytes";
+
+            case InformationUnit::Megabytes:
+                return "Megabytes";
+
+            case InformationUnit::Gigabytes:
+                return "Gigabytes";
+
+            case InformationUnit::Terabytes:
+                return "Terabytes";
+
+            case InformationUnit::Petabytes:
+                return "Petabytes";
+
+            case InformationUnit::Exabytes:
+                return "Exabytes";
+
+            case InformationUnit::Kibibytes:
+                return "Kibibytes";
+
+            case InformationUnit::Mebibytes:
+                return "Mebibytes";
+
+            case InformationUnit::Gibibytes:
+                return "Gibibytes";
+
+            case InformationUnit::Tebibytes:
+                return "Tebibytes";
+
+            case InformationUnit::Pebibytes:
+                return "Pebibytes";
+
+            case InformationUnit::Exbibytes:
+                return "Exbibytes";
+
+            case InformationUnit::Octets:
+                return "Octets";
+
+            case InformationUnit::Kilooctets:
+                return "Kilooctets";
+
+            case InformationUnit::Megaoctets:
+                return "Megaoctets";
+
+            case InformationUnit::Gigaoctets:
+                return "Gigaoctets";
+
+            case InformationUnit::Teraoctets:
+                return "Teraoctets";
+
+            case InformationUnit::Petaoctets:
+                return "Petaoctets";
+
+            case InformationUnit::Exaoctets:
+                return "Exaoctets";
+
+            case InformationUnit::Kibioctets:
+                return "Kibioctets";
+
+            case InformationUnit::Mebioctets:
+                return "Mebioctets";
+
+            case InformationUnit::Gibioctets:
+                return "Gibioctets";
+
+            case InformationUnit::Tebioctets:
+                return "Tebioctets";
+
+            case InformationUnit::Pebioctets:
+                return "Pebioctets";
+
+            case InformationUnit::Exbioctets:
+                return "Exbioctets";
+
+            case InformationUnit::Bits:
+                return "Bits";
+
+            case InformationUnit::Kilobits:
+                return "Kilobits";
+
+            case InformationUnit::Megabits:
+                return "Megabits";
+
+            case InformationUnit::Gigabits:
+                return "Gigabits";
+
+            case InformationUnit::Terabits:
+                return "Terabits";
+
+            case InformationUnit::Petabits:
+                return "Petabits";
+
+            case InformationUnit::Exabits:
+                return "Exabits";
+
+            case InformationUnit::Kibibits:
+                return "Kibibits";
+
+            case InformationUnit::Mebibits:
+                return "Mebibits";
+
+            case InformationUnit::Gibibits:
+                return "Gibibits";
+
+            case InformationUnit::Tebibits:
+                return "Tebibits";
+
+            case InformationUnit::Pebibits:
+                return "Pebibits";
+
+            case InformationUnit::Exbibits:
+                return "Exbibits";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {

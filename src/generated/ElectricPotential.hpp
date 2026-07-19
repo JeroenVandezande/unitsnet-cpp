@@ -29,6 +29,44 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
+        
+        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
+        {
+           return value_; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
+        {
+           return "ElectricPotential"; 
+        }
+        
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
+        {
+            switch (value_unit_type_)
+            {
+
+            case ElectricPotentialUnit::Volts:
+                return "Volts";
+
+            case ElectricPotentialUnit::Nanovolts:
+                return "Nanovolts";
+
+            case ElectricPotentialUnit::Microvolts:
+                return "Microvolts";
+
+            case ElectricPotentialUnit::Millivolts:
+                return "Millivolts";
+
+            case ElectricPotentialUnit::Kilovolts:
+                return "Kilovolts";
+
+            case ElectricPotentialUnit::Megavolts:
+                return "Megavolts";
+
+            }
+            
+            return {};
+        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
