@@ -187,22 +187,22 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case TemperatureDeltaUnit::DegreesDelisle:
-                return value * -2 / 3;
+                return value * static_cast<un_scalar_t>(-2) / static_cast<un_scalar_t>(3);
 
             case TemperatureDeltaUnit::DegreesFahrenheit:
-                return value * 5 / 9;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureDeltaUnit::DegreesNewton:
-                return value * 100 / 33;
+                return value * static_cast<un_scalar_t>(100) / static_cast<un_scalar_t>(33);
 
             case TemperatureDeltaUnit::DegreesRankine:
-                return value * 5 / 9;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureDeltaUnit::DegreesReaumur:
-                return value * 5 / 4;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(4);
 
             case TemperatureDeltaUnit::DegreesRoemer:
-                return value * 40 / 21;
+                return value * static_cast<un_scalar_t>(40) / static_cast<un_scalar_t>(21);
 
             }
 
@@ -224,22 +224,22 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case TemperatureDeltaUnit::DegreesDelisle:
-                return value_ * -3 / 2;
+                return value_ * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
 
             case TemperatureDeltaUnit::DegreesFahrenheit:
-                return value_ * 9 / 5;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesNewton:
-                return value_ * 33 / 100;
+                return value_ * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
 
             case TemperatureDeltaUnit::DegreesRankine:
-                return value_ * 9 / 5;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesReaumur:
-                return value_ * 4 / 5;
+                return value_ * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
 
             case TemperatureDeltaUnit::DegreesRoemer:
-                return value_ * 21 / 40;
+                return value_ * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
 
             }
 

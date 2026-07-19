@@ -295,49 +295,49 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case PressureChangeRateUnit::PascalsPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::KilopascalsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MegapascalsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e6)) / 60;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MillimetersOfMercuryPerSecond:
-                return value * 133.322387415;
+                return value * static_cast<un_scalar_t>(133.322387415);
 
             case PressureChangeRateUnit::AtmospheresPerSecond:
-                return value * 1.01325 * 1e5;
+                return value * static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5);
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond:
-                return value * 4.4482216152605 / 0.00064516;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerSecond:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 0.00064516;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond:
-                return (value * static_cast<un_scalar_t>(1e6)) * 4.4482216152605 / 0.00064516;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerMinute:
-                return value * (4.4482216152605 / 0.00064516) / 60;
+                return value * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516)) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) * (4.4482216152605 / 0.00064516) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516)) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerMinute:
-                return (value * static_cast<un_scalar_t>(1e6)) * (4.4482216152605 / 0.00064516) / 60;
+                return (value * static_cast<un_scalar_t>(1e6)) * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516)) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::BarsPerSecond:
-                return value * 1e5;
+                return value * static_cast<un_scalar_t>(1e5);
 
             case PressureChangeRateUnit::MillibarsPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e5);
 
             case PressureChangeRateUnit::BarsPerMinute:
-                return value * 1e5 / 60;
+                return value * static_cast<un_scalar_t>(1e5) / static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MillibarsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e5 / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e5) / static_cast<un_scalar_t>(60);
 
             }
 
@@ -359,49 +359,49 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::PascalsPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::KilopascalsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapascalsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::MillimetersOfMercuryPerSecond:
-                return value_ / 133.322387415;
+                return value_ / static_cast<un_scalar_t>(133.322387415);
 
             case PressureChangeRateUnit::AtmospheresPerSecond:
-                return value_ / (1.01325 * 1e5);
+                return value_ / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerSecond:
-                return value_ * 0.00064516 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerSecond:
-                return (value_ * 0.00064516 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerSecond:
-                return (value_ * 0.00064516 / 4.4482216152605) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::PoundsForcePerSquareInchPerMinute:
-                return value_ * 60 / (4.4482216152605 / 0.00064516);
+                return value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
 
             case PressureChangeRateUnit::KilopoundsForcePerSquareInchPerMinute:
-                return (value_ * 60 / (4.4482216152605 / 0.00064516)) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e3);
 
             case PressureChangeRateUnit::MegapoundsForcePerSquareInchPerMinute:
-                return (value_ * 60 / (4.4482216152605 / 0.00064516)) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516))) / static_cast<un_scalar_t>(1e6);
 
             case PressureChangeRateUnit::BarsPerSecond:
-                return value_ / 1e5;
+                return value_ / static_cast<un_scalar_t>(1e5);
 
             case PressureChangeRateUnit::MillibarsPerSecond:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureChangeRateUnit::BarsPerMinute:
-                return value_ / 1e5 * 60;
+                return value_ / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60);
 
             case PressureChangeRateUnit::MillibarsPerMinute:
-                return (value_ / 1e5 * 60) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e5) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

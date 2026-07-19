@@ -109,10 +109,10 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareCentimeter:
-                return value * 1.0e4;
+                return value * static_cast<un_scalar_t>(1.0e4);
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareInch:
-                return value / 0.00064516;
+                return value / static_cast<un_scalar_t>(0.00064516);
 
             }
 
@@ -128,10 +128,10 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareCentimeter:
-                return value_ / 1.0e4;
+                return value_ / static_cast<un_scalar_t>(1.0e4);
 
             case ElectricSurfaceChargeDensityUnit::CoulombsPerSquareInch:
-                return value_ * 0.00064516;
+                return value_ * static_cast<un_scalar_t>(0.00064516);
 
             }
 

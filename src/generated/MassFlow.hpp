@@ -493,76 +493,76 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case MassFlowUnit::GramsPerDay:
-                return value / 86400;
+                return value / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::NanogramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::MicrogramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::MilligramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::CentigramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::DecigramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::DecagramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e1)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::HectogramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e2)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::KilogramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e3)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::MegagramsPerDay:
-                return (value * static_cast<un_scalar_t>(1e6)) / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::GramsPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case MassFlowUnit::KilogramsPerHour:
-                return value / 3.6;
+                return value / static_cast<un_scalar_t>(3.6);
 
             case MassFlowUnit::KilogramsPerMinute:
-                return value / 0.06;
+                return value / static_cast<un_scalar_t>(0.06);
 
             case MassFlowUnit::TonnesPerHour:
-                return value * 1000 / 3.6;
+                return value * static_cast<un_scalar_t>(1000) / static_cast<un_scalar_t>(3.6);
 
             case MassFlowUnit::PoundsPerDay:
-                return value * 453.59237 / 86400;
+                return value * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::MegapoundsPerDay:
-                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::PoundsPerHour:
-                return value * 453.59237 / 3600;
+                return value * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(3600);
 
             case MassFlowUnit::MegapoundsPerHour:
-                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(3600);
 
             case MassFlowUnit::PoundsPerMinute:
-                return value * 453.59237 / 60;
+                return value * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(60);
 
             case MassFlowUnit::MegapoundsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237 / 60;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(453.59237) / static_cast<un_scalar_t>(60);
 
             case MassFlowUnit::PoundsPerSecond:
-                return value * 453.59237;
+                return value * static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::MegapoundsPerSecond:
-                return (value * static_cast<un_scalar_t>(1e6)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::TonnesPerDay:
-                return value / 0.0864000;
+                return value / static_cast<un_scalar_t>(0.0864000);
 
             case MassFlowUnit::ShortTonsPerHour:
-                return value * 907.18474 / 3.6;
+                return value * static_cast<un_scalar_t>(907.18474) / static_cast<un_scalar_t>(3.6);
 
             }
 
@@ -602,76 +602,76 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case MassFlowUnit::GramsPerDay:
-                return value_ * 86400;
+                return value_ * static_cast<un_scalar_t>(86400);
 
             case MassFlowUnit::NanogramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e-9);
 
             case MassFlowUnit::MicrogramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e-6);
 
             case MassFlowUnit::MilligramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e-3);
 
             case MassFlowUnit::CentigramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e-2);
 
             case MassFlowUnit::DecigramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e-1);
 
             case MassFlowUnit::DecagramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e1);
 
             case MassFlowUnit::HectogramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e2);
 
             case MassFlowUnit::KilogramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e3);
 
             case MassFlowUnit::MegagramsPerDay:
-                return (value_ * 86400) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(86400)) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::GramsPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case MassFlowUnit::KilogramsPerHour:
-                return value_ * 3.6;
+                return value_ * static_cast<un_scalar_t>(3.6);
 
             case MassFlowUnit::KilogramsPerMinute:
-                return value_ * 0.06;
+                return value_ * static_cast<un_scalar_t>(0.06);
 
             case MassFlowUnit::TonnesPerHour:
-                return value_ * 3.6 / 1000;
+                return value_ * static_cast<un_scalar_t>(3.6) / static_cast<un_scalar_t>(1000);
 
             case MassFlowUnit::PoundsPerDay:
-                return value_ * 86400 / 453.59237;
+                return value_ * static_cast<un_scalar_t>(86400) / static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::MegapoundsPerDay:
-                return (value_ * 86400 / 453.59237) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(86400) / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerHour:
-                return value_ * 3600 / 453.59237;
+                return value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::MegapoundsPerHour:
-                return (value_ * 3600 / 453.59237) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerMinute:
-                return value_ * 60 / 453.59237;
+                return value_ * static_cast<un_scalar_t>(60) / static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::MegapoundsPerMinute:
-                return (value_ * 60 / 453.59237) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(60) / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::PoundsPerSecond:
-                return value_ / 453.59237;
+                return value_ / static_cast<un_scalar_t>(453.59237);
 
             case MassFlowUnit::MegapoundsPerSecond:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e6);
 
             case MassFlowUnit::TonnesPerDay:
-                return value_ * 0.0864000;
+                return value_ * static_cast<un_scalar_t>(0.0864000);
 
             case MassFlowUnit::ShortTonsPerHour:
-                return value_ * 3.6 / 907.18474;
+                return value_ * static_cast<un_scalar_t>(3.6) / static_cast<un_scalar_t>(907.18474);
 
             }
 

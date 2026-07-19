@@ -133,16 +133,16 @@ namespace unitsnet_cpp
                 return value;
 
             case AreaDensityUnit::GramsPerSquareMeter:
-                return value / 1000;
+                return value / static_cast<un_scalar_t>(1000);
 
             case AreaDensityUnit::MilligramsPerSquareMeter:
-                return value / 1000000;
+                return value / static_cast<un_scalar_t>(1000000);
 
             case AreaDensityUnit::PoundsPerSquareFoot:
-                return value * (0.45359237 / 0.09290304);
+                return value * (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
 
             case AreaDensityUnit::PoundsPerThousandSquareFeet:
-                return value * (0.45359237 / 0.09290304) / 1000;
+                return value * (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) / static_cast<un_scalar_t>(1000);
 
             }
 
@@ -158,16 +158,16 @@ namespace unitsnet_cpp
                 return value_;
 
             case AreaDensityUnit::GramsPerSquareMeter:
-                return value_ * 1000;
+                return value_ * static_cast<un_scalar_t>(1000);
 
             case AreaDensityUnit::MilligramsPerSquareMeter:
-                return value_ * 1000000;
+                return value_ * static_cast<un_scalar_t>(1000000);
 
             case AreaDensityUnit::PoundsPerSquareFoot:
-                return value_ / (0.45359237 / 0.09290304);
+                return value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304));
 
             case AreaDensityUnit::PoundsPerThousandSquareFeet:
-                return value_ / (0.45359237 / 0.09290304) * 1000;
+                return value_ / (static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.09290304)) * static_cast<un_scalar_t>(1000);
 
             }
 

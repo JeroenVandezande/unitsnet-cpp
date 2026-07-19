@@ -97,7 +97,7 @@ namespace unitsnet_cpp
                 return value;
 
             case LevelUnit::Nepers:
-                return (1 / 0.115129254) * value;
+                return (static_cast<un_scalar_t>(1) / static_cast<un_scalar_t>(0.115129254)) * value;
 
             }
 
@@ -113,7 +113,7 @@ namespace unitsnet_cpp
                 return value_;
 
             case LevelUnit::Nepers:
-                return 0.115129254 * value_;
+                return static_cast<un_scalar_t>(0.115129254) * value_;
 
             }
 

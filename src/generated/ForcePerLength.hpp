@@ -553,91 +553,91 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ForcePerLengthUnit::NewtonsPerCentimeter:
-                return value * 1e2;
+                return value * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::NanonewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::MicronewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::MillinewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::CentinewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-2)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::DecinewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-1)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::DecanewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e1)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::KilonewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::MeganewtonsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::NewtonsPerMillimeter:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::NanonewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MicronewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MillinewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::CentinewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-2)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::DecinewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-1)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::DecanewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e1)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::KilonewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::KilogramsForcePerMeter:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case ForcePerLengthUnit::KilogramsForcePerCentimeter:
-                return value * 980.665;
+                return value * static_cast<un_scalar_t>(980.665);
 
             case ForcePerLengthUnit::KilogramsForcePerMillimeter:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerMeter:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerCentimeter:
-                return value * 9.80665e5;
+                return value * static_cast<un_scalar_t>(9.80665e5);
 
             case ForcePerLengthUnit::TonnesForcePerMillimeter:
-                return value * 9.80665e6;
+                return value * static_cast<un_scalar_t>(9.80665e6);
 
             case ForcePerLengthUnit::PoundsForcePerFoot:
-                return value * 4.4482216152605 / 0.3048;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.3048);
 
             case ForcePerLengthUnit::PoundsForcePerInch:
-                return value * 4.4482216152605 / 2.54e-2;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(2.54e-2);
 
             case ForcePerLengthUnit::PoundsForcePerYard:
-                return value * 4.4482216152605 / 0.9144;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.9144);
 
             case ForcePerLengthUnit::KilopoundsForcePerFoot:
-                return value * 4.4482216152605 / 0.3048e-3;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.3048e-3);
 
             case ForcePerLengthUnit::KilopoundsForcePerInch:
-                return value * 4.4482216152605 / 2.54e-5;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(2.54e-5);
 
             }
 
@@ -677,91 +677,91 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::NewtonsPerCentimeter:
-                return value_ / 1e2;
+                return value_ / static_cast<un_scalar_t>(1e2);
 
             case ForcePerLengthUnit::NanonewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-9);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-9);
 
             case ForcePerLengthUnit::MicronewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-6);
 
             case ForcePerLengthUnit::MillinewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
 
             case ForcePerLengthUnit::CentinewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-2);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-2);
 
             case ForcePerLengthUnit::DecinewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-1);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-1);
 
             case ForcePerLengthUnit::DecanewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e1);
 
             case ForcePerLengthUnit::KilonewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::NewtonsPerMillimeter:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::NanonewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case ForcePerLengthUnit::MicronewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case ForcePerLengthUnit::MillinewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case ForcePerLengthUnit::CentinewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case ForcePerLengthUnit::DecinewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case ForcePerLengthUnit::DecanewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case ForcePerLengthUnit::KilonewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case ForcePerLengthUnit::MeganewtonsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case ForcePerLengthUnit::KilogramsForcePerMeter:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case ForcePerLengthUnit::KilogramsForcePerCentimeter:
-                return value_ / 980.665;
+                return value_ / static_cast<un_scalar_t>(980.665);
 
             case ForcePerLengthUnit::KilogramsForcePerMillimeter:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerMeter:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case ForcePerLengthUnit::TonnesForcePerCentimeter:
-                return value_ / 9.80665e5;
+                return value_ / static_cast<un_scalar_t>(9.80665e5);
 
             case ForcePerLengthUnit::TonnesForcePerMillimeter:
-                return value_ / 9.80665e6;
+                return value_ / static_cast<un_scalar_t>(9.80665e6);
 
             case ForcePerLengthUnit::PoundsForcePerFoot:
-                return value_ * 0.3048 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::PoundsForcePerInch:
-                return value_ * 2.54e-2 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::PoundsForcePerYard:
-                return value_ * 0.9144 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::KilopoundsForcePerFoot:
-                return value_ * 0.3048e-3 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.3048e-3) / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForcePerLengthUnit::KilopoundsForcePerInch:
-                return value_ * 2.54e-5 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(2.54e-5) / static_cast<un_scalar_t>(4.4482216152605);
 
             }
 

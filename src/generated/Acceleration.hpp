@@ -259,25 +259,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case AccelerationUnit::InchesPerSecondSquared:
-                return value * 0.0254;
+                return value * static_cast<un_scalar_t>(0.0254);
 
             case AccelerationUnit::FeetPerSecondSquared:
-                return value * 0.304800;
+                return value * static_cast<un_scalar_t>(0.304800);
 
             case AccelerationUnit::KnotsPerSecond:
-                return value * (1852.0 / 3600.0);
+                return value * (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerMinute:
-                return value * (1852.0 / 3600.0) / 60;
+                return value * (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(60);
 
             case AccelerationUnit::KnotsPerHour:
-                return value * (1852.0 / 3600.0) / 3600;
+                return value * (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(3600);
 
             case AccelerationUnit::StandardGravity:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case AccelerationUnit::MillistandardGravity:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 9.80665;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(9.80665);
 
             }
 
@@ -311,25 +311,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case AccelerationUnit::InchesPerSecondSquared:
-                return value_ / 0.0254;
+                return value_ / static_cast<un_scalar_t>(0.0254);
 
             case AccelerationUnit::FeetPerSecondSquared:
-                return value_ / 0.304800;
+                return value_ / static_cast<un_scalar_t>(0.304800);
 
             case AccelerationUnit::KnotsPerSecond:
-                return value_ / (1852.0 / 3600.0);
+                return value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerMinute:
-                return value_ * 60 / (1852.0 / 3600.0);
+                return value_ * static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::KnotsPerHour:
-                return value_ * 3600 / (1852.0 / 3600.0);
+                return value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case AccelerationUnit::StandardGravity:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case AccelerationUnit::MillistandardGravity:
-                return (value_ / 9.80665) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

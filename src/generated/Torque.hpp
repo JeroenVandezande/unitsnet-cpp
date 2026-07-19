@@ -370,22 +370,22 @@ namespace unitsnet_cpp
             {
 
             case TorqueUnit::NewtonMillimeters:
-                return value * 0.001;
+                return value * static_cast<un_scalar_t>(0.001);
 
             case TorqueUnit::KilonewtonMillimeters:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.001;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.001);
 
             case TorqueUnit::MeganewtonMillimeters:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.001;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.001);
 
             case TorqueUnit::NewtonCentimeters:
-                return value * 0.01;
+                return value * static_cast<un_scalar_t>(0.01);
 
             case TorqueUnit::KilonewtonCentimeters:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.01;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.01);
 
             case TorqueUnit::MeganewtonCentimeters:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.01;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.01);
 
             case TorqueUnit::NewtonMeters:
                 return value;
@@ -397,52 +397,52 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case TorqueUnit::PoundalFeet:
-                return value * 0.138254954376 * 0.3048;
+                return value * static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048);
 
             case TorqueUnit::PoundForceInches:
-                return value * 4.4482216152605 * 2.54e-2;
+                return value * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2);
 
             case TorqueUnit::KilopoundForceInches:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 * 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2);
 
             case TorqueUnit::MegapoundForceInches:
-                return (value * static_cast<un_scalar_t>(1e6)) * 4.4482216152605 * 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2);
 
             case TorqueUnit::PoundForceFeet:
-                return value * 4.4482216152605 * 0.3048;
+                return value * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048);
 
             case TorqueUnit::KilopoundForceFeet:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 * 0.3048;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048);
 
             case TorqueUnit::MegapoundForceFeet:
-                return (value * static_cast<un_scalar_t>(1e6)) * 4.4482216152605 * 0.3048;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048);
 
             case TorqueUnit::GramForceMillimeters:
-                return value * 9.80665e-6;
+                return value * static_cast<un_scalar_t>(9.80665e-6);
 
             case TorqueUnit::GramForceCentimeters:
-                return value * 9.80665e-5;
+                return value * static_cast<un_scalar_t>(9.80665e-5);
 
             case TorqueUnit::GramForceMeters:
-                return value * 9.80665e-3;
+                return value * static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceMillimeters:
-                return value * 9.80665e-3;
+                return value * static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceCentimeters:
-                return value * 9.80665e-2;
+                return value * static_cast<un_scalar_t>(9.80665e-2);
 
             case TorqueUnit::KilogramForceMeters:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceMillimeters:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceCentimeters:
-                return value * 9.80665e1;
+                return value * static_cast<un_scalar_t>(9.80665e1);
 
             case TorqueUnit::TonneForceMeters:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             }
 
@@ -455,22 +455,22 @@ namespace unitsnet_cpp
             {
 
             case TorqueUnit::NewtonMillimeters:
-                return value_ * 1000;
+                return value_ * static_cast<un_scalar_t>(1000);
 
             case TorqueUnit::KilonewtonMillimeters:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonMillimeters:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonCentimeters:
-                return value_ * 100;
+                return value_ * static_cast<un_scalar_t>(100);
 
             case TorqueUnit::KilonewtonCentimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MeganewtonCentimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::NewtonMeters:
                 return value_;
@@ -482,52 +482,52 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundalFeet:
-                return value_ / (0.138254954376 * 0.3048);
+                return value_ / (static_cast<un_scalar_t>(0.138254954376) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::PoundForceInches:
-                return value_ / (4.4482216152605 * 2.54e-2);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2));
 
             case TorqueUnit::KilopoundForceInches:
-                return (value_ / (4.4482216152605 * 2.54e-2)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceInches:
-                return (value_ / (4.4482216152605 * 2.54e-2)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2.54e-2))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::PoundForceFeet:
-                return value_ / (4.4482216152605 * 0.3048);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048));
 
             case TorqueUnit::KilopoundForceFeet:
-                return (value_ / (4.4482216152605 * 0.3048)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e3);
 
             case TorqueUnit::MegapoundForceFeet:
-                return (value_ / (4.4482216152605 * 0.3048)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(0.3048))) / static_cast<un_scalar_t>(1e6);
 
             case TorqueUnit::GramForceMillimeters:
-                return value_ / 9.80665e-6;
+                return value_ / static_cast<un_scalar_t>(9.80665e-6);
 
             case TorqueUnit::GramForceCentimeters:
-                return value_ / 9.80665e-5;
+                return value_ / static_cast<un_scalar_t>(9.80665e-5);
 
             case TorqueUnit::GramForceMeters:
-                return value_ / 9.80665e-3;
+                return value_ / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceMillimeters:
-                return value_ / 9.80665e-3;
+                return value_ / static_cast<un_scalar_t>(9.80665e-3);
 
             case TorqueUnit::KilogramForceCentimeters:
-                return value_ / 9.80665e-2;
+                return value_ / static_cast<un_scalar_t>(9.80665e-2);
 
             case TorqueUnit::KilogramForceMeters:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceMillimeters:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case TorqueUnit::TonneForceCentimeters:
-                return value_ / 9.80665e1;
+                return value_ / static_cast<un_scalar_t>(9.80665e1);
 
             case TorqueUnit::TonneForceMeters:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             }
 

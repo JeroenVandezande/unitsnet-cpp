@@ -118,13 +118,13 @@ namespace unitsnet_cpp
             {
 
             case FuelEfficiencyUnit::LitersPer100Kilometers:
-                return 100 / value;
+                return static_cast<un_scalar_t>(100) / value;
 
             case FuelEfficiencyUnit::MilesPerUsGallon:
-                return value * 1.609344 / 3.785411784;
+                return value * static_cast<un_scalar_t>(1.609344) / static_cast<un_scalar_t>(3.785411784);
 
             case FuelEfficiencyUnit::MilesPerUkGallon:
-                return value * 1.609344 / 4.54609;
+                return value * static_cast<un_scalar_t>(1.609344) / static_cast<un_scalar_t>(4.54609);
 
             case FuelEfficiencyUnit::KilometersPerLiter:
                 return value;
@@ -140,13 +140,13 @@ namespace unitsnet_cpp
             {
 
             case FuelEfficiencyUnit::LitersPer100Kilometers:
-                return 100 / value_;
+                return static_cast<un_scalar_t>(100) / value_;
 
             case FuelEfficiencyUnit::MilesPerUsGallon:
-                return value_ * 3.785411784 / 1.609344;
+                return value_ * static_cast<un_scalar_t>(3.785411784) / static_cast<un_scalar_t>(1.609344);
 
             case FuelEfficiencyUnit::MilesPerUkGallon:
-                return value_ * 4.54609 / 1.609344;
+                return value_ * static_cast<un_scalar_t>(4.54609) / static_cast<un_scalar_t>(1.609344);
 
             case FuelEfficiencyUnit::KilometersPerLiter:
                 return value_;

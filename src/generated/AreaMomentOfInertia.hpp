@@ -145,19 +145,19 @@ namespace unitsnet_cpp
                 return value;
 
             case AreaMomentOfInertiaUnit::DecimetersToTheFourth:
-                return value / 1e4;
+                return value / static_cast<un_scalar_t>(1e4);
 
             case AreaMomentOfInertiaUnit::CentimetersToTheFourth:
-                return value / 1e8;
+                return value / static_cast<un_scalar_t>(1e8);
 
             case AreaMomentOfInertiaUnit::MillimetersToTheFourth:
-                return value / 1e12;
+                return value / static_cast<un_scalar_t>(1e12);
 
             case AreaMomentOfInertiaUnit::FeetToTheFourth:
-                return value * 0.0086309748412416;
+                return value * static_cast<un_scalar_t>(0.0086309748412416);
 
             case AreaMomentOfInertiaUnit::InchesToTheFourth:
-                return value * 0.0000004162314256;
+                return value * static_cast<un_scalar_t>(0.0000004162314256);
 
             }
 
@@ -173,19 +173,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case AreaMomentOfInertiaUnit::DecimetersToTheFourth:
-                return value_ * 1e4;
+                return value_ * static_cast<un_scalar_t>(1e4);
 
             case AreaMomentOfInertiaUnit::CentimetersToTheFourth:
-                return value_ * 1e8;
+                return value_ * static_cast<un_scalar_t>(1e8);
 
             case AreaMomentOfInertiaUnit::MillimetersToTheFourth:
-                return value_ * 1e12;
+                return value_ * static_cast<un_scalar_t>(1e12);
 
             case AreaMomentOfInertiaUnit::FeetToTheFourth:
-                return value_ / 0.0086309748412416;
+                return value_ / static_cast<un_scalar_t>(0.0086309748412416);
 
             case AreaMomentOfInertiaUnit::InchesToTheFourth:
-                return value_ / 0.0000004162314256;
+                return value_ / static_cast<un_scalar_t>(0.0000004162314256);
 
             }
 

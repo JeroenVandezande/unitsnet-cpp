@@ -313,16 +313,16 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e15));
 
             case AbsorbedDoseOfIonizingRadiationUnit::Rads:
-                return value / 100;
+                return value / static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Millirads:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilorads:
-                return (value * static_cast<un_scalar_t>(1e3)) / 100;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megarads:
-                return (value * static_cast<un_scalar_t>(1e6)) / 100;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(100);
 
             }
 
@@ -374,16 +374,16 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e15);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Rads:
-                return value_ * 100;
+                return value_ * static_cast<un_scalar_t>(100);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Millirads:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Kilorads:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case AbsorbedDoseOfIonizingRadiationUnit::Megarads:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             }
 

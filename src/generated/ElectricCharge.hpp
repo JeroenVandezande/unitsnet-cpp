@@ -223,16 +223,16 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricChargeUnit::AmpereHours:
-                return value * 3600;
+                return value * static_cast<un_scalar_t>(3600);
 
             case ElectricChargeUnit::MilliampereHours:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(3600);
 
             case ElectricChargeUnit::KiloampereHours:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3600);
 
             case ElectricChargeUnit::MegaampereHours:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3600);
 
             }
 
@@ -266,16 +266,16 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricChargeUnit::AmpereHours:
-                return value_ / 3600;
+                return value_ / static_cast<un_scalar_t>(3600);
 
             case ElectricChargeUnit::MilliampereHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricChargeUnit::KiloampereHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricChargeUnit::MegaampereHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             }
 

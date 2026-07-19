@@ -439,85 +439,85 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case SpecificEnergyUnit::MegajoulesPerTonne:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::CaloriesPerGram:
-                return value * 4.184e3;
+                return value * static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEnergyUnit::KilocaloriesPerGram:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEnergyUnit::WattHoursPerKilogram:
-                return value * 3.6e3;
+                return value * static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::KilowattHoursPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3.6e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::MegawattHoursPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3.6e3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::GigawattHoursPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e9)) * 3.6e3;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::WattDaysPerKilogram:
-                return value * (24 * 3.6e3);
+                return value * (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::KilowattDaysPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e3)) * (24 * 3.6e3);
+                return (value * static_cast<un_scalar_t>(1e3)) * (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::MegawattDaysPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e6)) * (24 * 3.6e3);
+                return (value * static_cast<un_scalar_t>(1e6)) * (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::GigawattDaysPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e9)) * (24 * 3.6e3);
+                return (value * static_cast<un_scalar_t>(1e9)) * (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::TerawattDaysPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e12)) * (24 * 3.6e3);
+                return (value * static_cast<un_scalar_t>(1e12)) * (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::WattDaysPerTonne:
-                return value * ((24 * 3.6e3) / 1e3);
+                return value * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::KilowattDaysPerTonne:
-                return (value * static_cast<un_scalar_t>(1e3)) * ((24 * 3.6e3) / 1e3);
+                return (value * static_cast<un_scalar_t>(1e3)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::MegawattDaysPerTonne:
-                return (value * static_cast<un_scalar_t>(1e6)) * ((24 * 3.6e3) / 1e3);
+                return (value * static_cast<un_scalar_t>(1e6)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::GigawattDaysPerTonne:
-                return (value * static_cast<un_scalar_t>(1e9)) * ((24 * 3.6e3) / 1e3);
+                return (value * static_cast<un_scalar_t>(1e9)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::TerawattDaysPerTonne:
-                return (value * static_cast<un_scalar_t>(1e12)) * ((24 * 3.6e3) / 1e3);
+                return (value * static_cast<un_scalar_t>(1e12)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::WattDaysPerShortTon:
-                return value * ((24 * 3.6e3) / 9.0718474e2);
+                return value * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::KilowattDaysPerShortTon:
-                return (value * static_cast<un_scalar_t>(1e3)) * ((24 * 3.6e3) / 9.0718474e2);
+                return (value * static_cast<un_scalar_t>(1e3)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::MegawattDaysPerShortTon:
-                return (value * static_cast<un_scalar_t>(1e6)) * ((24 * 3.6e3) / 9.0718474e2);
+                return (value * static_cast<un_scalar_t>(1e6)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::GigawattDaysPerShortTon:
-                return (value * static_cast<un_scalar_t>(1e9)) * ((24 * 3.6e3) / 9.0718474e2);
+                return (value * static_cast<un_scalar_t>(1e9)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::TerawattDaysPerShortTon:
-                return (value * static_cast<un_scalar_t>(1e12)) * ((24 * 3.6e3) / 9.0718474e2);
+                return (value * static_cast<un_scalar_t>(1e12)) * ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::WattHoursPerPound:
-                return value * 7.93664e3;
+                return value * static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::KilowattHoursPerPound:
-                return (value * static_cast<un_scalar_t>(1e3)) * 7.93664e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::MegawattHoursPerPound:
-                return (value * static_cast<un_scalar_t>(1e6)) * 7.93664e3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::GigawattHoursPerPound:
-                return (value * static_cast<un_scalar_t>(1e9)) * 7.93664e3;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::BtuPerPound:
-                return value * 1055.05585262 / 0.45359237;
+                return value * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(0.45359237);
 
             }
 
@@ -539,85 +539,85 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::MegajoulesPerTonne:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::CaloriesPerGram:
-                return value_ / 4.184e3;
+                return value_ / static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEnergyUnit::KilocaloriesPerGram:
-                return (value_ / 4.184e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::WattHoursPerKilogram:
-                return value_ / 3.6e3;
+                return value_ / static_cast<un_scalar_t>(3.6e3);
 
             case SpecificEnergyUnit::KilowattHoursPerKilogram:
-                return (value_ / 3.6e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerKilogram:
-                return (value_ / 3.6e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerKilogram:
-                return (value_ / 3.6e3) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::WattDaysPerKilogram:
-                return value_ / (24 * 3.6e3);
+                return value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3));
 
             case SpecificEnergyUnit::KilowattDaysPerKilogram:
-                return (value_ / (24 * 3.6e3)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerKilogram:
-                return (value_ / (24 * 3.6e3)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerKilogram:
-                return (value_ / (24 * 3.6e3)) / static_cast<un_scalar_t>(1e9);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerKilogram:
-                return (value_ / (24 * 3.6e3)) / static_cast<un_scalar_t>(1e12);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerTonne:
-                return value_ / ((24 * 3.6e3) / 1e3);
+                return value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3));
 
             case SpecificEnergyUnit::KilowattDaysPerTonne:
-                return (value_ / ((24 * 3.6e3) / 1e3)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerTonne:
-                return (value_ / ((24 * 3.6e3) / 1e3)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerTonne:
-                return (value_ / ((24 * 3.6e3) / 1e3)) / static_cast<un_scalar_t>(1e9);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerTonne:
-                return (value_ / ((24 * 3.6e3) / 1e3)) / static_cast<un_scalar_t>(1e12);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(1e3))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattDaysPerShortTon:
-                return value_ / ((24 * 3.6e3) / 9.0718474e2);
+                return value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2));
 
             case SpecificEnergyUnit::KilowattDaysPerShortTon:
-                return (value_ / ((24 * 3.6e3) / 9.0718474e2)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattDaysPerShortTon:
-                return (value_ / ((24 * 3.6e3) / 9.0718474e2)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattDaysPerShortTon:
-                return (value_ / ((24 * 3.6e3) / 9.0718474e2)) / static_cast<un_scalar_t>(1e9);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::TerawattDaysPerShortTon:
-                return (value_ / ((24 * 3.6e3) / 9.0718474e2)) / static_cast<un_scalar_t>(1e12);
+                return (value_ / ((static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3.6e3)) / static_cast<un_scalar_t>(9.0718474e2))) / static_cast<un_scalar_t>(1e12);
 
             case SpecificEnergyUnit::WattHoursPerPound:
-                return value_ / 7.93664e3;
+                return value_ / static_cast<un_scalar_t>(7.93664e3);
 
             case SpecificEnergyUnit::KilowattHoursPerPound:
-                return (value_ / 7.93664e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEnergyUnit::MegawattHoursPerPound:
-                return (value_ / 7.93664e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEnergyUnit::GigawattHoursPerPound:
-                return (value_ / 7.93664e3) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(7.93664e3)) / static_cast<un_scalar_t>(1e9);
 
             case SpecificEnergyUnit::BtuPerPound:
-                return value_ * 0.45359237 / 1055.05585262;
+                return value_ * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1055.05585262);
 
             }
 

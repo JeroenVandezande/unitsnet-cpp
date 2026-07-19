@@ -256,13 +256,13 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ImpulseUnit::PoundFeetPerSecond:
-                return value * (0.45359237 * 0.3048);
+                return value * (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.3048));
 
             case ImpulseUnit::PoundForceSeconds:
-                return value * 0.45359237 * 9.80665;
+                return value * static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665);
 
             case ImpulseUnit::SlugFeetPerSecond:
-                return value * (0.45359237 * 9.80665);
+                return value * (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             }
 
@@ -305,13 +305,13 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ImpulseUnit::PoundFeetPerSecond:
-                return value_ / (0.45359237 * 0.3048);
+                return value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.3048));
 
             case ImpulseUnit::PoundForceSeconds:
-                return value_ / (0.45359237 * 9.80665);
+                return value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case ImpulseUnit::SlugFeetPerSecond:
-                return value_ / (0.45359237 * 9.80665);
+                return value_ / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             }
 

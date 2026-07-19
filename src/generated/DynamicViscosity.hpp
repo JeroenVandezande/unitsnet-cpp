@@ -202,22 +202,22 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-6));
 
             case DynamicViscosityUnit::Poise:
-                return value / 10;
+                return value / static_cast<un_scalar_t>(10);
 
             case DynamicViscosityUnit::Centipoise:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 10;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(10);
 
             case DynamicViscosityUnit::Reyns:
-                return value * 4.4482216152605 / 0.00064516;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareInch:
-                return value * 4.4482216152605 / 0.00064516;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareFoot:
-                return value * 4.4482216152605 / 9.290304e-2;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(9.290304e-2);
 
             case DynamicViscosityUnit::PoundsPerFootSecond:
-                return value * 0.45359237 / 0.3048;
+                return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.3048);
 
             }
 
@@ -242,22 +242,22 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-6);
 
             case DynamicViscosityUnit::Poise:
-                return value_ * 10;
+                return value_ * static_cast<un_scalar_t>(10);
 
             case DynamicViscosityUnit::Centipoise:
-                return (value_ * 10) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(10)) / static_cast<un_scalar_t>(1e-2);
 
             case DynamicViscosityUnit::Reyns:
-                return value_ * 0.00064516 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareInch:
-                return value_ * 0.00064516 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsForceSecondPerSquareFoot:
-                return value_ * 9.290304e-2 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case DynamicViscosityUnit::PoundsPerFootSecond:
-                return value_ * 0.3048 / 0.45359237;
+                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
 
             }
 

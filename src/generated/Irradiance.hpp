@@ -259,25 +259,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case IrradianceUnit::WattsPerSquareCentimeter:
-                return value * 10000;
+                return value * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::PicowattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-12)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e-12)) * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::NanowattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::MicrowattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::MilliwattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::KilowattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(10000);
 
             case IrradianceUnit::MegawattsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 10000;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(10000);
 
             }
 
@@ -311,25 +311,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case IrradianceUnit::WattsPerSquareCentimeter:
-                return value_ * 0.0001;
+                return value_ * static_cast<un_scalar_t>(0.0001);
 
             case IrradianceUnit::PicowattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e-12);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-12);
 
             case IrradianceUnit::NanowattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-9);
 
             case IrradianceUnit::MicrowattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-6);
 
             case IrradianceUnit::MilliwattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradianceUnit::KilowattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e3);
 
             case IrradianceUnit::MegawattsPerSquareCentimeter:
-                return (value_ * 0.0001) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(0.0001)) / static_cast<un_scalar_t>(1e6);
 
             }
 

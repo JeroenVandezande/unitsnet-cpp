@@ -487,82 +487,82 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case SpeedUnit::MetersPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::NanometersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::MicrometersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::MillimetersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::CentimetersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::DecimetersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::KilometersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::MetersPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::MillimetersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::CentimetersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::KilometersPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::FeetPerSecond:
-                return value * 0.3048;
+                return value * static_cast<un_scalar_t>(0.3048);
 
             case SpeedUnit::FeetPerMinute:
-                return value * 0.3048 / 60;
+                return value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::FeetPerHour:
-                return value * 0.3048 / 3600;
+                return value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::UsSurveyFeetPerSecond:
-                return value * 1200 / 3937;
+                return value * static_cast<un_scalar_t>(1200) / static_cast<un_scalar_t>(3937);
 
             case SpeedUnit::UsSurveyFeetPerMinute:
-                return (value * 1200 / 3937) / 60;
+                return (value * static_cast<un_scalar_t>(1200) / static_cast<un_scalar_t>(3937)) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::UsSurveyFeetPerHour:
-                return (value * 1200 / 3937) / 3600;
+                return (value * static_cast<un_scalar_t>(1200) / static_cast<un_scalar_t>(3937)) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::InchesPerSecond:
-                return value * 2.54e-2;
+                return value * static_cast<un_scalar_t>(2.54e-2);
 
             case SpeedUnit::InchesPerMinute:
-                return (value / 60) * 2.54e-2;
+                return (value / static_cast<un_scalar_t>(60)) * static_cast<un_scalar_t>(2.54e-2);
 
             case SpeedUnit::InchesPerHour:
-                return (value / 3600) * 2.54e-2;
+                return (value / static_cast<un_scalar_t>(3600)) * static_cast<un_scalar_t>(2.54e-2);
 
             case SpeedUnit::YardsPerSecond:
-                return value * 0.9144;
+                return value * static_cast<un_scalar_t>(0.9144);
 
             case SpeedUnit::YardsPerMinute:
-                return value * 0.9144 / 60;
+                return value * static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(60);
 
             case SpeedUnit::YardsPerHour:
-                return value * 0.9144 / 3600;
+                return value * static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::Knots:
-                return value * (1852.0 / 3600.0);
+                return value * (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case SpeedUnit::MilesPerHour:
-                return value * 0.44704;
+                return value * static_cast<un_scalar_t>(0.44704);
 
             case SpeedUnit::Mach:
-                return value * 340.29;
+                return value * static_cast<un_scalar_t>(340.29);
 
             }
 
@@ -596,82 +596,82 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::NanometersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-9);
 
             case SpeedUnit::MicrometersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-6);
 
             case SpeedUnit::MillimetersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::DecimetersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-1);
 
             case SpeedUnit::KilometersPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::MetersPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::MillimetersPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case SpeedUnit::CentimetersPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-2);
 
             case SpeedUnit::KilometersPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case SpeedUnit::FeetPerSecond:
-                return value_ / 0.3048;
+                return value_ / static_cast<un_scalar_t>(0.3048);
 
             case SpeedUnit::FeetPerMinute:
-                return value_ / 0.3048 * 60;
+                return value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::FeetPerHour:
-                return value_ / 0.3048 * 3600;
+                return value_ / static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::UsSurveyFeetPerSecond:
-                return value_ * 3937 / 1200;
+                return value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case SpeedUnit::UsSurveyFeetPerMinute:
-                return (value_ * 3937 / 1200) * 60;
+                return (value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::UsSurveyFeetPerHour:
-                return (value_ * 3937 / 1200) * 3600;
+                return (value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200)) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::InchesPerSecond:
-                return value_ / 2.54e-2;
+                return value_ / static_cast<un_scalar_t>(2.54e-2);
 
             case SpeedUnit::InchesPerMinute:
-                return (value_ / 2.54e-2) * 60;
+                return (value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::InchesPerHour:
-                return (value_ / 2.54e-2) * 3600;
+                return (value_ / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::YardsPerSecond:
-                return value_ / 0.9144;
+                return value_ / static_cast<un_scalar_t>(0.9144);
 
             case SpeedUnit::YardsPerMinute:
-                return value_ / 0.9144 * 60;
+                return value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(60);
 
             case SpeedUnit::YardsPerHour:
-                return value_ / 0.9144 * 3600;
+                return value_ / static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(3600);
 
             case SpeedUnit::Knots:
-                return value_ / (1852.0 / 3600.0);
+                return value_ / (static_cast<un_scalar_t>(1852.0) / static_cast<un_scalar_t>(3600.0));
 
             case SpeedUnit::MilesPerHour:
-                return value_ / 0.44704;
+                return value_ / static_cast<un_scalar_t>(0.44704);
 
             case SpeedUnit::Mach:
-                return value_ / 340.29;
+                return value_ / static_cast<un_scalar_t>(340.29);
 
             }
 

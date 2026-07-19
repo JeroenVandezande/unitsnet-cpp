@@ -226,22 +226,22 @@ namespace unitsnet_cpp
             {
 
             case DurationUnit::Years365:
-                return value * 365 * 24 * 3600;
+                return value * static_cast<un_scalar_t>(365) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Months30:
-                return value * 30 * 24 * 3600;
+                return value * static_cast<un_scalar_t>(30) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Weeks:
-                return value * 7 * 24 * 3600;
+                return value * static_cast<un_scalar_t>(7) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Days:
-                return value * 24 * 3600;
+                return value * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Hours:
-                return value * 3600;
+                return value * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Minutes:
-                return value * 60;
+                return value * static_cast<un_scalar_t>(60);
 
             case DurationUnit::Seconds:
                 return value;
@@ -259,10 +259,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case DurationUnit::JulianYears:
-                return value * 365.25 * 24 * 3600;
+                return value * static_cast<un_scalar_t>(365.25) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Sols:
-                return value * 88775.244;
+                return value * static_cast<un_scalar_t>(88775.244);
 
             }
 
@@ -275,22 +275,22 @@ namespace unitsnet_cpp
             {
 
             case DurationUnit::Years365:
-                return value_ / (365 * 24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(365) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Months30:
-                return value_ / (30 * 24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(30) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Weeks:
-                return value_ / (7 * 24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(7) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Days:
-                return value_ / (24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Hours:
-                return value_ / 3600;
+                return value_ / static_cast<un_scalar_t>(3600);
 
             case DurationUnit::Minutes:
-                return value_ / 60;
+                return value_ / static_cast<un_scalar_t>(60);
 
             case DurationUnit::Seconds:
                 return value_;
@@ -308,10 +308,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case DurationUnit::JulianYears:
-                return value_ / (365.25 * 24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(365.25) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600));
 
             case DurationUnit::Sols:
-                return value_ / 88775.244;
+                return value_ / static_cast<un_scalar_t>(88775.244);
 
             }
 

@@ -193,31 +193,31 @@ namespace unitsnet_cpp
                 return value;
 
             case ReciprocalLengthUnit::InverseCentimeters:
-                return value * 1e2;
+                return value * static_cast<un_scalar_t>(1e2);
 
             case ReciprocalLengthUnit::InverseMillimeters:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case ReciprocalLengthUnit::InverseMiles:
-                return value / 1609.344;
+                return value / static_cast<un_scalar_t>(1609.344);
 
             case ReciprocalLengthUnit::InverseYards:
-                return value / 0.9144;
+                return value / static_cast<un_scalar_t>(0.9144);
 
             case ReciprocalLengthUnit::InverseFeet:
-                return value / 0.3048;
+                return value / static_cast<un_scalar_t>(0.3048);
 
             case ReciprocalLengthUnit::InverseUsSurveyFeet:
-                return value * 3937 / 1200;
+                return value * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case ReciprocalLengthUnit::InverseInches:
-                return value / 2.54e-2;
+                return value / static_cast<un_scalar_t>(2.54e-2);
 
             case ReciprocalLengthUnit::InverseMils:
-                return value / 2.54e-5;
+                return value / static_cast<un_scalar_t>(2.54e-5);
 
             case ReciprocalLengthUnit::InverseMicroinches:
-                return value / 2.54e-8;
+                return value / static_cast<un_scalar_t>(2.54e-8);
 
             }
 
@@ -233,31 +233,31 @@ namespace unitsnet_cpp
                 return value_;
 
             case ReciprocalLengthUnit::InverseCentimeters:
-                return value_ / 1e2;
+                return value_ / static_cast<un_scalar_t>(1e2);
 
             case ReciprocalLengthUnit::InverseMillimeters:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case ReciprocalLengthUnit::InverseMiles:
-                return value_ * 1609.344;
+                return value_ * static_cast<un_scalar_t>(1609.344);
 
             case ReciprocalLengthUnit::InverseYards:
-                return value_ * 0.9144;
+                return value_ * static_cast<un_scalar_t>(0.9144);
 
             case ReciprocalLengthUnit::InverseFeet:
-                return value_ * 0.3048;
+                return value_ * static_cast<un_scalar_t>(0.3048);
 
             case ReciprocalLengthUnit::InverseUsSurveyFeet:
-                return value_ * 1200 / 3937;
+                return value_ * static_cast<un_scalar_t>(1200) / static_cast<un_scalar_t>(3937);
 
             case ReciprocalLengthUnit::InverseInches:
-                return value_ * 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(2.54e-2);
 
             case ReciprocalLengthUnit::InverseMils:
-                return value_ * 2.54e-5;
+                return value_ * static_cast<un_scalar_t>(2.54e-5);
 
             case ReciprocalLengthUnit::InverseMicroinches:
-                return value_ * 2.54e-8;
+                return value_ * static_cast<un_scalar_t>(2.54e-8);
 
             }
 

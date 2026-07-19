@@ -130,19 +130,19 @@ namespace unitsnet_cpp
             {
 
             case PorousMediumPermeabilityUnit::Darcys:
-                return value * 9.869233e-13;
+                return value * static_cast<un_scalar_t>(9.869233e-13);
 
             case PorousMediumPermeabilityUnit::Microdarcys:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 9.869233e-13;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(9.869233e-13);
 
             case PorousMediumPermeabilityUnit::Millidarcys:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 9.869233e-13;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(9.869233e-13);
 
             case PorousMediumPermeabilityUnit::SquareMeters:
                 return value;
 
             case PorousMediumPermeabilityUnit::SquareCentimeters:
-                return value * 1e-4;
+                return value * static_cast<un_scalar_t>(1e-4);
 
             }
 
@@ -155,19 +155,19 @@ namespace unitsnet_cpp
             {
 
             case PorousMediumPermeabilityUnit::Darcys:
-                return value_ / 9.869233e-13;
+                return value_ / static_cast<un_scalar_t>(9.869233e-13);
 
             case PorousMediumPermeabilityUnit::Microdarcys:
-                return (value_ / 9.869233e-13) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-6);
 
             case PorousMediumPermeabilityUnit::Millidarcys:
-                return (value_ / 9.869233e-13) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(9.869233e-13)) / static_cast<un_scalar_t>(1e-3);
 
             case PorousMediumPermeabilityUnit::SquareMeters:
                 return value_;
 
             case PorousMediumPermeabilityUnit::SquareCentimeters:
-                return value_ / 1e-4;
+                return value_ / static_cast<un_scalar_t>(1e-4);
 
             }
 

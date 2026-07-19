@@ -97,7 +97,7 @@ namespace unitsnet_cpp
                 return value;
 
             case PowerRatioUnit::DecibelMilliwatts:
-                return value - 30;
+                return value - static_cast<un_scalar_t>(30);
 
             }
 
@@ -113,7 +113,7 @@ namespace unitsnet_cpp
                 return value_;
 
             case PowerRatioUnit::DecibelMilliwatts:
-                return value_ + 30;
+                return value_ + static_cast<un_scalar_t>(30);
 
             }
 

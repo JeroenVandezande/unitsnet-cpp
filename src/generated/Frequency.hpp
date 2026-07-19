@@ -235,16 +235,16 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e12));
 
             case FrequencyUnit::RadiansPerSecond:
-                return value / (2 * std::numbers::pi_v<un_scalar_t>);
+                return value / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::CyclesPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case FrequencyUnit::BeatsPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:
                 return value;
@@ -281,16 +281,16 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e12);
 
             case FrequencyUnit::RadiansPerSecond:
-                return value_ * (2 * std::numbers::pi_v<un_scalar_t>);
+                return value_ * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             case FrequencyUnit::CyclesPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::CyclesPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case FrequencyUnit::BeatsPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:
                 return value_;

@@ -613,91 +613,91 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e9));
 
             case LengthUnit::Miles:
-                return value * 1609.344;
+                return value * static_cast<un_scalar_t>(1609.344);
 
             case LengthUnit::Yards:
-                return value * 0.9144;
+                return value * static_cast<un_scalar_t>(0.9144);
 
             case LengthUnit::Kiloyards:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.9144;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.9144);
 
             case LengthUnit::Feet:
-                return value * 0.3048;
+                return value * static_cast<un_scalar_t>(0.3048);
 
             case LengthUnit::Kilofeet:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.3048;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.3048);
 
             case LengthUnit::UsSurveyFeet:
-                return value * 1200 / 3937;
+                return value * static_cast<un_scalar_t>(1200) / static_cast<un_scalar_t>(3937);
 
             case LengthUnit::Inches:
-                return value * 2.54e-2;
+                return value * static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Mils:
-                return value * 2.54e-5;
+                return value * static_cast<un_scalar_t>(2.54e-5);
 
             case LengthUnit::NauticalMiles:
-                return value * 1852;
+                return value * static_cast<un_scalar_t>(1852);
 
             case LengthUnit::Fathoms:
-                return value * 1.8288;
+                return value * static_cast<un_scalar_t>(1.8288);
 
             case LengthUnit::Shackles:
-                return value * 27.432;
+                return value * static_cast<un_scalar_t>(27.432);
 
             case LengthUnit::Microinches:
-                return value * 2.54e-8;
+                return value * static_cast<un_scalar_t>(2.54e-8);
 
             case LengthUnit::PrinterPoints:
-                return value * 2.54e-2 / 72.27 ;
+                return value * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(72.27) ;
 
             case LengthUnit::DtpPoints:
-                return value * 2.54e-2 / 72;
+                return value * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(72);
 
             case LengthUnit::PrinterPicas:
-                return value * 2.54e-2 * 400 / 2409;
+                return value * static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409);
 
             case LengthUnit::DtpPicas:
-                return value * 2.54e-2 / 6;
+                return value * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(6);
 
             case LengthUnit::Twips:
-                return value * 2.54e-2 / 1440;
+                return value * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(1440);
 
             case LengthUnit::Hands:
-                return value * 1.016e-1;
+                return value * static_cast<un_scalar_t>(1.016e-1);
 
             case LengthUnit::AstronomicalUnits:
-                return value * 1.4959787070e11;
+                return value * static_cast<un_scalar_t>(1.4959787070e11);
 
             case LengthUnit::Parsecs:
-                return value * 3.08567758128e16;
+                return value * static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::Kiloparsecs:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3.08567758128e16;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::Megaparsecs:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3.08567758128e16;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::LightYears:
-                return value * 9.46073047258e15;
+                return value * static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::KilolightYears:
-                return (value * static_cast<un_scalar_t>(1e3)) * 9.46073047258e15;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::MegalightYears:
-                return (value * static_cast<un_scalar_t>(1e6)) * 9.46073047258e15;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::SolarRadiuses:
-                return value * 6.95700e8;
+                return value * static_cast<un_scalar_t>(6.95700e8);
 
             case LengthUnit::Chains:
-                return value * 20.1168;
+                return value * static_cast<un_scalar_t>(20.1168);
 
             case LengthUnit::Angstroms:
-                return value * 1e-10;
+                return value * static_cast<un_scalar_t>(1e-10);
 
             case LengthUnit::DataMiles:
-                return value * 1828.8;
+                return value * static_cast<un_scalar_t>(1828.8);
 
             }
 
@@ -749,91 +749,91 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e9);
 
             case LengthUnit::Miles:
-                return value_ / 1609.344;
+                return value_ / static_cast<un_scalar_t>(1609.344);
 
             case LengthUnit::Yards:
-                return value_ / 0.9144;
+                return value_ / static_cast<un_scalar_t>(0.9144);
 
             case LengthUnit::Kiloyards:
-                return (value_ / 0.9144) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.9144)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Feet:
-                return value_ / 0.3048;
+                return value_ / static_cast<un_scalar_t>(0.3048);
 
             case LengthUnit::Kilofeet:
-                return (value_ / 0.3048) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::UsSurveyFeet:
-                return value_ * 3937 / 1200;
+                return value_ * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case LengthUnit::Inches:
-                return value_ / 2.54e-2;
+                return value_ / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Mils:
-                return value_ / 2.54e-5;
+                return value_ / static_cast<un_scalar_t>(2.54e-5);
 
             case LengthUnit::NauticalMiles:
-                return value_ / 1852;
+                return value_ / static_cast<un_scalar_t>(1852);
 
             case LengthUnit::Fathoms:
-                return value_ / 1.8288;
+                return value_ / static_cast<un_scalar_t>(1.8288);
 
             case LengthUnit::Shackles:
-                return value_ / 27.432;
+                return value_ / static_cast<un_scalar_t>(27.432);
 
             case LengthUnit::Microinches:
-                return value_ / 2.54e-8;
+                return value_ / static_cast<un_scalar_t>(2.54e-8);
 
             case LengthUnit::PrinterPoints:
-                return value_ * 72.27 / 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(72.27) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::DtpPoints:
-                return value_ * 72 / 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(72) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::PrinterPicas:
-                return value_ / (2.54e-2 * 400 / 2409);
+                return value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(400) / static_cast<un_scalar_t>(2409));
 
             case LengthUnit::DtpPicas:
-                return value_ * 6 / 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(6) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Twips:
-                return value_ * 1440 / 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(1440) / static_cast<un_scalar_t>(2.54e-2);
 
             case LengthUnit::Hands:
-                return value_ / 1.016e-1;
+                return value_ / static_cast<un_scalar_t>(1.016e-1);
 
             case LengthUnit::AstronomicalUnits:
-                return value_ / 1.4959787070e11;
+                return value_ / static_cast<un_scalar_t>(1.4959787070e11);
 
             case LengthUnit::Parsecs:
-                return value_ / 3.08567758128e16;
+                return value_ / static_cast<un_scalar_t>(3.08567758128e16);
 
             case LengthUnit::Kiloparsecs:
-                return (value_ / 3.08567758128e16) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::Megaparsecs:
-                return (value_ / 3.08567758128e16) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3.08567758128e16)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::LightYears:
-                return value_ / 9.46073047258e15;
+                return value_ / static_cast<un_scalar_t>(9.46073047258e15);
 
             case LengthUnit::KilolightYears:
-                return (value_ / 9.46073047258e15) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e3);
 
             case LengthUnit::MegalightYears:
-                return (value_ / 9.46073047258e15) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(9.46073047258e15)) / static_cast<un_scalar_t>(1e6);
 
             case LengthUnit::SolarRadiuses:
-                return value_ / 6.95700e8;
+                return value_ / static_cast<un_scalar_t>(6.95700e8);
 
             case LengthUnit::Chains:
-                return value_ / 20.1168;
+                return value_ / static_cast<un_scalar_t>(20.1168);
 
             case LengthUnit::Angstroms:
-                return value_ / 1e-10;
+                return value_ / static_cast<un_scalar_t>(1e-10);
 
             case LengthUnit::DataMiles:
-                return value_ / 1828.8;
+                return value_ / static_cast<un_scalar_t>(1828.8);
 
             }
 

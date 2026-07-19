@@ -112,7 +112,7 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case SpecificVolumeUnit::CubicFeetPerPound:
-                return value * 0.028316846592 / 0.45359237;
+                return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
 
             }
 
@@ -131,7 +131,7 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case SpecificVolumeUnit::CubicFeetPerPound:
-                return value_ * 0.45359237 / 0.028316846592;
+                return value_ * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
             }
 

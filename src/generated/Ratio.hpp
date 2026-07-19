@@ -145,19 +145,19 @@ namespace unitsnet_cpp
                 return value;
 
             case RatioUnit::Percent:
-                return value / 1e2;
+                return value / static_cast<un_scalar_t>(1e2);
 
             case RatioUnit::PartsPerThousand:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case RatioUnit::PartsPerMillion:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case RatioUnit::PartsPerBillion:
-                return value / 1e9;
+                return value / static_cast<un_scalar_t>(1e9);
 
             case RatioUnit::PartsPerTrillion:
-                return value / 1e12;
+                return value / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -173,19 +173,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case RatioUnit::Percent:
-                return value_ * 1e2;
+                return value_ * static_cast<un_scalar_t>(1e2);
 
             case RatioUnit::PartsPerThousand:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case RatioUnit::PartsPerMillion:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case RatioUnit::PartsPerBillion:
-                return value_ * 1e9;
+                return value_ * static_cast<un_scalar_t>(1e9);
 
             case RatioUnit::PartsPerTrillion:
-                return value_ * 1e12;
+                return value_ * static_cast<un_scalar_t>(1e12);
 
             }
 

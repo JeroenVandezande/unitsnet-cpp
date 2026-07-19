@@ -94,7 +94,7 @@ namespace unitsnet_cpp
             {
 
             case RatioChangeRateUnit::PercentsPerSecond:
-                return value / 1e2;
+                return value / static_cast<un_scalar_t>(1e2);
 
             case RatioChangeRateUnit::DecimalFractionsPerSecond:
                 return value;
@@ -110,7 +110,7 @@ namespace unitsnet_cpp
             {
 
             case RatioChangeRateUnit::PercentsPerSecond:
-                return value_ * 1e2;
+                return value_ * static_cast<un_scalar_t>(1e2);
 
             case RatioChangeRateUnit::DecimalFractionsPerSecond:
                 return value_;

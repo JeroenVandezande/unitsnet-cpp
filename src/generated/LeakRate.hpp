@@ -121,13 +121,13 @@ namespace unitsnet_cpp
                 return value;
 
             case LeakRateUnit::MillibarLitersPerSecond:
-                return value / 10;
+                return value / static_cast<un_scalar_t>(10);
 
             case LeakRateUnit::TorrLitersPerSecond:
-                return value / 7.5;
+                return value / static_cast<un_scalar_t>(7.5);
 
             case LeakRateUnit::AtmCubicCentimetersPerSecond:
-                return value / (1e6 / 101325);
+                return value / (static_cast<un_scalar_t>(1e6) / static_cast<un_scalar_t>(101325));
 
             }
 
@@ -143,13 +143,13 @@ namespace unitsnet_cpp
                 return value_;
 
             case LeakRateUnit::MillibarLitersPerSecond:
-                return value_ * 10;
+                return value_ * static_cast<un_scalar_t>(10);
 
             case LeakRateUnit::TorrLitersPerSecond:
-                return value_ * 7.5;
+                return value_ * static_cast<un_scalar_t>(7.5);
 
             case LeakRateUnit::AtmCubicCentimetersPerSecond:
-                return value_ * (1e6 / 101325);
+                return value_ * (static_cast<un_scalar_t>(1e6) / static_cast<un_scalar_t>(101325));
 
             }
 

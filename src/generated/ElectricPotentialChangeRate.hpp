@@ -325,49 +325,49 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
-                return value * 1E6;
+                return value * static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1E6;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1E6;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1E6;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1E6;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::VoltsPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e6)) / 60;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::VoltsPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(3600);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(3600);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
-                return (value * static_cast<un_scalar_t>(1e6)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(3600);
 
             }
 
@@ -395,49 +395,49 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
-                return value_ / 1E6;
+                return value_ / static_cast<un_scalar_t>(1E6);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
-                return (value_ / 1E6) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
-                return (value_ / 1E6) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
-                return (value_ / 1E6) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
-                return (value_ / 1E6) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e6);
 
             case ElectricPotentialChangeRateUnit::VoltsPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e6);
 
             case ElectricPotentialChangeRateUnit::VoltsPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             }
 

@@ -211,10 +211,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case LuminanceUnit::CandelasPerSquareFoot:
-                return value / 9.290304e-2;
+                return value / static_cast<un_scalar_t>(9.290304e-2);
 
             case LuminanceUnit::CandelasPerSquareInch:
-                return value / 0.00064516;
+                return value / static_cast<un_scalar_t>(0.00064516);
 
             case LuminanceUnit::Nits:
                 return value;
@@ -251,10 +251,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case LuminanceUnit::CandelasPerSquareFoot:
-                return value_ * 9.290304e-2;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2);
 
             case LuminanceUnit::CandelasPerSquareInch:
-                return value_ * 0.00064516;
+                return value_ * static_cast<un_scalar_t>(0.00064516);
 
             case LuminanceUnit::Nits:
                 return value_;

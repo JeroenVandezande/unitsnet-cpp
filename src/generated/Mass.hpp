@@ -442,97 +442,97 @@ namespace unitsnet_cpp
             {
 
             case MassUnit::Grams:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Femtograms:
-                return (value * static_cast<un_scalar_t>(1e-15)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-15)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Picograms:
-                return (value * static_cast<un_scalar_t>(1e-12)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Nanograms:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Micrograms:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Milligrams:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Centigrams:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Decigrams:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Decagrams:
-                return (value * static_cast<un_scalar_t>(1e1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Hectograms:
-                return (value * static_cast<un_scalar_t>(1e2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Kilograms:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Tonnes:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Kilotonnes:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megatonnes:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::ShortTons:
-                return value * 907.18474;
+                return value * static_cast<un_scalar_t>(907.18474);
 
             case MassUnit::LongTons:
-                return value * 1016.0469088;
+                return value * static_cast<un_scalar_t>(1016.0469088);
 
             case MassUnit::Pounds:
-                return value * 0.45359237;
+                return value * static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Kilopounds:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.45359237;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Megapounds:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.45359237;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Ounces:
-                return value * 0.028349523125;
+                return value * static_cast<un_scalar_t>(0.028349523125);
 
             case MassUnit::Slugs:
-                return value * 0.45359237 * 9.80665 / 0.3048;
+                return value * static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665) / static_cast<un_scalar_t>(0.3048);
 
             case MassUnit::Stone:
-                return value * 6.35029318;
+                return value * static_cast<un_scalar_t>(6.35029318);
 
             case MassUnit::ShortHundredweight:
-                return value * 45.359237;
+                return value * static_cast<un_scalar_t>(45.359237);
 
             case MassUnit::LongHundredweight:
-                return value * 50.80234544;
+                return value * static_cast<un_scalar_t>(50.80234544);
 
             case MassUnit::Grains:
-                return value * 64.79891e-6;
+                return value * static_cast<un_scalar_t>(64.79891e-6);
 
             case MassUnit::SolarMasses:
-                return value * 1.98947e30;
+                return value * static_cast<un_scalar_t>(1.98947e30);
 
             case MassUnit::EarthMasses:
-                return value * 5.9722E+24;
+                return value * static_cast<un_scalar_t>(5.9722E+24);
 
             case MassUnit::Daltons:
-                return value *  1.66053906660e-27;
+                return value *  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Kilodaltons:
-                return (value * static_cast<un_scalar_t>(1e3)) *  1.66053906660e-27;
+                return (value * static_cast<un_scalar_t>(1e3)) *  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Megadaltons:
-                return (value * static_cast<un_scalar_t>(1e6)) *  1.66053906660e-27;
+                return (value * static_cast<un_scalar_t>(1e6)) *  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Gigadaltons:
-                return (value * static_cast<un_scalar_t>(1e9)) *  1.66053906660e-27;
+                return (value * static_cast<un_scalar_t>(1e9)) *  static_cast<un_scalar_t>(1.66053906660e-27);
 
             }
 
@@ -545,97 +545,97 @@ namespace unitsnet_cpp
             {
 
             case MassUnit::Grams:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Femtograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-15);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-15);
 
             case MassUnit::Picograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-12);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-12);
 
             case MassUnit::Nanograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassUnit::Micrograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassUnit::Milligrams:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassUnit::Centigrams:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassUnit::Decigrams:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassUnit::Decagrams:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MassUnit::Hectograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MassUnit::Kilograms:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Tonnes:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Kilotonnes:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megatonnes:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::ShortTons:
-                return value_ / 907.18474;
+                return value_ / static_cast<un_scalar_t>(907.18474);
 
             case MassUnit::LongTons:
-                return value_ / 1016.0469088;
+                return value_ / static_cast<un_scalar_t>(1016.0469088);
 
             case MassUnit::Pounds:
-                return value_ / 0.45359237;
+                return value_ / static_cast<un_scalar_t>(0.45359237);
 
             case MassUnit::Kilopounds:
-                return (value_ / 0.45359237) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megapounds:
-                return (value_ / 0.45359237) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Ounces:
-                return value_ / 0.028349523125;
+                return value_ / static_cast<un_scalar_t>(0.028349523125);
 
             case MassUnit::Slugs:
-                return value_ * 0.3048 / (0.45359237 * 9.80665);
+                return value_ * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
             case MassUnit::Stone:
-                return value_ / 6.35029318;
+                return value_ / static_cast<un_scalar_t>(6.35029318);
 
             case MassUnit::ShortHundredweight:
-                return value_ / 45.359237;
+                return value_ / static_cast<un_scalar_t>(45.359237);
 
             case MassUnit::LongHundredweight:
-                return value_ / 50.80234544;
+                return value_ / static_cast<un_scalar_t>(50.80234544);
 
             case MassUnit::Grains:
-                return value_ / 64.79891e-6;
+                return value_ / static_cast<un_scalar_t>(64.79891e-6);
 
             case MassUnit::SolarMasses:
-                return value_ / 1.98947e30;
+                return value_ / static_cast<un_scalar_t>(1.98947e30);
 
             case MassUnit::EarthMasses:
-                return value_ / 5.9722E+24;
+                return value_ / static_cast<un_scalar_t>(5.9722E+24);
 
             case MassUnit::Daltons:
-                return value_ /  1.66053906660e-27;
+                return value_ /  static_cast<un_scalar_t>(1.66053906660e-27);
 
             case MassUnit::Kilodaltons:
-                return (value_ /  1.66053906660e-27) / static_cast<un_scalar_t>(1e3);
+                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e3);
 
             case MassUnit::Megadaltons:
-                return (value_ /  1.66053906660e-27) / static_cast<un_scalar_t>(1e6);
+                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e6);
 
             case MassUnit::Gigadaltons:
-                return (value_ /  1.66053906660e-27) / static_cast<un_scalar_t>(1e9);
+                return (value_ /  static_cast<un_scalar_t>(1.66053906660e-27)) / static_cast<un_scalar_t>(1e9);
 
             }
 

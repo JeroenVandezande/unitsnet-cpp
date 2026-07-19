@@ -121,13 +121,13 @@ namespace unitsnet_cpp
                 return value;
 
             case AmplitudeRatioUnit::DecibelMicrovolts:
-                return value - 120;
+                return value - static_cast<un_scalar_t>(120);
 
             case AmplitudeRatioUnit::DecibelMillivolts:
-                return value - 60;
+                return value - static_cast<un_scalar_t>(60);
 
             case AmplitudeRatioUnit::DecibelsUnloaded:
-                return value - 2.218487499;
+                return value - static_cast<un_scalar_t>(2.218487499);
 
             }
 
@@ -143,13 +143,13 @@ namespace unitsnet_cpp
                 return value_;
 
             case AmplitudeRatioUnit::DecibelMicrovolts:
-                return value_ + 120;
+                return value_ + static_cast<un_scalar_t>(120);
 
             case AmplitudeRatioUnit::DecibelMillivolts:
-                return value_ + 60;
+                return value_ + static_cast<un_scalar_t>(60);
 
             case AmplitudeRatioUnit::DecibelsUnloaded:
-                return value_ + 2.218487499;
+                return value_ + static_cast<un_scalar_t>(2.218487499);
 
             }
 

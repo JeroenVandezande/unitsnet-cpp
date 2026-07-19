@@ -145,19 +145,19 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricConductivityUnit::SiemensPerInch:
-                return value / 2.54e-2;
+                return value / static_cast<un_scalar_t>(2.54e-2);
 
             case ElectricConductivityUnit::SiemensPerFoot:
-                return value / 0.3048;
+                return value / static_cast<un_scalar_t>(0.3048);
 
             case ElectricConductivityUnit::SiemensPerCentimeter:
-                return value * 1e2;
+                return value * static_cast<un_scalar_t>(1e2);
 
             case ElectricConductivityUnit::MicrosiemensPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e2);
 
             case ElectricConductivityUnit::MillisiemensPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e2);
 
             }
 
@@ -173,19 +173,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricConductivityUnit::SiemensPerInch:
-                return value_ * 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(2.54e-2);
 
             case ElectricConductivityUnit::SiemensPerFoot:
-                return value_ * 0.3048;
+                return value_ * static_cast<un_scalar_t>(0.3048);
 
             case ElectricConductivityUnit::SiemensPerCentimeter:
-                return value_ / 1e2;
+                return value_ / static_cast<un_scalar_t>(1e2);
 
             case ElectricConductivityUnit::MicrosiemensPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricConductivityUnit::MillisiemensPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

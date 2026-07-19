@@ -112,7 +112,7 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case MolalityUnit::MolesPerGram:
-                return value / 1e-3;
+                return value / static_cast<un_scalar_t>(1e-3);
 
             }
 
@@ -131,7 +131,7 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case MolalityUnit::MolesPerGram:
-                return value_ * 1e-3;
+                return value_ * static_cast<un_scalar_t>(1e-3);
 
             }
 

@@ -109,10 +109,10 @@ namespace unitsnet_cpp
                 return value;
 
             case ElectricCurrentDensityUnit::AmperesPerSquareInch:
-                return value / 0.00064516;
+                return value / static_cast<un_scalar_t>(0.00064516);
 
             case ElectricCurrentDensityUnit::AmperesPerSquareFoot:
-                return value / 9.290304e-2;
+                return value / static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -128,10 +128,10 @@ namespace unitsnet_cpp
                 return value_;
 
             case ElectricCurrentDensityUnit::AmperesPerSquareInch:
-                return value_ * 0.00064516;
+                return value_ * static_cast<un_scalar_t>(0.00064516);
 
             case ElectricCurrentDensityUnit::AmperesPerSquareFoot:
-                return value_ * 9.290304e-2;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2);
 
             }
 

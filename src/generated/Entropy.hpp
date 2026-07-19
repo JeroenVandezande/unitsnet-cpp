@@ -163,10 +163,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case EntropyUnit::CaloriesPerKelvin:
-                return value * 4.184;
+                return value * static_cast<un_scalar_t>(4.184);
 
             case EntropyUnit::KilocaloriesPerKelvin:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184);
 
             case EntropyUnit::JoulesPerDegreeCelsius:
                 return value;
@@ -194,10 +194,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case EntropyUnit::CaloriesPerKelvin:
-                return value_ / 4.184;
+                return value_ / static_cast<un_scalar_t>(4.184);
 
             case EntropyUnit::KilocaloriesPerKelvin:
-                return (value_ / 4.184) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(1e3);
 
             case EntropyUnit::JoulesPerDegreeCelsius:
                 return value_;

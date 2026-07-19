@@ -181,28 +181,28 @@ namespace unitsnet_cpp
                 return value;
 
             case VolumePerLengthUnit::LitersPerMeter:
-                return value / 1000;
+                return value / static_cast<un_scalar_t>(1000);
 
             case VolumePerLengthUnit::LitersPerKilometer:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case VolumePerLengthUnit::LitersPerMillimeter:
                 return value;
 
             case VolumePerLengthUnit::OilBarrelsPerFoot:
-                return value * 0.158987294928 / 0.3048;
+                return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(0.3048);
 
             case VolumePerLengthUnit::CubicYardsPerFoot:
-                return value * 0.764554857984 / 0.3048;
+                return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.3048);
 
             case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
-                return value * 0.764554857984 * 3937 / 1200;
+                return value * static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
             case VolumePerLengthUnit::UsGallonsPerMile:
-                return value * 0.003785411784 / 1609.344;
+                return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(1609.344);
 
             case VolumePerLengthUnit::ImperialGallonsPerMile:
-                return value * 0.00454609 / 1609.344;
+                return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(1609.344);
 
             }
 
@@ -218,28 +218,28 @@ namespace unitsnet_cpp
                 return value_;
 
             case VolumePerLengthUnit::LitersPerMeter:
-                return value_ * 1000;
+                return value_ * static_cast<un_scalar_t>(1000);
 
             case VolumePerLengthUnit::LitersPerKilometer:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case VolumePerLengthUnit::LitersPerMillimeter:
                 return value_;
 
             case VolumePerLengthUnit::OilBarrelsPerFoot:
-                return value_ * 0.3048 / 0.158987294928;
+                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumePerLengthUnit::CubicYardsPerFoot:
-                return value_ * 0.3048 / 0.764554857984;
+                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
-                return value_ * 1200 / (0.764554857984 * 3937);
+                return value_ * static_cast<un_scalar_t>(1200) / (static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937));
 
             case VolumePerLengthUnit::UsGallonsPerMile:
-                return value_ * 1609.344 / 0.003785411784;
+                return value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumePerLengthUnit::ImperialGallonsPerMile:
-                return value_ * 1609.344 / 0.00454609;
+                return value_ * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.00454609);
 
             }
 

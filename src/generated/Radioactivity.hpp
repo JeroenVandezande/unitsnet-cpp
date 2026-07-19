@@ -451,58 +451,58 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e18));
 
             case RadioactivityUnit::Curies:
-                return value * 3.7e10;
+                return value * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Picocuries:
-                return (value * static_cast<un_scalar_t>(1e-12)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e-12)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Nanocuries:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Microcuries:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Millicuries:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Kilocuries:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Megacuries:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Gigacuries:
-                return (value * static_cast<un_scalar_t>(1e9)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Teracuries:
-                return (value * static_cast<un_scalar_t>(1e12)) * 3.7e10;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Rutherfords:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Picorutherfords:
-                return (value * static_cast<un_scalar_t>(1e-12)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e-12)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Nanorutherfords:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Microrutherfords:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Millirutherfords:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Kilorutherfords:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Megarutherfords:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigarutherfords:
-                return (value * static_cast<un_scalar_t>(1e9)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Terarutherfords:
-                return (value * static_cast<un_scalar_t>(1e12)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(1e6);
 
             }
 
@@ -548,58 +548,58 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e18);
 
             case RadioactivityUnit::Curies:
-                return value_ / 3.7e10;
+                return value_ / static_cast<un_scalar_t>(3.7e10);
 
             case RadioactivityUnit::Picocuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e-12);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanocuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e-9);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microcuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millicuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilocuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megacuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigacuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Teracuries:
-                return (value_ / 3.7e10) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(3.7e10)) / static_cast<un_scalar_t>(1e12);
 
             case RadioactivityUnit::Rutherfords:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Picorutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e-12);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-12);
 
             case RadioactivityUnit::Nanorutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e-9);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-9);
 
             case RadioactivityUnit::Microrutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-6);
 
             case RadioactivityUnit::Millirutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
 
             case RadioactivityUnit::Kilorutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case RadioactivityUnit::Megarutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e6);
 
             case RadioactivityUnit::Gigarutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e9);
 
             case RadioactivityUnit::Terarutherfords:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e12);
 
             }
 

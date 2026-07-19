@@ -304,25 +304,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case AmountOfSubstanceUnit::PoundMoles:
-                return value * 453.59237;
+                return value * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::NanopoundMoles:
-                return (value * static_cast<un_scalar_t>(1e-9)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e-9)) * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::MicropoundMoles:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::MillipoundMoles:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::CentipoundMoles:
-                return (value * static_cast<un_scalar_t>(1e-2)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::DecipoundMoles:
-                return (value * static_cast<un_scalar_t>(1e-1)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::KilopoundMoles:
-                return (value * static_cast<un_scalar_t>(1e3)) * 453.59237;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(453.59237);
 
             }
 
@@ -365,25 +365,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case AmountOfSubstanceUnit::PoundMoles:
-                return value_ / 453.59237;
+                return value_ / static_cast<un_scalar_t>(453.59237);
 
             case AmountOfSubstanceUnit::NanopoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e-9);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-9);
 
             case AmountOfSubstanceUnit::MicropoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-6);
 
             case AmountOfSubstanceUnit::MillipoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-3);
 
             case AmountOfSubstanceUnit::CentipoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e-2);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-2);
 
             case AmountOfSubstanceUnit::DecipoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e-1);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e-1);
 
             case AmountOfSubstanceUnit::KilopoundMoles:
-                return (value_ / 453.59237) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(1e3);
 
             }
 

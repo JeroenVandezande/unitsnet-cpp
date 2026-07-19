@@ -205,34 +205,34 @@ namespace unitsnet_cpp
                 return value;
 
             case ReciprocalAreaUnit::InverseSquareKilometers:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case ReciprocalAreaUnit::InverseSquareDecimeters:
-                return value / 1e-2;
+                return value / static_cast<un_scalar_t>(1e-2);
 
             case ReciprocalAreaUnit::InverseSquareCentimeters:
-                return value / 1e-4;
+                return value / static_cast<un_scalar_t>(1e-4);
 
             case ReciprocalAreaUnit::InverseSquareMillimeters:
-                return value / 1e-6;
+                return value / static_cast<un_scalar_t>(1e-6);
 
             case ReciprocalAreaUnit::InverseSquareMicrometers:
-                return value / 1e-12;
+                return value / static_cast<un_scalar_t>(1e-12);
 
             case ReciprocalAreaUnit::InverseSquareMiles:
-                return value / (1609.344 * 1609.344);
+                return value / (static_cast<un_scalar_t>(1609.344) * static_cast<un_scalar_t>(1609.344));
 
             case ReciprocalAreaUnit::InverseSquareYards:
-                return value / (0.9144 * 0.9144);
+                return value / (static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(0.9144));
 
             case ReciprocalAreaUnit::InverseSquareFeet:
-                return value / 9.290304e-2;
+                return value / static_cast<un_scalar_t>(9.290304e-2);
 
             case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
-                return value / (1200.0 / 3937.0) / (1200.0 / 3937.0);
+                return value / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case ReciprocalAreaUnit::InverseSquareInches:
-                return value / 0.00064516;
+                return value / static_cast<un_scalar_t>(0.00064516);
 
             }
 
@@ -248,34 +248,34 @@ namespace unitsnet_cpp
                 return value_;
 
             case ReciprocalAreaUnit::InverseSquareKilometers:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case ReciprocalAreaUnit::InverseSquareDecimeters:
-                return value_ * 1e-2;
+                return value_ * static_cast<un_scalar_t>(1e-2);
 
             case ReciprocalAreaUnit::InverseSquareCentimeters:
-                return value_ * 1e-4;
+                return value_ * static_cast<un_scalar_t>(1e-4);
 
             case ReciprocalAreaUnit::InverseSquareMillimeters:
-                return value_ * 1e-6;
+                return value_ * static_cast<un_scalar_t>(1e-6);
 
             case ReciprocalAreaUnit::InverseSquareMicrometers:
-                return value_ * 1e-12;
+                return value_ * static_cast<un_scalar_t>(1e-12);
 
             case ReciprocalAreaUnit::InverseSquareMiles:
-                return value_ * (1609.344 * 1609.344);
+                return value_ * (static_cast<un_scalar_t>(1609.344) * static_cast<un_scalar_t>(1609.344));
 
             case ReciprocalAreaUnit::InverseSquareYards:
-                return value_ * (0.9144 * 0.9144);
+                return value_ * (static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(0.9144));
 
             case ReciprocalAreaUnit::InverseSquareFeet:
-                return value_ * 9.290304e-2;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2);
 
             case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
-                return value_ * (1200.0 / 3937.0) * (1200.0 / 3937.0);
+                return value_ * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case ReciprocalAreaUnit::InverseSquareInches:
-                return value_ * 0.00064516;
+                return value_ * static_cast<un_scalar_t>(0.00064516);
 
             }
 

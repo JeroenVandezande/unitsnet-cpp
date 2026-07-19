@@ -244,25 +244,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-1));
 
             case RotationalSpeedUnit::DegreesPerSecond:
-                return (std::numbers::pi_v<un_scalar_t> / 180) * value;
+                return (std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180)) * value;
 
             case RotationalSpeedUnit::NanodegreesPerSecond:
-                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-9));
+                return (std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180)) * (value * static_cast<un_scalar_t>(1e-9));
 
             case RotationalSpeedUnit::MicrodegreesPerSecond:
-                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-6));
+                return (std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180)) * (value * static_cast<un_scalar_t>(1e-6));
 
             case RotationalSpeedUnit::MillidegreesPerSecond:
-                return (std::numbers::pi_v<un_scalar_t> / 180) * (value * static_cast<un_scalar_t>(1e-3));
+                return (std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180)) * (value * static_cast<un_scalar_t>(1e-3));
 
             case RotationalSpeedUnit::DegreesPerMinute:
-                return (std::numbers::pi_v<un_scalar_t> / (180 * 60)) * value;
+                return (std::numbers::pi_v<un_scalar_t> / (static_cast<un_scalar_t>(180) * static_cast<un_scalar_t>(60))) * value;
 
             case RotationalSpeedUnit::RevolutionsPerSecond:
-                return value * 2 * std::numbers::pi_v<un_scalar_t>;
+                return value * static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>;
 
             case RotationalSpeedUnit::RevolutionsPerMinute:
-                return (value * 2 * std::numbers::pi_v<un_scalar_t>) / 60;
+                return (value * static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(60);
 
             }
 
@@ -293,25 +293,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case RotationalSpeedUnit::DegreesPerSecond:
-                return (180 / std::numbers::pi_v<un_scalar_t>) * value_;
+                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalSpeedUnit::NanodegreesPerSecond:
-                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-9);
+                return ((static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-9);
 
             case RotationalSpeedUnit::MicrodegreesPerSecond:
-                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-6);
+                return ((static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-6);
 
             case RotationalSpeedUnit::MillidegreesPerSecond:
-                return ((180 / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-3);
+                return ((static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_) / static_cast<un_scalar_t>(1e-3);
 
             case RotationalSpeedUnit::DegreesPerMinute:
-                return (180 * 60 / std::numbers::pi_v<un_scalar_t>) * value_;
+                return (static_cast<un_scalar_t>(180) * static_cast<un_scalar_t>(60) / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalSpeedUnit::RevolutionsPerSecond:
-                return value_ / (2 * std::numbers::pi_v<un_scalar_t>);
+                return value_ / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             case RotationalSpeedUnit::RevolutionsPerMinute:
-                return (value_ / (2 * std::numbers::pi_v<un_scalar_t>)) * 60;
+                return (value_ / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * static_cast<un_scalar_t>(60);
 
             }
 

@@ -154,10 +154,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case MagneticFieldUnit::Gausses:
-                return value / 1e4;
+                return value / static_cast<un_scalar_t>(1e4);
 
             case MagneticFieldUnit::Milligausses:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e4);
 
             }
 
@@ -182,10 +182,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case MagneticFieldUnit::Gausses:
-                return value_ * 1e4;
+                return value_ * static_cast<un_scalar_t>(1e4);
 
             case MagneticFieldUnit::Milligausses:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

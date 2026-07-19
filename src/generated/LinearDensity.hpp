@@ -298,46 +298,46 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case LinearDensityUnit::GramsPerCentimeter:
-                return value * 1e-1;
+                return value * static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::MicrogramsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e-1;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::MilligramsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e-1;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::KilogramsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e-1;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::GramsPerMeter:
-                return value * 1e-3;
+                return value * static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::MicrogramsPerMeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::MilligramsPerMeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerMeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e-3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::PoundsPerInch:
-                return value * 0.45359237 / 2.54e-2;
+                return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearDensityUnit::PoundsPerFoot:
-                return value * 0.45359237 / 0.3048;
+                return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.3048);
 
             case LinearDensityUnit::GramsPerFoot:
-                return value * ( 1e-3 / 0.3048 );
+                return value * ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             case LinearDensityUnit::MicrogramsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e-6)) * ( 1e-3 / 0.3048 );
+                return (value * static_cast<un_scalar_t>(1e-6)) * ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             case LinearDensityUnit::MilligramsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e-3)) * ( 1e-3 / 0.3048 );
+                return (value * static_cast<un_scalar_t>(1e-3)) * ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             case LinearDensityUnit::KilogramsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e3)) * ( 1e-3 / 0.3048 );
+                return (value * static_cast<un_scalar_t>(1e3)) * ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             }
 
@@ -362,46 +362,46 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::GramsPerCentimeter:
-                return value_ / 1e-1;
+                return value_ / static_cast<un_scalar_t>(1e-1);
 
             case LinearDensityUnit::MicrogramsPerCentimeter:
-                return (value_ / 1e-1) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerCentimeter:
-                return (value_ / 1e-1) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerCentimeter:
-                return (value_ / 1e-1) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::GramsPerMeter:
-                return value_ / 1e-3;
+                return value_ / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::MicrogramsPerMeter:
-                return (value_ / 1e-3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerMeter:
-                return (value_ / 1e-3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerMeter:
-                return (value_ / 1e-3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case LinearDensityUnit::PoundsPerInch:
-                return value_ * 2.54e-2 / 0.45359237;
+                return value_ * static_cast<un_scalar_t>(2.54e-2) / static_cast<un_scalar_t>(0.45359237);
 
             case LinearDensityUnit::PoundsPerFoot:
-                return value_ * 0.3048 / 0.45359237;
+                return value_ * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.45359237);
 
             case LinearDensityUnit::GramsPerFoot:
-                return value_ / ( 1e-3 / 0.3048 );
+                return value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) );
 
             case LinearDensityUnit::MicrogramsPerFoot:
-                return (value_ / ( 1e-3 / 0.3048 )) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-6);
 
             case LinearDensityUnit::MilligramsPerFoot:
-                return (value_ / ( 1e-3 / 0.3048 )) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e-3);
 
             case LinearDensityUnit::KilogramsPerFoot:
-                return (value_ / ( 1e-3 / 0.3048 )) / static_cast<un_scalar_t>(1e3);
+                return (value_ / ( static_cast<un_scalar_t>(1e-3) / static_cast<un_scalar_t>(0.3048) )) / static_cast<un_scalar_t>(1e3);
 
             }
 

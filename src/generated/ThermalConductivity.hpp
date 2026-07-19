@@ -109,10 +109,10 @@ namespace unitsnet_cpp
                 return value;
 
             case ThermalConductivityUnit::BtusPerHourFootFahrenheit:
-                return value * ((1055.05585262 / (0.3048 * 3600)) * 1.8);
+                return value * ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
 
             case ThermalConductivityUnit::BtusPerSecondInchFahrenheit:
-                return value * ((1055.05585262 / 2.54e-2) * 1.8);
+                return value * ((static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(1.8));
 
             }
 
@@ -128,10 +128,10 @@ namespace unitsnet_cpp
                 return value_;
 
             case ThermalConductivityUnit::BtusPerHourFootFahrenheit:
-                return value_ / ((1055.05585262 / (0.3048 * 3600)) * 1.8);
+                return value_ / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
 
             case ThermalConductivityUnit::BtusPerSecondInchFahrenheit:
-                return value_ / ((1055.05585262 / 2.54e-2) * 1.8);
+                return value_ / ((static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(2.54e-2)) * static_cast<un_scalar_t>(1.8));
 
             }
 

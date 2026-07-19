@@ -184,25 +184,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case MolarFlowUnit::MolesPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::KilomolesPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::MolesPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case MolarFlowUnit::KilomolesPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
             case MolarFlowUnit::PoundMolesPerSecond:
-                return value * 453.59237;
+                return value * static_cast<un_scalar_t>(453.59237);
 
             case MolarFlowUnit::PoundMolesPerMinute:
-                return (value * 453.59237) / 60;
+                return (value * static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::PoundMolesPerHour:
-                return (value * 453.59237) / 3600;
+                return (value * static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(3600);
 
             }
 
@@ -221,25 +221,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::MolesPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::KilomolesPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::MolesPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case MolarFlowUnit::KilomolesPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case MolarFlowUnit::PoundMolesPerSecond:
-                return value_ / 453.59237;
+                return value_ / static_cast<un_scalar_t>(453.59237);
 
             case MolarFlowUnit::PoundMolesPerMinute:
-                return (value_ / 453.59237) * 60;
+                return (value_ / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(60);
 
             case MolarFlowUnit::PoundMolesPerHour:
-                return (value_ / 453.59237) * 3600;
+                return (value_ / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(3600);
 
             }
 

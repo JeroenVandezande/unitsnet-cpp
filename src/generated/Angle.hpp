@@ -268,31 +268,31 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-1));
 
             case AngleUnit::Degrees:
-                return value * std::numbers::pi_v<un_scalar_t> / 180;
+                return value * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180);
 
             case AngleUnit::Nanodegrees:
-                return (value * static_cast<un_scalar_t>(1e-9)) * std::numbers::pi_v<un_scalar_t> / 180;
+                return (value * static_cast<un_scalar_t>(1e-9)) * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180);
 
             case AngleUnit::Microdegrees:
-                return (value * static_cast<un_scalar_t>(1e-6)) * std::numbers::pi_v<un_scalar_t> / 180;
+                return (value * static_cast<un_scalar_t>(1e-6)) * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180);
 
             case AngleUnit::Millidegrees:
-                return (value * static_cast<un_scalar_t>(1e-3)) * std::numbers::pi_v<un_scalar_t> / 180;
+                return (value * static_cast<un_scalar_t>(1e-3)) * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180);
 
             case AngleUnit::Arcminutes:
-                return value * std::numbers::pi_v<un_scalar_t> / (60 * 180);
+                return value * std::numbers::pi_v<un_scalar_t> / (static_cast<un_scalar_t>(60) * static_cast<un_scalar_t>(180));
 
             case AngleUnit::Arcseconds:
-                return value * std::numbers::pi_v<un_scalar_t> / (3600 * 180);
+                return value * std::numbers::pi_v<un_scalar_t> / (static_cast<un_scalar_t>(3600) * static_cast<un_scalar_t>(180));
 
             case AngleUnit::Gradians:
-                return value * std::numbers::pi_v<un_scalar_t> / 200;
+                return value * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(200);
 
             case AngleUnit::NatoMils:
-                return value * std::numbers::pi_v<un_scalar_t> / 3200;
+                return value * std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(3200);
 
             case AngleUnit::Revolutions:
-                return value * 2 * std::numbers::pi_v<un_scalar_t>;
+                return value * static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>;
 
             }
 
@@ -323,31 +323,31 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case AngleUnit::Degrees:
-                return value_ * 180 / std::numbers::pi_v<un_scalar_t>;
+                return value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Nanodegrees:
-                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-9);
 
             case AngleUnit::Microdegrees:
-                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-6);
 
             case AngleUnit::Millidegrees:
-                return (value_ * 180 / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(1e-3);
 
             case AngleUnit::Arcminutes:
-                return value_ * 60 * 180 / std::numbers::pi_v<un_scalar_t>;
+                return value_ * static_cast<un_scalar_t>(60) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Arcseconds:
-                return value_ * 3600 * 180 / std::numbers::pi_v<un_scalar_t>;
+                return value_ * static_cast<un_scalar_t>(3600) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Gradians:
-                return value_ * 200 / std::numbers::pi_v<un_scalar_t>;
+                return value_ * static_cast<un_scalar_t>(200) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::NatoMils:
-                return value_ * 3200 / std::numbers::pi_v<un_scalar_t>;
+                return value_ * static_cast<un_scalar_t>(3200) / std::numbers::pi_v<un_scalar_t>;
 
             case AngleUnit::Revolutions:
-                return value_ / (2 * std::numbers::pi_v<un_scalar_t>);
+                return value_ / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
             }
 

@@ -262,16 +262,16 @@ namespace unitsnet_cpp
             {
 
             case ForceUnit::Dyne:
-                return value / 1e5;
+                return value / static_cast<un_scalar_t>(1e5);
 
             case ForceUnit::GramsForce:
-                return value * 9.80665e-3;
+                return value * static_cast<un_scalar_t>(9.80665e-3);
 
             case ForceUnit::KilogramsForce:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::TonnesForce:
-                return value * (9.80665 * 1000);
+                return value * (static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(1000));
 
             case ForceUnit::Newtons:
                 return value;
@@ -292,22 +292,22 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ForceUnit::Kiloponds:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::Poundals:
-                return value * 0.138254954376;
+                return value * static_cast<un_scalar_t>(0.138254954376);
 
             case ForceUnit::PoundsForce:
-                return value * 4.4482216152605;
+                return value * static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceUnit::KilopoundsForce:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceUnit::OunceForce:
-                return value * (4.4482216152605 / 16);
+                return value * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(16));
 
             case ForceUnit::ShortTonsForce:
-                return value * (4.4482216152605 * 2000);
+                return value * (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2000));
 
             }
 
@@ -320,16 +320,16 @@ namespace unitsnet_cpp
             {
 
             case ForceUnit::Dyne:
-                return value_ * 1e5;
+                return value_ * static_cast<un_scalar_t>(1e5);
 
             case ForceUnit::GramsForce:
-                return value_ / 9.80665e-3;
+                return value_ / static_cast<un_scalar_t>(9.80665e-3);
 
             case ForceUnit::KilogramsForce:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::TonnesForce:
-                return value_ / (9.80665 * 1000);
+                return value_ / (static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(1000));
 
             case ForceUnit::Newtons:
                 return value_;
@@ -350,22 +350,22 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ForceUnit::Kiloponds:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case ForceUnit::Poundals:
-                return value_ / 0.138254954376;
+                return value_ / static_cast<un_scalar_t>(0.138254954376);
 
             case ForceUnit::PoundsForce:
-                return value_ / 4.4482216152605;
+                return value_ / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceUnit::KilopoundsForce:
-                return (value_ / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case ForceUnit::OunceForce:
-                return value_ / (4.4482216152605 / 16);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(16));
 
             case ForceUnit::ShortTonsForce:
-                return value_ / (4.4482216152605 * 2000);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(2000));
 
             }
 

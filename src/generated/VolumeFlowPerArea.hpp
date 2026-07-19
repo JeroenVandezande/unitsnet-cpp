@@ -97,7 +97,7 @@ namespace unitsnet_cpp
                 return value;
 
             case VolumeFlowPerAreaUnit::CubicFeetPerMinutePerSquareFoot:
-                return value * (0.028316846592 / 60) / 9.290304e-2;
+                return value * (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -113,7 +113,7 @@ namespace unitsnet_cpp
                 return value_;
 
             case VolumeFlowPerAreaUnit::CubicFeetPerMinutePerSquareFoot:
-                return value_ * 9.290304e-2 / (0.028316846592 / 60);
+                return value_ * static_cast<un_scalar_t>(9.290304e-2) / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
             }
 

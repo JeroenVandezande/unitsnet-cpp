@@ -124,10 +124,10 @@ namespace unitsnet_cpp
                 return value;
 
             case TemperatureGradientUnit::DegreesFahrenheitPerFoot:
-                return (value / 0.3048) * 5 / 9;
+                return (value / static_cast<un_scalar_t>(0.3048)) * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureGradientUnit::DegreesCelsiusPerKilometer:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             }
 
@@ -146,10 +146,10 @@ namespace unitsnet_cpp
                 return value_;
 
             case TemperatureGradientUnit::DegreesFahrenheitPerFoot:
-                return (value_ * 0.3048) * 9 / 5;
+                return (value_ * static_cast<un_scalar_t>(0.3048)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureGradientUnit::DegreesCelsiusPerKilometer:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             }
 

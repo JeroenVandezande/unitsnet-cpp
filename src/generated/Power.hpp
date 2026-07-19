@@ -433,46 +433,46 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e15));
 
             case PowerUnit::MechanicalHorsepower:
-                return value * 76.0402249 * 9.80665;
+                return value * static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665);
 
             case PowerUnit::MetricHorsepower:
-                return value * 75 * 9.80665;
+                return value * static_cast<un_scalar_t>(75) * static_cast<un_scalar_t>(9.80665);
 
             case PowerUnit::ElectricalHorsepower:
-                return value * 746;
+                return value * static_cast<un_scalar_t>(746);
 
             case PowerUnit::BoilerHorsepower:
-                return value * 9812.5;
+                return value * static_cast<un_scalar_t>(9812.5);
 
             case PowerUnit::HydraulicHorsepower:
-                return value * 745.69987158227022;
+                return value * static_cast<un_scalar_t>(745.69987158227022);
 
             case PowerUnit::BritishThermalUnitsPerHour:
-                return value * 1055.05585262 / 3600;
+                return value * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::KilobritishThermalUnitsPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1055.05585262 / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::MegabritishThermalUnitsPerHour:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1055.05585262 / 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::JoulesPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::MillijoulesPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::KilojoulesPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::MegajoulesPerHour:
-                return (value * static_cast<un_scalar_t>(1e6)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::GigajoulesPerHour:
-                return (value * static_cast<un_scalar_t>(1e9)) / 3600;
+                return (value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(3600);
 
             case PowerUnit::TonsOfRefrigeration:
-                return value * 3516.853;
+                return value * static_cast<un_scalar_t>(3516.853);
 
             }
 
@@ -524,46 +524,46 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e15);
 
             case PowerUnit::MechanicalHorsepower:
-                return value_ / (76.0402249 * 9.80665);
+                return value_ / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665));
 
             case PowerUnit::MetricHorsepower:
-                return value_ / (75 * 9.80665);
+                return value_ / (static_cast<un_scalar_t>(75) * static_cast<un_scalar_t>(9.80665));
 
             case PowerUnit::ElectricalHorsepower:
-                return value_ / 746;
+                return value_ / static_cast<un_scalar_t>(746);
 
             case PowerUnit::BoilerHorsepower:
-                return value_ / 9812.5;
+                return value_ / static_cast<un_scalar_t>(9812.5);
 
             case PowerUnit::HydraulicHorsepower:
-                return value_ / 745.69987158227022;
+                return value_ / static_cast<un_scalar_t>(745.69987158227022);
 
             case PowerUnit::BritishThermalUnitsPerHour:
-                return value_ * 3600 / 1055.05585262;
+                return value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262);
 
             case PowerUnit::KilobritishThermalUnitsPerHour:
-                return (value_ * 3600 / 1055.05585262) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             case PowerUnit::MegabritishThermalUnitsPerHour:
-                return (value_ * 3600 / 1055.05585262) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e6);
 
             case PowerUnit::JoulesPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case PowerUnit::MillijoulesPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case PowerUnit::KilojoulesPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             case PowerUnit::MegajoulesPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             case PowerUnit::GigajoulesPerHour:
-                return (value_ * 3600) / static_cast<un_scalar_t>(1e9);
+                return (value_ * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e9);
 
             case PowerUnit::TonsOfRefrigeration:
-                return value_ / 3516.853;
+                return value_ / static_cast<un_scalar_t>(3516.853);
 
             }
 

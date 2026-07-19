@@ -577,97 +577,97 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e15));
 
             case EnergyUnit::Calories:
-                return value * 4.184;
+                return value * static_cast<un_scalar_t>(4.184);
 
             case EnergyUnit::Kilocalories:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184);
 
             case EnergyUnit::Megacalories:
-                return (value * static_cast<un_scalar_t>(1e6)) * 4.184;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(4.184);
 
             case EnergyUnit::BritishThermalUnits:
-                return value * 1055.05585262;
+                return value * static_cast<un_scalar_t>(1055.05585262);
 
             case EnergyUnit::KilobritishThermalUnits:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1055.05585262;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1055.05585262);
 
             case EnergyUnit::MegabritishThermalUnits:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1055.05585262;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1055.05585262);
 
             case EnergyUnit::GigabritishThermalUnits:
-                return (value * static_cast<un_scalar_t>(1e9)) * 1055.05585262;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1055.05585262);
 
             case EnergyUnit::ElectronVolts:
-                return value * 1.602176634e-19;
+                return value * static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::KiloelectronVolts:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1.602176634e-19;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::MegaelectronVolts:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1.602176634e-19;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::GigaelectronVolts:
-                return (value * static_cast<un_scalar_t>(1e9)) * 1.602176634e-19;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::TeraelectronVolts:
-                return (value * static_cast<un_scalar_t>(1e12)) * 1.602176634e-19;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::FootPounds:
-                return value * 1.3558179483314004;
+                return value * static_cast<un_scalar_t>(1.3558179483314004);
 
             case EnergyUnit::Ergs:
-                return value * 1e-7;
+                return value * static_cast<un_scalar_t>(1e-7);
 
             case EnergyUnit::WattHours:
-                return value * 3600;
+                return value * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::KilowattHours:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::MegawattHours:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::GigawattHours:
-                return (value * static_cast<un_scalar_t>(1e9)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::TerawattHours:
-                return (value * static_cast<un_scalar_t>(1e12)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::WattDays:
-                return value * 24 * 3600;
+                return value * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::KilowattDays:
-                return (value * static_cast<un_scalar_t>(1e3)) * 24 * 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::MegawattDays:
-                return (value * static_cast<un_scalar_t>(1e6)) * 24 * 3600;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::GigawattDays:
-                return (value * static_cast<un_scalar_t>(1e9)) * 24 * 3600;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::TerawattDays:
-                return (value * static_cast<un_scalar_t>(1e12)) * 24 * 3600;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::ThermsEc:
-                return value * 1.05505585262e8;
+                return value * static_cast<un_scalar_t>(1.05505585262e8);
 
             case EnergyUnit::DecathermsEc:
-                return (value * static_cast<un_scalar_t>(1e1)) * 1.05505585262e8;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.05505585262e8);
 
             case EnergyUnit::ThermsUs:
-                return value * 1.054804e8;
+                return value * static_cast<un_scalar_t>(1.054804e8);
 
             case EnergyUnit::DecathermsUs:
-                return (value * static_cast<un_scalar_t>(1e1)) * 1.054804e8;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.054804e8);
 
             case EnergyUnit::ThermsImperial:
-                return value * 1.05505585257348e8;
+                return value * static_cast<un_scalar_t>(1.05505585257348e8);
 
             case EnergyUnit::DecathermsImperial:
-                return (value * static_cast<un_scalar_t>(1e1)) * 1.05505585257348e8;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.05505585257348e8);
 
             case EnergyUnit::HorsepowerHours:
-                return value * 76.0402249 * 9.80665 * 3600;
+                return value * static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(3600);
 
             }
 
@@ -707,97 +707,97 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e15);
 
             case EnergyUnit::Calories:
-                return value_ / 4.184;
+                return value_ / static_cast<un_scalar_t>(4.184);
 
             case EnergyUnit::Kilocalories:
-                return (value_ / 4.184) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyUnit::Megacalories:
-                return (value_ / 4.184) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyUnit::BritishThermalUnits:
-                return value_ / 1055.05585262;
+                return value_ / static_cast<un_scalar_t>(1055.05585262);
 
             case EnergyUnit::KilobritishThermalUnits:
-                return (value_ / 1055.05585262) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyUnit::MegabritishThermalUnits:
-                return (value_ / 1055.05585262) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyUnit::GigabritishThermalUnits:
-                return (value_ / 1055.05585262) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e9);
 
             case EnergyUnit::ElectronVolts:
-                return value_ / 1.602176634e-19;
+                return value_ / static_cast<un_scalar_t>(1.602176634e-19);
 
             case EnergyUnit::KiloelectronVolts:
-                return (value_ / 1.602176634e-19) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyUnit::MegaelectronVolts:
-                return (value_ / 1.602176634e-19) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyUnit::GigaelectronVolts:
-                return (value_ / 1.602176634e-19) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e9);
 
             case EnergyUnit::TeraelectronVolts:
-                return (value_ / 1.602176634e-19) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e12);
 
             case EnergyUnit::FootPounds:
-                return value_ / 1.3558179483314004;
+                return value_ / static_cast<un_scalar_t>(1.3558179483314004);
 
             case EnergyUnit::Ergs:
-                return value_ / 1e-7;
+                return value_ / static_cast<un_scalar_t>(1e-7);
 
             case EnergyUnit::WattHours:
-                return value_ / 3600;
+                return value_ / static_cast<un_scalar_t>(3600.0);
 
             case EnergyUnit::KilowattHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyUnit::MegawattHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyUnit::GigawattHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e9);
 
             case EnergyUnit::TerawattHours:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e12);
 
             case EnergyUnit::WattDays:
-                return value_ / (24 * 3600);
+                return value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0));
 
             case EnergyUnit::KilowattDays:
-                return (value_ / (24 * 3600)) / static_cast<un_scalar_t>(1e3);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e3);
 
             case EnergyUnit::MegawattDays:
-                return (value_ / (24 * 3600)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e6);
 
             case EnergyUnit::GigawattDays:
-                return (value_ / (24 * 3600)) / static_cast<un_scalar_t>(1e9);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e9);
 
             case EnergyUnit::TerawattDays:
-                return (value_ / (24 * 3600)) / static_cast<un_scalar_t>(1e12);
+                return (value_ / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e12);
 
             case EnergyUnit::ThermsEc:
-                return value_ / 1.05505585262e8;
+                return value_ / static_cast<un_scalar_t>(1.05505585262e8);
 
             case EnergyUnit::DecathermsEc:
-                return (value_ / 1.05505585262e8) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(1.05505585262e8)) / static_cast<un_scalar_t>(1e1);
 
             case EnergyUnit::ThermsUs:
-                return value_ / 1.054804e8;
+                return value_ / static_cast<un_scalar_t>(1.054804e8);
 
             case EnergyUnit::DecathermsUs:
-                return (value_ / 1.054804e8) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(1.054804e8)) / static_cast<un_scalar_t>(1e1);
 
             case EnergyUnit::ThermsImperial:
-                return value_ / 1.05505585257348e8;
+                return value_ / static_cast<un_scalar_t>(1.05505585257348e8);
 
             case EnergyUnit::DecathermsImperial:
-                return (value_ / 1.05505585257348e8) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(1.05505585257348e8)) / static_cast<un_scalar_t>(1e1);
 
             case EnergyUnit::HorsepowerHours:
-                return value_ / (76.0402249 * 9.80665 * 3600);
+                return value_ / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(3600));
 
             }
 

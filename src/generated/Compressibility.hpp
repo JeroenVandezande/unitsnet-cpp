@@ -157,22 +157,22 @@ namespace unitsnet_cpp
                 return value;
 
             case CompressibilityUnit::InverseKilopascals:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case CompressibilityUnit::InverseMegapascals:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case CompressibilityUnit::InverseAtmospheres:
-                return value * 101325;
+                return value * static_cast<un_scalar_t>(101325);
 
             case CompressibilityUnit::InverseMillibars:
-                return value * 100;
+                return value * static_cast<un_scalar_t>(100);
 
             case CompressibilityUnit::InverseBars:
-                return value * 1e5;
+                return value * static_cast<un_scalar_t>(1e5);
 
             case CompressibilityUnit::InversePoundsForcePerSquareInch:
-                return value * 6.894757293168361e3;
+                return value * static_cast<un_scalar_t>(6.894757293168361e3);
 
             }
 
@@ -188,22 +188,22 @@ namespace unitsnet_cpp
                 return value_;
 
             case CompressibilityUnit::InverseKilopascals:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case CompressibilityUnit::InverseMegapascals:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case CompressibilityUnit::InverseAtmospheres:
-                return value_ / 101325;
+                return value_ / static_cast<un_scalar_t>(101325);
 
             case CompressibilityUnit::InverseMillibars:
-                return value_ / 100;
+                return value_ / static_cast<un_scalar_t>(100);
 
             case CompressibilityUnit::InverseBars:
-                return value_ / 1e5;
+                return value_ / static_cast<un_scalar_t>(1e5);
 
             case CompressibilityUnit::InversePoundsForcePerSquareInch:
-                return value_ / 6.894757293168361e3;
+                return value_ / static_cast<un_scalar_t>(6.894757293168361e3);
 
             }
 

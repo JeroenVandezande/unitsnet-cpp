@@ -694,37 +694,37 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e9));
 
             case PressureUnit::Atmospheres:
-                return value * 1.01325 * 1e5;
+                return value * static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Bars:
-                return value * 1e5;
+                return value * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Microbars:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Millibars:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Centibars:
-                return (value * static_cast<un_scalar_t>(1e-2)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Decibars:
-                return (value * static_cast<un_scalar_t>(1e-1)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Kilobars:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Megabars:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e5;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::KilogramsForcePerSquareMeter:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case PressureUnit::KilogramsForcePerSquareCentimeter:
-                return value * 9.80665e4;
+                return value * static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::KilogramsForcePerSquareMillimeter:
-                return value * 9.80665e6;
+                return value * static_cast<un_scalar_t>(9.80665e6);
 
             case PressureUnit::NewtonsPerSquareMeter:
                 return value;
@@ -736,88 +736,88 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case PressureUnit::NewtonsPerSquareCentimeter:
-                return value * 1e4;
+                return value * static_cast<un_scalar_t>(1e4);
 
             case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e4;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e4);
 
             case PressureUnit::NewtonsPerSquareMillimeter:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e6;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::TechnicalAtmospheres:
-                return value * 9.80665e4;
+                return value * static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::Torrs:
-                return value * 101325 / 760;
+                return value * static_cast<un_scalar_t>(101325) / static_cast<un_scalar_t>(760);
 
             case PressureUnit::Millitorrs:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 101325 / 760;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(101325) / static_cast<un_scalar_t>(760);
 
             case PressureUnit::PoundsForcePerSquareInch:
-                return value * 4.4482216152605 / 0.00064516;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case PressureUnit::KilopoundsForcePerSquareInch:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 0.00064516;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
             case PressureUnit::PoundsForcePerSquareMil:
-                return value * 4.4482216152605 / (2.54e-5 * 2.54e-5);
+                return value * static_cast<un_scalar_t>(4.4482216152605) / (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5));
 
             case PressureUnit::KilopoundsForcePerSquareMil:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / (2.54e-5 * 2.54e-5);
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5));
 
             case PressureUnit::PoundsForcePerSquareFoot:
-                return value * 4.4482216152605 / 9.290304e-2;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(9.290304e-2);
 
             case PressureUnit::KilopoundsForcePerSquareFoot:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 9.290304e-2;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(9.290304e-2);
 
             case PressureUnit::TonnesForcePerSquareMillimeter:
-                return value * 9.80665e9;
+                return value * static_cast<un_scalar_t>(9.80665e9);
 
             case PressureUnit::TonnesForcePerSquareMeter:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MetersOfHead:
-                return value * 9804.139432;
+                return value * static_cast<un_scalar_t>(9804.139432);
 
             case PressureUnit::TonnesForcePerSquareCentimeter:
-                return value * 9.80665e7;
+                return value * static_cast<un_scalar_t>(9.80665e7);
 
             case PressureUnit::FeetOfHead:
-                return value * 9804.139432 * 0.3048;
+                return value * static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048);
 
             case PressureUnit::MillimetersOfMercury:
-                return value * 133.322387415;
+                return value * static_cast<un_scalar_t>(133.322387415);
 
             case PressureUnit::InchesOfMercury:
-                return value * 2.54e1 * 133.322387415;
+                return value * static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415);
 
             case PressureUnit::DynesPerSquareCentimeter:
-                return value * 1.0e-1;
+                return value * static_cast<un_scalar_t>(1.0e-1);
 
             case PressureUnit::PoundsPerInchSecondSquared:
-                return value * (4.4482216152605 / 0.00064516) / 386.0886;
+                return value * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516)) / static_cast<un_scalar_t>(386.0886);
 
             case PressureUnit::MetersOfWaterColumn:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MillimetersOfWaterColumn:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 9.80665e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::CentimetersOfWaterColumn:
-                return (value * static_cast<un_scalar_t>(1e-2)) * 9.80665e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::InchesOfWaterColumn:
-                return value * 2.54e-2 * 9.80665e3;
+                return value * static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MilligramsForcePerSquareMeter:
-                return value * 9.80665e-6;
+                return value * static_cast<un_scalar_t>(9.80665e-6);
 
             case PressureUnit::MilligramsForcePerSquareFoot:
-                return value * 9.80665e-6 / 9.290304e-2;
+                return value * static_cast<un_scalar_t>(9.80665e-6) / static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -854,37 +854,37 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e9);
 
             case PressureUnit::Atmospheres:
-                return value_ / (1.01325 * 1e5);
+                return value_ / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
 
             case PressureUnit::Bars:
-                return value_ / 1e5;
+                return value_ / static_cast<un_scalar_t>(1e5);
 
             case PressureUnit::Microbars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-6);
 
             case PressureUnit::Millibars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::Centibars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-2);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::Decibars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e-1);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-1);
 
             case PressureUnit::Kilobars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::Megabars:
-                return (value_ / 1e5) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilogramsForcePerSquareMeter:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case PressureUnit::KilogramsForcePerSquareCentimeter:
-                return value_ / 9.80665e4;
+                return value_ / static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::KilogramsForcePerSquareMillimeter:
-                return value_ / 9.80665e6;
+                return value_ / static_cast<un_scalar_t>(9.80665e6);
 
             case PressureUnit::NewtonsPerSquareMeter:
                 return value_;
@@ -896,88 +896,88 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::NewtonsPerSquareCentimeter:
-                return value_ / 1e4;
+                return value_ / static_cast<un_scalar_t>(1e4);
 
             case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return (value_ / 1e4) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::NewtonsPerSquareMillimeter:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return (value_ / 1e6) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TechnicalAtmospheres:
-                return value_ / 9.80665e4;
+                return value_ / static_cast<un_scalar_t>(9.80665e4);
 
             case PressureUnit::Torrs:
-                return value_ * 760 / 101325;
+                return value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325);
 
             case PressureUnit::Millitorrs:
-                return (value_ * 760 / 101325) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::PoundsForcePerSquareInch:
-                return value_ * 0.00064516 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareInch:
-                return (value_ * 0.00064516 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareMil:
-                return value_ * (2.54e-5 * 2.54e-5) / 4.4482216152605;
+                return value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareMil:
-                return (value_ * (2.54e-5 * 2.54e-5) / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::PoundsForcePerSquareFoot:
-                return value_ * 9.290304e-2 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
             case PressureUnit::KilopoundsForcePerSquareFoot:
-                return (value_ * 9.290304e-2 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case PressureUnit::TonnesForcePerSquareMillimeter:
-                return value_ / 9.80665e9;
+                return value_ / static_cast<un_scalar_t>(9.80665e9);
 
             case PressureUnit::TonnesForcePerSquareMeter:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MetersOfHead:
-                return value_ / 9804.139432;
+                return value_ / static_cast<un_scalar_t>(9804.139432);
 
             case PressureUnit::TonnesForcePerSquareCentimeter:
-                return value_ / 9.80665e7;
+                return value_ / static_cast<un_scalar_t>(9.80665e7);
 
             case PressureUnit::FeetOfHead:
-                return value_ / (9804.139432 * 0.3048);
+                return value_ / (static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048));
 
             case PressureUnit::MillimetersOfMercury:
-                return value_ / 133.322387415;
+                return value_ / static_cast<un_scalar_t>(133.322387415);
 
             case PressureUnit::InchesOfMercury:
-                return value_ / (2.54e1 * 133.322387415);
+                return value_ / (static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415));
 
             case PressureUnit::DynesPerSquareCentimeter:
-                return value_ / 1.0e-1;
+                return value_ / static_cast<un_scalar_t>(1.0e-1);
 
             case PressureUnit::PoundsPerInchSecondSquared:
-                return value_ * 386.0886 / (4.4482216152605 / 0.00064516);
+                return value_ * static_cast<un_scalar_t>(386.0886) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
 
             case PressureUnit::MetersOfWaterColumn:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             case PressureUnit::MillimetersOfWaterColumn:
-                return (value_ / 9.80665e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-3);
 
             case PressureUnit::CentimetersOfWaterColumn:
-                return (value_ / 9.80665e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-2);
 
             case PressureUnit::InchesOfWaterColumn:
-                return value_ / (2.54e-2 * 9.80665e3);
+                return value_ / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3));
 
             case PressureUnit::MilligramsForcePerSquareMeter:
-                return value_ / 9.80665e-6;
+                return value_ / static_cast<un_scalar_t>(9.80665e-6);
 
             case PressureUnit::MilligramsForcePerSquareFoot:
-                return value_ / 9.80665e-6 * 9.290304e-2;
+                return value_ / static_cast<un_scalar_t>(9.80665e-6) * static_cast<un_scalar_t>(9.290304e-2);
 
             }
 

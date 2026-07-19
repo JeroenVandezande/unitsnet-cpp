@@ -145,19 +145,19 @@ namespace unitsnet_cpp
                 return value;
 
             case WarpingMomentOfInertiaUnit::DecimetersToTheSixth:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case WarpingMomentOfInertiaUnit::CentimetersToTheSixth:
-                return value / 1e12;
+                return value / static_cast<un_scalar_t>(1e12);
 
             case WarpingMomentOfInertiaUnit::MillimetersToTheSixth:
-                return value / 1e18;
+                return value / static_cast<un_scalar_t>(1e18);
 
             case WarpingMomentOfInertiaUnit::FeetToTheSixth:
-                return value * 0.000801843800914862014464;
+                return value * static_cast<un_scalar_t>(0.000801843800914862014464);
 
             case WarpingMomentOfInertiaUnit::InchesToTheSixth:
-                return value * 0.000000000268535866540096;
+                return value * static_cast<un_scalar_t>(0.000000000268535866540096);
 
             }
 
@@ -173,19 +173,19 @@ namespace unitsnet_cpp
                 return value_;
 
             case WarpingMomentOfInertiaUnit::DecimetersToTheSixth:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case WarpingMomentOfInertiaUnit::CentimetersToTheSixth:
-                return value_ * 1e12;
+                return value_ * static_cast<un_scalar_t>(1e12);
 
             case WarpingMomentOfInertiaUnit::MillimetersToTheSixth:
-                return value_ * 1e18;
+                return value_ * static_cast<un_scalar_t>(1e18);
 
             case WarpingMomentOfInertiaUnit::FeetToTheSixth:
-                return value_ / 0.000801843800914862014464;
+                return value_ / static_cast<un_scalar_t>(0.000801843800914862014464);
 
             case WarpingMomentOfInertiaUnit::InchesToTheSixth:
-                return value_ / 0.000000000268535866540096;
+                return value_ / static_cast<un_scalar_t>(0.000000000268535866540096);
 
             }
 

@@ -274,16 +274,16 @@ namespace unitsnet_cpp
             {
 
             case SpecificWeightUnit::NewtonsPerCubicMillimeter:
-                return value * 1000000000;
+                return value * static_cast<un_scalar_t>(1000000000);
 
             case SpecificWeightUnit::KilonewtonsPerCubicMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1000000000;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1000000000);
 
             case SpecificWeightUnit::NewtonsPerCubicCentimeter:
-                return value * 1000000;
+                return value * static_cast<un_scalar_t>(1000000);
 
             case SpecificWeightUnit::KilonewtonsPerCubicCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1000000;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1000000);
 
             case SpecificWeightUnit::NewtonsPerCubicMeter:
                 return value;
@@ -295,34 +295,34 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case SpecificWeightUnit::KilogramsForcePerCubicMillimeter:
-                return value * 9.80665e9;
+                return value * static_cast<un_scalar_t>(9.80665e9);
 
             case SpecificWeightUnit::KilogramsForcePerCubicCentimeter:
-                return value * 9.80665e6;
+                return value * static_cast<un_scalar_t>(9.80665e6);
 
             case SpecificWeightUnit::KilogramsForcePerCubicMeter:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case SpecificWeightUnit::PoundsForcePerCubicInch:
-                return value * 4.4482216152605 / 1.6387064e-5;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(1.6387064e-5);
 
             case SpecificWeightUnit::KilopoundsForcePerCubicInch:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 1.6387064e-5;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(1.6387064e-5);
 
             case SpecificWeightUnit::PoundsForcePerCubicFoot:
-                return value * 4.4482216152605 / 0.028316846592;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.028316846592);
 
             case SpecificWeightUnit::KilopoundsForcePerCubicFoot:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.028316846592);
 
             case SpecificWeightUnit::TonnesForcePerCubicMillimeter:
-                return value * 9.80665e12;
+                return value * static_cast<un_scalar_t>(9.80665e12);
 
             case SpecificWeightUnit::TonnesForcePerCubicCentimeter:
-                return value * 9.80665e9;
+                return value * static_cast<un_scalar_t>(9.80665e9);
 
             case SpecificWeightUnit::TonnesForcePerCubicMeter:
-                return value * 9.80665e3;
+                return value * static_cast<un_scalar_t>(9.80665e3);
 
             }
 
@@ -335,16 +335,16 @@ namespace unitsnet_cpp
             {
 
             case SpecificWeightUnit::NewtonsPerCubicMillimeter:
-                return value_ * 0.000000001;
+                return value_ * static_cast<un_scalar_t>(0.000000001);
 
             case SpecificWeightUnit::KilonewtonsPerCubicMillimeter:
-                return (value_ * 0.000000001) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.000000001)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::NewtonsPerCubicCentimeter:
-                return value_ * 0.000001;
+                return value_ * static_cast<un_scalar_t>(0.000001);
 
             case SpecificWeightUnit::KilonewtonsPerCubicCentimeter:
-                return (value_ * 0.000001) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.000001)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::NewtonsPerCubicMeter:
                 return value_;
@@ -356,34 +356,34 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case SpecificWeightUnit::KilogramsForcePerCubicMillimeter:
-                return value_ / 9.80665e9;
+                return value_ / static_cast<un_scalar_t>(9.80665e9);
 
             case SpecificWeightUnit::KilogramsForcePerCubicCentimeter:
-                return value_ / 9.80665e6;
+                return value_ / static_cast<un_scalar_t>(9.80665e6);
 
             case SpecificWeightUnit::KilogramsForcePerCubicMeter:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case SpecificWeightUnit::PoundsForcePerCubicInch:
-                return value_ * 1.6387064e-5 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(4.4482216152605);
 
             case SpecificWeightUnit::KilopoundsForcePerCubicInch:
-                return (value_ * 1.6387064e-5 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::PoundsForcePerCubicFoot:
-                return value_ * 0.028316846592 / 4.4482216152605;
+                return value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(4.4482216152605);
 
             case SpecificWeightUnit::KilopoundsForcePerCubicFoot:
-                return (value_ * 0.028316846592 / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificWeightUnit::TonnesForcePerCubicMillimeter:
-                return value_ / 9.80665e12;
+                return value_ / static_cast<un_scalar_t>(9.80665e12);
 
             case SpecificWeightUnit::TonnesForcePerCubicCentimeter:
-                return value_ / 9.80665e9;
+                return value_ / static_cast<un_scalar_t>(9.80665e9);
 
             case SpecificWeightUnit::TonnesForcePerCubicMeter:
-                return value_ / 9.80665e3;
+                return value_ / static_cast<un_scalar_t>(9.80665e3);
 
             }
 

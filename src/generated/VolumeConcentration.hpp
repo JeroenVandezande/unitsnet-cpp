@@ -334,40 +334,40 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-1));
 
             case VolumeConcentrationUnit::LitersPerMilliliter:
-                return value / 1e-3;
+                return value / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::PicolitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-12)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::NanolitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::MicrolitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::MillilitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::CentilitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::DecilitersPerMilliliter:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::Percent:
-                return value / 1e2;
+                return value / static_cast<un_scalar_t>(1e2);
 
             case VolumeConcentrationUnit::PartsPerThousand:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case VolumeConcentrationUnit::PartsPerMillion:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case VolumeConcentrationUnit::PartsPerBillion:
-                return value / 1e9;
+                return value / static_cast<un_scalar_t>(1e9);
 
             case VolumeConcentrationUnit::PartsPerTrillion:
-                return value / 1e12;
+                return value / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -404,40 +404,40 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeConcentrationUnit::LitersPerMilliliter:
-                return value_ * 1e-3;
+                return value_ * static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::PicolitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-12);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
             case VolumeConcentrationUnit::NanolitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeConcentrationUnit::MicrolitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeConcentrationUnit::MillilitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeConcentrationUnit::CentilitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeConcentrationUnit::DecilitersPerMilliliter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeConcentrationUnit::Percent:
-                return value_ * 1e2;
+                return value_ * static_cast<un_scalar_t>(1e2);
 
             case VolumeConcentrationUnit::PartsPerThousand:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case VolumeConcentrationUnit::PartsPerMillion:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case VolumeConcentrationUnit::PartsPerBillion:
-                return value_ * 1e9;
+                return value_ * static_cast<un_scalar_t>(1e9);
 
             case VolumeConcentrationUnit::PartsPerTrillion:
-                return value_ * 1e12;
+                return value_ * static_cast<un_scalar_t>(1e12);
 
             }
 

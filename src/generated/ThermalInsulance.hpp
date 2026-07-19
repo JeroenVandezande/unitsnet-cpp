@@ -157,22 +157,22 @@ namespace unitsnet_cpp
                 return value;
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerWatt:
-                return value * 1000;
+                return value * static_cast<un_scalar_t>(1000);
 
             case ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt:
-                return value * 1000.0;
+                return value * static_cast<un_scalar_t>(1000.0);
 
             case ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt:
-                return value * 0.1;
+                return value * static_cast<un_scalar_t>(0.1);
 
             case ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt:
-                return value * 0.001;
+                return value * static_cast<un_scalar_t>(0.001);
 
             case ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie:
-                return value * (0.0001 * 3600) / 4.184;
+                return value * (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(4.184);
 
             case ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu:
-                return value * (1000 * 0.3048 * 0.3048 * 3600) / (1055.05585262 * 1.8);
+                return value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600)) / (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8));
 
             }
 
@@ -188,22 +188,22 @@ namespace unitsnet_cpp
                 return value_;
 
             case ThermalInsulanceUnit::SquareMeterKelvinsPerWatt:
-                return value_ / 1000;
+                return value_ / static_cast<un_scalar_t>(1000);
 
             case ThermalInsulanceUnit::SquareMeterDegreesCelsiusPerWatt:
-                return value_ / 1000.0;
+                return value_ / static_cast<un_scalar_t>(1000.0);
 
             case ThermalInsulanceUnit::SquareCentimeterKelvinsPerWatt:
-                return value_ / 0.1;
+                return value_ / static_cast<un_scalar_t>(0.1);
 
             case ThermalInsulanceUnit::SquareMillimeterKelvinsPerWatt:
-                return value_ / 0.001;
+                return value_ / static_cast<un_scalar_t>(0.001);
 
             case ThermalInsulanceUnit::SquareCentimeterHourDegreesCelsiusPerKilocalorie:
-                return value_ * 4.184 / (0.0001 * 3600);
+                return value_ * static_cast<un_scalar_t>(4.184) / (static_cast<un_scalar_t>(0.0001) * static_cast<un_scalar_t>(3600));
 
             case ThermalInsulanceUnit::HourSquareFeetDegreesFahrenheitPerBtu:
-                return value_ * (1055.05585262 * 1.8) / (1000 * 0.3048 * 0.3048 * 3600);
+                return value_ * (static_cast<un_scalar_t>(1055.05585262) * static_cast<un_scalar_t>(1.8)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
 
             }
 

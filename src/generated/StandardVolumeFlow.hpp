@@ -181,28 +181,28 @@ namespace unitsnet_cpp
                 return value;
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerDay:
-                return value / 86400;
+                return value / static_cast<un_scalar_t>(86400);
 
             case StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute:
-                return value / 6e7;
+                return value / static_cast<un_scalar_t>(6e7);
 
             case StandardVolumeFlowUnit::StandardLitersPerMinute:
-                return value / 60000;
+                return value / static_cast<un_scalar_t>(60000);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerSecond:
-                return value * 0.028316846592;
+                return value * static_cast<un_scalar_t>(0.028316846592);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerMinute:
-                return value * 0.028316846592 / 60;
+                return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerHour:
-                return value * 0.028316846592 / 3600;
+                return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600);
 
             }
 
@@ -218,28 +218,28 @@ namespace unitsnet_cpp
                 return value_;
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case StandardVolumeFlowUnit::StandardCubicMetersPerDay:
-                return value_ * 86400;
+                return value_ * static_cast<un_scalar_t>(86400);
 
             case StandardVolumeFlowUnit::StandardCubicCentimetersPerMinute:
-                return value_ * 6e7;
+                return value_ * static_cast<un_scalar_t>(6e7);
 
             case StandardVolumeFlowUnit::StandardLitersPerMinute:
-                return value_ * 60000;
+                return value_ * static_cast<un_scalar_t>(60000);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerSecond:
-                return value_ / 0.028316846592;
+                return value_ / static_cast<un_scalar_t>(0.028316846592);
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerMinute:
-                return value_ / (0.028316846592 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
             case StandardVolumeFlowUnit::StandardCubicFeetPerHour:
-                return value_ / (0.028316846592 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
 
             }
 

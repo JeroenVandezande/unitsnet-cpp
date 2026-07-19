@@ -118,10 +118,10 @@ namespace unitsnet_cpp
             {
 
             case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
-                return value * 1000 / (9.80665e-3 * 3600);
+                return value * static_cast<un_scalar_t>(1000) / (static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600));
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
-                return value * 1000 / (9.80665e-3 * 3600);
+                return value * static_cast<un_scalar_t>(1000) / (static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600));
 
             case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
                 return value;
@@ -140,10 +140,10 @@ namespace unitsnet_cpp
             {
 
             case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
-                return value_ * 9.80665e-3 * 3600 / 1000;
+                return value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
-                return value_ * 9.80665e-3 * 3600 / 1000;
+                return value_ * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
             case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
                 return value_;

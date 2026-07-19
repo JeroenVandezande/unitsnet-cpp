@@ -214,40 +214,40 @@ namespace unitsnet_cpp
             {
 
             case MassFluxUnit::GramsPerSecondPerSquareMeter:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
-                return value / 1e-1;
+                return value / static_cast<un_scalar_t>(1e-1);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e-1;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
-                return value / 1e-3;
+                return value / static_cast<un_scalar_t>(1e-3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassFluxUnit::GramsPerHourPerSquareMeter:
-                return value / 3.6e6;
+                return value / static_cast<un_scalar_t>(3.6e6);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3.6e6;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e6);
 
             case MassFluxUnit::GramsPerHourPerSquareCentimeter:
-                return value / 3.6e2;
+                return value / static_cast<un_scalar_t>(3.6e2);
 
             case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3.6e2;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e2);
 
             case MassFluxUnit::GramsPerHourPerSquareMillimeter:
-                return value / 3.6e0;
+                return value / static_cast<un_scalar_t>(3.6e0);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 3.6e0;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e0);
 
             }
 
@@ -260,40 +260,40 @@ namespace unitsnet_cpp
             {
 
             case MassFluxUnit::GramsPerSecondPerSquareMeter:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
-                return value_ * 1e-1;
+                return value_ * static_cast<un_scalar_t>(1e-1);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
-                return (value_ * 1e-1) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
-                return value_ * 1e-3;
+                return value_ * static_cast<un_scalar_t>(1e-3);
 
             case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareMeter:
-                return value_ * 3.6e6;
+                return value_ * static_cast<un_scalar_t>(3.6e6);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMeter:
-                return (value_ * 3.6e6) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3.6e6)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareCentimeter:
-                return value_ * 3.6e2;
+                return value_ * static_cast<un_scalar_t>(3.6e2);
 
             case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
-                return (value_ * 3.6e2) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3.6e2)) / static_cast<un_scalar_t>(1e3);
 
             case MassFluxUnit::GramsPerHourPerSquareMillimeter:
-                return value_ * 3.6e0;
+                return value_ * static_cast<un_scalar_t>(3.6e0);
 
             case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
-                return (value_ * 3.6e0) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(3.6e0)) / static_cast<un_scalar_t>(1e3);
 
             }
 

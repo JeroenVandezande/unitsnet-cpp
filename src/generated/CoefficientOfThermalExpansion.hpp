@@ -148,16 +148,16 @@ namespace unitsnet_cpp
                 return value;
 
             case CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit:
-                return value * 9 / 5;
+                return value * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case CoefficientOfThermalExpansionUnit::PpmPerKelvin:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit:
-                return value * 9 / 5e6;
+                return value * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5e6);
 
             }
 
@@ -176,16 +176,16 @@ namespace unitsnet_cpp
                 return value_;
 
             case CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit:
-                return value_ * 5 / 9;
+                return value_ * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case CoefficientOfThermalExpansionUnit::PpmPerKelvin:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit:
-                return value_ * 5e6 / 9;
+                return value_ * static_cast<un_scalar_t>(5e6) / static_cast<un_scalar_t>(9);
 
             }
 

@@ -160,19 +160,19 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case ElectricCurrentGradientUnit::AmperesPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case ElectricCurrentGradientUnit::MilliamperesPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(60);
 
             case ElectricCurrentGradientUnit::AmperesPerMillisecond:
-                return value * 1E3;
+                return value * static_cast<un_scalar_t>(1E3);
 
             case ElectricCurrentGradientUnit::AmperesPerMicrosecond:
-                return value * 1E6;
+                return value * static_cast<un_scalar_t>(1E6);
 
             case ElectricCurrentGradientUnit::AmperesPerNanosecond:
-                return value * 1E9;
+                return value * static_cast<un_scalar_t>(1E9);
 
             }
 
@@ -191,19 +191,19 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentGradientUnit::AmperesPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case ElectricCurrentGradientUnit::MilliamperesPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricCurrentGradientUnit::AmperesPerMillisecond:
-                return value_ / 1E3;
+                return value_ / static_cast<un_scalar_t>(1E3);
 
             case ElectricCurrentGradientUnit::AmperesPerMicrosecond:
-                return value_ / 1E6;
+                return value_ / static_cast<un_scalar_t>(1E6);
 
             case ElectricCurrentGradientUnit::AmperesPerNanosecond:
-                return value_ / 1E9;
+                return value_ / static_cast<un_scalar_t>(1E9);
 
             }
 

@@ -385,64 +385,64 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-1));
 
             case DoseAreaProductUnit::GraySquareDecimeters:
-                return value / 100;
+                return value / static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::MicrograySquareDecimeters:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::MilligraySquareDecimeters:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::CentigraySquareDecimeters:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::DecigraySquareDecimeters:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::GraySquareCentimeters:
-                return value / 10000;
+                return value / static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::MicrograySquareCentimeters:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 10000;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::MilligraySquareCentimeters:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 10000;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::CentigraySquareCentimeters:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 10000;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::DecigraySquareCentimeters:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 10000;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::GraySquareMillimeters:
-                return value / 1000000;
+                return value / static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::MicrograySquareMillimeters:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1000000;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::MilligraySquareMillimeters:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1000000;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::CentigraySquareMillimeters:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1000000;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::DecigraySquareMillimeters:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1000000;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::GraySquareMicrometers:
-                return value / 1000000000000;
+                return value / static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::MicrograySquareMicrometers:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1000000000000;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::MilligraySquareMicrometers:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1000000000000;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::CentigraySquareMicrometers:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1000000000000;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::DecigraySquareMicrometers:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1000000000000;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1000000000000);
 
             }
 
@@ -470,64 +470,64 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareDecimeters:
-                return value_ * 100;
+                return value_ * static_cast<un_scalar_t>(100);
 
             case DoseAreaProductUnit::MicrograySquareDecimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareDecimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareDecimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareDecimeters:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareCentimeters:
-                return value_ * 10000;
+                return value_ * static_cast<un_scalar_t>(10000);
 
             case DoseAreaProductUnit::MicrograySquareCentimeters:
-                return (value_ * 10000) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareCentimeters:
-                return (value_ * 10000) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareCentimeters:
-                return (value_ * 10000) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareCentimeters:
-                return (value_ * 10000) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(10000)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareMillimeters:
-                return value_ * 1000000;
+                return value_ * static_cast<un_scalar_t>(1000000);
 
             case DoseAreaProductUnit::MicrograySquareMillimeters:
-                return (value_ * 1000000) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareMillimeters:
-                return (value_ * 1000000) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareMillimeters:
-                return (value_ * 1000000) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareMillimeters:
-                return (value_ * 1000000) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1000000)) / static_cast<un_scalar_t>(1e-1);
 
             case DoseAreaProductUnit::GraySquareMicrometers:
-                return value_ * 1000000000000;
+                return value_ * static_cast<un_scalar_t>(1000000000000);
 
             case DoseAreaProductUnit::MicrograySquareMicrometers:
-                return (value_ * 1000000000000) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-6);
 
             case DoseAreaProductUnit::MilligraySquareMicrometers:
-                return (value_ * 1000000000000) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-3);
 
             case DoseAreaProductUnit::CentigraySquareMicrometers:
-                return (value_ * 1000000000000) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-2);
 
             case DoseAreaProductUnit::DecigraySquareMicrometers:
-                return (value_ * 1000000000000) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1000000000000)) / static_cast<un_scalar_t>(1e-1);
 
             }
 

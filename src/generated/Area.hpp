@@ -238,46 +238,46 @@ namespace unitsnet_cpp
             {
 
             case AreaUnit::SquareKilometers:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case AreaUnit::SquareMeters:
                 return value;
 
             case AreaUnit::SquareDecimeters:
-                return value * 1e-2;
+                return value * static_cast<un_scalar_t>(1e-2);
 
             case AreaUnit::SquareCentimeters:
-                return value * 1e-4;
+                return value * static_cast<un_scalar_t>(1e-4);
 
             case AreaUnit::SquareMillimeters:
-                return value * 1e-6;
+                return value * static_cast<un_scalar_t>(1e-6);
 
             case AreaUnit::SquareMicrometers:
-                return value * 1e-12;
+                return value * static_cast<un_scalar_t>(1e-12);
 
             case AreaUnit::SquareMiles:
-                return value * 1609.344 * 1609.344;
+                return value * static_cast<un_scalar_t>(1609.344) * static_cast<un_scalar_t>(1609.344);
 
             case AreaUnit::SquareYards:
-                return value * 0.9144 * 0.9144;
+                return value * static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(0.9144);
 
             case AreaUnit::SquareFeet:
-                return value * 9.290304e-2;
+                return value * static_cast<un_scalar_t>(9.290304e-2);
 
             case AreaUnit::UsSurveySquareFeet:
-                return value * (1200.0 / 3937.0) * (1200.0 / 3937.0);
+                return value * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case AreaUnit::SquareInches:
-                return value * 0.00064516;
+                return value * static_cast<un_scalar_t>(0.00064516);
 
             case AreaUnit::Acres:
-                return value * 4046.8564224;
+                return value * static_cast<un_scalar_t>(4046.8564224);
 
             case AreaUnit::Hectares:
-                return value * 1e4;
+                return value * static_cast<un_scalar_t>(1e4);
 
             case AreaUnit::SquareNauticalMiles:
-                return value * 3429904;
+                return value * static_cast<un_scalar_t>(3429904);
 
             }
 
@@ -290,46 +290,46 @@ namespace unitsnet_cpp
             {
 
             case AreaUnit::SquareKilometers:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case AreaUnit::SquareMeters:
                 return value_;
 
             case AreaUnit::SquareDecimeters:
-                return value_ / 1e-2;
+                return value_ / static_cast<un_scalar_t>(1e-2);
 
             case AreaUnit::SquareCentimeters:
-                return value_ / 1e-4;
+                return value_ / static_cast<un_scalar_t>(1e-4);
 
             case AreaUnit::SquareMillimeters:
-                return value_ / 1e-6;
+                return value_ / static_cast<un_scalar_t>(1e-6);
 
             case AreaUnit::SquareMicrometers:
-                return value_ / 1e-12;
+                return value_ / static_cast<un_scalar_t>(1e-12);
 
             case AreaUnit::SquareMiles:
-                return value_ / 1609.344 / 1609.344;
+                return value_ / static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(1609.344);
 
             case AreaUnit::SquareYards:
-                return value_ / 0.9144 / 0.9144;
+                return value_ / static_cast<un_scalar_t>(0.9144) / static_cast<un_scalar_t>(0.9144);
 
             case AreaUnit::SquareFeet:
-                return value_ / 9.290304e-2;
+                return value_ / static_cast<un_scalar_t>(9.290304e-2);
 
             case AreaUnit::UsSurveySquareFeet:
-                return value_ / (1200.0 / 3937.0) / (1200.0 / 3937.0);
+                return value_ / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
             case AreaUnit::SquareInches:
-                return value_ / 0.00064516;
+                return value_ / static_cast<un_scalar_t>(0.00064516);
 
             case AreaUnit::Acres:
-                return value_ / 4046.8564224;
+                return value_ / static_cast<un_scalar_t>(4046.8564224);
 
             case AreaUnit::Hectares:
-                return value_ / 1e4;
+                return value_ / static_cast<un_scalar_t>(1e4);
 
             case AreaUnit::SquareNauticalMiles:
-                return value_ / 3429904;
+                return value_ / static_cast<un_scalar_t>(3429904);
 
             }
 

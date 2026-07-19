@@ -388,46 +388,46 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case MassFractionUnit::GramsPerKilogram:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::NanogramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::MicrogramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::MilligramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::CentigramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::DecigramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::DecagramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::HectogramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::KilogramsPerKilogram:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::Percent:
-                return value / 1e2;
+                return value / static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::PartsPerThousand:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::PartsPerMillion:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case MassFractionUnit::PartsPerBillion:
-                return value / 1e9;
+                return value / static_cast<un_scalar_t>(1e9);
 
             case MassFractionUnit::PartsPerTrillion:
-                return value / 1e12;
+                return value / static_cast<un_scalar_t>(1e12);
 
             }
 
@@ -470,46 +470,46 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::GramsPerKilogram:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::NanogramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MassFractionUnit::MicrogramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MassFractionUnit::MilligramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MassFractionUnit::CentigramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MassFractionUnit::DecigramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MassFractionUnit::DecagramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MassFractionUnit::HectogramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::KilogramsPerKilogram:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::Percent:
-                return value_ * 1e2;
+                return value_ * static_cast<un_scalar_t>(1e2);
 
             case MassFractionUnit::PartsPerThousand:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MassFractionUnit::PartsPerMillion:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case MassFractionUnit::PartsPerBillion:
-                return value_ * 1e9;
+                return value_ * static_cast<un_scalar_t>(1e9);
 
             case MassFractionUnit::PartsPerTrillion:
-                return value_ * 1e12;
+                return value_ * static_cast<un_scalar_t>(1e12);
 
             }
 

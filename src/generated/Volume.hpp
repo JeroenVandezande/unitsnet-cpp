@@ -730,34 +730,34 @@ namespace unitsnet_cpp
             {
 
             case VolumeUnit::Liters:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Nanoliters:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Microliters:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Milliliters:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Centiliters:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Deciliters:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Decaliters:
-                return (value * static_cast<un_scalar_t>(1e1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Hectoliters:
-                return (value * static_cast<un_scalar_t>(1e2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Kiloliters:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Megaliters:
-                return (value * static_cast<un_scalar_t>(1e6)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicMeters:
                 return value;
@@ -769,130 +769,130 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case VolumeUnit::CubicKilometers:
-                return value * 1e9;
+                return value * static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicHectometers:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicDecimeters:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicCentimeters:
-                return value / 1e6;
+                return value / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMillimeters:
-                return value / 1e9;
+                return value / static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicMicrometers:
-                return value / 1e18;
+                return value / static_cast<un_scalar_t>(1e18);
 
             case VolumeUnit::CubicMiles:
-                return value * 4.168181825440579584e9;
+                return value * static_cast<un_scalar_t>(4.168181825440579584e9);
 
             case VolumeUnit::CubicYards:
-                return value * 0.764554857984;
+                return value * static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeUnit::CubicFeet:
-                return value * 0.028316846592;
+                return value * static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::HectocubicFeet:
-                return (value * static_cast<un_scalar_t>(1e2)) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e2)) * static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::KilocubicFeet:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::MegacubicFeet:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.028316846592;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::CubicInches:
-                return value * 1.6387064e-5;
+                return value * static_cast<un_scalar_t>(1.6387064e-5);
 
             case VolumeUnit::ImperialGallons:
-                return value * 0.00454609;
+                return value * static_cast<un_scalar_t>(0.00454609);
 
             case VolumeUnit::KiloimperialGallons:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.00454609;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.00454609);
 
             case VolumeUnit::MegaimperialGallons:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.00454609;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.00454609);
 
             case VolumeUnit::ImperialOunces:
-                return value * 2.84130625e-5;
+                return value * static_cast<un_scalar_t>(2.84130625e-5);
 
             case VolumeUnit::UsGallons:
-                return value * 0.003785411784;
+                return value * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::DecausGallons:
-                return (value * static_cast<un_scalar_t>(1e1)) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::DeciusGallons:
-                return (value * static_cast<un_scalar_t>(1e-1)) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::HectousGallons:
-                return (value * static_cast<un_scalar_t>(1e2)) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e2)) * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::KilousGallons:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::MegausGallons:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.003785411784;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::UsOunces:
-                return value * 2.95735295625e-5;
+                return value * static_cast<un_scalar_t>(2.95735295625e-5);
 
             case VolumeUnit::UsTablespoons:
-                return value * 1.478676478125e-5;
+                return value * static_cast<un_scalar_t>(1.478676478125e-5);
 
             case VolumeUnit::AuTablespoons:
-                return value * 2e-5;
+                return value * static_cast<un_scalar_t>(2e-5);
 
             case VolumeUnit::MetricTablespoons:
-                return value * 1.5e-5;
+                return value * static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::UkTablespoons:
-                return value * 1.5e-5;
+                return value * static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::MetricTeaspoons:
-                return value * 0.5e-5;
+                return value * static_cast<un_scalar_t>(0.5e-5);
 
             case VolumeUnit::UsTeaspoons:
-                return value * 4.92892159375e-6;
+                return value * static_cast<un_scalar_t>(4.92892159375e-6);
 
             case VolumeUnit::MetricCups:
-                return value * 0.00025;
+                return value * static_cast<un_scalar_t>(0.00025);
 
             case VolumeUnit::UsCustomaryCups:
-                return value * 0.0002365882365;
+                return value * static_cast<un_scalar_t>(0.0002365882365);
 
             case VolumeUnit::UsLegalCups:
-                return value * 0.00024;
+                return value * static_cast<un_scalar_t>(0.00024);
 
             case VolumeUnit::OilBarrels:
-                return value * 0.158987294928;
+                return value * static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeUnit::UsBeerBarrels:
-                return value * 0.117347765304;
+                return value * static_cast<un_scalar_t>(0.117347765304);
 
             case VolumeUnit::ImperialBeerBarrels:
-                return value * 0.16365924;
+                return value * static_cast<un_scalar_t>(0.16365924);
 
             case VolumeUnit::UsQuarts:
-                return value * 9.46352946e-4;
+                return value * static_cast<un_scalar_t>(9.46352946e-4);
 
             case VolumeUnit::ImperialQuarts:
-                return value * 1.1365225e-3;
+                return value * static_cast<un_scalar_t>(1.1365225e-3);
 
             case VolumeUnit::UsPints:
-                return value * 4.73176473e-4;
+                return value * static_cast<un_scalar_t>(4.73176473e-4);
 
             case VolumeUnit::AcreFeet:
-                return value * 1233.48183754752;
+                return value * static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeUnit::ImperialPints:
-                return value * 5.6826125e-4;
+                return value * static_cast<un_scalar_t>(5.6826125e-4);
 
             case VolumeUnit::BoardFeet:
-                return value * (0.028316846592 / 12);
+                return value * (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(12));
 
             }
 
@@ -905,34 +905,34 @@ namespace unitsnet_cpp
             {
 
             case VolumeUnit::Liters:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Nanoliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeUnit::Microliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeUnit::Milliliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeUnit::Centiliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeUnit::Deciliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::Decaliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::Hectoliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::Kiloliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::Megaliters:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMeters:
                 return value_;
@@ -944,130 +944,130 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicKilometers:
-                return value_ / 1e9;
+                return value_ / static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicHectometers:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicDecimeters:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::CubicCentimeters:
-                return value_ * 1e6;
+                return value_ * static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicMillimeters:
-                return value_ * 1e9;
+                return value_ * static_cast<un_scalar_t>(1e9);
 
             case VolumeUnit::CubicMicrometers:
-                return value_ * 1e18;
+                return value_ * static_cast<un_scalar_t>(1e18);
 
             case VolumeUnit::CubicMiles:
-                return value_ / 4.168181825440579584e9;
+                return value_ / static_cast<un_scalar_t>(4.168181825440579584e9);
 
             case VolumeUnit::CubicYards:
-                return value_ / 0.764554857984;
+                return value_ / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeUnit::CubicFeet:
-                return value_ / 0.028316846592;
+                return value_ / static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeUnit::HectocubicFeet:
-                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e2);
+                return (value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilocubicFeet:
-                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegacubicFeet:
-                return (value_ / 0.028316846592) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.028316846592)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::CubicInches:
-                return value_ / 1.6387064e-5;
+                return value_ / static_cast<un_scalar_t>(1.6387064e-5);
 
             case VolumeUnit::ImperialGallons:
-                return value_ / 0.00454609;
+                return value_ / static_cast<un_scalar_t>(0.00454609);
 
             case VolumeUnit::KiloimperialGallons:
-                return (value_ / 0.00454609) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegaimperialGallons:
-                return (value_ / 0.00454609) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::ImperialOunces:
-                return value_ / 2.84130625e-5;
+                return value_ / static_cast<un_scalar_t>(2.84130625e-5);
 
             case VolumeUnit::UsGallons:
-                return value_ / 0.003785411784;
+                return value_ / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeUnit::DecausGallons:
-                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e1);
+                return (value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeUnit::DeciusGallons:
-                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e-1);
+                return (value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeUnit::HectousGallons:
-                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e2);
+                return (value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeUnit::KilousGallons:
-                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeUnit::MegausGallons:
-                return (value_ / 0.003785411784) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.003785411784)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeUnit::UsOunces:
-                return value_ / 2.95735295625e-5;
+                return value_ / static_cast<un_scalar_t>(2.95735295625e-5);
 
             case VolumeUnit::UsTablespoons:
-                return value_ / 1.478676478125e-5;
+                return value_ / static_cast<un_scalar_t>(1.478676478125e-5);
 
             case VolumeUnit::AuTablespoons:
-                return value_ / 2e-5;
+                return value_ / static_cast<un_scalar_t>(2e-5);
 
             case VolumeUnit::MetricTablespoons:
-                return value_ / 1.5e-5;
+                return value_ / static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::UkTablespoons:
-                return value_ / 1.5e-5;
+                return value_ / static_cast<un_scalar_t>(1.5e-5);
 
             case VolumeUnit::MetricTeaspoons:
-                return value_ / 0.5e-5;
+                return value_ / static_cast<un_scalar_t>(0.5e-5);
 
             case VolumeUnit::UsTeaspoons:
-                return value_ / 4.92892159375e-6;
+                return value_ / static_cast<un_scalar_t>(4.92892159375e-6);
 
             case VolumeUnit::MetricCups:
-                return value_ / 0.00025;
+                return value_ / static_cast<un_scalar_t>(0.00025);
 
             case VolumeUnit::UsCustomaryCups:
-                return value_ / 0.0002365882365;
+                return value_ / static_cast<un_scalar_t>(0.0002365882365);
 
             case VolumeUnit::UsLegalCups:
-                return value_ / 0.00024;
+                return value_ / static_cast<un_scalar_t>(0.00024);
 
             case VolumeUnit::OilBarrels:
-                return value_ / 0.158987294928;
+                return value_ / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeUnit::UsBeerBarrels:
-                return value_ / 0.117347765304;
+                return value_ / static_cast<un_scalar_t>(0.117347765304);
 
             case VolumeUnit::ImperialBeerBarrels:
-                return value_ / 0.16365924;
+                return value_ / static_cast<un_scalar_t>(0.16365924);
 
             case VolumeUnit::UsQuarts:
-                return value_ / 9.46352946e-4;
+                return value_ / static_cast<un_scalar_t>(9.46352946e-4);
 
             case VolumeUnit::ImperialQuarts:
-                return value_ / 1.1365225e-3;
+                return value_ / static_cast<un_scalar_t>(1.1365225e-3);
 
             case VolumeUnit::UsPints:
-                return value_ / 4.73176473e-4;
+                return value_ / static_cast<un_scalar_t>(4.73176473e-4);
 
             case VolumeUnit::AcreFeet:
-                return value_ / 1233.48183754752;
+                return value_ / static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeUnit::ImperialPints:
-                return value_ / 5.6826125e-4;
+                return value_ / static_cast<un_scalar_t>(5.6826125e-4);
 
             case VolumeUnit::BoardFeet:
-                return value_ / (0.028316846592 / 12);
+                return value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(12));
 
             }
 

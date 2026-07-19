@@ -196,13 +196,13 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case SpecificEntropyUnit::CaloriesPerGramKelvin:
-                return value * 4.184e3;
+                return value * static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEntropyUnit::BtusPerPoundFahrenheit:
-                return value * 4.1868e3;
+                return value * static_cast<un_scalar_t>(4.1868e3);
 
             }
 
@@ -233,13 +233,13 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case SpecificEntropyUnit::CaloriesPerGramKelvin:
-                return value_ / 4.184e3;
+                return value_ / static_cast<un_scalar_t>(4.184e3);
 
             case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
-                return (value_ / 4.184e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
             case SpecificEntropyUnit::BtusPerPoundFahrenheit:
-                return value_ / 4.1868e3;
+                return value_ / static_cast<un_scalar_t>(4.1868e3);
 
             }
 

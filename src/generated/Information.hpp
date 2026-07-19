@@ -538,82 +538,82 @@ namespace unitsnet_cpp
             {
 
             case InformationUnit::Bytes:
-                return value * 8;
+                return value * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilobytes:
-                return (value * static_cast<un_scalar_t>(1e3)) * 8;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Megabytes:
-                return (value * static_cast<un_scalar_t>(1e6)) * 8;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Gigabytes:
-                return (value * static_cast<un_scalar_t>(1e9)) * 8;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Terabytes:
-                return (value * static_cast<un_scalar_t>(1e12)) * 8;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Petabytes:
-                return (value * static_cast<un_scalar_t>(1e15)) * 8;
+                return (value * static_cast<un_scalar_t>(1e15)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Exabytes:
-                return (value * static_cast<un_scalar_t>(1e18)) * 8;
+                return (value * static_cast<un_scalar_t>(1e18)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kibibytes:
-                return (value * static_cast<un_scalar_t>(1024.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1024.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Mebibytes:
-                return (value * static_cast<un_scalar_t>(1048576.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1048576.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Gibibytes:
-                return (value * static_cast<un_scalar_t>(1073741824.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1073741824.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Tebibytes:
-                return (value * static_cast<un_scalar_t>(1099511627776.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1099511627776.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Pebibytes:
-                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Exbibytes:
-                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Octets:
-                return value * 8;
+                return value * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilooctets:
-                return (value * static_cast<un_scalar_t>(1e3)) * 8;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Megaoctets:
-                return (value * static_cast<un_scalar_t>(1e6)) * 8;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Gigaoctets:
-                return (value * static_cast<un_scalar_t>(1e9)) * 8;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Teraoctets:
-                return (value * static_cast<un_scalar_t>(1e12)) * 8;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Petaoctets:
-                return (value * static_cast<un_scalar_t>(1e15)) * 8;
+                return (value * static_cast<un_scalar_t>(1e15)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Exaoctets:
-                return (value * static_cast<un_scalar_t>(1e18)) * 8;
+                return (value * static_cast<un_scalar_t>(1e18)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kibioctets:
-                return (value * static_cast<un_scalar_t>(1024.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1024.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Mebioctets:
-                return (value * static_cast<un_scalar_t>(1048576.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1048576.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Gibioctets:
-                return (value * static_cast<un_scalar_t>(1073741824.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1073741824.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Tebioctets:
-                return (value * static_cast<un_scalar_t>(1099511627776.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1099511627776.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Pebioctets:
-                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1125899906842624.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Exbioctets:
-                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * 8;
+                return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * static_cast<un_scalar_t>(8);
 
             case InformationUnit::Bits:
                 return value;
@@ -665,82 +665,82 @@ namespace unitsnet_cpp
             {
 
             case InformationUnit::Bytes:
-                return value_ / 8;
+                return value_ / static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilobytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megabytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigabytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Terabytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petabytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e15);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exabytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e18);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1024.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1048576.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1073741824.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1099511627776.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1125899906842624.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbibytes:
-                return (value_ / 8) / static_cast<un_scalar_t>(1152921504606846976.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Octets:
-                return value_ / 8;
+                return value_ / static_cast<un_scalar_t>(8);
 
             case InformationUnit::Kilooctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
             case InformationUnit::Megaoctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
             case InformationUnit::Gigaoctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
             case InformationUnit::Teraoctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
             case InformationUnit::Petaoctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e15);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
             case InformationUnit::Exaoctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1e18);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
             case InformationUnit::Kibioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1024.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
             case InformationUnit::Mebioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1048576.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
             case InformationUnit::Gibioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1073741824.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
             case InformationUnit::Tebioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1099511627776.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
             case InformationUnit::Pebioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1125899906842624.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
             case InformationUnit::Exbioctets:
-                return (value_ / 8) / static_cast<un_scalar_t>(1152921504606846976.0);
+                return (value_ / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             case InformationUnit::Bits:
                 return value_;

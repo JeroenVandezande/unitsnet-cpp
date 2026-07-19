@@ -226,43 +226,43 @@ namespace unitsnet_cpp
             {
 
             case MolarMassUnit::GramsPerMole:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::NanogramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::MicrogramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::MilligramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::CentigramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::DecigramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::DecagramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e1)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::HectogramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e2)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::KilogramsPerMole:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::KilogramsPerKilomole:
-                return value / 1e3;
+                return value / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::PoundsPerMole:
-                return value * 0.45359237;
+                return value * static_cast<un_scalar_t>(0.45359237);
 
             case MolarMassUnit::KilopoundsPerMole:
-                return (value * static_cast<un_scalar_t>(1e3)) * 0.45359237;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.45359237);
 
             case MolarMassUnit::MegapoundsPerMole:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.45359237;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.45359237);
 
             }
 
@@ -275,43 +275,43 @@ namespace unitsnet_cpp
             {
 
             case MolarMassUnit::GramsPerMole:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::NanogramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-9);
 
             case MolarMassUnit::MicrogramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case MolarMassUnit::MilligramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarMassUnit::CentigramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-2);
 
             case MolarMassUnit::DecigramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
             case MolarMassUnit::DecagramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
             case MolarMassUnit::HectogramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e2);
 
             case MolarMassUnit::KilogramsPerMole:
-                return (value_ * 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::KilogramsPerKilomole:
-                return value_ * 1e3;
+                return value_ * static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::PoundsPerMole:
-                return value_ / 0.45359237;
+                return value_ / static_cast<un_scalar_t>(0.45359237);
 
             case MolarMassUnit::KilopoundsPerMole:
-                return (value_ / 0.45359237) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
             case MolarMassUnit::MegapoundsPerMole:
-                return (value_ / 0.45359237) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e6);
 
             }
 

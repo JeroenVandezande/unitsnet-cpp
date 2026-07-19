@@ -106,13 +106,13 @@ namespace unitsnet_cpp
             {
 
             case BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour:
-                return value / 3.6e9;
+                return value / static_cast<un_scalar_t>(3.6e9);
 
             case BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule:
                 return value;
 
             case BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour:
-                return value * (0.45359237 / (76.0402249 * 9.80665))/3600;
+                return value * (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)))/static_cast<un_scalar_t>(3600);
 
             }
 
@@ -125,13 +125,13 @@ namespace unitsnet_cpp
             {
 
             case BrakeSpecificFuelConsumptionUnit::GramsPerKiloWattHour:
-                return value_ * 3.6e9;
+                return value_ * static_cast<un_scalar_t>(3.6e9);
 
             case BrakeSpecificFuelConsumptionUnit::KilogramsPerJoule:
                 return value_;
 
             case BrakeSpecificFuelConsumptionUnit::PoundsPerMechanicalHorsepowerHour:
-                return value_ * 3600 / (0.45359237 / (76.0402249 * 9.80665));
+                return value_ * static_cast<un_scalar_t>(3600) / (static_cast<un_scalar_t>(0.45359237) / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665)));
 
             }
 

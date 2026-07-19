@@ -139,10 +139,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet:
-                return value * (4.4482216152605 * 180 / std::numbers::pi_v<un_scalar_t>);
+                return value * (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet:
-                return value * (4.4482216152605e3 * 180 / std::numbers::pi_v<un_scalar_t>);
+                return value * (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             }
 
@@ -164,10 +164,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case RotationalStiffnessPerLengthUnit::PoundForceFeetPerDegreesPerFeet:
-                return value_ / (4.4482216152605 * 180 / std::numbers::pi_v<un_scalar_t>);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             case RotationalStiffnessPerLengthUnit::KilopoundForceFeetPerDegreesPerFeet:
-                return value_ / (4.4482216152605e3 * 180 / std::numbers::pi_v<un_scalar_t>);
+                return value_ / (static_cast<un_scalar_t>(4.4482216152605e3) * static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>);
 
             }
 

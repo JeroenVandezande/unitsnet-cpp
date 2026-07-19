@@ -298,16 +298,16 @@ namespace unitsnet_cpp
             {
 
             case FluidResistanceUnit::PascalSecondsPerLiter:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case FluidResistanceUnit::PascalMinutesPerLiter:
-                return value * 6e4;
+                return value * static_cast<un_scalar_t>(6e4);
 
             case FluidResistanceUnit::PascalSecondsPerMilliliter:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerMilliliter:
-                return value * 6e7;
+                return value * static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::PascalSecondsPerCubicMeter:
                 return value;
@@ -316,43 +316,43 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
-                return value * 60;
+                return value * static_cast<un_scalar_t>(60);
 
             case FluidResistanceUnit::PascalSecondsPerCubicCentimeter:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicCentimeter:
-                return value * 6e7;
+                return value * static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth:
-                return value * 1e5;
+                return value * static_cast<un_scalar_t>(1e5);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerLiter:
-                return value * 1.33322368e5;
+                return value * static_cast<un_scalar_t>(1.33322368e5);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerLiter:
-                return value * 7.99934208e6;
+                return value * static_cast<un_scalar_t>(7.99934208e6);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter:
-                return value * 1.33322368e8;
+                return value * static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter:
-                return value * 7.99934208e9;
+                return value * static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter:
-                return value * 1.33322368e8;
+                return value * static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter:
-                return value * 7.99934208e9;
+                return value * static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter:
-                return value * 133.322368;
+                return value * static_cast<un_scalar_t>(133.322368);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter:
-                return value * 7.99934208e3;
+                return value * static_cast<un_scalar_t>(7.99934208e3);
 
             case FluidResistanceUnit::WoodUnits:
-                return value * 7.99934208e6;
+                return value * static_cast<un_scalar_t>(7.99934208e6);
 
             }
 
@@ -365,16 +365,16 @@ namespace unitsnet_cpp
             {
 
             case FluidResistanceUnit::PascalSecondsPerLiter:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case FluidResistanceUnit::PascalMinutesPerLiter:
-                return value_ / 6e4;
+                return value_ / static_cast<un_scalar_t>(6e4);
 
             case FluidResistanceUnit::PascalSecondsPerMilliliter:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerMilliliter:
-                return value_ / 6e7;
+                return value_ / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::PascalSecondsPerCubicMeter:
                 return value_;
@@ -383,43 +383,43 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicMeter:
-                return value_ / 60;
+                return value_ / static_cast<un_scalar_t>(60);
 
             case FluidResistanceUnit::PascalSecondsPerCubicCentimeter:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case FluidResistanceUnit::PascalMinutesPerCubicCentimeter:
-                return value_ / 6e7;
+                return value_ / static_cast<un_scalar_t>(6e7);
 
             case FluidResistanceUnit::DyneSecondsPerCentimeterToTheFifth:
-                return value_ / 1e5;
+                return value_ / static_cast<un_scalar_t>(1e5);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerLiter:
-                return value_ / 1.33322368e5;
+                return value_ / static_cast<un_scalar_t>(1.33322368e5);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerLiter:
-                return value_ / 7.99934208e6;
+                return value_ / static_cast<un_scalar_t>(7.99934208e6);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerMilliliter:
-                return value_ / 1.33322368e8;
+                return value_ / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerMilliliter:
-                return value_ / 7.99934208e9;
+                return value_ / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicCentimeter:
-                return value_ / 1.33322368e8;
+                return value_ / static_cast<un_scalar_t>(1.33322368e8);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicCentimeter:
-                return value_ / 7.99934208e9;
+                return value_ / static_cast<un_scalar_t>(7.99934208e9);
 
             case FluidResistanceUnit::MillimeterMercurySecondsPerCubicMeter:
-                return value_ / 133.322368;
+                return value_ / static_cast<un_scalar_t>(133.322368);
 
             case FluidResistanceUnit::MillimeterMercuryMinutesPerCubicMeter:
-                return value_ / 7.99934208e3;
+                return value_ / static_cast<un_scalar_t>(7.99934208e3);
 
             case FluidResistanceUnit::WoodUnits:
-                return value_ / 7.99934208e6;
+                return value_ / static_cast<un_scalar_t>(7.99934208e6);
 
             }
 

@@ -181,13 +181,13 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case RadiationExposureUnit::Roentgens:
-                return value * 2.58e-4;
+                return value * static_cast<un_scalar_t>(2.58e-4);
 
             case RadiationExposureUnit::Microroentgens:
-                return (value * static_cast<un_scalar_t>(1e-6)) * 2.58e-4;
+                return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(2.58e-4);
 
             case RadiationExposureUnit::Milliroentgens:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 2.58e-4;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(2.58e-4);
 
             }
 
@@ -215,13 +215,13 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationExposureUnit::Roentgens:
-                return value_ / 2.58e-4;
+                return value_ / static_cast<un_scalar_t>(2.58e-4);
 
             case RadiationExposureUnit::Microroentgens:
-                return (value_ / 2.58e-4) / static_cast<un_scalar_t>(1e-6);
+                return (value_ / static_cast<un_scalar_t>(2.58e-4)) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationExposureUnit::Milliroentgens:
-                return (value_ / 2.58e-4) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(2.58e-4)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

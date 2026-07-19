@@ -208,31 +208,31 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case MolarityUnit::MolesPerLiter:
-                return value / 1e-3;
+                return value / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::FemtomolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-15)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-15)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::PicomolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-12)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::NanomolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::MicromolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::MillimolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::CentimolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::DecimolesPerLiter:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e-3;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::PoundMolesPerCubicFoot:
-                return value * 1000 * 0.45359237 / 0.028316846592;
+                return value * static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
             }
 
@@ -251,31 +251,31 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case MolarityUnit::MolesPerLiter:
-                return value_ * 1e-3;
+                return value_ * static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::FemtomolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-15);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-15);
 
             case MolarityUnit::PicomolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-12);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
             case MolarityUnit::NanomolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
             case MolarityUnit::MicromolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case MolarityUnit::MillimolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
             case MolarityUnit::CentimolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
             case MolarityUnit::DecimolesPerLiter:
-                return (value_ * 1e-3) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
             case MolarityUnit::PoundMolesPerCubicFoot:
-                return value_ / (1000 * 0.45359237 / 0.028316846592);
+                return value_ / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592));
 
             }
 

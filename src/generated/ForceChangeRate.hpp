@@ -250,13 +250,13 @@ namespace unitsnet_cpp
             {
 
             case ForceChangeRateUnit::NewtonsPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::DecanewtonsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e1)) / 60;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::KilonewtonsPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::NewtonsPerSecond:
                 return value;
@@ -283,16 +283,16 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case ForceChangeRateUnit::PoundsForcePerMinute:
-                return value * 4.4482216152605 / 60;
+                return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::KilopoundsForcePerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605 / 60;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::PoundsForcePerSecond:
-                return value * 4.4482216152605;
+                return value * static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceChangeRateUnit::KilopoundsForcePerSecond:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.4482216152605;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605);
 
             }
 
@@ -305,13 +305,13 @@ namespace unitsnet_cpp
             {
 
             case ForceChangeRateUnit::NewtonsPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::DecanewtonsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e1);
 
             case ForceChangeRateUnit::KilonewtonsPerMinute:
-                return (value_ * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::NewtonsPerSecond:
                 return value_;
@@ -338,16 +338,16 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::PoundsForcePerMinute:
-                return value_ / 4.4482216152605 * 60;
+                return value_ / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60);
 
             case ForceChangeRateUnit::KilopoundsForcePerMinute:
-                return (value_ / 4.4482216152605 * 60) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.4482216152605) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
             case ForceChangeRateUnit::PoundsForcePerSecond:
-                return value_ / 4.4482216152605;
+                return value_ / static_cast<un_scalar_t>(4.4482216152605);
 
             case ForceChangeRateUnit::KilopoundsForcePerSecond:
-                return (value_ / 4.4482216152605) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
             }
 

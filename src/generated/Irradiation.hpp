@@ -184,25 +184,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case IrradiationUnit::JoulesPerSquareCentimeter:
-                return value * 1e4;
+                return value * static_cast<un_scalar_t>(1e4);
 
             case IrradiationUnit::MillijoulesPerSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e4;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e4);
 
             case IrradiationUnit::JoulesPerSquareMillimeter:
-                return value * 1e6;
+                return value * static_cast<un_scalar_t>(1e6);
 
             case IrradiationUnit::WattHoursPerSquareMeter:
-                return value * 3600;
+                return value * static_cast<un_scalar_t>(3600.0);
 
             case IrradiationUnit::KilowattHoursPerSquareMeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3600;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3600.0);
 
             case IrradiationUnit::BtusPerSquareFoot:
-                return value * 1055.05585262 / 9.290304e-2;
+                return value * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(9.290304e-2);
 
             case IrradiationUnit::KilobtusPerSquareFoot:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1055.05585262 / 9.290304e-2;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -221,25 +221,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::JoulesPerSquareCentimeter:
-                return value_ / 1e4;
+                return value_ / static_cast<un_scalar_t>(1e4);
 
             case IrradiationUnit::MillijoulesPerSquareCentimeter:
-                return (value_ / 1e4) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
 
             case IrradiationUnit::JoulesPerSquareMillimeter:
-                return value_ / 1e6;
+                return value_ / static_cast<un_scalar_t>(1e6);
 
             case IrradiationUnit::WattHoursPerSquareMeter:
-                return value_ / 3600;
+                return value_ / static_cast<un_scalar_t>(3600.0);
 
             case IrradiationUnit::KilowattHoursPerSquareMeter:
-                return (value_ / 3600) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
 
             case IrradiationUnit::BtusPerSquareFoot:
-                return value_ * 9.290304e-2 / 1055.05585262;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262);
 
             case IrradiationUnit::KilobtusPerSquareFoot:
-                return (value_ * 9.290304e-2 / 1055.05585262) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
             }
 

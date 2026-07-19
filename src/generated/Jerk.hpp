@@ -223,16 +223,16 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case JerkUnit::InchesPerSecondCubed:
-                return value * 0.0254;
+                return value * static_cast<un_scalar_t>(0.0254);
 
             case JerkUnit::FeetPerSecondCubed:
-                return value * 0.304800;
+                return value * static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:
-                return value * 9.80665;
+                return value * static_cast<un_scalar_t>(9.80665);
 
             case JerkUnit::MillistandardGravitiesPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 9.80665;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(9.80665);
 
             }
 
@@ -266,16 +266,16 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case JerkUnit::InchesPerSecondCubed:
-                return value_ / 0.0254;
+                return value_ / static_cast<un_scalar_t>(0.0254);
 
             case JerkUnit::FeetPerSecondCubed:
-                return value_ / 0.304800;
+                return value_ / static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:
-                return value_ / 9.80665;
+                return value_ / static_cast<un_scalar_t>(9.80665);
 
             case JerkUnit::MillistandardGravitiesPerSecond:
-                return (value_ / 9.80665) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(9.80665)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

@@ -181,28 +181,28 @@ namespace unitsnet_cpp
                 return value;
 
             case KinematicViscosityUnit::Stokes:
-                return value / 1e4;
+                return value / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Nanostokes:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Microstokes:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Millistokes:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Centistokes:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Decistokes:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Kilostokes:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e4;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::SquareFeetPerSecond:
-                return value * 9.290304e-2;
+                return value * static_cast<un_scalar_t>(9.290304e-2);
 
             }
 
@@ -218,28 +218,28 @@ namespace unitsnet_cpp
                 return value_;
 
             case KinematicViscosityUnit::Stokes:
-                return value_ * 1e4;
+                return value_ * static_cast<un_scalar_t>(1e4);
 
             case KinematicViscosityUnit::Nanostokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-9);
 
             case KinematicViscosityUnit::Microstokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-6);
 
             case KinematicViscosityUnit::Millistokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-3);
 
             case KinematicViscosityUnit::Centistokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-2);
 
             case KinematicViscosityUnit::Decistokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e-1);
 
             case KinematicViscosityUnit::Kilostokes:
-                return (value_ * 1e4) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
 
             case KinematicViscosityUnit::SquareFeetPerSecond:
-                return value_ / 9.290304e-2;
+                return value_ / static_cast<un_scalar_t>(9.290304e-2);
 
             }
 

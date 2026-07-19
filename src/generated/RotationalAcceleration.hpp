@@ -121,13 +121,13 @@ namespace unitsnet_cpp
                 return value;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (std::numbers::pi_v<un_scalar_t> / 180) * value;
+                return (std::numbers::pi_v<un_scalar_t> / static_cast<un_scalar_t>(180)) * value;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return ((2 * std::numbers::pi_v<un_scalar_t>) / 60) * value;
+                return ((static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>) / static_cast<un_scalar_t>(60)) * value;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (2 * std::numbers::pi_v<un_scalar_t>) * value;
+                return (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>) * value;
 
             }
 
@@ -143,13 +143,13 @@ namespace unitsnet_cpp
                 return value_;
 
             case RotationalAccelerationUnit::DegreesPerSecondSquared:
-                return (180 / std::numbers::pi_v<un_scalar_t>) * value_;
+                return (static_cast<un_scalar_t>(180) / std::numbers::pi_v<un_scalar_t>) * value_;
 
             case RotationalAccelerationUnit::RevolutionsPerMinutePerSecond:
-                return (60 / (2 * std::numbers::pi_v<un_scalar_t>)) * value_;
+                return (static_cast<un_scalar_t>(60) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * value_;
 
             case RotationalAccelerationUnit::RevolutionsPerSecondSquared:
-                return (1 / (2 * std::numbers::pi_v<un_scalar_t>)) * value_;
+                return (static_cast<un_scalar_t>(1) / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>)) * value_;
 
             }
 

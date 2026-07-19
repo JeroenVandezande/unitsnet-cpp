@@ -277,7 +277,7 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e15));
 
             case LuminosityUnit::SolarLuminosities:
-                return value * 3.828e26;
+                return value * static_cast<un_scalar_t>(3.828e26);
 
             }
 
@@ -329,7 +329,7 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e15);
 
             case LuminosityUnit::SolarLuminosities:
-                return value_ / 3.828e26;
+                return value_ / static_cast<un_scalar_t>(3.828e26);
 
             }
 

@@ -196,13 +196,13 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case VolumetricHeatCapacityUnit::CaloriesPerCubicCentimeterDegreeCelsius:
-                return value * 4.184e6;
+                return value * static_cast<un_scalar_t>(4.184e6);
 
             case VolumetricHeatCapacityUnit::KilocaloriesPerCubicCentimeterDegreeCelsius:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184e6;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184e6);
 
             case VolumetricHeatCapacityUnit::BtusPerCubicFootDegreeFahrenheit:
-                return value * (1055.05585262 / 0.028316846592) * 1.8;
+                return value * (static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(0.028316846592)) * static_cast<un_scalar_t>(1.8);
 
             }
 
@@ -233,13 +233,13 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case VolumetricHeatCapacityUnit::CaloriesPerCubicCentimeterDegreeCelsius:
-                return value_ / 4.184e6;
+                return value_ / static_cast<un_scalar_t>(4.184e6);
 
             case VolumetricHeatCapacityUnit::KilocaloriesPerCubicCentimeterDegreeCelsius:
-                return (value_ / 4.184e6) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184e6)) / static_cast<un_scalar_t>(1e3);
 
             case VolumetricHeatCapacityUnit::BtusPerCubicFootDegreeFahrenheit:
-                return value_ / ((1055.05585262 / 0.028316846592) * 1.8);
+                return value_ / ((static_cast<un_scalar_t>(1055.05585262) / static_cast<un_scalar_t>(0.028316846592)) * static_cast<un_scalar_t>(1.8));
 
             }
 

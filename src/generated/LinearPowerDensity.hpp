@@ -385,64 +385,64 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e9));
 
             case LinearPowerDensityUnit::WattsPerCentimeter:
-                return value * 1e2;
+                return value * static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::MilliwattsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::KilowattsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::MegawattsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::GigawattsPerCentimeter:
-                return (value * static_cast<un_scalar_t>(1e9)) * 1e2;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::WattsPerMillimeter:
-                return value * 1e3;
+                return value * static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MilliwattsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::KilowattsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MegawattsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::GigawattsPerMillimeter:
-                return (value * static_cast<un_scalar_t>(1e9)) * 1e3;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::WattsPerInch:
-                return value / 2.54e-2;
+                return value / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::MilliwattsPerInch:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::KilowattsPerInch:
-                return (value * static_cast<un_scalar_t>(1e3)) / 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::MegawattsPerInch:
-                return (value * static_cast<un_scalar_t>(1e6)) / 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::GigawattsPerInch:
-                return (value * static_cast<un_scalar_t>(1e9)) / 2.54e-2;
+                return (value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::WattsPerFoot:
-                return value / 0.3048;
+                return value / static_cast<un_scalar_t>(0.3048);
 
             case LinearPowerDensityUnit::MilliwattsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 0.3048;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(0.3048);
 
             case LinearPowerDensityUnit::KilowattsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e3)) / 0.3048;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(0.3048);
 
             case LinearPowerDensityUnit::MegawattsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e6)) / 0.3048;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(0.3048);
 
             case LinearPowerDensityUnit::GigawattsPerFoot:
-                return (value * static_cast<un_scalar_t>(1e9)) / 0.3048;
+                return (value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(0.3048);
 
             }
 
@@ -470,64 +470,64 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e9);
 
             case LinearPowerDensityUnit::WattsPerCentimeter:
-                return value_ / 1e2;
+                return value_ / static_cast<un_scalar_t>(1e2);
 
             case LinearPowerDensityUnit::MilliwattsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearPowerDensityUnit::KilowattsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MegawattsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e6);
 
             case LinearPowerDensityUnit::GigawattsPerCentimeter:
-                return (value_ / 1e2) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e9);
 
             case LinearPowerDensityUnit::WattsPerMillimeter:
-                return value_ / 1e3;
+                return value_ / static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MilliwattsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e-3);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearPowerDensityUnit::KilowattsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MegawattsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
             case LinearPowerDensityUnit::GigawattsPerMillimeter:
-                return (value_ / 1e3) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e9);
 
             case LinearPowerDensityUnit::WattsPerInch:
-                return value_ * 2.54e-2;
+                return value_ * static_cast<un_scalar_t>(2.54e-2);
 
             case LinearPowerDensityUnit::MilliwattsPerInch:
-                return (value_ * 2.54e-2) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearPowerDensityUnit::KilowattsPerInch:
-                return (value_ * 2.54e-2) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MegawattsPerInch:
-                return (value_ * 2.54e-2) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e6);
 
             case LinearPowerDensityUnit::GigawattsPerInch:
-                return (value_ * 2.54e-2) / static_cast<un_scalar_t>(1e9);
+                return (value_ * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e9);
 
             case LinearPowerDensityUnit::WattsPerFoot:
-                return value_ * 0.3048;
+                return value_ * static_cast<un_scalar_t>(0.3048);
 
             case LinearPowerDensityUnit::MilliwattsPerFoot:
-                return (value_ * 0.3048) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e-3);
 
             case LinearPowerDensityUnit::KilowattsPerFoot:
-                return (value_ * 0.3048) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
 
             case LinearPowerDensityUnit::MegawattsPerFoot:
-                return (value_ * 0.3048) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e6);
 
             case LinearPowerDensityUnit::GigawattsPerFoot:
-                return (value_ * 0.3048) / static_cast<un_scalar_t>(1e9);
+                return (value_ * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e9);
 
             }
 

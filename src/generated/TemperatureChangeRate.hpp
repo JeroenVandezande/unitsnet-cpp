@@ -301,28 +301,28 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerMinute:
-                return value * 5 / 9 / 60;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerSecond:
-                return value * 5 / 9;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerSecond:
                 return value;
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerHour:
-                return value * 5 / 9 / 3600;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(3600);
 
             }
 
@@ -362,28 +362,28 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerMinute:
-                return value_ * 9 / 5 * 60;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5) * static_cast<un_scalar_t>(60);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerSecond:
-                return value_ * 9 / 5;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerSecond:
                 return value_;
 
             case TemperatureChangeRateUnit::DegreesCelsiusPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case TemperatureChangeRateUnit::DegreesKelvinPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case TemperatureChangeRateUnit::DegreesFahrenheitPerHour:
-                return value_ * 9 / 5 * 3600;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5) * static_cast<un_scalar_t>(3600);
 
             }
 

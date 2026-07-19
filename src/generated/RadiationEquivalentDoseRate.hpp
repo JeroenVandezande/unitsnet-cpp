@@ -190,16 +190,16 @@ namespace unitsnet_cpp
             {
 
             case RadiationEquivalentDoseRateUnit::SievertsPerHour:
-                return value/3600;
+                return value/static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::NanosievertsPerHour:
-                return (value * static_cast<un_scalar_t>(1e-9))/3600;
+                return (value * static_cast<un_scalar_t>(1e-9))/static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::MicrosievertsPerHour:
-                return (value * static_cast<un_scalar_t>(1e-6))/3600;
+                return (value * static_cast<un_scalar_t>(1e-6))/static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::MillisievertsPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3))/3600;
+                return (value * static_cast<un_scalar_t>(1e-3))/static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::SievertsPerSecond:
                 return value;
@@ -214,10 +214,10 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e-3));
 
             case RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour:
-                return value / 100 / 3600;
+                return value / static_cast<un_scalar_t>(100) / static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 100 / 3600;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(100) / static_cast<un_scalar_t>(3600);
 
             }
 
@@ -230,16 +230,16 @@ namespace unitsnet_cpp
             {
 
             case RadiationEquivalentDoseRateUnit::SievertsPerHour:
-                return value_*3600;
+                return value_*static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::NanosievertsPerHour:
-                return (value_*3600) / static_cast<un_scalar_t>(1e-9);
+                return (value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-9);
 
             case RadiationEquivalentDoseRateUnit::MicrosievertsPerHour:
-                return (value_*3600) / static_cast<un_scalar_t>(1e-6);
+                return (value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-6);
 
             case RadiationEquivalentDoseRateUnit::MillisievertsPerHour:
-                return (value_*3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_*static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationEquivalentDoseRateUnit::SievertsPerSecond:
                 return value_;
@@ -254,10 +254,10 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e-3);
 
             case RadiationEquivalentDoseRateUnit::RoentgensEquivalentManPerHour:
-                return value_ * 100 * 3600;
+                return value_ * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600);
 
             case RadiationEquivalentDoseRateUnit::MilliroentgensEquivalentManPerHour:
-                return (value_ * 100 * 3600) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(100) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
             }
 

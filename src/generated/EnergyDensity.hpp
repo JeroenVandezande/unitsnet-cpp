@@ -232,22 +232,22 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e15));
 
             case EnergyDensityUnit::WattHoursPerCubicMeter:
-                return value * 3.6e+3;
+                return value * static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::KilowattHoursPerCubicMeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 3.6e+3;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::MegawattHoursPerCubicMeter:
-                return (value * static_cast<un_scalar_t>(1e6)) * 3.6e+3;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::GigawattHoursPerCubicMeter:
-                return (value * static_cast<un_scalar_t>(1e9)) * 3.6e+3;
+                return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::TerawattHoursPerCubicMeter:
-                return (value * static_cast<un_scalar_t>(1e12)) * 3.6e+3;
+                return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::PetawattHoursPerCubicMeter:
-                return (value * static_cast<un_scalar_t>(1e15)) * 3.6e+3;
+                return (value * static_cast<un_scalar_t>(1e15)) * static_cast<un_scalar_t>(3.6e+3);
 
             }
 
@@ -278,22 +278,22 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e15);
 
             case EnergyDensityUnit::WattHoursPerCubicMeter:
-                return value_ / 3.6e+3;
+                return value_ / static_cast<un_scalar_t>(3.6e+3);
 
             case EnergyDensityUnit::KilowattHoursPerCubicMeter:
-                return (value_ / 3.6e+3) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e3);
 
             case EnergyDensityUnit::MegawattHoursPerCubicMeter:
-                return (value_ / 3.6e+3) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e6);
 
             case EnergyDensityUnit::GigawattHoursPerCubicMeter:
-                return (value_ / 3.6e+3) / static_cast<un_scalar_t>(1e9);
+                return (value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e9);
 
             case EnergyDensityUnit::TerawattHoursPerCubicMeter:
-                return (value_ / 3.6e+3) / static_cast<un_scalar_t>(1e12);
+                return (value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e12);
 
             case EnergyDensityUnit::PetawattHoursPerCubicMeter:
-                return (value_ / 3.6e+3) / static_cast<un_scalar_t>(1e15);
+                return (value_ / static_cast<un_scalar_t>(3.6e+3)) / static_cast<un_scalar_t>(1e15);
 
             }
 

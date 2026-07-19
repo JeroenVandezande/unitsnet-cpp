@@ -973,226 +973,226 @@ namespace unitsnet_cpp
                 return value;
 
             case VolumeFlowUnit::CubicMetersPerMinute:
-                return value / 60;
+                return value / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::CubicMetersPerHour:
-                return value / 3600;
+                return value / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicMetersPerDay:
-                return value / 86400;
+                return value / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::CubicFeetPerSecond:
-                return value * 0.028316846592;
+                return value * static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeFlowUnit::CubicFeetPerMinute:
-                return value * 0.028316846592 / 60;
+                return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::CubicFeetPerHour:
-                return value * 0.028316846592 / 3600;
+                return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicYardsPerSecond:
-                return value * 0.764554857984;
+                return value * static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeFlowUnit::CubicYardsPerMinute:
-                return value * 0.764554857984 / 60;
+                return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::CubicYardsPerHour:
-                return value * 0.764554857984 / 3600;
+                return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicYardsPerDay:
-                return value * 0.764554857984 / 86400;
+                return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::MillionUsGallonsPerDay:
-                return value * 1e6 * 0.003785411784 / 86400;
+                return value * static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::UsGallonsPerDay:
-                return value * 0.003785411784 / 86400;
+                return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::MegausGallonsPerDay:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.003785411784 / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::LitersPerSecond:
-                return value / 1000;
+                return value / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::NanolitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::MicrolitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::MillilitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::CentilitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::DecilitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::DecalitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e1)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::HectolitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e2)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::KilolitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::MegalitersPerSecond:
-                return (value * static_cast<un_scalar_t>(1e6)) / 1000;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::LitersPerMinute:
-                return value / (1000 * 60);
+                return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::NanolitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-9)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::MicrolitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-6)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::MillilitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-3)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::CentilitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-2)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::DecilitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e-1)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::DecalitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e1)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::HectolitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e2)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::KilolitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e3)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::MegalitersPerMinute:
-                return (value * static_cast<un_scalar_t>(1e6)) / (1000 * 60);
+                return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::LitersPerHour:
-                return value / (1000 * 3600);
+                return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::NanolitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-9)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::MicrolitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-6)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::MillilitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-3)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CentilitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-2)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::DecilitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e-1)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::DecalitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e1)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::HectolitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e2)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::KilolitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e3)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::MegalitersPerHour:
-                return (value * static_cast<un_scalar_t>(1e6)) / (1000 * 3600);
+                return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::LitersPerDay:
-                return value / (1000 * 86400);
+                return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::NanolitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e-9)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MicrolitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e-6)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MillilitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e-3)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::CentilitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e-2)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::DecilitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e-1)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::DecalitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e1)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::HectolitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e2)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::KilolitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e3)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MegalitersPerDay:
-                return (value * static_cast<un_scalar_t>(1e6)) / (1000 * 86400);
+                return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::UsGallonsPerSecond:
-                return value * 0.003785411784;
+                return value * static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeFlowUnit::UsGallonsPerMinute:
-                return value * 0.003785411784 / 60;
+                return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::UkGallonsPerDay:
-                return value * 0.00454609 / 86400;
+                return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::MegaukGallonsPerDay:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.00454609 / 86400;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::UkGallonsPerHour:
-                return value * 0.00454609 / 3600;
+                return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::UkGallonsPerMinute:
-                return value * 0.00454609 / 60;
+                return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::UkGallonsPerSecond:
-                return value * 0.00454609;
+                return value * static_cast<un_scalar_t>(0.00454609);
 
             case VolumeFlowUnit::MegaukGallonsPerSecond:
-                return (value * static_cast<un_scalar_t>(1e6)) * 0.00454609;
+                return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.00454609);
 
             case VolumeFlowUnit::KilousGallonsPerMinute:
-                return value * 1000 * 0.003785411784 / 60;
+                return value * static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::UsGallonsPerHour:
-                return value * 0.003785411784 / 3600;
+                return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicDecimetersPerMinute:
-                return value / 60000.00000;
+                return value / static_cast<un_scalar_t>(60000.00000);
 
             case VolumeFlowUnit::OilBarrelsPerDay:
-                return value * 0.158987294928 / 86400;
+                return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::OilBarrelsPerMinute:
-                return value * 0.158987294928 / 60;
+                return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::OilBarrelsPerHour:
-                return value * 0.158987294928 / 3600;
+                return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::OilBarrelsPerSecond:
-                return value * 0.158987294928;
+                return value * static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeFlowUnit::CubicMillimetersPerSecond:
-                return value * 1e-9;
+                return value * static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::AcreFeetPerSecond:
-                return value * 1233.48183754752;
+                return value * static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeFlowUnit::AcreFeetPerMinute:
-                return value * 1233.48183754752 / 60;
+                return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::AcreFeetPerHour:
-                return value * 1233.48183754752 / 3600;
+                return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::AcreFeetPerDay:
-                return value * 1233.48183754752 / 86400;
+                return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::CubicCentimetersPerMinute:
-                return value * 1e-6 / 60;
+                return value * static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60);
 
             }
 
@@ -1208,226 +1208,226 @@ namespace unitsnet_cpp
                 return value_;
 
             case VolumeFlowUnit::CubicMetersPerMinute:
-                return value_ * 60;
+                return value_ * static_cast<un_scalar_t>(60);
 
             case VolumeFlowUnit::CubicMetersPerHour:
-                return value_ * 3600;
+                return value_ * static_cast<un_scalar_t>(3600);
 
             case VolumeFlowUnit::CubicMetersPerDay:
-                return value_ * 86400;
+                return value_ * static_cast<un_scalar_t>(86400);
 
             case VolumeFlowUnit::CubicFeetPerSecond:
-                return value_ / 0.028316846592;
+                return value_ / static_cast<un_scalar_t>(0.028316846592);
 
             case VolumeFlowUnit::CubicFeetPerMinute:
-                return value_ / (0.028316846592 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::CubicFeetPerHour:
-                return value_ / (0.028316846592 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicYardsPerSecond:
-                return value_ / 0.764554857984;
+                return value_ / static_cast<un_scalar_t>(0.764554857984);
 
             case VolumeFlowUnit::CubicYardsPerMinute:
-                return value_ / (0.764554857984 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::CubicYardsPerHour:
-                return value_ / (0.764554857984 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicYardsPerDay:
-                return value_ / (0.764554857984 / 86400);
+                return value_ / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MillionUsGallonsPerDay:
-                return value_ / (1e6 * 0.003785411784 / 86400);
+                return value_ / (static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::UsGallonsPerDay:
-                return value_ / (0.003785411784 / 86400);
+                return value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MegausGallonsPerDay:
-                return (value_ / (0.003785411784 / 86400)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerSecond:
-                return value_ * 1000;
+                return value_ * static_cast<un_scalar_t>(1000);
 
             case VolumeFlowUnit::NanolitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e1);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e2);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerSecond:
-                return (value_ * 1000) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerMinute:
-                return value_ * (1000 * 60);
+                return value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::NanolitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerMinute:
-                return (value_ * (1000 * 60)) / static_cast<un_scalar_t>(1e6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerHour:
-                return value_ * (1000 * 3600);
+                return value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::NanolitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerHour:
-                return (value_ * (1000 * 3600)) / static_cast<un_scalar_t>(1e6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::LitersPerDay:
-                return value_ * (1000 * 86400);
+                return value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::NanolitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::MicrolitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-6);
 
             case VolumeFlowUnit::MillilitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-3);
 
             case VolumeFlowUnit::CentilitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-2);
 
             case VolumeFlowUnit::DecilitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-1);
 
             case VolumeFlowUnit::DecalitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e1);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e1);
 
             case VolumeFlowUnit::HectolitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e2);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e2);
 
             case VolumeFlowUnit::KilolitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e3);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e3);
 
             case VolumeFlowUnit::MegalitersPerDay:
-                return (value_ * (1000 * 86400)) / static_cast<un_scalar_t>(1e6);
+                return (value_ * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::UsGallonsPerSecond:
-                return value_ / 0.003785411784;
+                return value_ / static_cast<un_scalar_t>(0.003785411784);
 
             case VolumeFlowUnit::UsGallonsPerMinute:
-                return value_ / (0.003785411784 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UkGallonsPerDay:
-                return value_ / (0.00454609 / 86400);
+                return value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::MegaukGallonsPerDay:
-                return (value_ / (0.00454609 / 86400)) / static_cast<un_scalar_t>(1e6);
+                return (value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::UkGallonsPerHour:
-                return value_ / (0.00454609 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::UkGallonsPerMinute:
-                return value_ / (0.00454609 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UkGallonsPerSecond:
-                return value_ / 0.00454609;
+                return value_ / static_cast<un_scalar_t>(0.00454609);
 
             case VolumeFlowUnit::MegaukGallonsPerSecond:
-                return (value_ / 0.00454609) / static_cast<un_scalar_t>(1e6);
+                return (value_ / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
 
             case VolumeFlowUnit::KilousGallonsPerMinute:
-                return value_ / (1000 * 0.003785411784 / 60);
+                return value_ / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::UsGallonsPerHour:
-                return value_ / (0.003785411784 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::CubicDecimetersPerMinute:
-                return value_ * 60000.00000;
+                return value_ * static_cast<un_scalar_t>(60000.00000);
 
             case VolumeFlowUnit::OilBarrelsPerDay:
-                return value_ / (0.158987294928 / 86400);
+                return value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::OilBarrelsPerMinute:
-                return value_ / (0.158987294928 / 60);
+                return value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::OilBarrelsPerHour:
-                return value_ / (0.158987294928 / 3600);
+                return value_ / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::OilBarrelsPerSecond:
-                return value_ / 0.158987294928;
+                return value_ / static_cast<un_scalar_t>(0.158987294928);
 
             case VolumeFlowUnit::CubicMillimetersPerSecond:
-                return value_ / 1e-9;
+                return value_ / static_cast<un_scalar_t>(1e-9);
 
             case VolumeFlowUnit::AcreFeetPerSecond:
-                return value_ / 1233.48183754752;
+                return value_ / static_cast<un_scalar_t>(1233.48183754752);
 
             case VolumeFlowUnit::AcreFeetPerMinute:
-                return value_ / (1233.48183754752 / 60);
+                return value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60));
 
             case VolumeFlowUnit::AcreFeetPerHour:
-                return value_ / (1233.48183754752 / 3600);
+                return value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600));
 
             case VolumeFlowUnit::AcreFeetPerDay:
-                return value_ / (1233.48183754752 / 86400);
+                return value_ / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400));
 
             case VolumeFlowUnit::CubicCentimetersPerMinute:
-                return value_ / (1e-6 / 60);
+                return value_ / (static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60));
 
             }
 

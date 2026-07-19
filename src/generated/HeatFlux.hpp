@@ -391,58 +391,58 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e3));
 
             case HeatFluxUnit::WattsPerSquareMillimeter:
-                return value / 1e-6;
+                return value / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::NanowattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::MicrowattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::MilliwattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::CentiwattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-2)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::DeciwattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e-1)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::KilowattsPerSquareMillimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 1e-6;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::WattsPerSquareInch:
-                return value / (2.54e-2 * 2.54e-2);
+                return value / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
 
             case HeatFluxUnit::WattsPerSquareFoot:
-                return value / (0.3048 * 0.3048);
+                return value / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
 
             case HeatFluxUnit::BtusPerSecondSquareInch:
-                return value * 1055.05585262 / (2.54e-2 * 2.54e-2);
+                return value * static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
 
             case HeatFluxUnit::BtusPerSecondSquareFoot:
-                return value * 1055.05585262 / (0.3048 * 0.3048);
+                return value * static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
 
             case HeatFluxUnit::BtusPerMinuteSquareFoot:
-                return value * 1055.05585262 / (0.3048 * 0.3048 * 60);
+                return value * static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60));
 
             case HeatFluxUnit::BtusPerHourSquareFoot:
-                return value * 1055.05585262 / (0.3048 * 0.3048 * 3600);
+                return value * static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600));
 
             case HeatFluxUnit::CaloriesPerSecondSquareCentimeter:
-                return value * 4.184e4;
+                return value * static_cast<un_scalar_t>(4.184e4);
 
             case HeatFluxUnit::KilocaloriesPerSecondSquareCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) * 4.184e4;
+                return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184e4);
 
             case HeatFluxUnit::KilocaloriesPerHourSquareMeter:
-                return value * 4.184e3 / 3600;
+                return value * static_cast<un_scalar_t>(4.184e3) / static_cast<un_scalar_t>(3600);
 
             case HeatFluxUnit::PoundsForcePerFootSecond:
-                return value * 1.3558179483314004 / 9.290304e-2;
+                return value * static_cast<un_scalar_t>(1.3558179483314004) / static_cast<un_scalar_t>(9.290304e-2);
 
             case HeatFluxUnit::PoundsPerSecondCubed:
-                return value * 4.5359237e-1;
+                return value * static_cast<un_scalar_t>(4.5359237e-1);
 
             }
 
@@ -476,58 +476,58 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::WattsPerSquareMillimeter:
-                return value_ * 1e-6;
+                return value_ * static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::NanowattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
 
             case HeatFluxUnit::MicrowattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
             case HeatFluxUnit::MilliwattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
             case HeatFluxUnit::CentiwattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e-2);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
 
             case HeatFluxUnit::DeciwattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e-1);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
 
             case HeatFluxUnit::KilowattsPerSquareMillimeter:
-                return (value_ * 1e-6) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::WattsPerSquareInch:
-                return value_ * (2.54e-2 * 2.54e-2);
+                return value_ * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2));
 
             case HeatFluxUnit::WattsPerSquareFoot:
-                return value_ * (0.3048 * 0.3048);
+                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048));
 
             case HeatFluxUnit::BtusPerSecondSquareInch:
-                return value_ * (2.54e-2 * 2.54e-2) / 1055.05585262;
+                return value_ * (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerSecondSquareFoot:
-                return value_ * (0.3048 * 0.3048) / 1055.05585262;
+                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerMinuteSquareFoot:
-                return value_ * (0.3048 * 0.3048 * 60) / 1055.05585262;
+                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::BtusPerHourSquareFoot:
-                return value_ * (0.3048 * 0.3048 * 3600) / 1055.05585262;
+                return value_ * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1055.05585262);
 
             case HeatFluxUnit::CaloriesPerSecondSquareCentimeter:
-                return value_ / 4.184e4;
+                return value_ / static_cast<un_scalar_t>(4.184e4);
 
             case HeatFluxUnit::KilocaloriesPerSecondSquareCentimeter:
-                return (value_ / 4.184e4) / static_cast<un_scalar_t>(1e3);
+                return (value_ / static_cast<un_scalar_t>(4.184e4)) / static_cast<un_scalar_t>(1e3);
 
             case HeatFluxUnit::KilocaloriesPerHourSquareMeter:
-                return value_ * 3600 / 4.184e3;
+                return value_ * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(4.184e3);
 
             case HeatFluxUnit::PoundsForcePerFootSecond:
-                return value_ * 9.290304e-2 / 1.3558179483314004;
+                return value_ * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(1.3558179483314004);
 
             case HeatFluxUnit::PoundsPerSecondCubed:
-                return value_ / 4.5359237e-1;
+                return value_ / static_cast<un_scalar_t>(4.5359237e-1);
 
             }
 

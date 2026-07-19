@@ -259,25 +259,25 @@ namespace unitsnet_cpp
                 return (value * static_cast<un_scalar_t>(1e6));
 
             case ElectricResistivityUnit::OhmsCentimeter:
-                return value / 100;
+                return value / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::PicoohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-12)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::NanoohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-9)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::MicroohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-6)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::MilliohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e-3)) / 100;
+                return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::KiloohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e3)) / 100;
+                return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::MegaohmsCentimeter:
-                return (value * static_cast<un_scalar_t>(1e6)) / 100;
+                return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(100);
 
             }
 
@@ -311,25 +311,25 @@ namespace unitsnet_cpp
                 return (value_) / static_cast<un_scalar_t>(1e6);
 
             case ElectricResistivityUnit::OhmsCentimeter:
-                return value_ * 100;
+                return value_ * static_cast<un_scalar_t>(100);
 
             case ElectricResistivityUnit::PicoohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-12);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-12);
 
             case ElectricResistivityUnit::NanoohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-9);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-9);
 
             case ElectricResistivityUnit::MicroohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-6);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-6);
 
             case ElectricResistivityUnit::MilliohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e-3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e-3);
 
             case ElectricResistivityUnit::KiloohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e3);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e3);
 
             case ElectricResistivityUnit::MegaohmsCentimeter:
-                return (value_ * 100) / static_cast<un_scalar_t>(1e6);
+                return (value_ * static_cast<un_scalar_t>(100)) / static_cast<un_scalar_t>(1e6);
 
             }
 

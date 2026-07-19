@@ -193,31 +193,31 @@ namespace unitsnet_cpp
                 return value;
 
             case TemperatureUnit::DegreesCelsius:
-                return value + 273.15;
+                return value + static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::MillidegreesCelsius:
-                return value / 1000 + 273.15;
+                return value / static_cast<un_scalar_t>(1000) + static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::DegreesDelisle:
-                return value * -2 / 3 + 373.15;
+                return value * static_cast<un_scalar_t>(-2) / static_cast<un_scalar_t>(3) + static_cast<un_scalar_t>(373.15);
 
             case TemperatureUnit::DegreesFahrenheit:
-                return value * 5 / 9 + 459.67 * 5 / 9;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9) + static_cast<un_scalar_t>(459.67) * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureUnit::DegreesNewton:
-                return value * 100 / 33 + 273.15;
+                return value * static_cast<un_scalar_t>(100) / static_cast<un_scalar_t>(33) + static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::DegreesRankine:
-                return value * 5 / 9;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9);
 
             case TemperatureUnit::DegreesReaumur:
-                return value * 5 / 4 + 273.15;
+                return value * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(4) + static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::DegreesRoemer:
-                return value * 40 / 21 + 273.15 - 7.5 * 40 / 21;
+                return value * static_cast<un_scalar_t>(40) / static_cast<un_scalar_t>(21) + static_cast<un_scalar_t>(273.15) - static_cast<un_scalar_t>(7.5) * static_cast<un_scalar_t>(40.0) / static_cast<un_scalar_t>(21);
 
             case TemperatureUnit::SolarTemperatures:
-                return value * 5778;
+                return value * static_cast<un_scalar_t>(5778);
 
             }
 
@@ -233,31 +233,31 @@ namespace unitsnet_cpp
                 return value_;
 
             case TemperatureUnit::DegreesCelsius:
-                return value_ - 273.15;
+                return value_ - static_cast<un_scalar_t>(273.15);
 
             case TemperatureUnit::MillidegreesCelsius:
-                return (value_ - 273.15) * 1000;
+                return (value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(1000);
 
             case TemperatureUnit::DegreesDelisle:
-                return (value_ - 373.15) * -3 / 2;
+                return (value_ - static_cast<un_scalar_t>(373.15)) * static_cast<un_scalar_t>(-3) / static_cast<un_scalar_t>(2);
 
             case TemperatureUnit::DegreesFahrenheit:
-                return (value_ - 459.67 * 5 / 9) * 9 / 5;
+                return (value_ - static_cast<un_scalar_t>(459.67) * static_cast<un_scalar_t>(5) / static_cast<un_scalar_t>(9)) * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesNewton:
-                return (value_ - 273.15) * 33 / 100;
+                return (value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(33) / static_cast<un_scalar_t>(100);
 
             case TemperatureUnit::DegreesRankine:
-                return value_ * 9 / 5;
+                return value_ * static_cast<un_scalar_t>(9) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesReaumur:
-                return (value_ - 273.15) * 4 / 5;
+                return (value_ - static_cast<un_scalar_t>(273.15)) * static_cast<un_scalar_t>(4) / static_cast<un_scalar_t>(5);
 
             case TemperatureUnit::DegreesRoemer:
-                return (value_ - (273.15 - 7.5 * 40 / 21)) * 21 / 40;
+                return (value_ - (static_cast<un_scalar_t>(273.15) - static_cast<un_scalar_t>(7.5) * static_cast<un_scalar_t>(40.0) / static_cast<un_scalar_t>(21))) * static_cast<un_scalar_t>(21) / static_cast<un_scalar_t>(40);
 
             case TemperatureUnit::SolarTemperatures:
-                return value_ / 5778;
+                return value_ / static_cast<un_scalar_t>(5778);
 
             }
 
