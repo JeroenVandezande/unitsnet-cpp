@@ -12,7 +12,7 @@ A header-only C++20 port of [UnitsNet](https://github.com/angularsen/UnitsNet), 
 
 ## Features
 
-- 128 generated quantity types, including length, mass, temperature, speed, energy, pressure, and electrical quantities
+- 130 generated quantity types, including length, mass, temperature, speed, energy, pressure, and electrical quantities
 - Type-safe values: a `Length` cannot accidentally be used as a `Mass`
 - `constexpr` construction, conversion, arithmetic, and comparison
 - Named factories and accessors such as `Length::from_kilometers()` and `Length::miles()`
