@@ -65,7 +65,7 @@ endforeach ()
 # ---------------------------------------------------------------------------
 
 # Download CPM.cmake
-set(CPM_VERSION 0.42.0)
+set(CPM_VERSION 0.43.1)
 message("Downloading CPM Package Manager version ${CPM_VERSION}")
 file(
         DOWNLOAD
