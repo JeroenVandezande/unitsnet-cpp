@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -17,12 +25,74 @@ namespace unitsnet_cpp
         Megahertz,
         Gigahertz,
         Terahertz,
-        RadiansPerSecond,
-        CyclesPerMinute,
-        CyclesPerHour,
-        BeatsPerMinute,
+        RadianPerSecond,
+        CyclePerMinute,
+        CyclePerHour,
+        BeatPerMinute,
         PerSecond,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of Frequency.</summary>
+    class FrequencyDto
+    {
+    public:
+        constexpr FrequencyDto() noexcept
+            : value{}, unit(FrequencyUnit::Hertz)
+        {
+        }
+
+        constexpr FrequencyDto(
+            const un_scalar_t value,
+            const FrequencyUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        FrequencyUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr FrequencyUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<FrequencyUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown Frequency unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static FrequencyDto from_json(const nlohmann::json& json)
+        {
+            return FrequencyDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The number of occurrences of a repeating event per unit time.</summary>
     class Frequency : public UnitsNetBase
@@ -35,62 +105,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "Frequency"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case FrequencyUnit::Hertz:
-                return "Hertz";
-
-            case FrequencyUnit::Microhertz:
-                return "Microhertz";
-
-            case FrequencyUnit::Millihertz:
-                return "Millihertz";
-
-            case FrequencyUnit::Kilohertz:
-                return "Kilohertz";
-
-            case FrequencyUnit::Megahertz:
-                return "Megahertz";
-
-            case FrequencyUnit::Gigahertz:
-                return "Gigahertz";
-
-            case FrequencyUnit::Terahertz:
-                return "Terahertz";
-
-            case FrequencyUnit::RadiansPerSecond:
-                return "RadiansPerSecond";
-
-            case FrequencyUnit::CyclesPerMinute:
-                return "CyclesPerMinute";
-
-            case FrequencyUnit::CyclesPerHour:
-                return "CyclesPerHour";
-
-            case FrequencyUnit::BeatsPerMinute:
-                return "BeatsPerMinute";
-
-            case FrequencyUnit::PerSecond:
-                return "PerSecond";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -101,6 +115,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr FrequencyDto to_dto(
+            const FrequencyUnit unit = FrequencyUnit::Hertz) const
+        {
+            return FrequencyDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr Frequency from_dto(const FrequencyDto& dto)
+        {
+            return Frequency(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const FrequencyUnit unit = FrequencyUnit::Hertz) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static Frequency from_json(const nlohmann::json& json)
+        {
+            return from_dto(FrequencyDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr Frequency operator+(const Frequency& other) const noexcept
         {
@@ -210,43 +254,43 @@ namespace unitsnet_cpp
         /// <summary>In SI units, angular frequency is normally presented with the unit radian per second, and need not express a rotational value. The unit hertz (Hz) is dimensionally equivalent, but by convention it is only used for frequency f, never for angular frequency ω. This convention is used to help avoid the confusion that arises when dealing with quantities such as frequency and angular quantities because the units of measure (such as cycle or radian) are considered to be one and hence may be omitted when expressing quantities in terms of SI units.</summary>
         [[nodiscard]] constexpr un_scalar_t radians_per_second() const
         {
-            return convert_from_base(FrequencyUnit::RadiansPerSecond);
+            return convert_from_base(FrequencyUnit::RadianPerSecond);
         }
 
         /// <summary>In SI units, angular frequency is normally presented with the unit radian per second, and need not express a rotational value. The unit hertz (Hz) is dimensionally equivalent, but by convention it is only used for frequency f, never for angular frequency ω. This convention is used to help avoid the confusion that arises when dealing with quantities such as frequency and angular quantities because the units of measure (such as cycle or radian) are considered to be one and hence may be omitted when expressing quantities in terms of SI units.</summary>
         [[nodiscard]] static constexpr Frequency from_radians_per_second(const un_scalar_t value)
         {
-            return Frequency(value, FrequencyUnit::RadiansPerSecond);
+            return Frequency(value, FrequencyUnit::RadianPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t cycles_per_minute() const
         {
-            return convert_from_base(FrequencyUnit::CyclesPerMinute);
+            return convert_from_base(FrequencyUnit::CyclePerMinute);
         }
 
         [[nodiscard]] static constexpr Frequency from_cycles_per_minute(const un_scalar_t value)
         {
-            return Frequency(value, FrequencyUnit::CyclesPerMinute);
+            return Frequency(value, FrequencyUnit::CyclePerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t cycles_per_hour() const
         {
-            return convert_from_base(FrequencyUnit::CyclesPerHour);
+            return convert_from_base(FrequencyUnit::CyclePerHour);
         }
 
         [[nodiscard]] static constexpr Frequency from_cycles_per_hour(const un_scalar_t value)
         {
-            return Frequency(value, FrequencyUnit::CyclesPerHour);
+            return Frequency(value, FrequencyUnit::CyclePerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t beats_per_minute() const
         {
-            return convert_from_base(FrequencyUnit::BeatsPerMinute);
+            return convert_from_base(FrequencyUnit::BeatPerMinute);
         }
 
         [[nodiscard]] static constexpr Frequency from_beats_per_minute(const un_scalar_t value)
         {
-            return Frequency(value, FrequencyUnit::BeatsPerMinute);
+            return Frequency(value, FrequencyUnit::BeatPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t per_second() const
@@ -291,16 +335,16 @@ namespace unitsnet_cpp
             case FrequencyUnit::Terahertz:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case FrequencyUnit::RadiansPerSecond:
+            case FrequencyUnit::RadianPerSecond:
                 return value / (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
-            case FrequencyUnit::CyclesPerMinute:
+            case FrequencyUnit::CyclePerMinute:
                 return value / static_cast<un_scalar_t>(60);
 
-            case FrequencyUnit::CyclesPerHour:
+            case FrequencyUnit::CyclePerHour:
                 return value / static_cast<un_scalar_t>(3600);
 
-            case FrequencyUnit::BeatsPerMinute:
+            case FrequencyUnit::BeatPerMinute:
                 return value / static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:
@@ -344,16 +388,16 @@ namespace unitsnet_cpp
             case FrequencyUnit::Terahertz:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case FrequencyUnit::RadiansPerSecond:
+            case FrequencyUnit::RadianPerSecond:
                 return base_value * (static_cast<un_scalar_t>(2) * std::numbers::pi_v<un_scalar_t>);
 
-            case FrequencyUnit::CyclesPerMinute:
+            case FrequencyUnit::CyclePerMinute:
                 return base_value * static_cast<un_scalar_t>(60);
 
-            case FrequencyUnit::CyclesPerHour:
+            case FrequencyUnit::CyclePerHour:
                 return base_value * static_cast<un_scalar_t>(3600);
 
-            case FrequencyUnit::BeatsPerMinute:
+            case FrequencyUnit::BeatPerMinute:
                 return base_value * static_cast<un_scalar_t>(60);
 
             case FrequencyUnit::PerSecond:

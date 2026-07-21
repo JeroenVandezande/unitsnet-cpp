@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -18,6 +26,68 @@ namespace unitsnet_cpp
         MillisiemensPerCentimeter,
     };
 
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricConductivity.</summary>
+    class ElectricConductivityDto
+    {
+    public:
+        constexpr ElectricConductivityDto() noexcept
+            : value{}, unit(ElectricConductivityUnit::SiemensPerMeter)
+        {
+        }
+
+        constexpr ElectricConductivityDto(
+            const un_scalar_t value,
+            const ElectricConductivityUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricConductivityUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricConductivityUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricConductivityUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricConductivity unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricConductivityDto from_json(const nlohmann::json& json)
+        {
+            return ElectricConductivityDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
+
     /// <summary>Electrical conductivity or specific conductance is the reciprocal of electrical resistivity, and measures a material's ability to conduct an electric current.</summary>
     class ElectricConductivity : public UnitsNetBase
     {
@@ -29,44 +99,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricConductivity"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricConductivityUnit::SiemensPerMeter:
-                return "SiemensPerMeter";
-
-            case ElectricConductivityUnit::SiemensPerInch:
-                return "SiemensPerInch";
-
-            case ElectricConductivityUnit::SiemensPerFoot:
-                return "SiemensPerFoot";
-
-            case ElectricConductivityUnit::SiemensPerCentimeter:
-                return "SiemensPerCentimeter";
-
-            case ElectricConductivityUnit::MicrosiemensPerCentimeter:
-                return "MicrosiemensPerCentimeter";
-
-            case ElectricConductivityUnit::MillisiemensPerCentimeter:
-                return "MillisiemensPerCentimeter";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -77,6 +109,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricConductivityDto to_dto(
+            const ElectricConductivityUnit unit = ElectricConductivityUnit::SiemensPerMeter) const
+        {
+            return ElectricConductivityDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricConductivity from_dto(const ElectricConductivityDto& dto)
+        {
+            return ElectricConductivity(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricConductivityUnit unit = ElectricConductivityUnit::SiemensPerMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricConductivity from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricConductivityDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricConductivity operator+(const ElectricConductivity& other) const noexcept
         {

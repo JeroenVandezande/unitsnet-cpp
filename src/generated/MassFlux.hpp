@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,19 +18,81 @@ namespace unitsnet_cpp
 {
     enum class MassFluxUnit : std::uint8_t
     {
-        GramsPerSecondPerSquareMeter,
-        KilogramsPerSecondPerSquareMeter,
-        GramsPerSecondPerSquareCentimeter,
-        KilogramsPerSecondPerSquareCentimeter,
-        GramsPerSecondPerSquareMillimeter,
-        KilogramsPerSecondPerSquareMillimeter,
-        GramsPerHourPerSquareMeter,
-        KilogramsPerHourPerSquareMeter,
-        GramsPerHourPerSquareCentimeter,
-        KilogramsPerHourPerSquareCentimeter,
-        GramsPerHourPerSquareMillimeter,
-        KilogramsPerHourPerSquareMillimeter,
+        GramPerSecondPerSquareMeter,
+        KilogramPerSecondPerSquareMeter,
+        GramPerSecondPerSquareCentimeter,
+        KilogramPerSecondPerSquareCentimeter,
+        GramPerSecondPerSquareMillimeter,
+        KilogramPerSecondPerSquareMillimeter,
+        GramPerHourPerSquareMeter,
+        KilogramPerHourPerSquareMeter,
+        GramPerHourPerSquareCentimeter,
+        KilogramPerHourPerSquareCentimeter,
+        GramPerHourPerSquareMillimeter,
+        KilogramPerHourPerSquareMillimeter,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of MassFlux.</summary>
+    class MassFluxDto
+    {
+    public:
+        constexpr MassFluxDto() noexcept
+            : value{}, unit(MassFluxUnit::KilogramPerSecondPerSquareMeter)
+        {
+        }
+
+        constexpr MassFluxDto(
+            const un_scalar_t value,
+            const MassFluxUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        MassFluxUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr MassFluxUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<MassFluxUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown MassFlux unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassFluxDto from_json(const nlohmann::json& json)
+        {
+            return MassFluxDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Mass flux is the mass flow rate per unit area.</summary>
     class MassFlux : public UnitsNetBase
@@ -30,66 +100,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit MassFlux(
             const un_scalar_t value,
-            const MassFluxUnit unit = MassFluxUnit::KilogramsPerSecondPerSquareMeter)
+            const MassFluxUnit unit = MassFluxUnit::KilogramPerSecondPerSquareMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "MassFlux"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case MassFluxUnit::GramsPerSecondPerSquareMeter:
-                return "GramsPerSecondPerSquareMeter";
-
-            case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
-                return "KilogramsPerSecondPerSquareMeter";
-
-            case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
-                return "GramsPerSecondPerSquareCentimeter";
-
-            case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
-                return "KilogramsPerSecondPerSquareCentimeter";
-
-            case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
-                return "GramsPerSecondPerSquareMillimeter";
-
-            case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
-                return "KilogramsPerSecondPerSquareMillimeter";
-
-            case MassFluxUnit::GramsPerHourPerSquareMeter:
-                return "GramsPerHourPerSquareMeter";
-
-            case MassFluxUnit::KilogramsPerHourPerSquareMeter:
-                return "KilogramsPerHourPerSquareMeter";
-
-            case MassFluxUnit::GramsPerHourPerSquareCentimeter:
-                return "GramsPerHourPerSquareCentimeter";
-
-            case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
-                return "KilogramsPerHourPerSquareCentimeter";
-
-            case MassFluxUnit::GramsPerHourPerSquareMillimeter:
-                return "GramsPerHourPerSquareMillimeter";
-
-            case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
-                return "KilogramsPerHourPerSquareMillimeter";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -101,6 +115,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr MassFluxDto to_dto(
+            const MassFluxUnit unit = MassFluxUnit::KilogramPerSecondPerSquareMeter) const
+        {
+            return MassFluxDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr MassFlux from_dto(const MassFluxDto& dto)
+        {
+            return MassFlux(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const MassFluxUnit unit = MassFluxUnit::KilogramPerSecondPerSquareMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassFlux from_json(const nlohmann::json& json)
+        {
+            return from_dto(MassFluxDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr MassFlux operator+(const MassFlux& other) const noexcept
         {
@@ -139,122 +183,122 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_meter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareMeter);
+            return convert_from_base(MassFluxUnit::GramPerSecondPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_second_per_square_meter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareMeter);
+            return MassFlux(value, MassFluxUnit::GramPerSecondPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_meter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerSecondPerSquareMeter);
+            return convert_from_base(MassFluxUnit::KilogramPerSecondPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_second_per_square_meter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareMeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerSecondPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_centimeter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareCentimeter);
+            return convert_from_base(MassFluxUnit::GramPerSecondPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_second_per_square_centimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareCentimeter);
+            return MassFlux(value, MassFluxUnit::GramPerSecondPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_centimeter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerSecondPerSquareCentimeter);
+            return convert_from_base(MassFluxUnit::KilogramPerSecondPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_second_per_square_centimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareCentimeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerSecondPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_second_per_square_millimeter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerSecondPerSquareMillimeter);
+            return convert_from_base(MassFluxUnit::GramPerSecondPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_second_per_square_millimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerSecondPerSquareMillimeter);
+            return MassFlux(value, MassFluxUnit::GramPerSecondPerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_second_per_square_millimeter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerSecondPerSquareMillimeter);
+            return convert_from_base(MassFluxUnit::KilogramPerSecondPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_second_per_square_millimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerSecondPerSquareMillimeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerSecondPerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_meter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerHourPerSquareMeter);
+            return convert_from_base(MassFluxUnit::GramPerHourPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_hour_per_square_meter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareMeter);
+            return MassFlux(value, MassFluxUnit::GramPerHourPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_meter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerHourPerSquareMeter);
+            return convert_from_base(MassFluxUnit::KilogramPerHourPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_hour_per_square_meter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareMeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerHourPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_centimeter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerHourPerSquareCentimeter);
+            return convert_from_base(MassFluxUnit::GramPerHourPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_hour_per_square_centimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareCentimeter);
+            return MassFlux(value, MassFluxUnit::GramPerHourPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_centimeter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerHourPerSquareCentimeter);
+            return convert_from_base(MassFluxUnit::KilogramPerHourPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_hour_per_square_centimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareCentimeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerHourPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_hour_per_square_millimeter() const
         {
-            return convert_from_base(MassFluxUnit::GramsPerHourPerSquareMillimeter);
+            return convert_from_base(MassFluxUnit::GramPerHourPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_grams_per_hour_per_square_millimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::GramsPerHourPerSquareMillimeter);
+            return MassFlux(value, MassFluxUnit::GramPerHourPerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_hour_per_square_millimeter() const
         {
-            return convert_from_base(MassFluxUnit::KilogramsPerHourPerSquareMillimeter);
+            return convert_from_base(MassFluxUnit::KilogramPerHourPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_kilograms_per_hour_per_square_millimeter(const un_scalar_t value)
         {
-            return MassFlux(value, MassFluxUnit::KilogramsPerHourPerSquareMillimeter);
+            return MassFlux(value, MassFluxUnit::KilogramPerHourPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassFlux from_invalid()
@@ -268,40 +312,40 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassFluxUnit::GramsPerSecondPerSquareMeter:
+            case MassFluxUnit::GramPerSecondPerSquareMeter:
                 return value / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
+            case MassFluxUnit::GramPerSecondPerSquareCentimeter:
                 return value / static_cast<un_scalar_t>(1e-1);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
+            case MassFluxUnit::GramPerSecondPerSquareMillimeter:
                 return value / static_cast<un_scalar_t>(1e-3);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassFluxUnit::GramsPerHourPerSquareMeter:
+            case MassFluxUnit::GramPerHourPerSquareMeter:
                 return value / static_cast<un_scalar_t>(3.6e6);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareMeter:
+            case MassFluxUnit::KilogramPerHourPerSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e6);
 
-            case MassFluxUnit::GramsPerHourPerSquareCentimeter:
+            case MassFluxUnit::GramPerHourPerSquareCentimeter:
                 return value / static_cast<un_scalar_t>(3.6e2);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
+            case MassFluxUnit::KilogramPerHourPerSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e2);
 
-            case MassFluxUnit::GramsPerHourPerSquareMillimeter:
+            case MassFluxUnit::GramPerHourPerSquareMillimeter:
                 return value / static_cast<un_scalar_t>(3.6e0);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
+            case MassFluxUnit::KilogramPerHourPerSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3.6e0);
 
             }
@@ -321,40 +365,40 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassFluxUnit::GramsPerSecondPerSquareMeter:
+            case MassFluxUnit::GramPerSecondPerSquareMeter:
                 return base_value * static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareMeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerSecondPerSquareCentimeter:
+            case MassFluxUnit::GramPerSecondPerSquareCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e-1);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareCentimeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerSecondPerSquareMillimeter:
+            case MassFluxUnit::GramPerSecondPerSquareMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e-3);
 
-            case MassFluxUnit::KilogramsPerSecondPerSquareMillimeter:
+            case MassFluxUnit::KilogramPerSecondPerSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerHourPerSquareMeter:
+            case MassFluxUnit::GramPerHourPerSquareMeter:
                 return base_value * static_cast<un_scalar_t>(3.6e6);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareMeter:
+            case MassFluxUnit::KilogramPerHourPerSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(3.6e6)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerHourPerSquareCentimeter:
+            case MassFluxUnit::GramPerHourPerSquareCentimeter:
                 return base_value * static_cast<un_scalar_t>(3.6e2);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareCentimeter:
+            case MassFluxUnit::KilogramPerHourPerSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(3.6e2)) / static_cast<un_scalar_t>(1e3);
 
-            case MassFluxUnit::GramsPerHourPerSquareMillimeter:
+            case MassFluxUnit::GramPerHourPerSquareMillimeter:
                 return base_value * static_cast<un_scalar_t>(3.6e0);
 
-            case MassFluxUnit::KilogramsPerHourPerSquareMillimeter:
+            case MassFluxUnit::KilogramPerHourPerSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(3.6e0)) / static_cast<un_scalar_t>(1e3);
 
             }

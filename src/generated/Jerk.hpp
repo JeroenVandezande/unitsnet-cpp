@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,18 +18,80 @@ namespace unitsnet_cpp
 {
     enum class JerkUnit : std::uint8_t
     {
-        MetersPerSecondCubed,
-        NanometersPerSecondCubed,
-        MicrometersPerSecondCubed,
-        MillimetersPerSecondCubed,
-        CentimetersPerSecondCubed,
-        DecimetersPerSecondCubed,
-        KilometersPerSecondCubed,
-        InchesPerSecondCubed,
-        FeetPerSecondCubed,
+        MeterPerSecondCubed,
+        NanometerPerSecondCubed,
+        MicrometerPerSecondCubed,
+        MillimeterPerSecondCubed,
+        CentimeterPerSecondCubed,
+        DecimeterPerSecondCubed,
+        KilometerPerSecondCubed,
+        InchPerSecondCubed,
+        FootPerSecondCubed,
         StandardGravitiesPerSecond,
         MillistandardGravitiesPerSecond,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of Jerk.</summary>
+    class JerkDto
+    {
+    public:
+        constexpr JerkDto() noexcept
+            : value{}, unit(JerkUnit::MeterPerSecondCubed)
+        {
+        }
+
+        constexpr JerkDto(
+            const un_scalar_t value,
+            const JerkUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        JerkUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr JerkUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<JerkUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown Jerk unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static JerkDto from_json(const nlohmann::json& json)
+        {
+            return JerkDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary></summary>
     class Jerk : public UnitsNetBase
@@ -29,63 +99,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit Jerk(
             const un_scalar_t value,
-            const JerkUnit unit = JerkUnit::MetersPerSecondCubed)
+            const JerkUnit unit = JerkUnit::MeterPerSecondCubed)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "Jerk"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case JerkUnit::MetersPerSecondCubed:
-                return "MetersPerSecondCubed";
-
-            case JerkUnit::NanometersPerSecondCubed:
-                return "NanometersPerSecondCubed";
-
-            case JerkUnit::MicrometersPerSecondCubed:
-                return "MicrometersPerSecondCubed";
-
-            case JerkUnit::MillimetersPerSecondCubed:
-                return "MillimetersPerSecondCubed";
-
-            case JerkUnit::CentimetersPerSecondCubed:
-                return "CentimetersPerSecondCubed";
-
-            case JerkUnit::DecimetersPerSecondCubed:
-                return "DecimetersPerSecondCubed";
-
-            case JerkUnit::KilometersPerSecondCubed:
-                return "KilometersPerSecondCubed";
-
-            case JerkUnit::InchesPerSecondCubed:
-                return "InchesPerSecondCubed";
-
-            case JerkUnit::FeetPerSecondCubed:
-                return "FeetPerSecondCubed";
-
-            case JerkUnit::StandardGravitiesPerSecond:
-                return "StandardGravitiesPerSecond";
-
-            case JerkUnit::MillistandardGravitiesPerSecond:
-                return "MillistandardGravitiesPerSecond";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -97,6 +114,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr JerkDto to_dto(
+            const JerkUnit unit = JerkUnit::MeterPerSecondCubed) const
+        {
+            return JerkDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr Jerk from_dto(const JerkDto& dto)
+        {
+            return Jerk(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const JerkUnit unit = JerkUnit::MeterPerSecondCubed) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static Jerk from_json(const nlohmann::json& json)
+        {
+            return from_dto(JerkDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr Jerk operator+(const Jerk& other) const noexcept
         {
@@ -135,92 +182,92 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t meters_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::MetersPerSecondCubed);
+            return convert_from_base(JerkUnit::MeterPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_meters_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::MetersPerSecondCubed);
+            return Jerk(value, JerkUnit::MeterPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanometers_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::NanometersPerSecondCubed);
+            return convert_from_base(JerkUnit::NanometerPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_nanometers_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::NanometersPerSecondCubed);
+            return Jerk(value, JerkUnit::NanometerPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrometers_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::MicrometersPerSecondCubed);
+            return convert_from_base(JerkUnit::MicrometerPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_micrometers_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::MicrometersPerSecondCubed);
+            return Jerk(value, JerkUnit::MicrometerPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimeters_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::MillimetersPerSecondCubed);
+            return convert_from_base(JerkUnit::MillimeterPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_millimeters_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::MillimetersPerSecondCubed);
+            return Jerk(value, JerkUnit::MillimeterPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t centimeters_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::CentimetersPerSecondCubed);
+            return convert_from_base(JerkUnit::CentimeterPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_centimeters_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::CentimetersPerSecondCubed);
+            return Jerk(value, JerkUnit::CentimeterPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t decimeters_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::DecimetersPerSecondCubed);
+            return convert_from_base(JerkUnit::DecimeterPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_decimeters_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::DecimetersPerSecondCubed);
+            return Jerk(value, JerkUnit::DecimeterPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilometers_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::KilometersPerSecondCubed);
+            return convert_from_base(JerkUnit::KilometerPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_kilometers_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::KilometersPerSecondCubed);
+            return Jerk(value, JerkUnit::KilometerPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t inches_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::InchesPerSecondCubed);
+            return convert_from_base(JerkUnit::InchPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_inches_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::InchesPerSecondCubed);
+            return Jerk(value, JerkUnit::InchPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t feet_per_second_cubed() const
         {
-            return convert_from_base(JerkUnit::FeetPerSecondCubed);
+            return convert_from_base(JerkUnit::FootPerSecondCubed);
         }
 
         [[nodiscard]] static constexpr Jerk from_feet_per_second_cubed(const un_scalar_t value)
         {
-            return Jerk(value, JerkUnit::FeetPerSecondCubed);
+            return Jerk(value, JerkUnit::FootPerSecondCubed);
         }
 
         [[nodiscard]] constexpr un_scalar_t standard_gravities_per_second() const
@@ -254,31 +301,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case JerkUnit::MetersPerSecondCubed:
+            case JerkUnit::MeterPerSecondCubed:
                 return value;
 
-            case JerkUnit::NanometersPerSecondCubed:
+            case JerkUnit::NanometerPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case JerkUnit::MicrometersPerSecondCubed:
+            case JerkUnit::MicrometerPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case JerkUnit::MillimetersPerSecondCubed:
+            case JerkUnit::MillimeterPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case JerkUnit::CentimetersPerSecondCubed:
+            case JerkUnit::CentimeterPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e-2));
 
-            case JerkUnit::DecimetersPerSecondCubed:
+            case JerkUnit::DecimeterPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e-1));
 
-            case JerkUnit::KilometersPerSecondCubed:
+            case JerkUnit::KilometerPerSecondCubed:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case JerkUnit::InchesPerSecondCubed:
+            case JerkUnit::InchPerSecondCubed:
                 return value * static_cast<un_scalar_t>(0.0254);
 
-            case JerkUnit::FeetPerSecondCubed:
+            case JerkUnit::FootPerSecondCubed:
                 return value * static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:
@@ -304,31 +351,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case JerkUnit::MetersPerSecondCubed:
+            case JerkUnit::MeterPerSecondCubed:
                 return base_value;
 
-            case JerkUnit::NanometersPerSecondCubed:
+            case JerkUnit::NanometerPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case JerkUnit::MicrometersPerSecondCubed:
+            case JerkUnit::MicrometerPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case JerkUnit::MillimetersPerSecondCubed:
+            case JerkUnit::MillimeterPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case JerkUnit::CentimetersPerSecondCubed:
+            case JerkUnit::CentimeterPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e-2);
 
-            case JerkUnit::DecimetersPerSecondCubed:
+            case JerkUnit::DecimeterPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e-1);
 
-            case JerkUnit::KilometersPerSecondCubed:
+            case JerkUnit::KilometerPerSecondCubed:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case JerkUnit::InchesPerSecondCubed:
+            case JerkUnit::InchPerSecondCubed:
                 return base_value / static_cast<un_scalar_t>(0.0254);
 
-            case JerkUnit::FeetPerSecondCubed:
+            case JerkUnit::FootPerSecondCubed:
                 return base_value / static_cast<un_scalar_t>(0.304800);
 
             case JerkUnit::StandardGravitiesPerSecond:

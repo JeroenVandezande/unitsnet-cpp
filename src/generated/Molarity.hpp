@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,18 +18,80 @@ namespace unitsnet_cpp
 {
     enum class MolarityUnit : std::uint8_t
     {
-        MolesPerCubicMeter,
-        KilomolesPerCubicMeter,
-        MolesPerLiter,
-        FemtomolesPerLiter,
-        PicomolesPerLiter,
-        NanomolesPerLiter,
-        MicromolesPerLiter,
-        MillimolesPerLiter,
-        CentimolesPerLiter,
-        DecimolesPerLiter,
-        PoundMolesPerCubicFoot,
+        MolePerCubicMeter,
+        KilomolePerCubicMeter,
+        MolePerLiter,
+        FemtomolePerLiter,
+        PicomolePerLiter,
+        NanomolePerLiter,
+        MicromolePerLiter,
+        MillimolePerLiter,
+        CentimolePerLiter,
+        DecimolePerLiter,
+        PoundMolePerCubicFoot,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of Molarity.</summary>
+    class MolarityDto
+    {
+    public:
+        constexpr MolarityDto() noexcept
+            : value{}, unit(MolarityUnit::MolePerCubicMeter)
+        {
+        }
+
+        constexpr MolarityDto(
+            const un_scalar_t value,
+            const MolarityUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        MolarityUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr MolarityUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<MolarityUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown Molarity unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MolarityDto from_json(const nlohmann::json& json)
+        {
+            return MolarityDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Molar concentration, also called molarity, amount concentration or substance concentration, is a measure of the concentration of a solute in a solution, or of any chemical species, in terms of amount of substance in a given volume.</summary>
     class Molarity : public UnitsNetBase
@@ -29,63 +99,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit Molarity(
             const un_scalar_t value,
-            const MolarityUnit unit = MolarityUnit::MolesPerCubicMeter)
+            const MolarityUnit unit = MolarityUnit::MolePerCubicMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "Molarity"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case MolarityUnit::MolesPerCubicMeter:
-                return "MolesPerCubicMeter";
-
-            case MolarityUnit::KilomolesPerCubicMeter:
-                return "KilomolesPerCubicMeter";
-
-            case MolarityUnit::MolesPerLiter:
-                return "MolesPerLiter";
-
-            case MolarityUnit::FemtomolesPerLiter:
-                return "FemtomolesPerLiter";
-
-            case MolarityUnit::PicomolesPerLiter:
-                return "PicomolesPerLiter";
-
-            case MolarityUnit::NanomolesPerLiter:
-                return "NanomolesPerLiter";
-
-            case MolarityUnit::MicromolesPerLiter:
-                return "MicromolesPerLiter";
-
-            case MolarityUnit::MillimolesPerLiter:
-                return "MillimolesPerLiter";
-
-            case MolarityUnit::CentimolesPerLiter:
-                return "CentimolesPerLiter";
-
-            case MolarityUnit::DecimolesPerLiter:
-                return "DecimolesPerLiter";
-
-            case MolarityUnit::PoundMolesPerCubicFoot:
-                return "PoundMolesPerCubicFoot";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -97,6 +114,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr MolarityDto to_dto(
+            const MolarityUnit unit = MolarityUnit::MolePerCubicMeter) const
+        {
+            return MolarityDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr Molarity from_dto(const MolarityDto& dto)
+        {
+            return Molarity(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const MolarityUnit unit = MolarityUnit::MolePerCubicMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static Molarity from_json(const nlohmann::json& json)
+        {
+            return from_dto(MolarityDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr Molarity operator+(const Molarity& other) const noexcept
         {
@@ -135,112 +182,112 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t moles_per_cubic_meter() const
         {
-            return convert_from_base(MolarityUnit::MolesPerCubicMeter);
+            return convert_from_base(MolarityUnit::MolePerCubicMeter);
         }
 
         [[nodiscard]] static constexpr Molarity from_moles_per_cubic_meter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::MolesPerCubicMeter);
+            return Molarity(value, MolarityUnit::MolePerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_cubic_meter() const
         {
-            return convert_from_base(MolarityUnit::KilomolesPerCubicMeter);
+            return convert_from_base(MolarityUnit::KilomolePerCubicMeter);
         }
 
         [[nodiscard]] static constexpr Molarity from_kilomoles_per_cubic_meter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::KilomolesPerCubicMeter);
+            return Molarity(value, MolarityUnit::KilomolePerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t moles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::MolesPerLiter);
+            return convert_from_base(MolarityUnit::MolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_moles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::MolesPerLiter);
+            return Molarity(value, MolarityUnit::MolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t femtomoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::FemtomolesPerLiter);
+            return convert_from_base(MolarityUnit::FemtomolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_femtomoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::FemtomolesPerLiter);
+            return Molarity(value, MolarityUnit::FemtomolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t picomoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::PicomolesPerLiter);
+            return convert_from_base(MolarityUnit::PicomolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_picomoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::PicomolesPerLiter);
+            return Molarity(value, MolarityUnit::PicomolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanomoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::NanomolesPerLiter);
+            return convert_from_base(MolarityUnit::NanomolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_nanomoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::NanomolesPerLiter);
+            return Molarity(value, MolarityUnit::NanomolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micromoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::MicromolesPerLiter);
+            return convert_from_base(MolarityUnit::MicromolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_micromoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::MicromolesPerLiter);
+            return Molarity(value, MolarityUnit::MicromolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::MillimolesPerLiter);
+            return convert_from_base(MolarityUnit::MillimolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_millimoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::MillimolesPerLiter);
+            return Molarity(value, MolarityUnit::MillimolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t centimoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::CentimolesPerLiter);
+            return convert_from_base(MolarityUnit::CentimolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_centimoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::CentimolesPerLiter);
+            return Molarity(value, MolarityUnit::CentimolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t decimoles_per_liter() const
         {
-            return convert_from_base(MolarityUnit::DecimolesPerLiter);
+            return convert_from_base(MolarityUnit::DecimolePerLiter);
         }
 
         [[nodiscard]] static constexpr Molarity from_decimoles_per_liter(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::DecimolesPerLiter);
+            return Molarity(value, MolarityUnit::DecimolePerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_cubic_foot() const
         {
-            return convert_from_base(MolarityUnit::PoundMolesPerCubicFoot);
+            return convert_from_base(MolarityUnit::PoundMolePerCubicFoot);
         }
 
         [[nodiscard]] static constexpr Molarity from_pound_moles_per_cubic_foot(const un_scalar_t value)
         {
-            return Molarity(value, MolarityUnit::PoundMolesPerCubicFoot);
+            return Molarity(value, MolarityUnit::PoundMolePerCubicFoot);
         }
 
         [[nodiscard]] static constexpr Molarity from_invalid()
@@ -254,37 +301,37 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MolarityUnit::MolesPerCubicMeter:
+            case MolarityUnit::MolePerCubicMeter:
                 return value;
 
-            case MolarityUnit::KilomolesPerCubicMeter:
+            case MolarityUnit::KilomolePerCubicMeter:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case MolarityUnit::MolesPerLiter:
+            case MolarityUnit::MolePerLiter:
                 return value / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::FemtomolesPerLiter:
+            case MolarityUnit::FemtomolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-15)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::PicomolesPerLiter:
+            case MolarityUnit::PicomolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::NanomolesPerLiter:
+            case MolarityUnit::NanomolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::MicromolesPerLiter:
+            case MolarityUnit::MicromolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::MillimolesPerLiter:
+            case MolarityUnit::MillimolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::CentimolesPerLiter:
+            case MolarityUnit::CentimolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::DecimolesPerLiter:
+            case MolarityUnit::DecimolePerLiter:
                 return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::PoundMolesPerCubicFoot:
+            case MolarityUnit::PoundMolePerCubicFoot:
                 return value * static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
             }
@@ -304,37 +351,37 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MolarityUnit::MolesPerCubicMeter:
+            case MolarityUnit::MolePerCubicMeter:
                 return base_value;
 
-            case MolarityUnit::KilomolesPerCubicMeter:
+            case MolarityUnit::KilomolePerCubicMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case MolarityUnit::MolesPerLiter:
+            case MolarityUnit::MolePerLiter:
                 return base_value * static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::FemtomolesPerLiter:
+            case MolarityUnit::FemtomolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-15);
 
-            case MolarityUnit::PicomolesPerLiter:
+            case MolarityUnit::PicomolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
-            case MolarityUnit::NanomolesPerLiter:
+            case MolarityUnit::NanomolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
-            case MolarityUnit::MicromolesPerLiter:
+            case MolarityUnit::MicromolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
-            case MolarityUnit::MillimolesPerLiter:
+            case MolarityUnit::MillimolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MolarityUnit::CentimolesPerLiter:
+            case MolarityUnit::CentimolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
-            case MolarityUnit::DecimolesPerLiter:
+            case MolarityUnit::DecimolePerLiter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
-            case MolarityUnit::PoundMolesPerCubicFoot:
+            case MolarityUnit::PoundMolePerCubicFoot:
                 return base_value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592));
 
             }

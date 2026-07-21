@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,10 +18,72 @@ namespace unitsnet_cpp
 {
     enum class SpecificVolumeUnit : std::uint8_t
     {
-        CubicMetersPerKilogram,
-        MillicubicMetersPerKilogram,
-        CubicFeetPerPound,
+        CubicMeterPerKilogram,
+        MillicubicMeterPerKilogram,
+        CubicFootPerPound,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of SpecificVolume.</summary>
+    class SpecificVolumeDto
+    {
+    public:
+        constexpr SpecificVolumeDto() noexcept
+            : value{}, unit(SpecificVolumeUnit::CubicMeterPerKilogram)
+        {
+        }
+
+        constexpr SpecificVolumeDto(
+            const un_scalar_t value,
+            const SpecificVolumeUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        SpecificVolumeUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr SpecificVolumeUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<SpecificVolumeUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown SpecificVolume unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificVolumeDto from_json(const nlohmann::json& json)
+        {
+            return SpecificVolumeDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>In thermodynamics, the specific volume of a substance is the ratio of the substance's volume to its mass. It is the reciprocal of density and an intrinsic property of matter as well.</summary>
     class SpecificVolume : public UnitsNetBase
@@ -21,39 +91,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit SpecificVolume(
             const un_scalar_t value,
-            const SpecificVolumeUnit unit = SpecificVolumeUnit::CubicMetersPerKilogram)
+            const SpecificVolumeUnit unit = SpecificVolumeUnit::CubicMeterPerKilogram)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "SpecificVolume"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case SpecificVolumeUnit::CubicMetersPerKilogram:
-                return "CubicMetersPerKilogram";
-
-            case SpecificVolumeUnit::MillicubicMetersPerKilogram:
-                return "MillicubicMetersPerKilogram";
-
-            case SpecificVolumeUnit::CubicFeetPerPound:
-                return "CubicFeetPerPound";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -65,6 +106,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr SpecificVolumeDto to_dto(
+            const SpecificVolumeUnit unit = SpecificVolumeUnit::CubicMeterPerKilogram) const
+        {
+            return SpecificVolumeDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr SpecificVolume from_dto(const SpecificVolumeDto& dto)
+        {
+            return SpecificVolume(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const SpecificVolumeUnit unit = SpecificVolumeUnit::CubicMeterPerKilogram) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificVolume from_json(const nlohmann::json& json)
+        {
+            return from_dto(SpecificVolumeDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr SpecificVolume operator+(const SpecificVolume& other) const noexcept
         {
@@ -103,32 +174,32 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_kilogram() const
         {
-            return convert_from_base(SpecificVolumeUnit::CubicMetersPerKilogram);
+            return convert_from_base(SpecificVolumeUnit::CubicMeterPerKilogram);
         }
 
         [[nodiscard]] static constexpr SpecificVolume from_cubic_meters_per_kilogram(const un_scalar_t value)
         {
-            return SpecificVolume(value, SpecificVolumeUnit::CubicMetersPerKilogram);
+            return SpecificVolume(value, SpecificVolumeUnit::CubicMeterPerKilogram);
         }
 
         [[nodiscard]] constexpr un_scalar_t millicubic_meters_per_kilogram() const
         {
-            return convert_from_base(SpecificVolumeUnit::MillicubicMetersPerKilogram);
+            return convert_from_base(SpecificVolumeUnit::MillicubicMeterPerKilogram);
         }
 
         [[nodiscard]] static constexpr SpecificVolume from_millicubic_meters_per_kilogram(const un_scalar_t value)
         {
-            return SpecificVolume(value, SpecificVolumeUnit::MillicubicMetersPerKilogram);
+            return SpecificVolume(value, SpecificVolumeUnit::MillicubicMeterPerKilogram);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_pound() const
         {
-            return convert_from_base(SpecificVolumeUnit::CubicFeetPerPound);
+            return convert_from_base(SpecificVolumeUnit::CubicFootPerPound);
         }
 
         [[nodiscard]] static constexpr SpecificVolume from_cubic_feet_per_pound(const un_scalar_t value)
         {
-            return SpecificVolume(value, SpecificVolumeUnit::CubicFeetPerPound);
+            return SpecificVolume(value, SpecificVolumeUnit::CubicFootPerPound);
         }
 
         [[nodiscard]] static constexpr SpecificVolume from_invalid()
@@ -142,13 +213,13 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificVolumeUnit::CubicMetersPerKilogram:
+            case SpecificVolumeUnit::CubicMeterPerKilogram:
                 return value;
 
-            case SpecificVolumeUnit::MillicubicMetersPerKilogram:
+            case SpecificVolumeUnit::MillicubicMeterPerKilogram:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case SpecificVolumeUnit::CubicFeetPerPound:
+            case SpecificVolumeUnit::CubicFootPerPound:
                 return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
 
             }
@@ -168,13 +239,13 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificVolumeUnit::CubicMetersPerKilogram:
+            case SpecificVolumeUnit::CubicMeterPerKilogram:
                 return base_value;
 
-            case SpecificVolumeUnit::MillicubicMetersPerKilogram:
+            case SpecificVolumeUnit::MillicubicMeterPerKilogram:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case SpecificVolumeUnit::CubicFeetPerPound:
+            case SpecificVolumeUnit::CubicFootPerPound:
                 return base_value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
             }

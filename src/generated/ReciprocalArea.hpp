@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,18 +18,80 @@ namespace unitsnet_cpp
 {
     enum class ReciprocalAreaUnit : std::uint8_t
     {
-        InverseSquareMeters,
-        InverseSquareKilometers,
-        InverseSquareDecimeters,
-        InverseSquareCentimeters,
-        InverseSquareMillimeters,
-        InverseSquareMicrometers,
-        InverseSquareMiles,
-        InverseSquareYards,
-        InverseSquareFeet,
-        InverseUsSurveySquareFeet,
-        InverseSquareInches,
+        InverseSquareMeter,
+        InverseSquareKilometer,
+        InverseSquareDecimeter,
+        InverseSquareCentimeter,
+        InverseSquareMillimeter,
+        InverseSquareMicrometer,
+        InverseSquareMile,
+        InverseSquareYard,
+        InverseSquareFoot,
+        InverseUsSurveySquareFoot,
+        InverseSquareInch,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ReciprocalArea.</summary>
+    class ReciprocalAreaDto
+    {
+    public:
+        constexpr ReciprocalAreaDto() noexcept
+            : value{}, unit(ReciprocalAreaUnit::InverseSquareMeter)
+        {
+        }
+
+        constexpr ReciprocalAreaDto(
+            const un_scalar_t value,
+            const ReciprocalAreaUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ReciprocalAreaUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ReciprocalAreaUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ReciprocalAreaUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ReciprocalArea unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ReciprocalAreaDto from_json(const nlohmann::json& json)
+        {
+            return ReciprocalAreaDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Reciprocal area (Inverse-square) quantity is used to specify a physical quantity inversely proportional to the square of the distance.</summary>
     class ReciprocalArea : public UnitsNetBase
@@ -29,63 +99,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit ReciprocalArea(
             const un_scalar_t value,
-            const ReciprocalAreaUnit unit = ReciprocalAreaUnit::InverseSquareMeters)
+            const ReciprocalAreaUnit unit = ReciprocalAreaUnit::InverseSquareMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ReciprocalArea"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ReciprocalAreaUnit::InverseSquareMeters:
-                return "InverseSquareMeters";
-
-            case ReciprocalAreaUnit::InverseSquareKilometers:
-                return "InverseSquareKilometers";
-
-            case ReciprocalAreaUnit::InverseSquareDecimeters:
-                return "InverseSquareDecimeters";
-
-            case ReciprocalAreaUnit::InverseSquareCentimeters:
-                return "InverseSquareCentimeters";
-
-            case ReciprocalAreaUnit::InverseSquareMillimeters:
-                return "InverseSquareMillimeters";
-
-            case ReciprocalAreaUnit::InverseSquareMicrometers:
-                return "InverseSquareMicrometers";
-
-            case ReciprocalAreaUnit::InverseSquareMiles:
-                return "InverseSquareMiles";
-
-            case ReciprocalAreaUnit::InverseSquareYards:
-                return "InverseSquareYards";
-
-            case ReciprocalAreaUnit::InverseSquareFeet:
-                return "InverseSquareFeet";
-
-            case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
-                return "InverseUsSurveySquareFeet";
-
-            case ReciprocalAreaUnit::InverseSquareInches:
-                return "InverseSquareInches";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -97,6 +114,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ReciprocalAreaDto to_dto(
+            const ReciprocalAreaUnit unit = ReciprocalAreaUnit::InverseSquareMeter) const
+        {
+            return ReciprocalAreaDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ReciprocalArea from_dto(const ReciprocalAreaDto& dto)
+        {
+            return ReciprocalArea(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ReciprocalAreaUnit unit = ReciprocalAreaUnit::InverseSquareMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ReciprocalArea from_json(const nlohmann::json& json)
+        {
+            return from_dto(ReciprocalAreaDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ReciprocalArea operator+(const ReciprocalArea& other) const noexcept
         {
@@ -135,112 +182,112 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_meters() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareMeters);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareMeter);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_meters(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMeters);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_kilometers() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareKilometers);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareKilometer);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_kilometers(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareKilometers);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareKilometer);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_decimeters() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareDecimeters);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_decimeters(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareDecimeters);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_centimeters() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareCentimeters);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_centimeters(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareCentimeters);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_millimeters() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareMillimeters);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_millimeters(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMillimeters);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_micrometers() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareMicrometers);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareMicrometer);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_micrometers(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMicrometers);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMicrometer);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_miles() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareMiles);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareMile);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_miles(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMiles);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareMile);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_yards() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareYards);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareYard);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_yards(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareYards);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareYard);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_feet() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareFeet);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareFoot);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_feet(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareFeet);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_us_survey_square_feet() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseUsSurveySquareFeet);
+            return convert_from_base(ReciprocalAreaUnit::InverseUsSurveySquareFoot);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_us_survey_square_feet(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseUsSurveySquareFeet);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseUsSurveySquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t inverse_square_inches() const
         {
-            return convert_from_base(ReciprocalAreaUnit::InverseSquareInches);
+            return convert_from_base(ReciprocalAreaUnit::InverseSquareInch);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_inverse_square_inches(const un_scalar_t value)
         {
-            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareInches);
+            return ReciprocalArea(value, ReciprocalAreaUnit::InverseSquareInch);
         }
 
         [[nodiscard]] static constexpr ReciprocalArea from_invalid()
@@ -254,37 +301,37 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ReciprocalAreaUnit::InverseSquareMeters:
+            case ReciprocalAreaUnit::InverseSquareMeter:
                 return value;
 
-            case ReciprocalAreaUnit::InverseSquareKilometers:
+            case ReciprocalAreaUnit::InverseSquareKilometer:
                 return value / static_cast<un_scalar_t>(1e6);
 
-            case ReciprocalAreaUnit::InverseSquareDecimeters:
+            case ReciprocalAreaUnit::InverseSquareDecimeter:
                 return value / static_cast<un_scalar_t>(1e-2);
 
-            case ReciprocalAreaUnit::InverseSquareCentimeters:
+            case ReciprocalAreaUnit::InverseSquareCentimeter:
                 return value / static_cast<un_scalar_t>(1e-4);
 
-            case ReciprocalAreaUnit::InverseSquareMillimeters:
+            case ReciprocalAreaUnit::InverseSquareMillimeter:
                 return value / static_cast<un_scalar_t>(1e-6);
 
-            case ReciprocalAreaUnit::InverseSquareMicrometers:
+            case ReciprocalAreaUnit::InverseSquareMicrometer:
                 return value / static_cast<un_scalar_t>(1e-12);
 
-            case ReciprocalAreaUnit::InverseSquareMiles:
+            case ReciprocalAreaUnit::InverseSquareMile:
                 return value / (static_cast<un_scalar_t>(1609.344) * static_cast<un_scalar_t>(1609.344));
 
-            case ReciprocalAreaUnit::InverseSquareYards:
+            case ReciprocalAreaUnit::InverseSquareYard:
                 return value / (static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(0.9144));
 
-            case ReciprocalAreaUnit::InverseSquareFeet:
+            case ReciprocalAreaUnit::InverseSquareFoot:
                 return value / static_cast<un_scalar_t>(9.290304e-2);
 
-            case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
+            case ReciprocalAreaUnit::InverseUsSurveySquareFoot:
                 return value / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) / (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
-            case ReciprocalAreaUnit::InverseSquareInches:
+            case ReciprocalAreaUnit::InverseSquareInch:
                 return value / static_cast<un_scalar_t>(0.00064516);
 
             }
@@ -304,37 +351,37 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ReciprocalAreaUnit::InverseSquareMeters:
+            case ReciprocalAreaUnit::InverseSquareMeter:
                 return base_value;
 
-            case ReciprocalAreaUnit::InverseSquareKilometers:
+            case ReciprocalAreaUnit::InverseSquareKilometer:
                 return base_value * static_cast<un_scalar_t>(1e6);
 
-            case ReciprocalAreaUnit::InverseSquareDecimeters:
+            case ReciprocalAreaUnit::InverseSquareDecimeter:
                 return base_value * static_cast<un_scalar_t>(1e-2);
 
-            case ReciprocalAreaUnit::InverseSquareCentimeters:
+            case ReciprocalAreaUnit::InverseSquareCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e-4);
 
-            case ReciprocalAreaUnit::InverseSquareMillimeters:
+            case ReciprocalAreaUnit::InverseSquareMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e-6);
 
-            case ReciprocalAreaUnit::InverseSquareMicrometers:
+            case ReciprocalAreaUnit::InverseSquareMicrometer:
                 return base_value * static_cast<un_scalar_t>(1e-12);
 
-            case ReciprocalAreaUnit::InverseSquareMiles:
+            case ReciprocalAreaUnit::InverseSquareMile:
                 return base_value * (static_cast<un_scalar_t>(1609.344) * static_cast<un_scalar_t>(1609.344));
 
-            case ReciprocalAreaUnit::InverseSquareYards:
+            case ReciprocalAreaUnit::InverseSquareYard:
                 return base_value * (static_cast<un_scalar_t>(0.9144) * static_cast<un_scalar_t>(0.9144));
 
-            case ReciprocalAreaUnit::InverseSquareFeet:
+            case ReciprocalAreaUnit::InverseSquareFoot:
                 return base_value * static_cast<un_scalar_t>(9.290304e-2);
 
-            case ReciprocalAreaUnit::InverseUsSurveySquareFeet:
+            case ReciprocalAreaUnit::InverseUsSurveySquareFoot:
                 return base_value * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0)) * (static_cast<un_scalar_t>(1200.0) / static_cast<un_scalar_t>(3937.0));
 
-            case ReciprocalAreaUnit::InverseSquareInches:
+            case ReciprocalAreaUnit::InverseSquareInch:
                 return base_value * static_cast<un_scalar_t>(0.00064516);
 
             }

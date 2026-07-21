@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,27 +18,89 @@ namespace unitsnet_cpp
 {
     enum class ElectricPotentialChangeRateUnit : std::uint8_t
     {
-        VoltsPerSecond,
-        MicrovoltsPerSecond,
-        MillivoltsPerSecond,
-        KilovoltsPerSecond,
-        MegavoltsPerSecond,
-        VoltsPerMicrosecond,
-        MicrovoltsPerMicrosecond,
-        MillivoltsPerMicrosecond,
-        KilovoltsPerMicrosecond,
-        MegavoltsPerMicrosecond,
-        VoltsPerMinute,
-        MicrovoltsPerMinute,
-        MillivoltsPerMinute,
-        KilovoltsPerMinute,
-        MegavoltsPerMinute,
-        VoltsPerHour,
-        MicrovoltsPerHour,
-        MillivoltsPerHour,
-        KilovoltsPerHour,
-        MegavoltsPerHour,
+        VoltPerSecond,
+        MicrovoltPerSecond,
+        MillivoltPerSecond,
+        KilovoltPerSecond,
+        MegavoltPerSecond,
+        VoltPerMicrosecond,
+        MicrovoltPerMicrosecond,
+        MillivoltPerMicrosecond,
+        KilovoltPerMicrosecond,
+        MegavoltPerMicrosecond,
+        VoltPerMinute,
+        MicrovoltPerMinute,
+        MillivoltPerMinute,
+        KilovoltPerMinute,
+        MegavoltPerMinute,
+        VoltPerHour,
+        MicrovoltPerHour,
+        MillivoltPerHour,
+        KilovoltPerHour,
+        MegavoltPerHour,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricPotentialChangeRate.</summary>
+    class ElectricPotentialChangeRateDto
+    {
+    public:
+        constexpr ElectricPotentialChangeRateDto() noexcept
+            : value{}, unit(ElectricPotentialChangeRateUnit::VoltPerSecond)
+        {
+        }
+
+        constexpr ElectricPotentialChangeRateDto(
+            const un_scalar_t value,
+            const ElectricPotentialChangeRateUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricPotentialChangeRateUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricPotentialChangeRateUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricPotentialChangeRateUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricPotentialChangeRate unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricPotentialChangeRateDto from_json(const nlohmann::json& json)
+        {
+            return ElectricPotentialChangeRateDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>ElectricPotential change rate is the ratio of the electric potential change to the time during which the change occurred (value of electric potential changes per unit time).</summary>
     class ElectricPotentialChangeRate : public UnitsNetBase
@@ -38,90 +108,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit ElectricPotentialChangeRate(
             const un_scalar_t value,
-            const ElectricPotentialChangeRateUnit unit = ElectricPotentialChangeRateUnit::VoltsPerSecond)
+            const ElectricPotentialChangeRateUnit unit = ElectricPotentialChangeRateUnit::VoltPerSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricPotentialChangeRate"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricPotentialChangeRateUnit::VoltsPerSecond:
-                return "VoltsPerSecond";
-
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerSecond:
-                return "MicrovoltsPerSecond";
-
-            case ElectricPotentialChangeRateUnit::MillivoltsPerSecond:
-                return "MillivoltsPerSecond";
-
-            case ElectricPotentialChangeRateUnit::KilovoltsPerSecond:
-                return "KilovoltsPerSecond";
-
-            case ElectricPotentialChangeRateUnit::MegavoltsPerSecond:
-                return "MegavoltsPerSecond";
-
-            case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
-                return "VoltsPerMicrosecond";
-
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
-                return "MicrovoltsPerMicrosecond";
-
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
-                return "MillivoltsPerMicrosecond";
-
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
-                return "KilovoltsPerMicrosecond";
-
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
-                return "MegavoltsPerMicrosecond";
-
-            case ElectricPotentialChangeRateUnit::VoltsPerMinute:
-                return "VoltsPerMinute";
-
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
-                return "MicrovoltsPerMinute";
-
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
-                return "MillivoltsPerMinute";
-
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
-                return "KilovoltsPerMinute";
-
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
-                return "MegavoltsPerMinute";
-
-            case ElectricPotentialChangeRateUnit::VoltsPerHour:
-                return "VoltsPerHour";
-
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
-                return "MicrovoltsPerHour";
-
-            case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
-                return "MillivoltsPerHour";
-
-            case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
-                return "KilovoltsPerHour";
-
-            case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
-                return "MegavoltsPerHour";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -133,6 +123,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricPotentialChangeRateDto to_dto(
+            const ElectricPotentialChangeRateUnit unit = ElectricPotentialChangeRateUnit::VoltPerSecond) const
+        {
+            return ElectricPotentialChangeRateDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricPotentialChangeRate from_dto(const ElectricPotentialChangeRateDto& dto)
+        {
+            return ElectricPotentialChangeRate(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricPotentialChangeRateUnit unit = ElectricPotentialChangeRateUnit::VoltPerSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricPotentialChangeRate from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricPotentialChangeRateDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricPotentialChangeRate operator+(const ElectricPotentialChangeRate& other) const noexcept
         {
@@ -171,202 +191,202 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t volts_per_second() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::VoltsPerSecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::VoltPerSecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_volts_per_second(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltsPerSecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t microvolts_per_second() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltsPerSecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltPerSecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_microvolts_per_second(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltsPerSecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t millivolts_per_second() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltsPerSecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltPerSecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_millivolts_per_second(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltsPerSecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilovolts_per_second() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltsPerSecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltPerSecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_kilovolts_per_second(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltsPerSecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megavolts_per_second() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltsPerSecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltPerSecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_megavolts_per_second(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltsPerSecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t volts_per_microsecond() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::VoltsPerMicrosecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::VoltPerMicrosecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_volts_per_microsecond(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltsPerMicrosecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltPerMicrosecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t microvolts_per_microsecond() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltPerMicrosecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_microvolts_per_microsecond(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltPerMicrosecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t millivolts_per_microsecond() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltPerMicrosecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_millivolts_per_microsecond(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltPerMicrosecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilovolts_per_microsecond() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltPerMicrosecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_kilovolts_per_microsecond(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltPerMicrosecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megavolts_per_microsecond() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltPerMicrosecond);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_megavolts_per_microsecond(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltPerMicrosecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t volts_per_minute() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::VoltsPerMinute);
+            return convert_from_base(ElectricPotentialChangeRateUnit::VoltPerMinute);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_volts_per_minute(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltsPerMinute);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t microvolts_per_minute() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltsPerMinute);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltPerMinute);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_microvolts_per_minute(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltsPerMinute);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t millivolts_per_minute() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltsPerMinute);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltPerMinute);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_millivolts_per_minute(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltsPerMinute);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilovolts_per_minute() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltsPerMinute);
+            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltPerMinute);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_kilovolts_per_minute(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltsPerMinute);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t megavolts_per_minute() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltsPerMinute);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltPerMinute);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_megavolts_per_minute(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltsPerMinute);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t volts_per_hour() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::VoltsPerHour);
+            return convert_from_base(ElectricPotentialChangeRateUnit::VoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_volts_per_hour(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltsPerHour);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::VoltPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t microvolts_per_hour() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltsPerHour);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MicrovoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_microvolts_per_hour(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltsPerHour);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MicrovoltPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t millivolts_per_hour() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltsPerHour);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MillivoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_millivolts_per_hour(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltsPerHour);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MillivoltPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilovolts_per_hour() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltsPerHour);
+            return convert_from_base(ElectricPotentialChangeRateUnit::KilovoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_kilovolts_per_hour(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltsPerHour);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::KilovoltPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t megavolts_per_hour() const
         {
-            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltsPerHour);
+            return convert_from_base(ElectricPotentialChangeRateUnit::MegavoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_megavolts_per_hour(const un_scalar_t value)
         {
-            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltsPerHour);
+            return ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit::MegavoltPerHour);
         }
 
         [[nodiscard]] static constexpr ElectricPotentialChangeRate from_invalid()
@@ -380,64 +400,64 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricPotentialChangeRateUnit::VoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::VoltPerSecond:
                 return value;
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MillivoltPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::KilovoltPerSecond:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MegavoltPerSecond:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::VoltPerMicrosecond:
                 return value * static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerMicrosecond:
                 return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MillivoltPerMicrosecond:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::KilovoltPerMicrosecond:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MegavoltPerMicrosecond:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::VoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::VoltPerMinute:
                 return value / static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MillivoltPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::KilovoltPerMinute:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MegavoltPerMinute:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::VoltsPerHour:
+            case ElectricPotentialChangeRateUnit::VoltPerHour:
                 return value / static_cast<un_scalar_t>(3600);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerHour:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(3600);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MillivoltPerHour:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(3600);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
+            case ElectricPotentialChangeRateUnit::KilovoltPerHour:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MegavoltPerHour:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(3600);
 
             }
@@ -457,64 +477,64 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricPotentialChangeRateUnit::VoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::VoltPerSecond:
                 return base_value;
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MillivoltPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::KilovoltPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerSecond:
+            case ElectricPotentialChangeRateUnit::MegavoltPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricPotentialChangeRateUnit::VoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::VoltPerMicrosecond:
                 return base_value / static_cast<un_scalar_t>(1E6);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerMicrosecond:
                 return (base_value / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MillivoltPerMicrosecond:
                 return (base_value / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::KilovoltPerMicrosecond:
                 return (base_value / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMicrosecond:
+            case ElectricPotentialChangeRateUnit::MegavoltPerMicrosecond:
                 return (base_value / static_cast<un_scalar_t>(1E6)) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricPotentialChangeRateUnit::VoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::VoltPerMinute:
                 return base_value * static_cast<un_scalar_t>(60);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerMinute:
                 return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MillivoltPerMinute:
                 return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::KilovoltPerMinute:
                 return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerMinute:
+            case ElectricPotentialChangeRateUnit::MegavoltPerMinute:
                 return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricPotentialChangeRateUnit::VoltsPerHour:
+            case ElectricPotentialChangeRateUnit::VoltPerHour:
                 return base_value * static_cast<un_scalar_t>(3600);
 
-            case ElectricPotentialChangeRateUnit::MicrovoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MicrovoltPerHour:
                 return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricPotentialChangeRateUnit::MillivoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MillivoltPerHour:
                 return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricPotentialChangeRateUnit::KilovoltsPerHour:
+            case ElectricPotentialChangeRateUnit::KilovoltPerHour:
                 return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricPotentialChangeRateUnit::MegavoltsPerHour:
+            case ElectricPotentialChangeRateUnit::MegavoltPerHour:
                 return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e6);
 
             }

@@ -3,8 +3,6 @@
   <component name="CidrCTestProjectState">
     <ctestState>
       <lineNumber testId="path:CMakeLists.txt test:unitsnet_cpp.unit_tests" value="203" />
-      <lineNumber testId="path:CMakeLists.txt test:unitsnet_cpp.unit_tests.double" value="204" />
-      <lineNumber testId="path:CMakeLists.txt test:unitsnet_cpp.unit_tests.float" value="204" />
     </ctestState>
   </component>
 </project>

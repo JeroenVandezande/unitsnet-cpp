@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,15 +18,77 @@ namespace unitsnet_cpp
 {
     enum class ElectricImpedanceUnit : std::uint8_t
     {
-        Ohms,
-        Nanoohms,
-        Microohms,
-        Milliohms,
-        Kiloohms,
-        Megaohms,
-        Gigaohms,
-        Teraohms,
+        Ohm,
+        Nanoohm,
+        Microohm,
+        Milliohm,
+        Kiloohm,
+        Megaohm,
+        Gigaohm,
+        Teraohm,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricImpedance.</summary>
+    class ElectricImpedanceDto
+    {
+    public:
+        constexpr ElectricImpedanceDto() noexcept
+            : value{}, unit(ElectricImpedanceUnit::Ohm)
+        {
+        }
+
+        constexpr ElectricImpedanceDto(
+            const un_scalar_t value,
+            const ElectricImpedanceUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricImpedanceUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricImpedanceUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricImpedanceUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricImpedance unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricImpedanceDto from_json(const nlohmann::json& json)
+        {
+            return ElectricImpedanceDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Electric impedance is the opposition to alternating current presented by the combined effect of resistance and reactance in a circuit. It is defined as the inverse of admittance. The SI unit of impedance is the ohm (symbol Ω).</summary>
     class ElectricImpedance : public UnitsNetBase
@@ -26,54 +96,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit ElectricImpedance(
             const un_scalar_t value,
-            const ElectricImpedanceUnit unit = ElectricImpedanceUnit::Ohms)
+            const ElectricImpedanceUnit unit = ElectricImpedanceUnit::Ohm)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricImpedance"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricImpedanceUnit::Ohms:
-                return "Ohms";
-
-            case ElectricImpedanceUnit::Nanoohms:
-                return "Nanoohms";
-
-            case ElectricImpedanceUnit::Microohms:
-                return "Microohms";
-
-            case ElectricImpedanceUnit::Milliohms:
-                return "Milliohms";
-
-            case ElectricImpedanceUnit::Kiloohms:
-                return "Kiloohms";
-
-            case ElectricImpedanceUnit::Megaohms:
-                return "Megaohms";
-
-            case ElectricImpedanceUnit::Gigaohms:
-                return "Gigaohms";
-
-            case ElectricImpedanceUnit::Teraohms:
-                return "Teraohms";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -85,6 +111,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricImpedanceDto to_dto(
+            const ElectricImpedanceUnit unit = ElectricImpedanceUnit::Ohm) const
+        {
+            return ElectricImpedanceDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricImpedance from_dto(const ElectricImpedanceDto& dto)
+        {
+            return ElectricImpedance(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricImpedanceUnit unit = ElectricImpedanceUnit::Ohm) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricImpedance from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricImpedanceDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricImpedance operator+(const ElectricImpedance& other) const noexcept
         {
@@ -123,82 +179,82 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t ohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Ohms);
+            return convert_from_base(ElectricImpedanceUnit::Ohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_ohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Ohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Ohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanoohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Nanoohms);
+            return convert_from_base(ElectricImpedanceUnit::Nanoohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_nanoohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Nanoohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Nanoohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t microohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Microohms);
+            return convert_from_base(ElectricImpedanceUnit::Microohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_microohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Microohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Microohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Milliohms);
+            return convert_from_base(ElectricImpedanceUnit::Milliohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_milliohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Milliohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Milliohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t kiloohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Kiloohms);
+            return convert_from_base(ElectricImpedanceUnit::Kiloohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_kiloohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Kiloohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Kiloohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Megaohms);
+            return convert_from_base(ElectricImpedanceUnit::Megaohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_megaohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Megaohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Megaohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigaohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Gigaohms);
+            return convert_from_base(ElectricImpedanceUnit::Gigaohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_gigaohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Gigaohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Gigaohm);
         }
 
         [[nodiscard]] constexpr un_scalar_t teraohms() const
         {
-            return convert_from_base(ElectricImpedanceUnit::Teraohms);
+            return convert_from_base(ElectricImpedanceUnit::Teraohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_teraohms(const un_scalar_t value)
         {
-            return ElectricImpedance(value, ElectricImpedanceUnit::Teraohms);
+            return ElectricImpedance(value, ElectricImpedanceUnit::Teraohm);
         }
 
         [[nodiscard]] static constexpr ElectricImpedance from_invalid()
@@ -212,28 +268,28 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricImpedanceUnit::Ohms:
+            case ElectricImpedanceUnit::Ohm:
                 return value;
 
-            case ElectricImpedanceUnit::Nanoohms:
+            case ElectricImpedanceUnit::Nanoohm:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case ElectricImpedanceUnit::Microohms:
+            case ElectricImpedanceUnit::Microohm:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case ElectricImpedanceUnit::Milliohms:
+            case ElectricImpedanceUnit::Milliohm:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case ElectricImpedanceUnit::Kiloohms:
+            case ElectricImpedanceUnit::Kiloohm:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case ElectricImpedanceUnit::Megaohms:
+            case ElectricImpedanceUnit::Megaohm:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case ElectricImpedanceUnit::Gigaohms:
+            case ElectricImpedanceUnit::Gigaohm:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case ElectricImpedanceUnit::Teraohms:
+            case ElectricImpedanceUnit::Teraohm:
                 return (value * static_cast<un_scalar_t>(1e12));
 
             }
@@ -253,28 +309,28 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricImpedanceUnit::Ohms:
+            case ElectricImpedanceUnit::Ohm:
                 return base_value;
 
-            case ElectricImpedanceUnit::Nanoohms:
+            case ElectricImpedanceUnit::Nanoohm:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case ElectricImpedanceUnit::Microohms:
+            case ElectricImpedanceUnit::Microohm:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricImpedanceUnit::Milliohms:
+            case ElectricImpedanceUnit::Milliohm:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricImpedanceUnit::Kiloohms:
+            case ElectricImpedanceUnit::Kiloohm:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricImpedanceUnit::Megaohms:
+            case ElectricImpedanceUnit::Megaohm:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricImpedanceUnit::Gigaohms:
+            case ElectricImpedanceUnit::Gigaohm:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case ElectricImpedanceUnit::Teraohms:
+            case ElectricImpedanceUnit::Teraohm:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
             }

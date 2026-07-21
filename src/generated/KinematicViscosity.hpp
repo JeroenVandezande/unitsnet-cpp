@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,7 +18,7 @@ namespace unitsnet_cpp
 {
     enum class KinematicViscosityUnit : std::uint8_t
     {
-        SquareMetersPerSecond,
+        SquareMeterPerSecond,
         Stokes,
         Nanostokes,
         Microstokes,
@@ -18,8 +26,70 @@ namespace unitsnet_cpp
         Centistokes,
         Decistokes,
         Kilostokes,
-        SquareFeetPerSecond,
+        SquareFootPerSecond,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of KinematicViscosity.</summary>
+    class KinematicViscosityDto
+    {
+    public:
+        constexpr KinematicViscosityDto() noexcept
+            : value{}, unit(KinematicViscosityUnit::SquareMeterPerSecond)
+        {
+        }
+
+        constexpr KinematicViscosityDto(
+            const un_scalar_t value,
+            const KinematicViscosityUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        KinematicViscosityUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr KinematicViscosityUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<KinematicViscosityUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown KinematicViscosity unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static KinematicViscosityDto from_json(const nlohmann::json& json)
+        {
+            return KinematicViscosityDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The viscosity of a fluid is a measure of its resistance to gradual deformation by shear stress or tensile stress.</summary>
     class KinematicViscosity : public UnitsNetBase
@@ -27,57 +97,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit KinematicViscosity(
             const un_scalar_t value,
-            const KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMetersPerSecond)
+            const KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMeterPerSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "KinematicViscosity"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case KinematicViscosityUnit::SquareMetersPerSecond:
-                return "SquareMetersPerSecond";
-
-            case KinematicViscosityUnit::Stokes:
-                return "Stokes";
-
-            case KinematicViscosityUnit::Nanostokes:
-                return "Nanostokes";
-
-            case KinematicViscosityUnit::Microstokes:
-                return "Microstokes";
-
-            case KinematicViscosityUnit::Millistokes:
-                return "Millistokes";
-
-            case KinematicViscosityUnit::Centistokes:
-                return "Centistokes";
-
-            case KinematicViscosityUnit::Decistokes:
-                return "Decistokes";
-
-            case KinematicViscosityUnit::Kilostokes:
-                return "Kilostokes";
-
-            case KinematicViscosityUnit::SquareFeetPerSecond:
-                return "SquareFeetPerSecond";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -89,6 +112,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr KinematicViscosityDto to_dto(
+            const KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMeterPerSecond) const
+        {
+            return KinematicViscosityDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr KinematicViscosity from_dto(const KinematicViscosityDto& dto)
+        {
+            return KinematicViscosity(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const KinematicViscosityUnit unit = KinematicViscosityUnit::SquareMeterPerSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static KinematicViscosity from_json(const nlohmann::json& json)
+        {
+            return from_dto(KinematicViscosityDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr KinematicViscosity operator+(const KinematicViscosity& other) const noexcept
         {
@@ -127,12 +180,12 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t square_meters_per_second() const
         {
-            return convert_from_base(KinematicViscosityUnit::SquareMetersPerSecond);
+            return convert_from_base(KinematicViscosityUnit::SquareMeterPerSecond);
         }
 
         [[nodiscard]] static constexpr KinematicViscosity from_square_meters_per_second(const un_scalar_t value)
         {
-            return KinematicViscosity(value, KinematicViscosityUnit::SquareMetersPerSecond);
+            return KinematicViscosity(value, KinematicViscosityUnit::SquareMeterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t stokes() const
@@ -207,12 +260,12 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t square_feet_per_second() const
         {
-            return convert_from_base(KinematicViscosityUnit::SquareFeetPerSecond);
+            return convert_from_base(KinematicViscosityUnit::SquareFootPerSecond);
         }
 
         [[nodiscard]] static constexpr KinematicViscosity from_square_feet_per_second(const un_scalar_t value)
         {
-            return KinematicViscosity(value, KinematicViscosityUnit::SquareFeetPerSecond);
+            return KinematicViscosity(value, KinematicViscosityUnit::SquareFootPerSecond);
         }
 
         [[nodiscard]] static constexpr KinematicViscosity from_invalid()
@@ -226,7 +279,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case KinematicViscosityUnit::SquareMetersPerSecond:
+            case KinematicViscosityUnit::SquareMeterPerSecond:
                 return value;
 
             case KinematicViscosityUnit::Stokes:
@@ -250,7 +303,7 @@ namespace unitsnet_cpp
             case KinematicViscosityUnit::Kilostokes:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e4);
 
-            case KinematicViscosityUnit::SquareFeetPerSecond:
+            case KinematicViscosityUnit::SquareFootPerSecond:
                 return value * static_cast<un_scalar_t>(9.290304e-2);
 
             }
@@ -270,7 +323,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case KinematicViscosityUnit::SquareMetersPerSecond:
+            case KinematicViscosityUnit::SquareMeterPerSecond:
                 return base_value;
 
             case KinematicViscosityUnit::Stokes:
@@ -294,7 +347,7 @@ namespace unitsnet_cpp
             case KinematicViscosityUnit::Kilostokes:
                 return (base_value * static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
 
-            case KinematicViscosityUnit::SquareFeetPerSecond:
+            case KinematicViscosityUnit::SquareFootPerSecond:
                 return base_value / static_cast<un_scalar_t>(9.290304e-2);
 
             }

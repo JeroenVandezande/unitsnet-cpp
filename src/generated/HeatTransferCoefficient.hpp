@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,13 +18,75 @@ namespace unitsnet_cpp
 {
     enum class HeatTransferCoefficientUnit : std::uint8_t
     {
-        WattsPerSquareMeterKelvin,
-        WattsPerSquareMeterCelsius,
-        BtusPerHourSquareFootDegreeFahrenheit,
-        BtusPerSecondSquareInchDegreeFahrenheit,
-        CaloriesPerHourSquareMeterDegreeCelsius,
-        KilocaloriesPerHourSquareMeterDegreeCelsius,
+        WattPerSquareMeterKelvin,
+        WattPerSquareMeterCelsius,
+        BtuPerHourSquareFootDegreeFahrenheit,
+        BtuPerSecondSquareInchDegreeFahrenheit,
+        CaloriePerHourSquareMeterDegreeCelsius,
+        KilocaloriePerHourSquareMeterDegreeCelsius,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of HeatTransferCoefficient.</summary>
+    class HeatTransferCoefficientDto
+    {
+    public:
+        constexpr HeatTransferCoefficientDto() noexcept
+            : value{}, unit(HeatTransferCoefficientUnit::WattPerSquareMeterKelvin)
+        {
+        }
+
+        constexpr HeatTransferCoefficientDto(
+            const un_scalar_t value,
+            const HeatTransferCoefficientUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        HeatTransferCoefficientUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr HeatTransferCoefficientUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<HeatTransferCoefficientUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown HeatTransferCoefficient unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static HeatTransferCoefficientDto from_json(const nlohmann::json& json)
+        {
+            return HeatTransferCoefficientDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The heat transfer coefficient or film coefficient, or film effectiveness, in thermodynamics and in mechanics is the proportionality constant between the heat flux and the thermodynamic driving force for the flow of heat (i.e., the temperature difference, ΔT)</summary>
     class HeatTransferCoefficient : public UnitsNetBase
@@ -24,48 +94,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit HeatTransferCoefficient(
             const un_scalar_t value,
-            const HeatTransferCoefficientUnit unit = HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin)
+            const HeatTransferCoefficientUnit unit = HeatTransferCoefficientUnit::WattPerSquareMeterKelvin)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "HeatTransferCoefficient"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin:
-                return "WattsPerSquareMeterKelvin";
-
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius:
-                return "WattsPerSquareMeterCelsius";
-
-            case HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit:
-                return "BtusPerHourSquareFootDegreeFahrenheit";
-
-            case HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit:
-                return "BtusPerSecondSquareInchDegreeFahrenheit";
-
-            case HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius:
-                return "CaloriesPerHourSquareMeterDegreeCelsius";
-
-            case HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius:
-                return "KilocaloriesPerHourSquareMeterDegreeCelsius";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -77,6 +109,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr HeatTransferCoefficientDto to_dto(
+            const HeatTransferCoefficientUnit unit = HeatTransferCoefficientUnit::WattPerSquareMeterKelvin) const
+        {
+            return HeatTransferCoefficientDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr HeatTransferCoefficient from_dto(const HeatTransferCoefficientDto& dto)
+        {
+            return HeatTransferCoefficient(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const HeatTransferCoefficientUnit unit = HeatTransferCoefficientUnit::WattPerSquareMeterKelvin) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static HeatTransferCoefficient from_json(const nlohmann::json& json)
+        {
+            return from_dto(HeatTransferCoefficientDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr HeatTransferCoefficient operator+(const HeatTransferCoefficient& other) const noexcept
         {
@@ -115,62 +177,62 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t watts_per_square_meter_kelvin() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin);
+            return convert_from_base(HeatTransferCoefficientUnit::WattPerSquareMeterKelvin);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_watts_per_square_meter_kelvin(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::WattPerSquareMeterKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t watts_per_square_meter_celsius() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius);
+            return convert_from_base(HeatTransferCoefficientUnit::WattPerSquareMeterCelsius);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_watts_per_square_meter_celsius(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::WattPerSquareMeterCelsius);
         }
 
         [[nodiscard]] constexpr un_scalar_t btus_per_hour_square_foot_degree_fahrenheit() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit);
+            return convert_from_base(HeatTransferCoefficientUnit::BtuPerHourSquareFootDegreeFahrenheit);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_btus_per_hour_square_foot_degree_fahrenheit(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::BtuPerHourSquareFootDegreeFahrenheit);
         }
 
         [[nodiscard]] constexpr un_scalar_t btus_per_second_square_inch_degree_fahrenheit() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit);
+            return convert_from_base(HeatTransferCoefficientUnit::BtuPerSecondSquareInchDegreeFahrenheit);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_btus_per_second_square_inch_degree_fahrenheit(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::BtuPerSecondSquareInchDegreeFahrenheit);
         }
 
         [[nodiscard]] constexpr un_scalar_t calories_per_hour_square_meter_degree_celsius() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius);
+            return convert_from_base(HeatTransferCoefficientUnit::CaloriePerHourSquareMeterDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_calories_per_hour_square_meter_degree_celsius(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::CaloriePerHourSquareMeterDegreeCelsius);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_hour_square_meter_degree_celsius() const
         {
-            return convert_from_base(HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius);
+            return convert_from_base(HeatTransferCoefficientUnit::KilocaloriePerHourSquareMeterDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_kilocalories_per_hour_square_meter_degree_celsius(const un_scalar_t value)
         {
-            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius);
+            return HeatTransferCoefficient(value, HeatTransferCoefficientUnit::KilocaloriePerHourSquareMeterDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr HeatTransferCoefficient from_invalid()
@@ -184,22 +246,22 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin:
+            case HeatTransferCoefficientUnit::WattPerSquareMeterKelvin:
                 return value;
 
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius:
+            case HeatTransferCoefficientUnit::WattPerSquareMeterCelsius:
                 return value;
 
-            case HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit:
+            case HeatTransferCoefficientUnit::BtuPerHourSquareFootDegreeFahrenheit:
                 return value * ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
 
-            case HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit:
+            case HeatTransferCoefficientUnit::BtuPerSecondSquareInchDegreeFahrenheit:
                 return value * ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2))) * static_cast<un_scalar_t>(1.8));
 
-            case HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius:
+            case HeatTransferCoefficientUnit::CaloriePerHourSquareMeterDegreeCelsius:
                 return (value * static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(3600);
 
-            case HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius:
+            case HeatTransferCoefficientUnit::KilocaloriePerHourSquareMeterDegreeCelsius:
                 return ((value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(3600);
 
             }
@@ -219,22 +281,22 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterKelvin:
+            case HeatTransferCoefficientUnit::WattPerSquareMeterKelvin:
                 return base_value;
 
-            case HeatTransferCoefficientUnit::WattsPerSquareMeterCelsius:
+            case HeatTransferCoefficientUnit::WattPerSquareMeterCelsius:
                 return base_value;
 
-            case HeatTransferCoefficientUnit::BtusPerHourSquareFootDegreeFahrenheit:
+            case HeatTransferCoefficientUnit::BtuPerHourSquareFootDegreeFahrenheit:
                 return base_value / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(3600))) * static_cast<un_scalar_t>(1.8));
 
-            case HeatTransferCoefficientUnit::BtusPerSecondSquareInchDegreeFahrenheit:
+            case HeatTransferCoefficientUnit::BtuPerSecondSquareInchDegreeFahrenheit:
                 return base_value / ((static_cast<un_scalar_t>(1055.05585262) / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(2.54e-2))) * static_cast<un_scalar_t>(1.8));
 
-            case HeatTransferCoefficientUnit::CaloriesPerHourSquareMeterDegreeCelsius:
+            case HeatTransferCoefficientUnit::CaloriePerHourSquareMeterDegreeCelsius:
                 return (base_value / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600);
 
-            case HeatTransferCoefficientUnit::KilocaloriesPerHourSquareMeterDegreeCelsius:
+            case HeatTransferCoefficientUnit::KilocaloriePerHourSquareMeterDegreeCelsius:
                 return ((base_value / static_cast<un_scalar_t>(4.184)) * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
             }

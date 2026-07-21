@@ -14,6 +14,7 @@ A header-only C++20 port of [UnitsNet](https://github.com/angularsen/UnitsNet), 
 - `constexpr` construction, conversion, arithmetic, and comparison
 - Named factories and accessors such as `Length::from_kilometers()` and `Length::miles()`
 - Generic conversion through each quantity's unit enum
+- Optional DTOs and nlohmann/json serialization for cross-language exchange
 - CPM-ready, header-only CMake target with no runtime dependencies
 
 ## Requirements
@@ -66,7 +67,7 @@ int main()
     constexpr auto trip = Length::from_kilometers(5.0);
     static_assert(trip.meters() == 5000.0);
 
-    const auto extra = Length(250.0, LengthUnit::Meters);
+    const auto extra = Length(250.0, LengthUnit::Meter);
     const auto total = trip + extra;
 
     std::cout << total.kilometers() << " km\n";
@@ -84,11 +85,46 @@ using namespace unitsnet_cpp;
 
 constexpr auto distance = Length::from_miles(1.0);       // Named factory
 constexpr auto meters = distance.meters();               // Named accessor
-constexpr auto yards = distance.value(LengthUnit::Yards); // Enum-based conversion
+constexpr auto yards = distance.value(LengthUnit::Yard); // Enum-based conversion
 constexpr auto base = distance.base_value();              // SI/base-unit value
 ```
 
 Quantities of the same type support `+`, `-`, multiplication and division by a scalar, equality, and less-than comparison.
+
+## Optional JSON serialization
+
+DTO and [nlohmann/json](https://github.com/nlohmann/json) support is disabled by default. Enable it before adding `unitsnet-cpp` with CPM:
+
+```cmake
+set(UNITSNET_ENABLE_NLOHMANN_JSON ON CACHE BOOL "" FORCE)
+CPMAddPackage("gh:JeroenVandezande/unitsnet-cpp@1.0.0")
+```
+
+The option downloads nlohmann/json, enables the generated DTO types, and propagates both requirements through `UnitsNet::UnitsNet`:
+
+```cpp
+#include <Length.hpp>
+#include <nlohmann/json.hpp>
+
+using namespace unitsnet_cpp;
+
+const auto distance = Length::from_kilometers(5.25);
+const nlohmann::json json = distance.to_json(LengthUnit::Kilometer);
+// {"unit":"Kilometer","value":5.25}
+
+const auto restored = Length::from_json(json);
+
+const auto dto_json = distance.to_dto(LengthUnit::Kilometer).to_json();
+const auto dto = LengthDto::from_json(dto_json);
+```
+
+When `UNITSNET_ENABLE_NLOHMANN_JSON` is off, nlohmann/json is neither downloaded nor included. If only DTOs are needed, enable them before adding the package:
+
+```cmake
+set(UNITSNET_ENABLE_DTO ON CACHE BOOL "" FORCE)
+```
+
+DTO support uses the header-only [magic_enum](https://github.com/Neargye/magic_enum) library for stable enum name conversion. Both optional dependencies remain disabled in the default configuration.
 
 ## Local CMake integration
 
@@ -112,15 +148,25 @@ cmake --build build --target unitsnet_cpp_compile_check
 
 ## Tests
 
-The test suite covers representative linear and affine conversions, enum-based conversion, arithmetic, comparisons, and invalid-unit handling. Every test is compiled and run twice: once with the default `double` representation and once with `UNITSNET_CPP_USE_FLOAT`. It uses CTest and has no third-party test-framework dependency.
+The Catch2 test suite covers representative linear and affine conversions, enum-based conversion, arithmetic, comparisons, DTOs, `magic_enum`, JSON round-trips, and invalid-unit handling. Every test is compiled and run twice: once with the default `double` representation and once with `UNITSNET_CPP_USE_FLOAT`. Catch2 discovers the individual cases through CTest, which is also used by the GitHub Actions workflow.
 
 Tests are enabled by default when building `unitsnet-cpp` directly and disabled by default when it is included as a dependency through CPM. To build and run them explicitly:
 
 ```sh
 cmake -S . -B build -DUNITSNET_CPP_BUILD_TESTS=ON
-cmake --build build --target unitsnet_cpp_tests unitsnet_cpp_tests_float
+cmake --build build
 ctest --test-dir build --output-on-failure
 ```
+
+The tests are a standalone CMake project and can also be configured directly:
+
+```sh
+cmake -S tests -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+Test-only DTO and JSON definitions and dependencies are injected through an interface fixture target in [`tests/CMakeLists.txt`](tests/CMakeLists.txt). They do not change the normal `UnitsNet::UnitsNet` configuration.
 
 ## Code generation
 
@@ -140,7 +186,7 @@ Maintainers who want to update the generated headers need the .NET 10 SDK. NuGet
 
 ## Project status
 
-The current release focuses on generated quantity types, conversions, same-quantity arithmetic, and comparisons. Some functionality available in UnitsNet—such as string parsing, formatting, localization, runtime quantity discovery, serialization, and cross-quantity operators—is not yet implemented.
+The current release focuses on generated quantity types, conversions, same-quantity arithmetic, comparisons, and optional DTO serialization. Some functionality available in UnitsNet—such as string parsing, formatting, localization, runtime quantity discovery, and cross-quantity operators—is not yet implemented.
 
 ## Acknowledgements
 

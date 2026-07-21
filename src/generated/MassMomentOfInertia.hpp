@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,35 +18,97 @@ namespace unitsnet_cpp
 {
     enum class MassMomentOfInertiaUnit : std::uint8_t
     {
-        GramSquareMeters,
-        MilligramSquareMeters,
-        KilogramSquareMeters,
-        GramSquareDecimeters,
-        MilligramSquareDecimeters,
-        KilogramSquareDecimeters,
-        GramSquareCentimeters,
-        MilligramSquareCentimeters,
-        KilogramSquareCentimeters,
-        GramSquareMillimeters,
-        MilligramSquareMillimeters,
-        KilogramSquareMillimeters,
-        TonneSquareMeters,
-        KilotonneSquareMeters,
-        MegatonneSquareMeters,
-        TonneSquareDecimeters,
-        KilotonneSquareDecimeters,
-        MegatonneSquareDecimeters,
-        TonneSquareCentimeters,
-        KilotonneSquareCentimeters,
-        MegatonneSquareCentimeters,
-        TonneSquareMillimeters,
-        KilotonneSquareMillimeters,
-        MegatonneSquareMillimeters,
-        PoundSquareFeet,
-        PoundSquareInches,
-        SlugSquareFeet,
-        SlugSquareInches,
+        GramSquareMeter,
+        MilligramSquareMeter,
+        KilogramSquareMeter,
+        GramSquareDecimeter,
+        MilligramSquareDecimeter,
+        KilogramSquareDecimeter,
+        GramSquareCentimeter,
+        MilligramSquareCentimeter,
+        KilogramSquareCentimeter,
+        GramSquareMillimeter,
+        MilligramSquareMillimeter,
+        KilogramSquareMillimeter,
+        TonneSquareMeter,
+        KilotonneSquareMeter,
+        MegatonneSquareMeter,
+        TonneSquareDecimeter,
+        KilotonneSquareDecimeter,
+        MegatonneSquareDecimeter,
+        TonneSquareCentimeter,
+        KilotonneSquareCentimeter,
+        MegatonneSquareCentimeter,
+        TonneSquareMillimeter,
+        KilotonneSquareMillimeter,
+        MegatonneSquareMillimeter,
+        PoundSquareFoot,
+        PoundSquareInch,
+        SlugSquareFoot,
+        SlugSquareInch,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of MassMomentOfInertia.</summary>
+    class MassMomentOfInertiaDto
+    {
+    public:
+        constexpr MassMomentOfInertiaDto() noexcept
+            : value{}, unit(MassMomentOfInertiaUnit::KilogramSquareMeter)
+        {
+        }
+
+        constexpr MassMomentOfInertiaDto(
+            const un_scalar_t value,
+            const MassMomentOfInertiaUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        MassMomentOfInertiaUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr MassMomentOfInertiaUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<MassMomentOfInertiaUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown MassMomentOfInertia unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassMomentOfInertiaDto from_json(const nlohmann::json& json)
+        {
+            return MassMomentOfInertiaDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>A property of body reflects how its mass is distributed with regard to an axis.</summary>
     class MassMomentOfInertia : public UnitsNetBase
@@ -46,114 +116,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit MassMomentOfInertia(
             const un_scalar_t value,
-            const MassMomentOfInertiaUnit unit = MassMomentOfInertiaUnit::KilogramSquareMeters)
+            const MassMomentOfInertiaUnit unit = MassMomentOfInertiaUnit::KilogramSquareMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "MassMomentOfInertia"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case MassMomentOfInertiaUnit::GramSquareMeters:
-                return "GramSquareMeters";
-
-            case MassMomentOfInertiaUnit::MilligramSquareMeters:
-                return "MilligramSquareMeters";
-
-            case MassMomentOfInertiaUnit::KilogramSquareMeters:
-                return "KilogramSquareMeters";
-
-            case MassMomentOfInertiaUnit::GramSquareDecimeters:
-                return "GramSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::MilligramSquareDecimeters:
-                return "MilligramSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::KilogramSquareDecimeters:
-                return "KilogramSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::GramSquareCentimeters:
-                return "GramSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::MilligramSquareCentimeters:
-                return "MilligramSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::KilogramSquareCentimeters:
-                return "KilogramSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::GramSquareMillimeters:
-                return "GramSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::MilligramSquareMillimeters:
-                return "MilligramSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::KilogramSquareMillimeters:
-                return "KilogramSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::TonneSquareMeters:
-                return "TonneSquareMeters";
-
-            case MassMomentOfInertiaUnit::KilotonneSquareMeters:
-                return "KilotonneSquareMeters";
-
-            case MassMomentOfInertiaUnit::MegatonneSquareMeters:
-                return "MegatonneSquareMeters";
-
-            case MassMomentOfInertiaUnit::TonneSquareDecimeters:
-                return "TonneSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::KilotonneSquareDecimeters:
-                return "KilotonneSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::MegatonneSquareDecimeters:
-                return "MegatonneSquareDecimeters";
-
-            case MassMomentOfInertiaUnit::TonneSquareCentimeters:
-                return "TonneSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::KilotonneSquareCentimeters:
-                return "KilotonneSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::MegatonneSquareCentimeters:
-                return "MegatonneSquareCentimeters";
-
-            case MassMomentOfInertiaUnit::TonneSquareMillimeters:
-                return "TonneSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::KilotonneSquareMillimeters:
-                return "KilotonneSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::MegatonneSquareMillimeters:
-                return "MegatonneSquareMillimeters";
-
-            case MassMomentOfInertiaUnit::PoundSquareFeet:
-                return "PoundSquareFeet";
-
-            case MassMomentOfInertiaUnit::PoundSquareInches:
-                return "PoundSquareInches";
-
-            case MassMomentOfInertiaUnit::SlugSquareFeet:
-                return "SlugSquareFeet";
-
-            case MassMomentOfInertiaUnit::SlugSquareInches:
-                return "SlugSquareInches";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -165,6 +131,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr MassMomentOfInertiaDto to_dto(
+            const MassMomentOfInertiaUnit unit = MassMomentOfInertiaUnit::KilogramSquareMeter) const
+        {
+            return MassMomentOfInertiaDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr MassMomentOfInertia from_dto(const MassMomentOfInertiaDto& dto)
+        {
+            return MassMomentOfInertia(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const MassMomentOfInertiaUnit unit = MassMomentOfInertiaUnit::KilogramSquareMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassMomentOfInertia from_json(const nlohmann::json& json)
+        {
+            return from_dto(MassMomentOfInertiaDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr MassMomentOfInertia operator+(const MassMomentOfInertia& other) const noexcept
         {
@@ -203,282 +199,282 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t gram_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::GramSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::GramSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_gram_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligram_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_milligram_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilogram_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilogram_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gram_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::GramSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::GramSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_gram_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligram_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_milligram_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilogram_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilogram_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gram_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::GramSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::GramSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_gram_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligram_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_milligram_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilogram_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilogram_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gram_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::GramSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::GramSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_gram_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::GramSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligram_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MilligramSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_milligram_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MilligramSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilogram_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilogramSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilogram_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilogramSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonne_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_tonne_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilotonne_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilotonne_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megatonne_square_meters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareMeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareMeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_megatonne_square_meters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareMeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonne_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_tonne_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilotonne_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilotonne_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megatonne_square_decimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareDecimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareDecimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_megatonne_square_decimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareDecimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareDecimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonne_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_tonne_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilotonne_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilotonne_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megatonne_square_centimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareCentimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_megatonne_square_centimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareCentimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonne_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::TonneSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_tonne_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::TonneSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilotonne_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::KilotonneSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_kilotonne_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::KilotonneSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megatonne_square_millimeters() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareMillimeters);
+            return convert_from_base(MassMomentOfInertiaUnit::MegatonneSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_megatonne_square_millimeters(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareMillimeters);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::MegatonneSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_square_feet() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::PoundSquareFeet);
+            return convert_from_base(MassMomentOfInertiaUnit::PoundSquareFoot);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_pound_square_feet(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::PoundSquareFeet);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::PoundSquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_square_inches() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::PoundSquareInches);
+            return convert_from_base(MassMomentOfInertiaUnit::PoundSquareInch);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_pound_square_inches(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::PoundSquareInches);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::PoundSquareInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t slug_square_feet() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::SlugSquareFeet);
+            return convert_from_base(MassMomentOfInertiaUnit::SlugSquareFoot);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_slug_square_feet(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::SlugSquareFeet);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::SlugSquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t slug_square_inches() const
         {
-            return convert_from_base(MassMomentOfInertiaUnit::SlugSquareInches);
+            return convert_from_base(MassMomentOfInertiaUnit::SlugSquareInch);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_slug_square_inches(const un_scalar_t value)
         {
-            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::SlugSquareInches);
+            return MassMomentOfInertia(value, MassMomentOfInertiaUnit::SlugSquareInch);
         }
 
         [[nodiscard]] static constexpr MassMomentOfInertia from_invalid()
@@ -492,88 +488,88 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassMomentOfInertiaUnit::GramSquareMeters:
+            case MassMomentOfInertiaUnit::GramSquareMeter:
                 return value / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MilligramSquareMeters:
+            case MassMomentOfInertiaUnit::MilligramSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::KilogramSquareMeters:
+            case MassMomentOfInertiaUnit::KilogramSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::GramSquareDecimeters:
+            case MassMomentOfInertiaUnit::GramSquareDecimeter:
                 return value / static_cast<un_scalar_t>(1e5);
 
-            case MassMomentOfInertiaUnit::MilligramSquareDecimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareDecimeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e5);
 
-            case MassMomentOfInertiaUnit::KilogramSquareDecimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareDecimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e5);
 
-            case MassMomentOfInertiaUnit::GramSquareCentimeters:
+            case MassMomentOfInertiaUnit::GramSquareCentimeter:
                 return value / static_cast<un_scalar_t>(1e7);
 
-            case MassMomentOfInertiaUnit::MilligramSquareCentimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e7);
 
-            case MassMomentOfInertiaUnit::KilogramSquareCentimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e7);
 
-            case MassMomentOfInertiaUnit::GramSquareMillimeters:
+            case MassMomentOfInertiaUnit::GramSquareMillimeter:
                 return value / static_cast<un_scalar_t>(1e9);
 
-            case MassMomentOfInertiaUnit::MilligramSquareMillimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e9);
 
-            case MassMomentOfInertiaUnit::KilogramSquareMillimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e9);
 
-            case MassMomentOfInertiaUnit::TonneSquareMeters:
+            case MassMomentOfInertiaUnit::TonneSquareMeter:
                 return value / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareMeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareMeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::TonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::TonneSquareDecimeter:
                 return value / static_cast<un_scalar_t>(1e-1);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareDecimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareDecimeter:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassMomentOfInertiaUnit::TonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::TonneSquareCentimeter:
                 return value / static_cast<un_scalar_t>(1e1);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e1);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e1);
 
-            case MassMomentOfInertiaUnit::TonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::TonneSquareMillimeter:
                 return value / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::PoundSquareFeet:
+            case MassMomentOfInertiaUnit::PoundSquareFoot:
                 return value * (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2));
 
-            case MassMomentOfInertiaUnit::PoundSquareInches:
+            case MassMomentOfInertiaUnit::PoundSquareInch:
                 return value * (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516));
 
-            case MassMomentOfInertiaUnit::SlugSquareFeet:
+            case MassMomentOfInertiaUnit::SlugSquareFoot:
                 return value * static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2) * static_cast<un_scalar_t>(9.80665) / static_cast<un_scalar_t>(0.3048);
 
-            case MassMomentOfInertiaUnit::SlugSquareInches:
+            case MassMomentOfInertiaUnit::SlugSquareInch:
                 return value * static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516) * static_cast<un_scalar_t>(9.80665) / static_cast<un_scalar_t>(0.3048);
 
             }
@@ -593,88 +589,88 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassMomentOfInertiaUnit::GramSquareMeters:
+            case MassMomentOfInertiaUnit::GramSquareMeter:
                 return base_value * static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MilligramSquareMeters:
+            case MassMomentOfInertiaUnit::MilligramSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilogramSquareMeters:
+            case MassMomentOfInertiaUnit::KilogramSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::GramSquareDecimeters:
+            case MassMomentOfInertiaUnit::GramSquareDecimeter:
                 return base_value * static_cast<un_scalar_t>(1e5);
 
-            case MassMomentOfInertiaUnit::MilligramSquareDecimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareDecimeter:
                 return (base_value * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilogramSquareDecimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareDecimeter:
                 return (base_value * static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::GramSquareCentimeters:
+            case MassMomentOfInertiaUnit::GramSquareCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e7);
 
-            case MassMomentOfInertiaUnit::MilligramSquareCentimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilogramSquareCentimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e7)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::GramSquareMillimeters:
+            case MassMomentOfInertiaUnit::GramSquareMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e9);
 
-            case MassMomentOfInertiaUnit::MilligramSquareMillimeters:
+            case MassMomentOfInertiaUnit::MilligramSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilogramSquareMillimeters:
+            case MassMomentOfInertiaUnit::KilogramSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::TonneSquareMeters:
+            case MassMomentOfInertiaUnit::TonneSquareMeter:
                 return base_value * static_cast<un_scalar_t>(1e-3);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareMeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareMeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareMeter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e6);
 
-            case MassMomentOfInertiaUnit::TonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::TonneSquareDecimeter:
                 return base_value * static_cast<un_scalar_t>(1e-1);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareDecimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareDecimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareDecimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e6);
 
-            case MassMomentOfInertiaUnit::TonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::TonneSquareCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e1);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareCentimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1e6);
 
-            case MassMomentOfInertiaUnit::TonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::TonneSquareMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::KilotonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::KilotonneSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassMomentOfInertiaUnit::MegatonneSquareMillimeters:
+            case MassMomentOfInertiaUnit::MegatonneSquareMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
-            case MassMomentOfInertiaUnit::PoundSquareFeet:
+            case MassMomentOfInertiaUnit::PoundSquareFoot:
                 return base_value / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2));
 
-            case MassMomentOfInertiaUnit::PoundSquareInches:
+            case MassMomentOfInertiaUnit::PoundSquareInch:
                 return base_value / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516));
 
-            case MassMomentOfInertiaUnit::SlugSquareFeet:
+            case MassMomentOfInertiaUnit::SlugSquareFoot:
                 return base_value * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.290304e-2) * static_cast<un_scalar_t>(9.80665));
 
-            case MassMomentOfInertiaUnit::SlugSquareInches:
+            case MassMomentOfInertiaUnit::SlugSquareInch:
                 return base_value * static_cast<un_scalar_t>(0.3048) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(0.00064516) * static_cast<un_scalar_t>(9.80665));
 
             }

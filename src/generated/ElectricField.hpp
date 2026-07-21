@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,8 +18,70 @@ namespace unitsnet_cpp
 {
     enum class ElectricFieldUnit : std::uint8_t
     {
-        VoltsPerMeter,
+        VoltPerMeter,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricField.</summary>
+    class ElectricFieldDto
+    {
+    public:
+        constexpr ElectricFieldDto() noexcept
+            : value{}, unit(ElectricFieldUnit::VoltPerMeter)
+        {
+        }
+
+        constexpr ElectricFieldDto(
+            const un_scalar_t value,
+            const ElectricFieldUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricFieldUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricFieldUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricFieldUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricField unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricFieldDto from_json(const nlohmann::json& json)
+        {
+            return ElectricFieldDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>An electric field is a force field that surrounds electric charges that attracts or repels other electric charges.</summary>
     class ElectricField : public UnitsNetBase
@@ -19,33 +89,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit ElectricField(
             const un_scalar_t value,
-            const ElectricFieldUnit unit = ElectricFieldUnit::VoltsPerMeter)
+            const ElectricFieldUnit unit = ElectricFieldUnit::VoltPerMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricField"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricFieldUnit::VoltsPerMeter:
-                return "VoltsPerMeter";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -57,6 +104,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricFieldDto to_dto(
+            const ElectricFieldUnit unit = ElectricFieldUnit::VoltPerMeter) const
+        {
+            return ElectricFieldDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricField from_dto(const ElectricFieldDto& dto)
+        {
+            return ElectricField(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricFieldUnit unit = ElectricFieldUnit::VoltPerMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricField from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricFieldDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricField operator+(const ElectricField& other) const noexcept
         {
@@ -95,12 +172,12 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t volts_per_meter() const
         {
-            return convert_from_base(ElectricFieldUnit::VoltsPerMeter);
+            return convert_from_base(ElectricFieldUnit::VoltPerMeter);
         }
 
         [[nodiscard]] static constexpr ElectricField from_volts_per_meter(const un_scalar_t value)
         {
-            return ElectricField(value, ElectricFieldUnit::VoltsPerMeter);
+            return ElectricField(value, ElectricFieldUnit::VoltPerMeter);
         }
 
         [[nodiscard]] static constexpr ElectricField from_invalid()
@@ -114,7 +191,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricFieldUnit::VoltsPerMeter:
+            case ElectricFieldUnit::VoltPerMeter:
                 return value;
 
             }
@@ -134,7 +211,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case ElectricFieldUnit::VoltsPerMeter:
+            case ElectricFieldUnit::VoltPerMeter:
                 return base_value;
 
             }

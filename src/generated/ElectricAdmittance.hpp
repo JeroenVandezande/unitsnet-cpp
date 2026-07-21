@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -18,15 +26,77 @@ namespace unitsnet_cpp
         Megasiemens,
         Gigasiemens,
         Terasiemens,
-        Mhos,
-        Nanomhos,
-        Micromhos,
-        Millimhos,
-        Kilomhos,
-        Megamhos,
-        Gigamhos,
-        Teramhos,
+        Mho,
+        Nanomho,
+        Micromho,
+        Millimho,
+        Kilomho,
+        Megamho,
+        Gigamho,
+        Teramho,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricAdmittance.</summary>
+    class ElectricAdmittanceDto
+    {
+    public:
+        constexpr ElectricAdmittanceDto() noexcept
+            : value{}, unit(ElectricAdmittanceUnit::Siemens)
+        {
+        }
+
+        constexpr ElectricAdmittanceDto(
+            const un_scalar_t value,
+            const ElectricAdmittanceUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricAdmittanceUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricAdmittanceUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricAdmittanceUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricAdmittance unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricAdmittanceDto from_json(const nlohmann::json& json)
+        {
+            return ElectricAdmittanceDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Electric admittance is a measure of how easily a circuit or device will allow a current to flow by the combined effect of conductance and susceptance in a circuit. It is defined as the inverse of impedance. The SI unit of admittance is the siemens (symbol S).</summary>
     class ElectricAdmittance : public UnitsNetBase
@@ -39,74 +109,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricAdmittance"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricAdmittanceUnit::Siemens:
-                return "Siemens";
-
-            case ElectricAdmittanceUnit::Nanosiemens:
-                return "Nanosiemens";
-
-            case ElectricAdmittanceUnit::Microsiemens:
-                return "Microsiemens";
-
-            case ElectricAdmittanceUnit::Millisiemens:
-                return "Millisiemens";
-
-            case ElectricAdmittanceUnit::Kilosiemens:
-                return "Kilosiemens";
-
-            case ElectricAdmittanceUnit::Megasiemens:
-                return "Megasiemens";
-
-            case ElectricAdmittanceUnit::Gigasiemens:
-                return "Gigasiemens";
-
-            case ElectricAdmittanceUnit::Terasiemens:
-                return "Terasiemens";
-
-            case ElectricAdmittanceUnit::Mhos:
-                return "Mhos";
-
-            case ElectricAdmittanceUnit::Nanomhos:
-                return "Nanomhos";
-
-            case ElectricAdmittanceUnit::Micromhos:
-                return "Micromhos";
-
-            case ElectricAdmittanceUnit::Millimhos:
-                return "Millimhos";
-
-            case ElectricAdmittanceUnit::Kilomhos:
-                return "Kilomhos";
-
-            case ElectricAdmittanceUnit::Megamhos:
-                return "Megamhos";
-
-            case ElectricAdmittanceUnit::Gigamhos:
-                return "Gigamhos";
-
-            case ElectricAdmittanceUnit::Teramhos:
-                return "Teramhos";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -117,6 +119,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricAdmittanceDto to_dto(
+            const ElectricAdmittanceUnit unit = ElectricAdmittanceUnit::Siemens) const
+        {
+            return ElectricAdmittanceDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricAdmittance from_dto(const ElectricAdmittanceDto& dto)
+        {
+            return ElectricAdmittance(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricAdmittanceUnit unit = ElectricAdmittanceUnit::Siemens) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricAdmittance from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricAdmittanceDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricAdmittance operator+(const ElectricAdmittance& other) const noexcept
         {
@@ -235,82 +267,82 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t mhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Mhos);
+            return convert_from_base(ElectricAdmittanceUnit::Mho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_mhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Mhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Mho);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanomhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Nanomhos);
+            return convert_from_base(ElectricAdmittanceUnit::Nanomho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_nanomhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Nanomhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Nanomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t micromhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Micromhos);
+            return convert_from_base(ElectricAdmittanceUnit::Micromho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_micromhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Micromhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Micromho);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Millimhos);
+            return convert_from_base(ElectricAdmittanceUnit::Millimho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_millimhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Millimhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Millimho);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Kilomhos);
+            return convert_from_base(ElectricAdmittanceUnit::Kilomho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_kilomhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Kilomhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Kilomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t megamhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Megamhos);
+            return convert_from_base(ElectricAdmittanceUnit::Megamho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_megamhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Megamhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Megamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigamhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Gigamhos);
+            return convert_from_base(ElectricAdmittanceUnit::Gigamho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_gigamhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Gigamhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Gigamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t teramhos() const
         {
-            return convert_from_base(ElectricAdmittanceUnit::Teramhos);
+            return convert_from_base(ElectricAdmittanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_teramhos(const un_scalar_t value)
         {
-            return ElectricAdmittance(value, ElectricAdmittanceUnit::Teramhos);
+            return ElectricAdmittance(value, ElectricAdmittanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricAdmittance from_invalid()
@@ -348,28 +380,28 @@ namespace unitsnet_cpp
             case ElectricAdmittanceUnit::Terasiemens:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case ElectricAdmittanceUnit::Mhos:
+            case ElectricAdmittanceUnit::Mho:
                 return value;
 
-            case ElectricAdmittanceUnit::Nanomhos:
+            case ElectricAdmittanceUnit::Nanomho:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case ElectricAdmittanceUnit::Micromhos:
+            case ElectricAdmittanceUnit::Micromho:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case ElectricAdmittanceUnit::Millimhos:
+            case ElectricAdmittanceUnit::Millimho:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case ElectricAdmittanceUnit::Kilomhos:
+            case ElectricAdmittanceUnit::Kilomho:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case ElectricAdmittanceUnit::Megamhos:
+            case ElectricAdmittanceUnit::Megamho:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case ElectricAdmittanceUnit::Gigamhos:
+            case ElectricAdmittanceUnit::Gigamho:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case ElectricAdmittanceUnit::Teramhos:
+            case ElectricAdmittanceUnit::Teramho:
                 return (value * static_cast<un_scalar_t>(1e12));
 
             }
@@ -413,28 +445,28 @@ namespace unitsnet_cpp
             case ElectricAdmittanceUnit::Terasiemens:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case ElectricAdmittanceUnit::Mhos:
+            case ElectricAdmittanceUnit::Mho:
                 return base_value;
 
-            case ElectricAdmittanceUnit::Nanomhos:
+            case ElectricAdmittanceUnit::Nanomho:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case ElectricAdmittanceUnit::Micromhos:
+            case ElectricAdmittanceUnit::Micromho:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricAdmittanceUnit::Millimhos:
+            case ElectricAdmittanceUnit::Millimho:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricAdmittanceUnit::Kilomhos:
+            case ElectricAdmittanceUnit::Kilomho:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricAdmittanceUnit::Megamhos:
+            case ElectricAdmittanceUnit::Megamho:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricAdmittanceUnit::Gigamhos:
+            case ElectricAdmittanceUnit::Gigamho:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case ElectricAdmittanceUnit::Teramhos:
+            case ElectricAdmittanceUnit::Teramho:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
             }

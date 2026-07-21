@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,16 +18,78 @@ namespace unitsnet_cpp
 {
     enum class VolumePerLengthUnit : std::uint8_t
     {
-        CubicMetersPerMeter,
-        LitersPerMeter,
-        LitersPerKilometer,
-        LitersPerMillimeter,
-        OilBarrelsPerFoot,
-        CubicYardsPerFoot,
-        CubicYardsPerUsSurveyFoot,
-        UsGallonsPerMile,
-        ImperialGallonsPerMile,
+        CubicMeterPerMeter,
+        LiterPerMeter,
+        LiterPerKilometer,
+        LiterPerMillimeter,
+        OilBarrelPerFoot,
+        CubicYardPerFoot,
+        CubicYardPerUsSurveyFoot,
+        UsGallonPerMile,
+        ImperialGallonPerMile,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of VolumePerLength.</summary>
+    class VolumePerLengthDto
+    {
+    public:
+        constexpr VolumePerLengthDto() noexcept
+            : value{}, unit(VolumePerLengthUnit::CubicMeterPerMeter)
+        {
+        }
+
+        constexpr VolumePerLengthDto(
+            const un_scalar_t value,
+            const VolumePerLengthUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        VolumePerLengthUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr VolumePerLengthUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<VolumePerLengthUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown VolumePerLength unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VolumePerLengthDto from_json(const nlohmann::json& json)
+        {
+            return VolumePerLengthDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Volume, typically of fluid, that a container can hold within a unit of length.</summary>
     class VolumePerLength : public UnitsNetBase
@@ -27,57 +97,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit VolumePerLength(
             const un_scalar_t value,
-            const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMetersPerMeter)
+            const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMeterPerMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "VolumePerLength"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case VolumePerLengthUnit::CubicMetersPerMeter:
-                return "CubicMetersPerMeter";
-
-            case VolumePerLengthUnit::LitersPerMeter:
-                return "LitersPerMeter";
-
-            case VolumePerLengthUnit::LitersPerKilometer:
-                return "LitersPerKilometer";
-
-            case VolumePerLengthUnit::LitersPerMillimeter:
-                return "LitersPerMillimeter";
-
-            case VolumePerLengthUnit::OilBarrelsPerFoot:
-                return "OilBarrelsPerFoot";
-
-            case VolumePerLengthUnit::CubicYardsPerFoot:
-                return "CubicYardsPerFoot";
-
-            case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
-                return "CubicYardsPerUsSurveyFoot";
-
-            case VolumePerLengthUnit::UsGallonsPerMile:
-                return "UsGallonsPerMile";
-
-            case VolumePerLengthUnit::ImperialGallonsPerMile:
-                return "ImperialGallonsPerMile";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -89,6 +112,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr VolumePerLengthDto to_dto(
+            const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMeterPerMeter) const
+        {
+            return VolumePerLengthDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr VolumePerLength from_dto(const VolumePerLengthDto& dto)
+        {
+            return VolumePerLength(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const VolumePerLengthUnit unit = VolumePerLengthUnit::CubicMeterPerMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VolumePerLength from_json(const nlohmann::json& json)
+        {
+            return from_dto(VolumePerLengthDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr VolumePerLength operator+(const VolumePerLength& other) const noexcept
         {
@@ -127,92 +180,92 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_meter() const
         {
-            return convert_from_base(VolumePerLengthUnit::CubicMetersPerMeter);
+            return convert_from_base(VolumePerLengthUnit::CubicMeterPerMeter);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_cubic_meters_per_meter(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::CubicMetersPerMeter);
+            return VolumePerLength(value, VolumePerLengthUnit::CubicMeterPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_meter() const
         {
-            return convert_from_base(VolumePerLengthUnit::LitersPerMeter);
+            return convert_from_base(VolumePerLengthUnit::LiterPerMeter);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_liters_per_meter(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::LitersPerMeter);
+            return VolumePerLength(value, VolumePerLengthUnit::LiterPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_kilometer() const
         {
-            return convert_from_base(VolumePerLengthUnit::LitersPerKilometer);
+            return convert_from_base(VolumePerLengthUnit::LiterPerKilometer);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_liters_per_kilometer(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::LitersPerKilometer);
+            return VolumePerLength(value, VolumePerLengthUnit::LiterPerKilometer);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_millimeter() const
         {
-            return convert_from_base(VolumePerLengthUnit::LitersPerMillimeter);
+            return convert_from_base(VolumePerLengthUnit::LiterPerMillimeter);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_liters_per_millimeter(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::LitersPerMillimeter);
+            return VolumePerLength(value, VolumePerLengthUnit::LiterPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_foot() const
         {
-            return convert_from_base(VolumePerLengthUnit::OilBarrelsPerFoot);
+            return convert_from_base(VolumePerLengthUnit::OilBarrelPerFoot);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_oil_barrels_per_foot(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::OilBarrelsPerFoot);
+            return VolumePerLength(value, VolumePerLengthUnit::OilBarrelPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_foot() const
         {
-            return convert_from_base(VolumePerLengthUnit::CubicYardsPerFoot);
+            return convert_from_base(VolumePerLengthUnit::CubicYardPerFoot);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_foot(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::CubicYardsPerFoot);
+            return VolumePerLength(value, VolumePerLengthUnit::CubicYardPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_us_survey_foot() const
         {
-            return convert_from_base(VolumePerLengthUnit::CubicYardsPerUsSurveyFoot);
+            return convert_from_base(VolumePerLengthUnit::CubicYardPerUsSurveyFoot);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_cubic_yards_per_us_survey_foot(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::CubicYardsPerUsSurveyFoot);
+            return VolumePerLength(value, VolumePerLengthUnit::CubicYardPerUsSurveyFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_mile() const
         {
-            return convert_from_base(VolumePerLengthUnit::UsGallonsPerMile);
+            return convert_from_base(VolumePerLengthUnit::UsGallonPerMile);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_us_gallons_per_mile(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::UsGallonsPerMile);
+            return VolumePerLength(value, VolumePerLengthUnit::UsGallonPerMile);
         }
 
         [[nodiscard]] constexpr un_scalar_t imperial_gallons_per_mile() const
         {
-            return convert_from_base(VolumePerLengthUnit::ImperialGallonsPerMile);
+            return convert_from_base(VolumePerLengthUnit::ImperialGallonPerMile);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_imperial_gallons_per_mile(const un_scalar_t value)
         {
-            return VolumePerLength(value, VolumePerLengthUnit::ImperialGallonsPerMile);
+            return VolumePerLength(value, VolumePerLengthUnit::ImperialGallonPerMile);
         }
 
         [[nodiscard]] static constexpr VolumePerLength from_invalid()
@@ -226,31 +279,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VolumePerLengthUnit::CubicMetersPerMeter:
+            case VolumePerLengthUnit::CubicMeterPerMeter:
                 return value;
 
-            case VolumePerLengthUnit::LitersPerMeter:
+            case VolumePerLengthUnit::LiterPerMeter:
                 return value / static_cast<un_scalar_t>(1000);
 
-            case VolumePerLengthUnit::LitersPerKilometer:
+            case VolumePerLengthUnit::LiterPerKilometer:
                 return value / static_cast<un_scalar_t>(1e6);
 
-            case VolumePerLengthUnit::LitersPerMillimeter:
+            case VolumePerLengthUnit::LiterPerMillimeter:
                 return value;
 
-            case VolumePerLengthUnit::OilBarrelsPerFoot:
+            case VolumePerLengthUnit::OilBarrelPerFoot:
                 return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(0.3048);
 
-            case VolumePerLengthUnit::CubicYardsPerFoot:
+            case VolumePerLengthUnit::CubicYardPerFoot:
                 return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(0.3048);
 
-            case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
+            case VolumePerLengthUnit::CubicYardPerUsSurveyFoot:
                 return value * static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937) / static_cast<un_scalar_t>(1200);
 
-            case VolumePerLengthUnit::UsGallonsPerMile:
+            case VolumePerLengthUnit::UsGallonPerMile:
                 return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(1609.344);
 
-            case VolumePerLengthUnit::ImperialGallonsPerMile:
+            case VolumePerLengthUnit::ImperialGallonPerMile:
                 return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(1609.344);
 
             }
@@ -270,31 +323,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VolumePerLengthUnit::CubicMetersPerMeter:
+            case VolumePerLengthUnit::CubicMeterPerMeter:
                 return base_value;
 
-            case VolumePerLengthUnit::LitersPerMeter:
+            case VolumePerLengthUnit::LiterPerMeter:
                 return base_value * static_cast<un_scalar_t>(1000);
 
-            case VolumePerLengthUnit::LitersPerKilometer:
+            case VolumePerLengthUnit::LiterPerKilometer:
                 return base_value * static_cast<un_scalar_t>(1e6);
 
-            case VolumePerLengthUnit::LitersPerMillimeter:
+            case VolumePerLengthUnit::LiterPerMillimeter:
                 return base_value;
 
-            case VolumePerLengthUnit::OilBarrelsPerFoot:
+            case VolumePerLengthUnit::OilBarrelPerFoot:
                 return base_value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.158987294928);
 
-            case VolumePerLengthUnit::CubicYardsPerFoot:
+            case VolumePerLengthUnit::CubicYardPerFoot:
                 return base_value * static_cast<un_scalar_t>(0.3048) / static_cast<un_scalar_t>(0.764554857984);
 
-            case VolumePerLengthUnit::CubicYardsPerUsSurveyFoot:
+            case VolumePerLengthUnit::CubicYardPerUsSurveyFoot:
                 return base_value * static_cast<un_scalar_t>(1200) / (static_cast<un_scalar_t>(0.764554857984) * static_cast<un_scalar_t>(3937));
 
-            case VolumePerLengthUnit::UsGallonsPerMile:
+            case VolumePerLengthUnit::UsGallonPerMile:
                 return base_value * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.003785411784);
 
-            case VolumePerLengthUnit::ImperialGallonsPerMile:
+            case VolumePerLengthUnit::ImperialGallonPerMile:
                 return base_value * static_cast<un_scalar_t>(1609.344) / static_cast<un_scalar_t>(0.00454609);
 
             }

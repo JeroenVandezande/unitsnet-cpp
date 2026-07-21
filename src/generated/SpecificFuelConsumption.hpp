@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,11 +18,73 @@ namespace unitsnet_cpp
 {
     enum class SpecificFuelConsumptionUnit : std::uint8_t
     {
-        PoundsMassPerPoundForceHour,
-        KilogramsPerKilogramForceHour,
-        GramsPerKilonewtonSecond,
-        KilogramsPerKilonewtonSecond,
+        PoundMassPerPoundForceHour,
+        KilogramPerKilogramForceHour,
+        GramPerKilonewtonSecond,
+        KilogramPerKilonewtonSecond,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of SpecificFuelConsumption.</summary>
+    class SpecificFuelConsumptionDto
+    {
+    public:
+        constexpr SpecificFuelConsumptionDto() noexcept
+            : value{}, unit(SpecificFuelConsumptionUnit::GramPerKilonewtonSecond)
+        {
+        }
+
+        constexpr SpecificFuelConsumptionDto(
+            const un_scalar_t value,
+            const SpecificFuelConsumptionUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        SpecificFuelConsumptionUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr SpecificFuelConsumptionUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<SpecificFuelConsumptionUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown SpecificFuelConsumption unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificFuelConsumptionDto from_json(const nlohmann::json& json)
+        {
+            return SpecificFuelConsumptionDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>SFC is the fuel efficiency of an engine design with respect to thrust output</summary>
     class SpecificFuelConsumption : public UnitsNetBase
@@ -22,42 +92,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit SpecificFuelConsumption(
             const un_scalar_t value,
-            const SpecificFuelConsumptionUnit unit = SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond)
+            const SpecificFuelConsumptionUnit unit = SpecificFuelConsumptionUnit::GramPerKilonewtonSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "SpecificFuelConsumption"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
-                return "PoundsMassPerPoundForceHour";
-
-            case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
-                return "KilogramsPerKilogramForceHour";
-
-            case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
-                return "GramsPerKilonewtonSecond";
-
-            case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
-                return "KilogramsPerKilonewtonSecond";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -69,6 +107,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr SpecificFuelConsumptionDto to_dto(
+            const SpecificFuelConsumptionUnit unit = SpecificFuelConsumptionUnit::GramPerKilonewtonSecond) const
+        {
+            return SpecificFuelConsumptionDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr SpecificFuelConsumption from_dto(const SpecificFuelConsumptionDto& dto)
+        {
+            return SpecificFuelConsumption(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const SpecificFuelConsumptionUnit unit = SpecificFuelConsumptionUnit::GramPerKilonewtonSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificFuelConsumption from_json(const nlohmann::json& json)
+        {
+            return from_dto(SpecificFuelConsumptionDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr SpecificFuelConsumption operator+(const SpecificFuelConsumption& other) const noexcept
         {
@@ -107,42 +175,42 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t pounds_mass_per_pound_force_hour() const
         {
-            return convert_from_base(SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour);
+            return convert_from_base(SpecificFuelConsumptionUnit::PoundMassPerPoundForceHour);
         }
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_pounds_mass_per_pound_force_hour(const un_scalar_t value)
         {
-            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour);
+            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::PoundMassPerPoundForceHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilogram_force_hour() const
         {
-            return convert_from_base(SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour);
+            return convert_from_base(SpecificFuelConsumptionUnit::KilogramPerKilogramForceHour);
         }
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_kilograms_per_kilogram_force_hour(const un_scalar_t value)
         {
-            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour);
+            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramPerKilogramForceHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_kilonewton_second() const
         {
-            return convert_from_base(SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond);
+            return convert_from_base(SpecificFuelConsumptionUnit::GramPerKilonewtonSecond);
         }
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_grams_per_kilonewton_second(const un_scalar_t value)
         {
-            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond);
+            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::GramPerKilonewtonSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_kilonewton_second() const
         {
-            return convert_from_base(SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond);
+            return convert_from_base(SpecificFuelConsumptionUnit::KilogramPerKilonewtonSecond);
         }
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_kilograms_per_kilonewton_second(const un_scalar_t value)
         {
-            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond);
+            return SpecificFuelConsumption(value, SpecificFuelConsumptionUnit::KilogramPerKilonewtonSecond);
         }
 
         [[nodiscard]] static constexpr SpecificFuelConsumption from_invalid()
@@ -156,16 +224,16 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
+            case SpecificFuelConsumptionUnit::PoundMassPerPoundForceHour:
                 return value * static_cast<un_scalar_t>(1000) / (static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600));
 
-            case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
+            case SpecificFuelConsumptionUnit::KilogramPerKilogramForceHour:
                 return value * static_cast<un_scalar_t>(1000) / (static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600));
 
-            case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
+            case SpecificFuelConsumptionUnit::GramPerKilonewtonSecond:
                 return value;
 
-            case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
+            case SpecificFuelConsumptionUnit::KilogramPerKilonewtonSecond:
                 return (value * static_cast<un_scalar_t>(1e3));
 
             }
@@ -185,16 +253,16 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificFuelConsumptionUnit::PoundsMassPerPoundForceHour:
+            case SpecificFuelConsumptionUnit::PoundMassPerPoundForceHour:
                 return base_value * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
-            case SpecificFuelConsumptionUnit::KilogramsPerKilogramForceHour:
+            case SpecificFuelConsumptionUnit::KilogramPerKilogramForceHour:
                 return base_value * static_cast<un_scalar_t>(9.80665e-3) * static_cast<un_scalar_t>(3600) / static_cast<un_scalar_t>(1000);
 
-            case SpecificFuelConsumptionUnit::GramsPerKilonewtonSecond:
+            case SpecificFuelConsumptionUnit::GramPerKilonewtonSecond:
                 return base_value;
 
-            case SpecificFuelConsumptionUnit::KilogramsPerKilonewtonSecond:
+            case SpecificFuelConsumptionUnit::KilogramPerKilonewtonSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
             }

@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,8 +18,70 @@ namespace unitsnet_cpp
 {
     enum class VitaminAUnit : std::uint8_t
     {
-        InternationalUnits,
+        InternationalUnit,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of VitaminA.</summary>
+    class VitaminADto
+    {
+    public:
+        constexpr VitaminADto() noexcept
+            : value{}, unit(VitaminAUnit::InternationalUnit)
+        {
+        }
+
+        constexpr VitaminADto(
+            const un_scalar_t value,
+            const VitaminAUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        VitaminAUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr VitaminAUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<VitaminAUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown VitaminA unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VitaminADto from_json(const nlohmann::json& json)
+        {
+            return VitaminADto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Vitamin A: 1 IU is the biological equivalent of 0.3 µg retinol, or of 0.6 µg beta-carotene.</summary>
     class VitaminA : public UnitsNetBase
@@ -19,33 +89,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit VitaminA(
             const un_scalar_t value,
-            const VitaminAUnit unit = VitaminAUnit::InternationalUnits)
+            const VitaminAUnit unit = VitaminAUnit::InternationalUnit)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "VitaminA"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case VitaminAUnit::InternationalUnits:
-                return "InternationalUnits";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -57,6 +104,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr VitaminADto to_dto(
+            const VitaminAUnit unit = VitaminAUnit::InternationalUnit) const
+        {
+            return VitaminADto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr VitaminA from_dto(const VitaminADto& dto)
+        {
+            return VitaminA(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const VitaminAUnit unit = VitaminAUnit::InternationalUnit) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VitaminA from_json(const nlohmann::json& json)
+        {
+            return from_dto(VitaminADto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr VitaminA operator+(const VitaminA& other) const noexcept
         {
@@ -95,12 +172,12 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t international_units() const
         {
-            return convert_from_base(VitaminAUnit::InternationalUnits);
+            return convert_from_base(VitaminAUnit::InternationalUnit);
         }
 
         [[nodiscard]] static constexpr VitaminA from_international_units(const un_scalar_t value)
         {
-            return VitaminA(value, VitaminAUnit::InternationalUnits);
+            return VitaminA(value, VitaminAUnit::InternationalUnit);
         }
 
         [[nodiscard]] static constexpr VitaminA from_invalid()
@@ -114,7 +191,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VitaminAUnit::InternationalUnits:
+            case VitaminAUnit::InternationalUnit:
                 return value;
 
             }
@@ -134,7 +211,7 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VitaminAUnit::InternationalUnits:
+            case VitaminAUnit::InternationalUnit:
                 return base_value;
 
             }

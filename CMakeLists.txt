@@ -6,6 +6,28 @@ project(
         LANGUAGES CXX
 )
 
+option(
+        UNITSNET_CPP_BUILD_TESTS
+        "Build the unitsnet-cpp unit tests"
+        ${PROJECT_IS_TOP_LEVEL}
+)
+
+option(
+        UNITSNET_ENABLE_DTO
+        "Enable UnitsNet data-transfer objects"
+        OFF
+)
+
+option(
+        UNITSNET_ENABLE_NLOHMANN_JSON
+        "Enable nlohmann/json serialization for UnitsNet DTOs"
+        OFF
+)
+
+if (UNITSNET_ENABLE_NLOHMANN_JSON)
+    set(UNITSNET_ENABLE_DTO ON)
+endif ()
+
 # ---------------------------------------------------------------------------
 # Generated headers
 # ---------------------------------------------------------------------------
@@ -52,12 +74,24 @@ file(
 )
 include("${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake")
 
-CPMAddPackage(
-        NAME frozen
-        GITHUB_REPOSITORY cesanta/frozen
-        GIT_TAG 1.7
-        DOWNLOAD_ONLY YES
-)
+if (UNITSNET_ENABLE_DTO AND NOT TARGET magic_enum::magic_enum)
+    CPMAddPackage(
+            NAME magic_enum
+            GITHUB_REPOSITORY Neargye/magic_enum
+            GIT_TAG v0.9.8
+    )
+endif ()
+
+if (UNITSNET_ENABLE_NLOHMANN_JSON AND NOT TARGET nlohmann_json::nlohmann_json)
+    CPMAddPackage(
+            NAME nlohmann_json
+            GITHUB_REPOSITORY nlohmann/json
+            GIT_TAG v3.12.0
+            OPTIONS
+            "JSON_BuildTests OFF"
+            "JSON_Install OFF"
+    )
+endif ()
 
 add_library(unitsnet_cpp INTERFACE)
 
@@ -71,6 +105,34 @@ target_compile_features(
         INTERFACE
         cxx_std_20
 )
+
+if (UNITSNET_ENABLE_DTO)
+    target_link_libraries(
+            unitsnet_cpp
+            INTERFACE
+            magic_enum::magic_enum
+    )
+
+    target_compile_definitions(
+            unitsnet_cpp
+            INTERFACE
+            UNITSNET_ENABLE_DTO
+    )
+endif ()
+
+if (UNITSNET_ENABLE_NLOHMANN_JSON)
+    target_link_libraries(
+            unitsnet_cpp
+            INTERFACE
+            nlohmann_json::nlohmann_json
+    )
+
+    target_compile_definitions(
+        unitsnet_cpp
+        INTERFACE
+            UNITSNET_ENABLE_NLOHMANN_JSON
+    )
+endif ()
 
 target_include_directories(
         unitsnet_cpp
@@ -181,69 +243,7 @@ endif ()
 # included as a dependency (for example through CPM.cmake).
 # ---------------------------------------------------------------------------
 
-option(
-        UNITSNET_CPP_BUILD_TESTS
-        "Build the unitsnet-cpp unit tests"
-        ${PROJECT_IS_TOP_LEVEL}
-)
-
 if (UNITSNET_CPP_BUILD_TESTS)
     enable_testing()
-
-    function(unitsnet_cpp_add_test_target target_name test_name)
-        add_executable(
-                ${target_name}
-                tests/unitsnet_tests.cpp
-        )
-
-        target_link_libraries(
-                ${target_name}
-                PRIVATE
-                UnitsNet::UnitsNet
-        )
-
-        if (MSVC)
-            target_compile_options(
-                    ${target_name}
-                    PRIVATE
-                    /W4
-                    /permissive-
-            )
-        else ()
-            target_compile_options(
-                    ${target_name}
-                    PRIVATE
-                    -Wall
-                    -Wextra
-                    -Wpedantic
-            )
-        endif ()
-
-        add_test(
-                NAME ${test_name}
-                COMMAND ${target_name}
-        )
-    endfunction()
-
-    unitsnet_cpp_add_test_target(
-            unitsnet_cpp_tests
-            unitsnet_cpp.unit_tests.double
-    )
-
-    unitsnet_cpp_add_test_target(
-            unitsnet_cpp_tests_float
-            unitsnet_cpp.unit_tests.float
-    )
-
-    target_compile_definitions(
-            unitsnet_cpp_tests_float
-            PRIVATE
-            UNITSNET_CPP_USE_FLOAT
-    )
-
-    target_compile_definitions(
-            unitsnet_cpp_tests
-            PRIVATE
-            UNITSNET_ENABLE_JSON
-    )
+    add_subdirectory(tests)
 endif ()

@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -18,15 +26,77 @@ namespace unitsnet_cpp
         Megasiemens,
         Gigasiemens,
         Terasiemens,
-        Mhos,
-        Nanomhos,
-        Micromhos,
-        Millimhos,
-        Kilomhos,
-        Megamhos,
-        Gigamhos,
-        Teramhos,
+        Mho,
+        Nanomho,
+        Micromho,
+        Millimho,
+        Kilomho,
+        Megamho,
+        Gigamho,
+        Teramho,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricConductance.</summary>
+    class ElectricConductanceDto
+    {
+    public:
+        constexpr ElectricConductanceDto() noexcept
+            : value{}, unit(ElectricConductanceUnit::Siemens)
+        {
+        }
+
+        constexpr ElectricConductanceDto(
+            const un_scalar_t value,
+            const ElectricConductanceUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricConductanceUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricConductanceUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricConductanceUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricConductance unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricConductanceDto from_json(const nlohmann::json& json)
+        {
+            return ElectricConductanceDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The electrical conductance of an object is a measure of the ease with which an electric current passes. Along with susceptance, it is one of two elements of admittance. Its reciprocal quantity is electrical resistance.</summary>
     class ElectricConductance : public UnitsNetBase
@@ -39,74 +109,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricConductance"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricConductanceUnit::Siemens:
-                return "Siemens";
-
-            case ElectricConductanceUnit::Nanosiemens:
-                return "Nanosiemens";
-
-            case ElectricConductanceUnit::Microsiemens:
-                return "Microsiemens";
-
-            case ElectricConductanceUnit::Millisiemens:
-                return "Millisiemens";
-
-            case ElectricConductanceUnit::Kilosiemens:
-                return "Kilosiemens";
-
-            case ElectricConductanceUnit::Megasiemens:
-                return "Megasiemens";
-
-            case ElectricConductanceUnit::Gigasiemens:
-                return "Gigasiemens";
-
-            case ElectricConductanceUnit::Terasiemens:
-                return "Terasiemens";
-
-            case ElectricConductanceUnit::Mhos:
-                return "Mhos";
-
-            case ElectricConductanceUnit::Nanomhos:
-                return "Nanomhos";
-
-            case ElectricConductanceUnit::Micromhos:
-                return "Micromhos";
-
-            case ElectricConductanceUnit::Millimhos:
-                return "Millimhos";
-
-            case ElectricConductanceUnit::Kilomhos:
-                return "Kilomhos";
-
-            case ElectricConductanceUnit::Megamhos:
-                return "Megamhos";
-
-            case ElectricConductanceUnit::Gigamhos:
-                return "Gigamhos";
-
-            case ElectricConductanceUnit::Teramhos:
-                return "Teramhos";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -117,6 +119,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricConductanceDto to_dto(
+            const ElectricConductanceUnit unit = ElectricConductanceUnit::Siemens) const
+        {
+            return ElectricConductanceDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricConductance from_dto(const ElectricConductanceDto& dto)
+        {
+            return ElectricConductance(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricConductanceUnit unit = ElectricConductanceUnit::Siemens) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricConductance from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricConductanceDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricConductance operator+(const ElectricConductance& other) const noexcept
         {
@@ -235,82 +267,82 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t mhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Mhos);
+            return convert_from_base(ElectricConductanceUnit::Mho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_mhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Mhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Mho);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanomhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Nanomhos);
+            return convert_from_base(ElectricConductanceUnit::Nanomho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_nanomhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Nanomhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Nanomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t micromhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Micromhos);
+            return convert_from_base(ElectricConductanceUnit::Micromho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_micromhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Micromhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Micromho);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Millimhos);
+            return convert_from_base(ElectricConductanceUnit::Millimho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_millimhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Millimhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Millimho);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Kilomhos);
+            return convert_from_base(ElectricConductanceUnit::Kilomho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_kilomhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Kilomhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Kilomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t megamhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Megamhos);
+            return convert_from_base(ElectricConductanceUnit::Megamho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_megamhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Megamhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Megamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigamhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Gigamhos);
+            return convert_from_base(ElectricConductanceUnit::Gigamho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_gigamhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Gigamhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Gigamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t teramhos() const
         {
-            return convert_from_base(ElectricConductanceUnit::Teramhos);
+            return convert_from_base(ElectricConductanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_teramhos(const un_scalar_t value)
         {
-            return ElectricConductance(value, ElectricConductanceUnit::Teramhos);
+            return ElectricConductance(value, ElectricConductanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricConductance from_invalid()
@@ -348,28 +380,28 @@ namespace unitsnet_cpp
             case ElectricConductanceUnit::Terasiemens:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case ElectricConductanceUnit::Mhos:
+            case ElectricConductanceUnit::Mho:
                 return value;
 
-            case ElectricConductanceUnit::Nanomhos:
+            case ElectricConductanceUnit::Nanomho:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case ElectricConductanceUnit::Micromhos:
+            case ElectricConductanceUnit::Micromho:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case ElectricConductanceUnit::Millimhos:
+            case ElectricConductanceUnit::Millimho:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case ElectricConductanceUnit::Kilomhos:
+            case ElectricConductanceUnit::Kilomho:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case ElectricConductanceUnit::Megamhos:
+            case ElectricConductanceUnit::Megamho:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case ElectricConductanceUnit::Gigamhos:
+            case ElectricConductanceUnit::Gigamho:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case ElectricConductanceUnit::Teramhos:
+            case ElectricConductanceUnit::Teramho:
                 return (value * static_cast<un_scalar_t>(1e12));
 
             }
@@ -413,28 +445,28 @@ namespace unitsnet_cpp
             case ElectricConductanceUnit::Terasiemens:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case ElectricConductanceUnit::Mhos:
+            case ElectricConductanceUnit::Mho:
                 return base_value;
 
-            case ElectricConductanceUnit::Nanomhos:
+            case ElectricConductanceUnit::Nanomho:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case ElectricConductanceUnit::Micromhos:
+            case ElectricConductanceUnit::Micromho:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricConductanceUnit::Millimhos:
+            case ElectricConductanceUnit::Millimho:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricConductanceUnit::Kilomhos:
+            case ElectricConductanceUnit::Kilomho:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricConductanceUnit::Megamhos:
+            case ElectricConductanceUnit::Megamho:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricConductanceUnit::Gigamhos:
+            case ElectricConductanceUnit::Gigamho:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case ElectricConductanceUnit::Teramhos:
+            case ElectricConductanceUnit::Teramho:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
             }

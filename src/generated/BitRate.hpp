@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,46 +18,108 @@ namespace unitsnet_cpp
 {
     enum class BitRateUnit : std::uint8_t
     {
-        BitsPerSecond,
-        KilobitsPerSecond,
-        MegabitsPerSecond,
-        GigabitsPerSecond,
-        TerabitsPerSecond,
-        PetabitsPerSecond,
-        ExabitsPerSecond,
-        KibibitsPerSecond,
-        MebibitsPerSecond,
-        GibibitsPerSecond,
-        TebibitsPerSecond,
-        PebibitsPerSecond,
-        ExbibitsPerSecond,
-        BytesPerSecond,
-        KilobytesPerSecond,
-        MegabytesPerSecond,
-        GigabytesPerSecond,
-        TerabytesPerSecond,
-        PetabytesPerSecond,
-        ExabytesPerSecond,
-        KibibytesPerSecond,
-        MebibytesPerSecond,
-        GibibytesPerSecond,
-        TebibytesPerSecond,
-        PebibytesPerSecond,
-        ExbibytesPerSecond,
-        OctetsPerSecond,
-        KilooctetsPerSecond,
-        MegaoctetsPerSecond,
-        GigaoctetsPerSecond,
-        TeraoctetsPerSecond,
-        PetaoctetsPerSecond,
-        ExaoctetsPerSecond,
-        KibioctetsPerSecond,
-        MebioctetsPerSecond,
-        GibioctetsPerSecond,
-        TebioctetsPerSecond,
-        PebioctetsPerSecond,
-        ExbioctetsPerSecond,
+        BitPerSecond,
+        KilobitPerSecond,
+        MegabitPerSecond,
+        GigabitPerSecond,
+        TerabitPerSecond,
+        PetabitPerSecond,
+        ExabitPerSecond,
+        KibibitPerSecond,
+        MebibitPerSecond,
+        GibibitPerSecond,
+        TebibitPerSecond,
+        PebibitPerSecond,
+        ExbibitPerSecond,
+        BytePerSecond,
+        KilobytePerSecond,
+        MegabytePerSecond,
+        GigabytePerSecond,
+        TerabytePerSecond,
+        PetabytePerSecond,
+        ExabytePerSecond,
+        KibibytePerSecond,
+        MebibytePerSecond,
+        GibibytePerSecond,
+        TebibytePerSecond,
+        PebibytePerSecond,
+        ExbibytePerSecond,
+        OctetPerSecond,
+        KilooctetPerSecond,
+        MegaoctetPerSecond,
+        GigaoctetPerSecond,
+        TeraoctetPerSecond,
+        PetaoctetPerSecond,
+        ExaoctetPerSecond,
+        KibioctetPerSecond,
+        MebioctetPerSecond,
+        GibioctetPerSecond,
+        TebioctetPerSecond,
+        PebioctetPerSecond,
+        ExbioctetPerSecond,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of BitRate.</summary>
+    class BitRateDto
+    {
+    public:
+        constexpr BitRateDto() noexcept
+            : value{}, unit(BitRateUnit::BitPerSecond)
+        {
+        }
+
+        constexpr BitRateDto(
+            const un_scalar_t value,
+            const BitRateUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        BitRateUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr BitRateUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<BitRateUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown BitRate unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static BitRateDto from_json(const nlohmann::json& json)
+        {
+            return BitRateDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>In telecommunications and computing, bit rate is the number of bits that are conveyed or processed per unit of time.</summary>
     class BitRate : public UnitsNetBase
@@ -57,147 +127,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit BitRate(
             const un_scalar_t value,
-            const BitRateUnit unit = BitRateUnit::BitsPerSecond)
+            const BitRateUnit unit = BitRateUnit::BitPerSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "BitRate"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case BitRateUnit::BitsPerSecond:
-                return "BitsPerSecond";
-
-            case BitRateUnit::KilobitsPerSecond:
-                return "KilobitsPerSecond";
-
-            case BitRateUnit::MegabitsPerSecond:
-                return "MegabitsPerSecond";
-
-            case BitRateUnit::GigabitsPerSecond:
-                return "GigabitsPerSecond";
-
-            case BitRateUnit::TerabitsPerSecond:
-                return "TerabitsPerSecond";
-
-            case BitRateUnit::PetabitsPerSecond:
-                return "PetabitsPerSecond";
-
-            case BitRateUnit::ExabitsPerSecond:
-                return "ExabitsPerSecond";
-
-            case BitRateUnit::KibibitsPerSecond:
-                return "KibibitsPerSecond";
-
-            case BitRateUnit::MebibitsPerSecond:
-                return "MebibitsPerSecond";
-
-            case BitRateUnit::GibibitsPerSecond:
-                return "GibibitsPerSecond";
-
-            case BitRateUnit::TebibitsPerSecond:
-                return "TebibitsPerSecond";
-
-            case BitRateUnit::PebibitsPerSecond:
-                return "PebibitsPerSecond";
-
-            case BitRateUnit::ExbibitsPerSecond:
-                return "ExbibitsPerSecond";
-
-            case BitRateUnit::BytesPerSecond:
-                return "BytesPerSecond";
-
-            case BitRateUnit::KilobytesPerSecond:
-                return "KilobytesPerSecond";
-
-            case BitRateUnit::MegabytesPerSecond:
-                return "MegabytesPerSecond";
-
-            case BitRateUnit::GigabytesPerSecond:
-                return "GigabytesPerSecond";
-
-            case BitRateUnit::TerabytesPerSecond:
-                return "TerabytesPerSecond";
-
-            case BitRateUnit::PetabytesPerSecond:
-                return "PetabytesPerSecond";
-
-            case BitRateUnit::ExabytesPerSecond:
-                return "ExabytesPerSecond";
-
-            case BitRateUnit::KibibytesPerSecond:
-                return "KibibytesPerSecond";
-
-            case BitRateUnit::MebibytesPerSecond:
-                return "MebibytesPerSecond";
-
-            case BitRateUnit::GibibytesPerSecond:
-                return "GibibytesPerSecond";
-
-            case BitRateUnit::TebibytesPerSecond:
-                return "TebibytesPerSecond";
-
-            case BitRateUnit::PebibytesPerSecond:
-                return "PebibytesPerSecond";
-
-            case BitRateUnit::ExbibytesPerSecond:
-                return "ExbibytesPerSecond";
-
-            case BitRateUnit::OctetsPerSecond:
-                return "OctetsPerSecond";
-
-            case BitRateUnit::KilooctetsPerSecond:
-                return "KilooctetsPerSecond";
-
-            case BitRateUnit::MegaoctetsPerSecond:
-                return "MegaoctetsPerSecond";
-
-            case BitRateUnit::GigaoctetsPerSecond:
-                return "GigaoctetsPerSecond";
-
-            case BitRateUnit::TeraoctetsPerSecond:
-                return "TeraoctetsPerSecond";
-
-            case BitRateUnit::PetaoctetsPerSecond:
-                return "PetaoctetsPerSecond";
-
-            case BitRateUnit::ExaoctetsPerSecond:
-                return "ExaoctetsPerSecond";
-
-            case BitRateUnit::KibioctetsPerSecond:
-                return "KibioctetsPerSecond";
-
-            case BitRateUnit::MebioctetsPerSecond:
-                return "MebioctetsPerSecond";
-
-            case BitRateUnit::GibioctetsPerSecond:
-                return "GibioctetsPerSecond";
-
-            case BitRateUnit::TebioctetsPerSecond:
-                return "TebioctetsPerSecond";
-
-            case BitRateUnit::PebioctetsPerSecond:
-                return "PebioctetsPerSecond";
-
-            case BitRateUnit::ExbioctetsPerSecond:
-                return "ExbioctetsPerSecond";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -209,6 +142,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr BitRateDto to_dto(
+            const BitRateUnit unit = BitRateUnit::BitPerSecond) const
+        {
+            return BitRateDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr BitRate from_dto(const BitRateDto& dto)
+        {
+            return BitRate(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const BitRateUnit unit = BitRateUnit::BitPerSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static BitRate from_json(const nlohmann::json& json)
+        {
+            return from_dto(BitRateDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr BitRate operator+(const BitRate& other) const noexcept
         {
@@ -247,392 +210,392 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t bits_per_second() const
         {
-            return convert_from_base(BitRateUnit::BitsPerSecond);
+            return convert_from_base(BitRateUnit::BitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_bits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::BitsPerSecond);
+            return BitRate(value, BitRateUnit::BitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilobits_per_second() const
         {
-            return convert_from_base(BitRateUnit::KilobitsPerSecond);
+            return convert_from_base(BitRateUnit::KilobitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kilobits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KilobitsPerSecond);
+            return BitRate(value, BitRateUnit::KilobitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megabits_per_second() const
         {
-            return convert_from_base(BitRateUnit::MegabitsPerSecond);
+            return convert_from_base(BitRateUnit::MegabitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_megabits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MegabitsPerSecond);
+            return BitRate(value, BitRateUnit::MegabitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigabits_per_second() const
         {
-            return convert_from_base(BitRateUnit::GigabitsPerSecond);
+            return convert_from_base(BitRateUnit::GigabitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gigabits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GigabitsPerSecond);
+            return BitRate(value, BitRateUnit::GigabitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t terabits_per_second() const
         {
-            return convert_from_base(BitRateUnit::TerabitsPerSecond);
+            return convert_from_base(BitRateUnit::TerabitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_terabits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TerabitsPerSecond);
+            return BitRate(value, BitRateUnit::TerabitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t petabits_per_second() const
         {
-            return convert_from_base(BitRateUnit::PetabitsPerSecond);
+            return convert_from_base(BitRateUnit::PetabitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_petabits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PetabitsPerSecond);
+            return BitRate(value, BitRateUnit::PetabitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exabits_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExabitsPerSecond);
+            return convert_from_base(BitRateUnit::ExabitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exabits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExabitsPerSecond);
+            return BitRate(value, BitRateUnit::ExabitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kibibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::KibibitsPerSecond);
+            return convert_from_base(BitRateUnit::KibibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kibibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KibibitsPerSecond);
+            return BitRate(value, BitRateUnit::KibibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t mebibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::MebibitsPerSecond);
+            return convert_from_base(BitRateUnit::MebibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_mebibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MebibitsPerSecond);
+            return BitRate(value, BitRateUnit::MebibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gibibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::GibibitsPerSecond);
+            return convert_from_base(BitRateUnit::GibibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gibibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GibibitsPerSecond);
+            return BitRate(value, BitRateUnit::GibibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t tebibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::TebibitsPerSecond);
+            return convert_from_base(BitRateUnit::TebibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_tebibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TebibitsPerSecond);
+            return BitRate(value, BitRateUnit::TebibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t pebibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::PebibitsPerSecond);
+            return convert_from_base(BitRateUnit::PebibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_pebibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PebibitsPerSecond);
+            return BitRate(value, BitRateUnit::PebibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exbibits_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExbibitsPerSecond);
+            return convert_from_base(BitRateUnit::ExbibitPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exbibits_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExbibitsPerSecond);
+            return BitRate(value, BitRateUnit::ExbibitPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t bytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::BytesPerSecond);
+            return convert_from_base(BitRateUnit::BytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_bytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::BytesPerSecond);
+            return BitRate(value, BitRateUnit::BytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilobytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::KilobytesPerSecond);
+            return convert_from_base(BitRateUnit::KilobytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kilobytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KilobytesPerSecond);
+            return BitRate(value, BitRateUnit::KilobytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megabytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::MegabytesPerSecond);
+            return convert_from_base(BitRateUnit::MegabytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_megabytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MegabytesPerSecond);
+            return BitRate(value, BitRateUnit::MegabytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigabytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::GigabytesPerSecond);
+            return convert_from_base(BitRateUnit::GigabytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gigabytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GigabytesPerSecond);
+            return BitRate(value, BitRateUnit::GigabytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t terabytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::TerabytesPerSecond);
+            return convert_from_base(BitRateUnit::TerabytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_terabytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TerabytesPerSecond);
+            return BitRate(value, BitRateUnit::TerabytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t petabytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::PetabytesPerSecond);
+            return convert_from_base(BitRateUnit::PetabytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_petabytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PetabytesPerSecond);
+            return BitRate(value, BitRateUnit::PetabytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exabytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExabytesPerSecond);
+            return convert_from_base(BitRateUnit::ExabytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exabytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExabytesPerSecond);
+            return BitRate(value, BitRateUnit::ExabytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kibibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::KibibytesPerSecond);
+            return convert_from_base(BitRateUnit::KibibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kibibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KibibytesPerSecond);
+            return BitRate(value, BitRateUnit::KibibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t mebibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::MebibytesPerSecond);
+            return convert_from_base(BitRateUnit::MebibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_mebibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MebibytesPerSecond);
+            return BitRate(value, BitRateUnit::MebibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gibibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::GibibytesPerSecond);
+            return convert_from_base(BitRateUnit::GibibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gibibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GibibytesPerSecond);
+            return BitRate(value, BitRateUnit::GibibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t tebibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::TebibytesPerSecond);
+            return convert_from_base(BitRateUnit::TebibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_tebibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TebibytesPerSecond);
+            return BitRate(value, BitRateUnit::TebibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t pebibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::PebibytesPerSecond);
+            return convert_from_base(BitRateUnit::PebibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_pebibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PebibytesPerSecond);
+            return BitRate(value, BitRateUnit::PebibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exbibytes_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExbibytesPerSecond);
+            return convert_from_base(BitRateUnit::ExbibytePerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exbibytes_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExbibytesPerSecond);
+            return BitRate(value, BitRateUnit::ExbibytePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t octets_per_second() const
         {
-            return convert_from_base(BitRateUnit::OctetsPerSecond);
+            return convert_from_base(BitRateUnit::OctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_octets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::OctetsPerSecond);
+            return BitRate(value, BitRateUnit::OctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilooctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::KilooctetsPerSecond);
+            return convert_from_base(BitRateUnit::KilooctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kilooctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KilooctetsPerSecond);
+            return BitRate(value, BitRateUnit::KilooctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaoctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::MegaoctetsPerSecond);
+            return convert_from_base(BitRateUnit::MegaoctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_megaoctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MegaoctetsPerSecond);
+            return BitRate(value, BitRateUnit::MegaoctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigaoctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::GigaoctetsPerSecond);
+            return convert_from_base(BitRateUnit::GigaoctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gigaoctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GigaoctetsPerSecond);
+            return BitRate(value, BitRateUnit::GigaoctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t teraoctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::TeraoctetsPerSecond);
+            return convert_from_base(BitRateUnit::TeraoctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_teraoctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TeraoctetsPerSecond);
+            return BitRate(value, BitRateUnit::TeraoctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t petaoctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::PetaoctetsPerSecond);
+            return convert_from_base(BitRateUnit::PetaoctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_petaoctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PetaoctetsPerSecond);
+            return BitRate(value, BitRateUnit::PetaoctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exaoctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExaoctetsPerSecond);
+            return convert_from_base(BitRateUnit::ExaoctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exaoctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExaoctetsPerSecond);
+            return BitRate(value, BitRateUnit::ExaoctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kibioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::KibioctetsPerSecond);
+            return convert_from_base(BitRateUnit::KibioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_kibioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::KibioctetsPerSecond);
+            return BitRate(value, BitRateUnit::KibioctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t mebioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::MebioctetsPerSecond);
+            return convert_from_base(BitRateUnit::MebioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_mebioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::MebioctetsPerSecond);
+            return BitRate(value, BitRateUnit::MebioctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t gibioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::GibioctetsPerSecond);
+            return convert_from_base(BitRateUnit::GibioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_gibioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::GibioctetsPerSecond);
+            return BitRate(value, BitRateUnit::GibioctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t tebioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::TebioctetsPerSecond);
+            return convert_from_base(BitRateUnit::TebioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_tebioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::TebioctetsPerSecond);
+            return BitRate(value, BitRateUnit::TebioctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t pebioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::PebioctetsPerSecond);
+            return convert_from_base(BitRateUnit::PebioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_pebioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::PebioctetsPerSecond);
+            return BitRate(value, BitRateUnit::PebioctetPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t exbioctets_per_second() const
         {
-            return convert_from_base(BitRateUnit::ExbioctetsPerSecond);
+            return convert_from_base(BitRateUnit::ExbioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_exbioctets_per_second(const un_scalar_t value)
         {
-            return BitRate(value, BitRateUnit::ExbioctetsPerSecond);
+            return BitRate(value, BitRateUnit::ExbioctetPerSecond);
         }
 
         [[nodiscard]] static constexpr BitRate from_invalid()
@@ -646,121 +609,121 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case BitRateUnit::BitsPerSecond:
+            case BitRateUnit::BitPerSecond:
                 return value;
 
-            case BitRateUnit::KilobitsPerSecond:
+            case BitRateUnit::KilobitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case BitRateUnit::MegabitsPerSecond:
+            case BitRateUnit::MegabitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case BitRateUnit::GigabitsPerSecond:
+            case BitRateUnit::GigabitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case BitRateUnit::TerabitsPerSecond:
+            case BitRateUnit::TerabitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case BitRateUnit::PetabitsPerSecond:
+            case BitRateUnit::PetabitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e15));
 
-            case BitRateUnit::ExabitsPerSecond:
+            case BitRateUnit::ExabitPerSecond:
                 return (value * static_cast<un_scalar_t>(1e18));
 
-            case BitRateUnit::KibibitsPerSecond:
+            case BitRateUnit::KibibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1024.0));
 
-            case BitRateUnit::MebibitsPerSecond:
+            case BitRateUnit::MebibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1048576.0));
 
-            case BitRateUnit::GibibitsPerSecond:
+            case BitRateUnit::GibibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1073741824.0));
 
-            case BitRateUnit::TebibitsPerSecond:
+            case BitRateUnit::TebibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1099511627776.0));
 
-            case BitRateUnit::PebibitsPerSecond:
+            case BitRateUnit::PebibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1125899906842624.0));
 
-            case BitRateUnit::ExbibitsPerSecond:
+            case BitRateUnit::ExbibitPerSecond:
                 return (value * static_cast<un_scalar_t>(1152921504606846976.0));
 
-            case BitRateUnit::BytesPerSecond:
+            case BitRateUnit::BytePerSecond:
                 return value * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KilobytesPerSecond:
+            case BitRateUnit::KilobytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::MegabytesPerSecond:
+            case BitRateUnit::MegabytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::GigabytesPerSecond:
+            case BitRateUnit::GigabytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::TerabytesPerSecond:
+            case BitRateUnit::TerabytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::PetabytesPerSecond:
+            case BitRateUnit::PetabytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e15)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::ExabytesPerSecond:
+            case BitRateUnit::ExabytePerSecond:
                 return (value * static_cast<un_scalar_t>(1e18)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KibibytesPerSecond:
+            case BitRateUnit::KibibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1024.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::MebibytesPerSecond:
+            case BitRateUnit::MebibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1048576.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::GibibytesPerSecond:
+            case BitRateUnit::GibibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1073741824.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::TebibytesPerSecond:
+            case BitRateUnit::TebibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1099511627776.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::PebibytesPerSecond:
+            case BitRateUnit::PebibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1125899906842624.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::ExbibytesPerSecond:
+            case BitRateUnit::ExbibytePerSecond:
                 return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::OctetsPerSecond:
+            case BitRateUnit::OctetPerSecond:
                 return value * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KilooctetsPerSecond:
+            case BitRateUnit::KilooctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::MegaoctetsPerSecond:
+            case BitRateUnit::MegaoctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::GigaoctetsPerSecond:
+            case BitRateUnit::GigaoctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::TeraoctetsPerSecond:
+            case BitRateUnit::TeraoctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::PetaoctetsPerSecond:
+            case BitRateUnit::PetaoctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e15)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::ExaoctetsPerSecond:
+            case BitRateUnit::ExaoctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1e18)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KibioctetsPerSecond:
+            case BitRateUnit::KibioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1024.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::MebioctetsPerSecond:
+            case BitRateUnit::MebioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1048576.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::GibioctetsPerSecond:
+            case BitRateUnit::GibioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1073741824.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::TebioctetsPerSecond:
+            case BitRateUnit::TebioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1099511627776.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::PebioctetsPerSecond:
+            case BitRateUnit::PebioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1125899906842624.0)) * static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::ExbioctetsPerSecond:
+            case BitRateUnit::ExbioctetPerSecond:
                 return (value * static_cast<un_scalar_t>(1152921504606846976.0)) * static_cast<un_scalar_t>(8);
 
             }
@@ -780,121 +743,121 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case BitRateUnit::BitsPerSecond:
+            case BitRateUnit::BitPerSecond:
                 return base_value;
 
-            case BitRateUnit::KilobitsPerSecond:
+            case BitRateUnit::KilobitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case BitRateUnit::MegabitsPerSecond:
+            case BitRateUnit::MegabitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case BitRateUnit::GigabitsPerSecond:
+            case BitRateUnit::GigabitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case BitRateUnit::TerabitsPerSecond:
+            case BitRateUnit::TerabitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case BitRateUnit::PetabitsPerSecond:
+            case BitRateUnit::PetabitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e15);
 
-            case BitRateUnit::ExabitsPerSecond:
+            case BitRateUnit::ExabitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e18);
 
-            case BitRateUnit::KibibitsPerSecond:
+            case BitRateUnit::KibibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1024.0);
 
-            case BitRateUnit::MebibitsPerSecond:
+            case BitRateUnit::MebibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1048576.0);
 
-            case BitRateUnit::GibibitsPerSecond:
+            case BitRateUnit::GibibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1073741824.0);
 
-            case BitRateUnit::TebibitsPerSecond:
+            case BitRateUnit::TebibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1099511627776.0);
 
-            case BitRateUnit::PebibitsPerSecond:
+            case BitRateUnit::PebibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1125899906842624.0);
 
-            case BitRateUnit::ExbibitsPerSecond:
+            case BitRateUnit::ExbibitPerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1152921504606846976.0);
 
-            case BitRateUnit::BytesPerSecond:
+            case BitRateUnit::BytePerSecond:
                 return base_value / static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KilobytesPerSecond:
+            case BitRateUnit::KilobytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
-            case BitRateUnit::MegabytesPerSecond:
+            case BitRateUnit::MegabytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
-            case BitRateUnit::GigabytesPerSecond:
+            case BitRateUnit::GigabytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
-            case BitRateUnit::TerabytesPerSecond:
+            case BitRateUnit::TerabytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
-            case BitRateUnit::PetabytesPerSecond:
+            case BitRateUnit::PetabytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
-            case BitRateUnit::ExabytesPerSecond:
+            case BitRateUnit::ExabytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
-            case BitRateUnit::KibibytesPerSecond:
+            case BitRateUnit::KibibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
-            case BitRateUnit::MebibytesPerSecond:
+            case BitRateUnit::MebibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
-            case BitRateUnit::GibibytesPerSecond:
+            case BitRateUnit::GibibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
-            case BitRateUnit::TebibytesPerSecond:
+            case BitRateUnit::TebibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
-            case BitRateUnit::PebibytesPerSecond:
+            case BitRateUnit::PebibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
-            case BitRateUnit::ExbibytesPerSecond:
+            case BitRateUnit::ExbibytePerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
-            case BitRateUnit::OctetsPerSecond:
+            case BitRateUnit::OctetPerSecond:
                 return base_value / static_cast<un_scalar_t>(8);
 
-            case BitRateUnit::KilooctetsPerSecond:
+            case BitRateUnit::KilooctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e3);
 
-            case BitRateUnit::MegaoctetsPerSecond:
+            case BitRateUnit::MegaoctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e6);
 
-            case BitRateUnit::GigaoctetsPerSecond:
+            case BitRateUnit::GigaoctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e9);
 
-            case BitRateUnit::TeraoctetsPerSecond:
+            case BitRateUnit::TeraoctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e12);
 
-            case BitRateUnit::PetaoctetsPerSecond:
+            case BitRateUnit::PetaoctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e15);
 
-            case BitRateUnit::ExaoctetsPerSecond:
+            case BitRateUnit::ExaoctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1e18);
 
-            case BitRateUnit::KibioctetsPerSecond:
+            case BitRateUnit::KibioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1024.0);
 
-            case BitRateUnit::MebioctetsPerSecond:
+            case BitRateUnit::MebioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1048576.0);
 
-            case BitRateUnit::GibioctetsPerSecond:
+            case BitRateUnit::GibioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1073741824.0);
 
-            case BitRateUnit::TebioctetsPerSecond:
+            case BitRateUnit::TebioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1099511627776.0);
 
-            case BitRateUnit::PebioctetsPerSecond:
+            case BitRateUnit::PebioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1125899906842624.0);
 
-            case BitRateUnit::ExbioctetsPerSecond:
+            case BitRateUnit::ExbioctetPerSecond:
                 return (base_value / static_cast<un_scalar_t>(8)) / static_cast<un_scalar_t>(1152921504606846976.0);
 
             }

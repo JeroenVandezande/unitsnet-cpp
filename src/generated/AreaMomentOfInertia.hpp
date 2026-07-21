@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,13 +18,75 @@ namespace unitsnet_cpp
 {
     enum class AreaMomentOfInertiaUnit : std::uint8_t
     {
-        MetersToTheFourth,
-        DecimetersToTheFourth,
-        CentimetersToTheFourth,
-        MillimetersToTheFourth,
-        FeetToTheFourth,
-        InchesToTheFourth,
+        MeterToTheFourth,
+        DecimeterToTheFourth,
+        CentimeterToTheFourth,
+        MillimeterToTheFourth,
+        FootToTheFourth,
+        InchToTheFourth,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of AreaMomentOfInertia.</summary>
+    class AreaMomentOfInertiaDto
+    {
+    public:
+        constexpr AreaMomentOfInertiaDto() noexcept
+            : value{}, unit(AreaMomentOfInertiaUnit::MeterToTheFourth)
+        {
+        }
+
+        constexpr AreaMomentOfInertiaDto(
+            const un_scalar_t value,
+            const AreaMomentOfInertiaUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        AreaMomentOfInertiaUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr AreaMomentOfInertiaUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<AreaMomentOfInertiaUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown AreaMomentOfInertia unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static AreaMomentOfInertiaDto from_json(const nlohmann::json& json)
+        {
+            return AreaMomentOfInertiaDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>A geometric property of an area that reflects how its points are distributed with regard to an axis.</summary>
     class AreaMomentOfInertia : public UnitsNetBase
@@ -24,48 +94,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit AreaMomentOfInertia(
             const un_scalar_t value,
-            const AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MetersToTheFourth)
+            const AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MeterToTheFourth)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "AreaMomentOfInertia"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case AreaMomentOfInertiaUnit::MetersToTheFourth:
-                return "MetersToTheFourth";
-
-            case AreaMomentOfInertiaUnit::DecimetersToTheFourth:
-                return "DecimetersToTheFourth";
-
-            case AreaMomentOfInertiaUnit::CentimetersToTheFourth:
-                return "CentimetersToTheFourth";
-
-            case AreaMomentOfInertiaUnit::MillimetersToTheFourth:
-                return "MillimetersToTheFourth";
-
-            case AreaMomentOfInertiaUnit::FeetToTheFourth:
-                return "FeetToTheFourth";
-
-            case AreaMomentOfInertiaUnit::InchesToTheFourth:
-                return "InchesToTheFourth";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -77,6 +109,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr AreaMomentOfInertiaDto to_dto(
+            const AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MeterToTheFourth) const
+        {
+            return AreaMomentOfInertiaDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr AreaMomentOfInertia from_dto(const AreaMomentOfInertiaDto& dto)
+        {
+            return AreaMomentOfInertia(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const AreaMomentOfInertiaUnit unit = AreaMomentOfInertiaUnit::MeterToTheFourth) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static AreaMomentOfInertia from_json(const nlohmann::json& json)
+        {
+            return from_dto(AreaMomentOfInertiaDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr AreaMomentOfInertia operator+(const AreaMomentOfInertia& other) const noexcept
         {
@@ -115,62 +177,62 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t meters_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::MetersToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::MeterToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_meters_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MetersToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MeterToTheFourth);
         }
 
         [[nodiscard]] constexpr un_scalar_t decimeters_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::DecimetersToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::DecimeterToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_decimeters_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::DecimetersToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::DecimeterToTheFourth);
         }
 
         [[nodiscard]] constexpr un_scalar_t centimeters_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::CentimetersToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::CentimeterToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_centimeters_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::CentimetersToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::CentimeterToTheFourth);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimeters_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::MillimetersToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::MillimeterToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_millimeters_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MillimetersToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::MillimeterToTheFourth);
         }
 
         [[nodiscard]] constexpr un_scalar_t feet_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::FeetToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::FootToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_feet_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::FeetToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::FootToTheFourth);
         }
 
         [[nodiscard]] constexpr un_scalar_t inches_to_the_fourth() const
         {
-            return convert_from_base(AreaMomentOfInertiaUnit::InchesToTheFourth);
+            return convert_from_base(AreaMomentOfInertiaUnit::InchToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_inches_to_the_fourth(const un_scalar_t value)
         {
-            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::InchesToTheFourth);
+            return AreaMomentOfInertia(value, AreaMomentOfInertiaUnit::InchToTheFourth);
         }
 
         [[nodiscard]] static constexpr AreaMomentOfInertia from_invalid()
@@ -184,22 +246,22 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case AreaMomentOfInertiaUnit::MetersToTheFourth:
+            case AreaMomentOfInertiaUnit::MeterToTheFourth:
                 return value;
 
-            case AreaMomentOfInertiaUnit::DecimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::DecimeterToTheFourth:
                 return value / static_cast<un_scalar_t>(1e4);
 
-            case AreaMomentOfInertiaUnit::CentimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::CentimeterToTheFourth:
                 return value / static_cast<un_scalar_t>(1e8);
 
-            case AreaMomentOfInertiaUnit::MillimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::MillimeterToTheFourth:
                 return value / static_cast<un_scalar_t>(1e12);
 
-            case AreaMomentOfInertiaUnit::FeetToTheFourth:
+            case AreaMomentOfInertiaUnit::FootToTheFourth:
                 return value * static_cast<un_scalar_t>(0.0086309748412416);
 
-            case AreaMomentOfInertiaUnit::InchesToTheFourth:
+            case AreaMomentOfInertiaUnit::InchToTheFourth:
                 return value * static_cast<un_scalar_t>(0.0000004162314256);
 
             }
@@ -219,22 +281,22 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case AreaMomentOfInertiaUnit::MetersToTheFourth:
+            case AreaMomentOfInertiaUnit::MeterToTheFourth:
                 return base_value;
 
-            case AreaMomentOfInertiaUnit::DecimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::DecimeterToTheFourth:
                 return base_value * static_cast<un_scalar_t>(1e4);
 
-            case AreaMomentOfInertiaUnit::CentimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::CentimeterToTheFourth:
                 return base_value * static_cast<un_scalar_t>(1e8);
 
-            case AreaMomentOfInertiaUnit::MillimetersToTheFourth:
+            case AreaMomentOfInertiaUnit::MillimeterToTheFourth:
                 return base_value * static_cast<un_scalar_t>(1e12);
 
-            case AreaMomentOfInertiaUnit::FeetToTheFourth:
+            case AreaMomentOfInertiaUnit::FootToTheFourth:
                 return base_value / static_cast<un_scalar_t>(0.0086309748412416);
 
-            case AreaMomentOfInertiaUnit::InchesToTheFourth:
+            case AreaMomentOfInertiaUnit::InchToTheFourth:
                 return base_value / static_cast<un_scalar_t>(0.0000004162314256);
 
             }

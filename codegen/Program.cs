@@ -105,7 +105,7 @@ class Program
         return new GeneratedUnit
         {
             SingularName = singularName,
-            EnumName = pluralName,
+            EnumName = singularName,
             MethodName = ToSnakeCase(pluralName),
             ToBaseExpression = toBaseExpression,
             FromBaseExpression = fromBaseExpression,

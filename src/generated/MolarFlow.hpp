@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,16 +18,78 @@ namespace unitsnet_cpp
 {
     enum class MolarFlowUnit : std::uint8_t
     {
-        MolesPerSecond,
-        KilomolesPerSecond,
-        MolesPerMinute,
-        KilomolesPerMinute,
-        MolesPerHour,
-        KilomolesPerHour,
-        PoundMolesPerSecond,
-        PoundMolesPerMinute,
-        PoundMolesPerHour,
+        MolePerSecond,
+        KilomolePerSecond,
+        MolePerMinute,
+        KilomolePerMinute,
+        MolePerHour,
+        KilomolePerHour,
+        PoundMolePerSecond,
+        PoundMolePerMinute,
+        PoundMolePerHour,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of MolarFlow.</summary>
+    class MolarFlowDto
+    {
+    public:
+        constexpr MolarFlowDto() noexcept
+            : value{}, unit(MolarFlowUnit::MolePerSecond)
+        {
+        }
+
+        constexpr MolarFlowDto(
+            const un_scalar_t value,
+            const MolarFlowUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        MolarFlowUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr MolarFlowUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<MolarFlowUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown MolarFlow unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MolarFlowDto from_json(const nlohmann::json& json)
+        {
+            return MolarFlowDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Molar flow is the ratio of the amount of substance change to the time during which the change occurred (value of amount of substance changes per unit time).</summary>
     class MolarFlow : public UnitsNetBase
@@ -27,57 +97,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit MolarFlow(
             const un_scalar_t value,
-            const MolarFlowUnit unit = MolarFlowUnit::MolesPerSecond)
+            const MolarFlowUnit unit = MolarFlowUnit::MolePerSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "MolarFlow"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case MolarFlowUnit::MolesPerSecond:
-                return "MolesPerSecond";
-
-            case MolarFlowUnit::KilomolesPerSecond:
-                return "KilomolesPerSecond";
-
-            case MolarFlowUnit::MolesPerMinute:
-                return "MolesPerMinute";
-
-            case MolarFlowUnit::KilomolesPerMinute:
-                return "KilomolesPerMinute";
-
-            case MolarFlowUnit::MolesPerHour:
-                return "MolesPerHour";
-
-            case MolarFlowUnit::KilomolesPerHour:
-                return "KilomolesPerHour";
-
-            case MolarFlowUnit::PoundMolesPerSecond:
-                return "PoundMolesPerSecond";
-
-            case MolarFlowUnit::PoundMolesPerMinute:
-                return "PoundMolesPerMinute";
-
-            case MolarFlowUnit::PoundMolesPerHour:
-                return "PoundMolesPerHour";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -89,6 +112,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr MolarFlowDto to_dto(
+            const MolarFlowUnit unit = MolarFlowUnit::MolePerSecond) const
+        {
+            return MolarFlowDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr MolarFlow from_dto(const MolarFlowDto& dto)
+        {
+            return MolarFlow(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const MolarFlowUnit unit = MolarFlowUnit::MolePerSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MolarFlow from_json(const nlohmann::json& json)
+        {
+            return from_dto(MolarFlowDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr MolarFlow operator+(const MolarFlow& other) const noexcept
         {
@@ -127,92 +180,92 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t moles_per_second() const
         {
-            return convert_from_base(MolarFlowUnit::MolesPerSecond);
+            return convert_from_base(MolarFlowUnit::MolePerSecond);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_moles_per_second(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::MolesPerSecond);
+            return MolarFlow(value, MolarFlowUnit::MolePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_second() const
         {
-            return convert_from_base(MolarFlowUnit::KilomolesPerSecond);
+            return convert_from_base(MolarFlowUnit::KilomolePerSecond);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_kilomoles_per_second(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::KilomolesPerSecond);
+            return MolarFlow(value, MolarFlowUnit::KilomolePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t moles_per_minute() const
         {
-            return convert_from_base(MolarFlowUnit::MolesPerMinute);
+            return convert_from_base(MolarFlowUnit::MolePerMinute);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_moles_per_minute(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::MolesPerMinute);
+            return MolarFlow(value, MolarFlowUnit::MolePerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_minute() const
         {
-            return convert_from_base(MolarFlowUnit::KilomolesPerMinute);
+            return convert_from_base(MolarFlowUnit::KilomolePerMinute);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_kilomoles_per_minute(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::KilomolesPerMinute);
+            return MolarFlow(value, MolarFlowUnit::KilomolePerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t moles_per_hour() const
         {
-            return convert_from_base(MolarFlowUnit::MolesPerHour);
+            return convert_from_base(MolarFlowUnit::MolePerHour);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_moles_per_hour(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::MolesPerHour);
+            return MolarFlow(value, MolarFlowUnit::MolePerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomoles_per_hour() const
         {
-            return convert_from_base(MolarFlowUnit::KilomolesPerHour);
+            return convert_from_base(MolarFlowUnit::KilomolePerHour);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_kilomoles_per_hour(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::KilomolesPerHour);
+            return MolarFlow(value, MolarFlowUnit::KilomolePerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_second() const
         {
-            return convert_from_base(MolarFlowUnit::PoundMolesPerSecond);
+            return convert_from_base(MolarFlowUnit::PoundMolePerSecond);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_pound_moles_per_second(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::PoundMolesPerSecond);
+            return MolarFlow(value, MolarFlowUnit::PoundMolePerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_minute() const
         {
-            return convert_from_base(MolarFlowUnit::PoundMolesPerMinute);
+            return convert_from_base(MolarFlowUnit::PoundMolePerMinute);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_pound_moles_per_minute(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::PoundMolesPerMinute);
+            return MolarFlow(value, MolarFlowUnit::PoundMolePerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t pound_moles_per_hour() const
         {
-            return convert_from_base(MolarFlowUnit::PoundMolesPerHour);
+            return convert_from_base(MolarFlowUnit::PoundMolePerHour);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_pound_moles_per_hour(const un_scalar_t value)
         {
-            return MolarFlow(value, MolarFlowUnit::PoundMolesPerHour);
+            return MolarFlow(value, MolarFlowUnit::PoundMolePerHour);
         }
 
         [[nodiscard]] static constexpr MolarFlow from_invalid()
@@ -226,31 +279,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MolarFlowUnit::MolesPerSecond:
+            case MolarFlowUnit::MolePerSecond:
                 return value;
 
-            case MolarFlowUnit::KilomolesPerSecond:
+            case MolarFlowUnit::KilomolePerSecond:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case MolarFlowUnit::MolesPerMinute:
+            case MolarFlowUnit::MolePerMinute:
                 return value / static_cast<un_scalar_t>(60);
 
-            case MolarFlowUnit::KilomolesPerMinute:
+            case MolarFlowUnit::KilomolePerMinute:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(60);
 
-            case MolarFlowUnit::MolesPerHour:
+            case MolarFlowUnit::MolePerHour:
                 return value / static_cast<un_scalar_t>(3600);
 
-            case MolarFlowUnit::KilomolesPerHour:
+            case MolarFlowUnit::KilomolePerHour:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(3600);
 
-            case MolarFlowUnit::PoundMolesPerSecond:
+            case MolarFlowUnit::PoundMolePerSecond:
                 return value * static_cast<un_scalar_t>(453.59237);
 
-            case MolarFlowUnit::PoundMolesPerMinute:
+            case MolarFlowUnit::PoundMolePerMinute:
                 return (value * static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(60);
 
-            case MolarFlowUnit::PoundMolesPerHour:
+            case MolarFlowUnit::PoundMolePerHour:
                 return (value * static_cast<un_scalar_t>(453.59237)) / static_cast<un_scalar_t>(3600);
 
             }
@@ -270,31 +323,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MolarFlowUnit::MolesPerSecond:
+            case MolarFlowUnit::MolePerSecond:
                 return base_value;
 
-            case MolarFlowUnit::KilomolesPerSecond:
+            case MolarFlowUnit::KilomolePerSecond:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case MolarFlowUnit::MolesPerMinute:
+            case MolarFlowUnit::MolePerMinute:
                 return base_value * static_cast<un_scalar_t>(60);
 
-            case MolarFlowUnit::KilomolesPerMinute:
+            case MolarFlowUnit::KilomolePerMinute:
                 return (base_value * static_cast<un_scalar_t>(60)) / static_cast<un_scalar_t>(1e3);
 
-            case MolarFlowUnit::MolesPerHour:
+            case MolarFlowUnit::MolePerHour:
                 return base_value * static_cast<un_scalar_t>(3600);
 
-            case MolarFlowUnit::KilomolesPerHour:
+            case MolarFlowUnit::KilomolePerHour:
                 return (base_value * static_cast<un_scalar_t>(3600)) / static_cast<un_scalar_t>(1e3);
 
-            case MolarFlowUnit::PoundMolesPerSecond:
+            case MolarFlowUnit::PoundMolePerSecond:
                 return base_value / static_cast<un_scalar_t>(453.59237);
 
-            case MolarFlowUnit::PoundMolesPerMinute:
+            case MolarFlowUnit::PoundMolePerMinute:
                 return (base_value / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(60);
 
-            case MolarFlowUnit::PoundMolesPerHour:
+            case MolarFlowUnit::PoundMolePerHour:
                 return (base_value / static_cast<un_scalar_t>(453.59237)) * static_cast<un_scalar_t>(3600);
 
             }

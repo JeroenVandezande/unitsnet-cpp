@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,82 +18,144 @@ namespace unitsnet_cpp
 {
     enum class VolumeFlowUnit : std::uint8_t
     {
-        CubicMetersPerSecond,
-        CubicMetersPerMinute,
-        CubicMetersPerHour,
-        CubicMetersPerDay,
-        CubicFeetPerSecond,
-        CubicFeetPerMinute,
-        CubicFeetPerHour,
-        CubicYardsPerSecond,
-        CubicYardsPerMinute,
-        CubicYardsPerHour,
-        CubicYardsPerDay,
-        MillionUsGallonsPerDay,
-        UsGallonsPerDay,
-        MegausGallonsPerDay,
-        LitersPerSecond,
-        NanolitersPerSecond,
-        MicrolitersPerSecond,
-        MillilitersPerSecond,
-        CentilitersPerSecond,
-        DecilitersPerSecond,
-        DecalitersPerSecond,
-        HectolitersPerSecond,
-        KilolitersPerSecond,
-        MegalitersPerSecond,
-        LitersPerMinute,
-        NanolitersPerMinute,
-        MicrolitersPerMinute,
-        MillilitersPerMinute,
-        CentilitersPerMinute,
-        DecilitersPerMinute,
-        DecalitersPerMinute,
-        HectolitersPerMinute,
-        KilolitersPerMinute,
-        MegalitersPerMinute,
-        LitersPerHour,
-        NanolitersPerHour,
-        MicrolitersPerHour,
-        MillilitersPerHour,
-        CentilitersPerHour,
-        DecilitersPerHour,
-        DecalitersPerHour,
-        HectolitersPerHour,
-        KilolitersPerHour,
-        MegalitersPerHour,
-        LitersPerDay,
-        NanolitersPerDay,
-        MicrolitersPerDay,
-        MillilitersPerDay,
-        CentilitersPerDay,
-        DecilitersPerDay,
-        DecalitersPerDay,
-        HectolitersPerDay,
-        KilolitersPerDay,
-        MegalitersPerDay,
-        UsGallonsPerSecond,
-        UsGallonsPerMinute,
-        UkGallonsPerDay,
-        MegaukGallonsPerDay,
-        UkGallonsPerHour,
-        UkGallonsPerMinute,
-        UkGallonsPerSecond,
-        MegaukGallonsPerSecond,
-        KilousGallonsPerMinute,
-        UsGallonsPerHour,
-        CubicDecimetersPerMinute,
-        OilBarrelsPerDay,
-        OilBarrelsPerMinute,
-        OilBarrelsPerHour,
-        OilBarrelsPerSecond,
-        CubicMillimetersPerSecond,
-        AcreFeetPerSecond,
-        AcreFeetPerMinute,
-        AcreFeetPerHour,
-        AcreFeetPerDay,
-        CubicCentimetersPerMinute,
+        CubicMeterPerSecond,
+        CubicMeterPerMinute,
+        CubicMeterPerHour,
+        CubicMeterPerDay,
+        CubicFootPerSecond,
+        CubicFootPerMinute,
+        CubicFootPerHour,
+        CubicYardPerSecond,
+        CubicYardPerMinute,
+        CubicYardPerHour,
+        CubicYardPerDay,
+        MillionUsGallonPerDay,
+        UsGallonPerDay,
+        MegausGallonPerDay,
+        LiterPerSecond,
+        NanoliterPerSecond,
+        MicroliterPerSecond,
+        MilliliterPerSecond,
+        CentiliterPerSecond,
+        DeciliterPerSecond,
+        DecaliterPerSecond,
+        HectoliterPerSecond,
+        KiloliterPerSecond,
+        MegaliterPerSecond,
+        LiterPerMinute,
+        NanoliterPerMinute,
+        MicroliterPerMinute,
+        MilliliterPerMinute,
+        CentiliterPerMinute,
+        DeciliterPerMinute,
+        DecaliterPerMinute,
+        HectoliterPerMinute,
+        KiloliterPerMinute,
+        MegaliterPerMinute,
+        LiterPerHour,
+        NanoliterPerHour,
+        MicroliterPerHour,
+        MilliliterPerHour,
+        CentiliterPerHour,
+        DeciliterPerHour,
+        DecaliterPerHour,
+        HectoliterPerHour,
+        KiloliterPerHour,
+        MegaliterPerHour,
+        LiterPerDay,
+        NanoliterPerDay,
+        MicroliterPerDay,
+        MilliliterPerDay,
+        CentiliterPerDay,
+        DeciliterPerDay,
+        DecaliterPerDay,
+        HectoliterPerDay,
+        KiloliterPerDay,
+        MegaliterPerDay,
+        UsGallonPerSecond,
+        UsGallonPerMinute,
+        UkGallonPerDay,
+        MegaukGallonPerDay,
+        UkGallonPerHour,
+        UkGallonPerMinute,
+        UkGallonPerSecond,
+        MegaukGallonPerSecond,
+        KilousGallonPerMinute,
+        UsGallonPerHour,
+        CubicDecimeterPerMinute,
+        OilBarrelPerDay,
+        OilBarrelPerMinute,
+        OilBarrelPerHour,
+        OilBarrelPerSecond,
+        CubicMillimeterPerSecond,
+        AcreFootPerSecond,
+        AcreFootPerMinute,
+        AcreFootPerHour,
+        AcreFootPerDay,
+        CubicCentimeterPerMinute,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of VolumeFlow.</summary>
+    class VolumeFlowDto
+    {
+    public:
+        constexpr VolumeFlowDto() noexcept
+            : value{}, unit(VolumeFlowUnit::CubicMeterPerSecond)
+        {
+        }
+
+        constexpr VolumeFlowDto(
+            const un_scalar_t value,
+            const VolumeFlowUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        VolumeFlowUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr VolumeFlowUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<VolumeFlowUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown VolumeFlow unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VolumeFlowDto from_json(const nlohmann::json& json)
+        {
+            return VolumeFlowDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>In physics and engineering, in particular fluid dynamics and hydrometry, the volumetric flow rate, (also known as volume flow rate, rate of fluid flow or volume velocity) is the volume of fluid which passes through a given surface per unit time. The SI unit is m³/s (cubic meters per second). In US Customary Units and British Imperial Units, volumetric flow rate is often expressed as ft³/s (cubic feet per second). It is usually represented by the symbol Q.</summary>
     class VolumeFlow : public UnitsNetBase
@@ -93,255 +163,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit VolumeFlow(
             const un_scalar_t value,
-            const VolumeFlowUnit unit = VolumeFlowUnit::CubicMetersPerSecond)
+            const VolumeFlowUnit unit = VolumeFlowUnit::CubicMeterPerSecond)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "VolumeFlow"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case VolumeFlowUnit::CubicMetersPerSecond:
-                return "CubicMetersPerSecond";
-
-            case VolumeFlowUnit::CubicMetersPerMinute:
-                return "CubicMetersPerMinute";
-
-            case VolumeFlowUnit::CubicMetersPerHour:
-                return "CubicMetersPerHour";
-
-            case VolumeFlowUnit::CubicMetersPerDay:
-                return "CubicMetersPerDay";
-
-            case VolumeFlowUnit::CubicFeetPerSecond:
-                return "CubicFeetPerSecond";
-
-            case VolumeFlowUnit::CubicFeetPerMinute:
-                return "CubicFeetPerMinute";
-
-            case VolumeFlowUnit::CubicFeetPerHour:
-                return "CubicFeetPerHour";
-
-            case VolumeFlowUnit::CubicYardsPerSecond:
-                return "CubicYardsPerSecond";
-
-            case VolumeFlowUnit::CubicYardsPerMinute:
-                return "CubicYardsPerMinute";
-
-            case VolumeFlowUnit::CubicYardsPerHour:
-                return "CubicYardsPerHour";
-
-            case VolumeFlowUnit::CubicYardsPerDay:
-                return "CubicYardsPerDay";
-
-            case VolumeFlowUnit::MillionUsGallonsPerDay:
-                return "MillionUsGallonsPerDay";
-
-            case VolumeFlowUnit::UsGallonsPerDay:
-                return "UsGallonsPerDay";
-
-            case VolumeFlowUnit::MegausGallonsPerDay:
-                return "MegausGallonsPerDay";
-
-            case VolumeFlowUnit::LitersPerSecond:
-                return "LitersPerSecond";
-
-            case VolumeFlowUnit::NanolitersPerSecond:
-                return "NanolitersPerSecond";
-
-            case VolumeFlowUnit::MicrolitersPerSecond:
-                return "MicrolitersPerSecond";
-
-            case VolumeFlowUnit::MillilitersPerSecond:
-                return "MillilitersPerSecond";
-
-            case VolumeFlowUnit::CentilitersPerSecond:
-                return "CentilitersPerSecond";
-
-            case VolumeFlowUnit::DecilitersPerSecond:
-                return "DecilitersPerSecond";
-
-            case VolumeFlowUnit::DecalitersPerSecond:
-                return "DecalitersPerSecond";
-
-            case VolumeFlowUnit::HectolitersPerSecond:
-                return "HectolitersPerSecond";
-
-            case VolumeFlowUnit::KilolitersPerSecond:
-                return "KilolitersPerSecond";
-
-            case VolumeFlowUnit::MegalitersPerSecond:
-                return "MegalitersPerSecond";
-
-            case VolumeFlowUnit::LitersPerMinute:
-                return "LitersPerMinute";
-
-            case VolumeFlowUnit::NanolitersPerMinute:
-                return "NanolitersPerMinute";
-
-            case VolumeFlowUnit::MicrolitersPerMinute:
-                return "MicrolitersPerMinute";
-
-            case VolumeFlowUnit::MillilitersPerMinute:
-                return "MillilitersPerMinute";
-
-            case VolumeFlowUnit::CentilitersPerMinute:
-                return "CentilitersPerMinute";
-
-            case VolumeFlowUnit::DecilitersPerMinute:
-                return "DecilitersPerMinute";
-
-            case VolumeFlowUnit::DecalitersPerMinute:
-                return "DecalitersPerMinute";
-
-            case VolumeFlowUnit::HectolitersPerMinute:
-                return "HectolitersPerMinute";
-
-            case VolumeFlowUnit::KilolitersPerMinute:
-                return "KilolitersPerMinute";
-
-            case VolumeFlowUnit::MegalitersPerMinute:
-                return "MegalitersPerMinute";
-
-            case VolumeFlowUnit::LitersPerHour:
-                return "LitersPerHour";
-
-            case VolumeFlowUnit::NanolitersPerHour:
-                return "NanolitersPerHour";
-
-            case VolumeFlowUnit::MicrolitersPerHour:
-                return "MicrolitersPerHour";
-
-            case VolumeFlowUnit::MillilitersPerHour:
-                return "MillilitersPerHour";
-
-            case VolumeFlowUnit::CentilitersPerHour:
-                return "CentilitersPerHour";
-
-            case VolumeFlowUnit::DecilitersPerHour:
-                return "DecilitersPerHour";
-
-            case VolumeFlowUnit::DecalitersPerHour:
-                return "DecalitersPerHour";
-
-            case VolumeFlowUnit::HectolitersPerHour:
-                return "HectolitersPerHour";
-
-            case VolumeFlowUnit::KilolitersPerHour:
-                return "KilolitersPerHour";
-
-            case VolumeFlowUnit::MegalitersPerHour:
-                return "MegalitersPerHour";
-
-            case VolumeFlowUnit::LitersPerDay:
-                return "LitersPerDay";
-
-            case VolumeFlowUnit::NanolitersPerDay:
-                return "NanolitersPerDay";
-
-            case VolumeFlowUnit::MicrolitersPerDay:
-                return "MicrolitersPerDay";
-
-            case VolumeFlowUnit::MillilitersPerDay:
-                return "MillilitersPerDay";
-
-            case VolumeFlowUnit::CentilitersPerDay:
-                return "CentilitersPerDay";
-
-            case VolumeFlowUnit::DecilitersPerDay:
-                return "DecilitersPerDay";
-
-            case VolumeFlowUnit::DecalitersPerDay:
-                return "DecalitersPerDay";
-
-            case VolumeFlowUnit::HectolitersPerDay:
-                return "HectolitersPerDay";
-
-            case VolumeFlowUnit::KilolitersPerDay:
-                return "KilolitersPerDay";
-
-            case VolumeFlowUnit::MegalitersPerDay:
-                return "MegalitersPerDay";
-
-            case VolumeFlowUnit::UsGallonsPerSecond:
-                return "UsGallonsPerSecond";
-
-            case VolumeFlowUnit::UsGallonsPerMinute:
-                return "UsGallonsPerMinute";
-
-            case VolumeFlowUnit::UkGallonsPerDay:
-                return "UkGallonsPerDay";
-
-            case VolumeFlowUnit::MegaukGallonsPerDay:
-                return "MegaukGallonsPerDay";
-
-            case VolumeFlowUnit::UkGallonsPerHour:
-                return "UkGallonsPerHour";
-
-            case VolumeFlowUnit::UkGallonsPerMinute:
-                return "UkGallonsPerMinute";
-
-            case VolumeFlowUnit::UkGallonsPerSecond:
-                return "UkGallonsPerSecond";
-
-            case VolumeFlowUnit::MegaukGallonsPerSecond:
-                return "MegaukGallonsPerSecond";
-
-            case VolumeFlowUnit::KilousGallonsPerMinute:
-                return "KilousGallonsPerMinute";
-
-            case VolumeFlowUnit::UsGallonsPerHour:
-                return "UsGallonsPerHour";
-
-            case VolumeFlowUnit::CubicDecimetersPerMinute:
-                return "CubicDecimetersPerMinute";
-
-            case VolumeFlowUnit::OilBarrelsPerDay:
-                return "OilBarrelsPerDay";
-
-            case VolumeFlowUnit::OilBarrelsPerMinute:
-                return "OilBarrelsPerMinute";
-
-            case VolumeFlowUnit::OilBarrelsPerHour:
-                return "OilBarrelsPerHour";
-
-            case VolumeFlowUnit::OilBarrelsPerSecond:
-                return "OilBarrelsPerSecond";
-
-            case VolumeFlowUnit::CubicMillimetersPerSecond:
-                return "CubicMillimetersPerSecond";
-
-            case VolumeFlowUnit::AcreFeetPerSecond:
-                return "AcreFeetPerSecond";
-
-            case VolumeFlowUnit::AcreFeetPerMinute:
-                return "AcreFeetPerMinute";
-
-            case VolumeFlowUnit::AcreFeetPerHour:
-                return "AcreFeetPerHour";
-
-            case VolumeFlowUnit::AcreFeetPerDay:
-                return "AcreFeetPerDay";
-
-            case VolumeFlowUnit::CubicCentimetersPerMinute:
-                return "CubicCentimetersPerMinute";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -353,6 +178,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr VolumeFlowDto to_dto(
+            const VolumeFlowUnit unit = VolumeFlowUnit::CubicMeterPerSecond) const
+        {
+            return VolumeFlowDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr VolumeFlow from_dto(const VolumeFlowDto& dto)
+        {
+            return VolumeFlow(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const VolumeFlowUnit unit = VolumeFlowUnit::CubicMeterPerSecond) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static VolumeFlow from_json(const nlohmann::json& json)
+        {
+            return from_dto(VolumeFlowDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr VolumeFlow operator+(const VolumeFlow& other) const noexcept
         {
@@ -391,752 +246,752 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicMetersPerSecond);
+            return convert_from_base(VolumeFlowUnit::CubicMeterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_meters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::CubicMeterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicMetersPerMinute);
+            return convert_from_base(VolumeFlowUnit::CubicMeterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_meters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CubicMeterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicMetersPerHour);
+            return convert_from_base(VolumeFlowUnit::CubicMeterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_meters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::CubicMeterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_meters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicMetersPerDay);
+            return convert_from_base(VolumeFlowUnit::CubicMeterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_meters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicMetersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::CubicMeterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicFeetPerSecond);
+            return convert_from_base(VolumeFlowUnit::CubicFootPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_feet_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::CubicFootPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicFeetPerMinute);
+            return convert_from_base(VolumeFlowUnit::CubicFootPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_feet_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CubicFootPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_feet_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicFeetPerHour);
+            return convert_from_base(VolumeFlowUnit::CubicFootPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_feet_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicFeetPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::CubicFootPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicYardsPerSecond);
+            return convert_from_base(VolumeFlowUnit::CubicYardPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_yards_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::CubicYardPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicYardsPerMinute);
+            return convert_from_base(VolumeFlowUnit::CubicYardPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_yards_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CubicYardPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicYardsPerHour);
+            return convert_from_base(VolumeFlowUnit::CubicYardPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_yards_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::CubicYardPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_yards_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicYardsPerDay);
+            return convert_from_base(VolumeFlowUnit::CubicYardPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_yards_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicYardsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::CubicYardPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t million_us_gallons_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MillionUsGallonsPerDay);
+            return convert_from_base(VolumeFlowUnit::MillionUsGallonPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_million_us_gallons_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MillionUsGallonsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MillionUsGallonPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::UsGallonsPerDay);
+            return convert_from_base(VolumeFlowUnit::UsGallonPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_us_gallons_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::UsGallonPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaus_gallons_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MegausGallonsPerDay);
+            return convert_from_base(VolumeFlowUnit::MegausGallonPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megaus_gallons_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegausGallonsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MegausGallonPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::LitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::LiterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_liters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::LitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::LiterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::NanolitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::NanoliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_nanoliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::NanolitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::NanoliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t microliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::MicrolitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::MicroliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_microliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::MicroliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::MillilitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::MilliliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_milliliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MillilitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::MilliliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t centiliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::CentilitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::CentiliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_centiliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CentilitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::CentiliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::DecilitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::DeciliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_deciliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecilitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::DeciliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t decaliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::DecalitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::DecaliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_decaliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecalitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::DecaliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::HectolitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::HectoliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_hectoliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::HectolitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::HectoliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::KilolitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::KiloliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_kiloliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::KilolitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::KiloliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::MegalitersPerSecond);
+            return convert_from_base(VolumeFlowUnit::MegaliterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megaliters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegalitersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::MegaliterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::LitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::LiterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_liters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::LitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::LiterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::NanolitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::NanoliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_nanoliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::NanolitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::NanoliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t microliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::MicrolitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::MicroliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_microliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::MicroliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::MillilitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::MilliliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_milliliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MillilitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::MilliliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t centiliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CentilitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::CentiliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_centiliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CentilitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CentiliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::DecilitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::DeciliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_deciliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecilitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::DeciliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t decaliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::DecalitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::DecaliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_decaliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecalitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::DecaliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::HectolitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::HectoliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_hectoliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::HectolitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::HectoliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::KilolitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::KiloliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_kiloliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::KilolitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::KiloliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::MegalitersPerMinute);
+            return convert_from_base(VolumeFlowUnit::MegaliterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megaliters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegalitersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::MegaliterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::LitersPerHour);
+            return convert_from_base(VolumeFlowUnit::LiterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_liters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::LitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::LiterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::NanolitersPerHour);
+            return convert_from_base(VolumeFlowUnit::NanoliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_nanoliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::NanolitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::NanoliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t microliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::MicrolitersPerHour);
+            return convert_from_base(VolumeFlowUnit::MicroliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_microliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::MicroliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::MillilitersPerHour);
+            return convert_from_base(VolumeFlowUnit::MilliliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_milliliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MillilitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::MilliliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t centiliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::CentilitersPerHour);
+            return convert_from_base(VolumeFlowUnit::CentiliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_centiliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CentilitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::CentiliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::DecilitersPerHour);
+            return convert_from_base(VolumeFlowUnit::DeciliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_deciliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecilitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::DeciliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t decaliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::DecalitersPerHour);
+            return convert_from_base(VolumeFlowUnit::DecaliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_decaliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecalitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::DecaliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::HectolitersPerHour);
+            return convert_from_base(VolumeFlowUnit::HectoliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_hectoliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::HectolitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::HectoliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::KilolitersPerHour);
+            return convert_from_base(VolumeFlowUnit::KiloliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_kiloliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::KilolitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::KiloliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::MegalitersPerHour);
+            return convert_from_base(VolumeFlowUnit::MegaliterPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megaliters_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegalitersPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::MegaliterPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t liters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::LitersPerDay);
+            return convert_from_base(VolumeFlowUnit::LiterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_liters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::LitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::LiterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanoliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::NanolitersPerDay);
+            return convert_from_base(VolumeFlowUnit::NanoliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_nanoliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::NanolitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::NanoliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t microliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MicrolitersPerDay);
+            return convert_from_base(VolumeFlowUnit::MicroliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_microliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MicrolitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MicroliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MillilitersPerDay);
+            return convert_from_base(VolumeFlowUnit::MilliliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_milliliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MillilitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MilliliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t centiliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::CentilitersPerDay);
+            return convert_from_base(VolumeFlowUnit::CentiliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_centiliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CentilitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::CentiliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t deciliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::DecilitersPerDay);
+            return convert_from_base(VolumeFlowUnit::DeciliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_deciliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecilitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::DeciliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t decaliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::DecalitersPerDay);
+            return convert_from_base(VolumeFlowUnit::DecaliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_decaliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::DecalitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::DecaliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t hectoliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::HectolitersPerDay);
+            return convert_from_base(VolumeFlowUnit::HectoliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_hectoliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::HectolitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::HectoliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t kiloliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::KilolitersPerDay);
+            return convert_from_base(VolumeFlowUnit::KiloliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_kiloliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::KilolitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::KiloliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t megaliters_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MegalitersPerDay);
+            return convert_from_base(VolumeFlowUnit::MegaliterPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megaliters_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegalitersPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MegaliterPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::UsGallonsPerSecond);
+            return convert_from_base(VolumeFlowUnit::UsGallonPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_us_gallons_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::UsGallonPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::UsGallonsPerMinute);
+            return convert_from_base(VolumeFlowUnit::UsGallonPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_us_gallons_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::UsGallonPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::UkGallonsPerDay);
+            return convert_from_base(VolumeFlowUnit::UkGallonPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_uk_gallons_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::UkGallonPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t megauk_gallons_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::MegaukGallonsPerDay);
+            return convert_from_base(VolumeFlowUnit::MegaukGallonPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megauk_gallons_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegaukGallonsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::MegaukGallonPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::UkGallonsPerHour);
+            return convert_from_base(VolumeFlowUnit::UkGallonPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_uk_gallons_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::UkGallonPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::UkGallonsPerMinute);
+            return convert_from_base(VolumeFlowUnit::UkGallonPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_uk_gallons_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::UkGallonPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t uk_gallons_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::UkGallonsPerSecond);
+            return convert_from_base(VolumeFlowUnit::UkGallonPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_uk_gallons_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UkGallonsPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::UkGallonPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t megauk_gallons_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::MegaukGallonsPerSecond);
+            return convert_from_base(VolumeFlowUnit::MegaukGallonPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_megauk_gallons_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::MegaukGallonsPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::MegaukGallonPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilous_gallons_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::KilousGallonsPerMinute);
+            return convert_from_base(VolumeFlowUnit::KilousGallonPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_kilous_gallons_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::KilousGallonsPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::KilousGallonPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t us_gallons_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::UsGallonsPerHour);
+            return convert_from_base(VolumeFlowUnit::UsGallonPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_us_gallons_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::UsGallonsPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::UsGallonPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_decimeters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicDecimetersPerMinute);
+            return convert_from_base(VolumeFlowUnit::CubicDecimeterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_decimeters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicDecimetersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CubicDecimeterPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::OilBarrelsPerDay);
+            return convert_from_base(VolumeFlowUnit::OilBarrelPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_oil_barrels_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::OilBarrelPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::OilBarrelsPerMinute);
+            return convert_from_base(VolumeFlowUnit::OilBarrelPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_oil_barrels_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::OilBarrelPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::OilBarrelsPerHour);
+            return convert_from_base(VolumeFlowUnit::OilBarrelPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_oil_barrels_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::OilBarrelPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t oil_barrels_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::OilBarrelsPerSecond);
+            return convert_from_base(VolumeFlowUnit::OilBarrelPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_oil_barrels_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::OilBarrelsPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::OilBarrelPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_millimeters_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicMillimetersPerSecond);
+            return convert_from_base(VolumeFlowUnit::CubicMillimeterPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_millimeters_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicMillimetersPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::CubicMillimeterPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_second() const
         {
-            return convert_from_base(VolumeFlowUnit::AcreFeetPerSecond);
+            return convert_from_base(VolumeFlowUnit::AcreFootPerSecond);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_acre_feet_per_second(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerSecond);
+            return VolumeFlow(value, VolumeFlowUnit::AcreFootPerSecond);
         }
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::AcreFeetPerMinute);
+            return convert_from_base(VolumeFlowUnit::AcreFootPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_acre_feet_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::AcreFootPerMinute);
         }
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_hour() const
         {
-            return convert_from_base(VolumeFlowUnit::AcreFeetPerHour);
+            return convert_from_base(VolumeFlowUnit::AcreFootPerHour);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_acre_feet_per_hour(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerHour);
+            return VolumeFlow(value, VolumeFlowUnit::AcreFootPerHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t acre_feet_per_day() const
         {
-            return convert_from_base(VolumeFlowUnit::AcreFeetPerDay);
+            return convert_from_base(VolumeFlowUnit::AcreFootPerDay);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_acre_feet_per_day(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::AcreFeetPerDay);
+            return VolumeFlow(value, VolumeFlowUnit::AcreFootPerDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t cubic_centimeters_per_minute() const
         {
-            return convert_from_base(VolumeFlowUnit::CubicCentimetersPerMinute);
+            return convert_from_base(VolumeFlowUnit::CubicCentimeterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_cubic_centimeters_per_minute(const un_scalar_t value)
         {
-            return VolumeFlow(value, VolumeFlowUnit::CubicCentimetersPerMinute);
+            return VolumeFlow(value, VolumeFlowUnit::CubicCentimeterPerMinute);
         }
 
         [[nodiscard]] static constexpr VolumeFlow from_invalid()
@@ -1150,229 +1005,229 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VolumeFlowUnit::CubicMetersPerSecond:
+            case VolumeFlowUnit::CubicMeterPerSecond:
                 return value;
 
-            case VolumeFlowUnit::CubicMetersPerMinute:
+            case VolumeFlowUnit::CubicMeterPerMinute:
                 return value / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::CubicMetersPerHour:
+            case VolumeFlowUnit::CubicMeterPerHour:
                 return value / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::CubicMetersPerDay:
+            case VolumeFlowUnit::CubicMeterPerDay:
                 return value / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::CubicFeetPerSecond:
+            case VolumeFlowUnit::CubicFootPerSecond:
                 return value * static_cast<un_scalar_t>(0.028316846592);
 
-            case VolumeFlowUnit::CubicFeetPerMinute:
+            case VolumeFlowUnit::CubicFootPerMinute:
                 return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::CubicFeetPerHour:
+            case VolumeFlowUnit::CubicFootPerHour:
                 return value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::CubicYardsPerSecond:
+            case VolumeFlowUnit::CubicYardPerSecond:
                 return value * static_cast<un_scalar_t>(0.764554857984);
 
-            case VolumeFlowUnit::CubicYardsPerMinute:
+            case VolumeFlowUnit::CubicYardPerMinute:
                 return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::CubicYardsPerHour:
+            case VolumeFlowUnit::CubicYardPerHour:
                 return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::CubicYardsPerDay:
+            case VolumeFlowUnit::CubicYardPerDay:
                 return value * static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::MillionUsGallonsPerDay:
+            case VolumeFlowUnit::MillionUsGallonPerDay:
                 return value * static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::UsGallonsPerDay:
+            case VolumeFlowUnit::UsGallonPerDay:
                 return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::MegausGallonsPerDay:
+            case VolumeFlowUnit::MegausGallonPerDay:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::LitersPerSecond:
+            case VolumeFlowUnit::LiterPerSecond:
                 return value / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::NanolitersPerSecond:
+            case VolumeFlowUnit::NanoliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::MicrolitersPerSecond:
+            case VolumeFlowUnit::MicroliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::MillilitersPerSecond:
+            case VolumeFlowUnit::MilliliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::CentilitersPerSecond:
+            case VolumeFlowUnit::CentiliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::DecilitersPerSecond:
+            case VolumeFlowUnit::DeciliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::DecalitersPerSecond:
+            case VolumeFlowUnit::DecaliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e1)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::HectolitersPerSecond:
+            case VolumeFlowUnit::HectoliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::KilolitersPerSecond:
+            case VolumeFlowUnit::KiloliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::MegalitersPerSecond:
+            case VolumeFlowUnit::MegaliterPerSecond:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::LitersPerMinute:
+            case VolumeFlowUnit::LiterPerMinute:
                 return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::NanolitersPerMinute:
+            case VolumeFlowUnit::NanoliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::MicrolitersPerMinute:
+            case VolumeFlowUnit::MicroliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::MillilitersPerMinute:
+            case VolumeFlowUnit::MilliliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::CentilitersPerMinute:
+            case VolumeFlowUnit::CentiliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::DecilitersPerMinute:
+            case VolumeFlowUnit::DeciliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::DecalitersPerMinute:
+            case VolumeFlowUnit::DecaliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::HectolitersPerMinute:
+            case VolumeFlowUnit::HectoliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::KilolitersPerMinute:
+            case VolumeFlowUnit::KiloliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::MegalitersPerMinute:
+            case VolumeFlowUnit::MegaliterPerMinute:
                 return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::LitersPerHour:
+            case VolumeFlowUnit::LiterPerHour:
                 return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::NanolitersPerHour:
+            case VolumeFlowUnit::NanoliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::MicrolitersPerHour:
+            case VolumeFlowUnit::MicroliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::MillilitersPerHour:
+            case VolumeFlowUnit::MilliliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::CentilitersPerHour:
+            case VolumeFlowUnit::CentiliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::DecilitersPerHour:
+            case VolumeFlowUnit::DeciliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::DecalitersPerHour:
+            case VolumeFlowUnit::DecaliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::HectolitersPerHour:
+            case VolumeFlowUnit::HectoliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::KilolitersPerHour:
+            case VolumeFlowUnit::KiloliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::MegalitersPerHour:
+            case VolumeFlowUnit::MegaliterPerHour:
                 return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::LitersPerDay:
+            case VolumeFlowUnit::LiterPerDay:
                 return value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::NanolitersPerDay:
+            case VolumeFlowUnit::NanoliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e-9)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MicrolitersPerDay:
+            case VolumeFlowUnit::MicroliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e-6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MillilitersPerDay:
+            case VolumeFlowUnit::MilliliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e-3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::CentilitersPerDay:
+            case VolumeFlowUnit::CentiliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e-2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::DecilitersPerDay:
+            case VolumeFlowUnit::DeciliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e-1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::DecalitersPerDay:
+            case VolumeFlowUnit::DecaliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e1)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::HectolitersPerDay:
+            case VolumeFlowUnit::HectoliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e2)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::KilolitersPerDay:
+            case VolumeFlowUnit::KiloliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e3)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MegalitersPerDay:
+            case VolumeFlowUnit::MegaliterPerDay:
                 return (value * static_cast<un_scalar_t>(1e6)) / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::UsGallonsPerSecond:
+            case VolumeFlowUnit::UsGallonPerSecond:
                 return value * static_cast<un_scalar_t>(0.003785411784);
 
-            case VolumeFlowUnit::UsGallonsPerMinute:
+            case VolumeFlowUnit::UsGallonPerMinute:
                 return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::UkGallonsPerDay:
+            case VolumeFlowUnit::UkGallonPerDay:
                 return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::MegaukGallonsPerDay:
+            case VolumeFlowUnit::MegaukGallonPerDay:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::UkGallonsPerHour:
+            case VolumeFlowUnit::UkGallonPerHour:
                 return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::UkGallonsPerMinute:
+            case VolumeFlowUnit::UkGallonPerMinute:
                 return value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::UkGallonsPerSecond:
+            case VolumeFlowUnit::UkGallonPerSecond:
                 return value * static_cast<un_scalar_t>(0.00454609);
 
-            case VolumeFlowUnit::MegaukGallonsPerSecond:
+            case VolumeFlowUnit::MegaukGallonPerSecond:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(0.00454609);
 
-            case VolumeFlowUnit::KilousGallonsPerMinute:
+            case VolumeFlowUnit::KilousGallonPerMinute:
                 return value * static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::UsGallonsPerHour:
+            case VolumeFlowUnit::UsGallonPerHour:
                 return value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::CubicDecimetersPerMinute:
+            case VolumeFlowUnit::CubicDecimeterPerMinute:
                 return value / static_cast<un_scalar_t>(60000.00000);
 
-            case VolumeFlowUnit::OilBarrelsPerDay:
+            case VolumeFlowUnit::OilBarrelPerDay:
                 return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::OilBarrelsPerMinute:
+            case VolumeFlowUnit::OilBarrelPerMinute:
                 return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::OilBarrelsPerHour:
+            case VolumeFlowUnit::OilBarrelPerHour:
                 return value * static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::OilBarrelsPerSecond:
+            case VolumeFlowUnit::OilBarrelPerSecond:
                 return value * static_cast<un_scalar_t>(0.158987294928);
 
-            case VolumeFlowUnit::CubicMillimetersPerSecond:
+            case VolumeFlowUnit::CubicMillimeterPerSecond:
                 return value * static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::AcreFeetPerSecond:
+            case VolumeFlowUnit::AcreFootPerSecond:
                 return value * static_cast<un_scalar_t>(1233.48183754752);
 
-            case VolumeFlowUnit::AcreFeetPerMinute:
+            case VolumeFlowUnit::AcreFootPerMinute:
                 return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::AcreFeetPerHour:
+            case VolumeFlowUnit::AcreFootPerHour:
                 return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::AcreFeetPerDay:
+            case VolumeFlowUnit::AcreFootPerDay:
                 return value * static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::CubicCentimetersPerMinute:
+            case VolumeFlowUnit::CubicCentimeterPerMinute:
                 return value * static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60);
 
             }
@@ -1392,229 +1247,229 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case VolumeFlowUnit::CubicMetersPerSecond:
+            case VolumeFlowUnit::CubicMeterPerSecond:
                 return base_value;
 
-            case VolumeFlowUnit::CubicMetersPerMinute:
+            case VolumeFlowUnit::CubicMeterPerMinute:
                 return base_value * static_cast<un_scalar_t>(60);
 
-            case VolumeFlowUnit::CubicMetersPerHour:
+            case VolumeFlowUnit::CubicMeterPerHour:
                 return base_value * static_cast<un_scalar_t>(3600);
 
-            case VolumeFlowUnit::CubicMetersPerDay:
+            case VolumeFlowUnit::CubicMeterPerDay:
                 return base_value * static_cast<un_scalar_t>(86400);
 
-            case VolumeFlowUnit::CubicFeetPerSecond:
+            case VolumeFlowUnit::CubicFootPerSecond:
                 return base_value / static_cast<un_scalar_t>(0.028316846592);
 
-            case VolumeFlowUnit::CubicFeetPerMinute:
+            case VolumeFlowUnit::CubicFootPerMinute:
                 return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::CubicFeetPerHour:
+            case VolumeFlowUnit::CubicFootPerHour:
                 return base_value / (static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::CubicYardsPerSecond:
+            case VolumeFlowUnit::CubicYardPerSecond:
                 return base_value / static_cast<un_scalar_t>(0.764554857984);
 
-            case VolumeFlowUnit::CubicYardsPerMinute:
+            case VolumeFlowUnit::CubicYardPerMinute:
                 return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::CubicYardsPerHour:
+            case VolumeFlowUnit::CubicYardPerHour:
                 return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::CubicYardsPerDay:
+            case VolumeFlowUnit::CubicYardPerDay:
                 return base_value / (static_cast<un_scalar_t>(0.764554857984) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MillionUsGallonsPerDay:
+            case VolumeFlowUnit::MillionUsGallonPerDay:
                 return base_value / (static_cast<un_scalar_t>(1e6) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::UsGallonsPerDay:
+            case VolumeFlowUnit::UsGallonPerDay:
                 return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MegausGallonsPerDay:
+            case VolumeFlowUnit::MegausGallonPerDay:
                 return (base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::LitersPerSecond:
+            case VolumeFlowUnit::LiterPerSecond:
                 return base_value * static_cast<un_scalar_t>(1000);
 
-            case VolumeFlowUnit::NanolitersPerSecond:
+            case VolumeFlowUnit::NanoliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::MicrolitersPerSecond:
+            case VolumeFlowUnit::MicroliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-6);
 
-            case VolumeFlowUnit::MillilitersPerSecond:
+            case VolumeFlowUnit::MilliliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-3);
 
-            case VolumeFlowUnit::CentilitersPerSecond:
+            case VolumeFlowUnit::CentiliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-2);
 
-            case VolumeFlowUnit::DecilitersPerSecond:
+            case VolumeFlowUnit::DeciliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e-1);
 
-            case VolumeFlowUnit::DecalitersPerSecond:
+            case VolumeFlowUnit::DecaliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e1);
 
-            case VolumeFlowUnit::HectolitersPerSecond:
+            case VolumeFlowUnit::HectoliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e2);
 
-            case VolumeFlowUnit::KilolitersPerSecond:
+            case VolumeFlowUnit::KiloliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e3);
 
-            case VolumeFlowUnit::MegalitersPerSecond:
+            case VolumeFlowUnit::MegaliterPerSecond:
                 return (base_value * static_cast<un_scalar_t>(1000)) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::LitersPerMinute:
+            case VolumeFlowUnit::LiterPerMinute:
                 return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::NanolitersPerMinute:
+            case VolumeFlowUnit::NanoliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::MicrolitersPerMinute:
+            case VolumeFlowUnit::MicroliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-6);
 
-            case VolumeFlowUnit::MillilitersPerMinute:
+            case VolumeFlowUnit::MilliliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-3);
 
-            case VolumeFlowUnit::CentilitersPerMinute:
+            case VolumeFlowUnit::CentiliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-2);
 
-            case VolumeFlowUnit::DecilitersPerMinute:
+            case VolumeFlowUnit::DeciliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e-1);
 
-            case VolumeFlowUnit::DecalitersPerMinute:
+            case VolumeFlowUnit::DecaliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e1);
 
-            case VolumeFlowUnit::HectolitersPerMinute:
+            case VolumeFlowUnit::HectoliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e2);
 
-            case VolumeFlowUnit::KilolitersPerMinute:
+            case VolumeFlowUnit::KiloliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e3);
 
-            case VolumeFlowUnit::MegalitersPerMinute:
+            case VolumeFlowUnit::MegaliterPerMinute:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(60))) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::LitersPerHour:
+            case VolumeFlowUnit::LiterPerHour:
                 return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::NanolitersPerHour:
+            case VolumeFlowUnit::NanoliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::MicrolitersPerHour:
+            case VolumeFlowUnit::MicroliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-6);
 
-            case VolumeFlowUnit::MillilitersPerHour:
+            case VolumeFlowUnit::MilliliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-3);
 
-            case VolumeFlowUnit::CentilitersPerHour:
+            case VolumeFlowUnit::CentiliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-2);
 
-            case VolumeFlowUnit::DecilitersPerHour:
+            case VolumeFlowUnit::DeciliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e-1);
 
-            case VolumeFlowUnit::DecalitersPerHour:
+            case VolumeFlowUnit::DecaliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e1);
 
-            case VolumeFlowUnit::HectolitersPerHour:
+            case VolumeFlowUnit::HectoliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e2);
 
-            case VolumeFlowUnit::KilolitersPerHour:
+            case VolumeFlowUnit::KiloliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e3);
 
-            case VolumeFlowUnit::MegalitersPerHour:
+            case VolumeFlowUnit::MegaliterPerHour:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(3600))) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::LitersPerDay:
+            case VolumeFlowUnit::LiterPerDay:
                 return base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::NanolitersPerDay:
+            case VolumeFlowUnit::NanoliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::MicrolitersPerDay:
+            case VolumeFlowUnit::MicroliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-6);
 
-            case VolumeFlowUnit::MillilitersPerDay:
+            case VolumeFlowUnit::MilliliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-3);
 
-            case VolumeFlowUnit::CentilitersPerDay:
+            case VolumeFlowUnit::CentiliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-2);
 
-            case VolumeFlowUnit::DecilitersPerDay:
+            case VolumeFlowUnit::DeciliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e-1);
 
-            case VolumeFlowUnit::DecalitersPerDay:
+            case VolumeFlowUnit::DecaliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e1);
 
-            case VolumeFlowUnit::HectolitersPerDay:
+            case VolumeFlowUnit::HectoliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e2);
 
-            case VolumeFlowUnit::KilolitersPerDay:
+            case VolumeFlowUnit::KiloliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e3);
 
-            case VolumeFlowUnit::MegalitersPerDay:
+            case VolumeFlowUnit::MegaliterPerDay:
                 return (base_value * (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::UsGallonsPerSecond:
+            case VolumeFlowUnit::UsGallonPerSecond:
                 return base_value / static_cast<un_scalar_t>(0.003785411784);
 
-            case VolumeFlowUnit::UsGallonsPerMinute:
+            case VolumeFlowUnit::UsGallonPerMinute:
                 return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::UkGallonsPerDay:
+            case VolumeFlowUnit::UkGallonPerDay:
                 return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::MegaukGallonsPerDay:
+            case VolumeFlowUnit::MegaukGallonPerDay:
                 return (base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(86400))) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::UkGallonsPerHour:
+            case VolumeFlowUnit::UkGallonPerHour:
                 return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::UkGallonsPerMinute:
+            case VolumeFlowUnit::UkGallonPerMinute:
                 return base_value / (static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::UkGallonsPerSecond:
+            case VolumeFlowUnit::UkGallonPerSecond:
                 return base_value / static_cast<un_scalar_t>(0.00454609);
 
-            case VolumeFlowUnit::MegaukGallonsPerSecond:
+            case VolumeFlowUnit::MegaukGallonPerSecond:
                 return (base_value / static_cast<un_scalar_t>(0.00454609)) / static_cast<un_scalar_t>(1e6);
 
-            case VolumeFlowUnit::KilousGallonsPerMinute:
+            case VolumeFlowUnit::KilousGallonPerMinute:
                 return base_value / (static_cast<un_scalar_t>(1000) * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::UsGallonsPerHour:
+            case VolumeFlowUnit::UsGallonPerHour:
                 return base_value / (static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::CubicDecimetersPerMinute:
+            case VolumeFlowUnit::CubicDecimeterPerMinute:
                 return base_value * static_cast<un_scalar_t>(60000.00000);
 
-            case VolumeFlowUnit::OilBarrelsPerDay:
+            case VolumeFlowUnit::OilBarrelPerDay:
                 return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::OilBarrelsPerMinute:
+            case VolumeFlowUnit::OilBarrelPerMinute:
                 return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::OilBarrelsPerHour:
+            case VolumeFlowUnit::OilBarrelPerHour:
                 return base_value / (static_cast<un_scalar_t>(0.158987294928) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::OilBarrelsPerSecond:
+            case VolumeFlowUnit::OilBarrelPerSecond:
                 return base_value / static_cast<un_scalar_t>(0.158987294928);
 
-            case VolumeFlowUnit::CubicMillimetersPerSecond:
+            case VolumeFlowUnit::CubicMillimeterPerSecond:
                 return base_value / static_cast<un_scalar_t>(1e-9);
 
-            case VolumeFlowUnit::AcreFeetPerSecond:
+            case VolumeFlowUnit::AcreFootPerSecond:
                 return base_value / static_cast<un_scalar_t>(1233.48183754752);
 
-            case VolumeFlowUnit::AcreFeetPerMinute:
+            case VolumeFlowUnit::AcreFootPerMinute:
                 return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(60));
 
-            case VolumeFlowUnit::AcreFeetPerHour:
+            case VolumeFlowUnit::AcreFootPerHour:
                 return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(3600));
 
-            case VolumeFlowUnit::AcreFeetPerDay:
+            case VolumeFlowUnit::AcreFootPerDay:
                 return base_value / (static_cast<un_scalar_t>(1233.48183754752) / static_cast<un_scalar_t>(86400));
 
-            case VolumeFlowUnit::CubicCentimetersPerMinute:
+            case VolumeFlowUnit::CubicCentimeterPerMinute:
                 return base_value / (static_cast<un_scalar_t>(1e-6) / static_cast<un_scalar_t>(60));
 
             }

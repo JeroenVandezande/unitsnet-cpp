@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,11 +18,73 @@ namespace unitsnet_cpp
 {
     enum class FuelEfficiencyUnit : std::uint8_t
     {
-        LitersPer100Kilometers,
-        MilesPerUsGallon,
-        MilesPerUkGallon,
-        KilometersPerLiter,
+        LiterPer100Kilometers,
+        MilePerUsGallon,
+        MilePerUkGallon,
+        KilometerPerLiter,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of FuelEfficiency.</summary>
+    class FuelEfficiencyDto
+    {
+    public:
+        constexpr FuelEfficiencyDto() noexcept
+            : value{}, unit(FuelEfficiencyUnit::KilometerPerLiter)
+        {
+        }
+
+        constexpr FuelEfficiencyDto(
+            const un_scalar_t value,
+            const FuelEfficiencyUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        FuelEfficiencyUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr FuelEfficiencyUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<FuelEfficiencyUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown FuelEfficiency unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static FuelEfficiencyDto from_json(const nlohmann::json& json)
+        {
+            return FuelEfficiencyDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>In the context of transport, fuel economy is the energy efficiency of a particular vehicle, given as a ratio of distance traveled per unit of fuel consumed. In most countries, using the metric system, fuel economy is stated as "fuel consumption" in liters per 100 kilometers (L/100 km) or kilometers per liter (km/L or kmpl). In countries using non-metric system, fuel economy is expressed in miles per gallon (mpg) (imperial galon or US galon).</summary>
     class FuelEfficiency : public UnitsNetBase
@@ -22,42 +92,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit FuelEfficiency(
             const un_scalar_t value,
-            const FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometersPerLiter)
+            const FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometerPerLiter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "FuelEfficiency"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case FuelEfficiencyUnit::LitersPer100Kilometers:
-                return "LitersPer100Kilometers";
-
-            case FuelEfficiencyUnit::MilesPerUsGallon:
-                return "MilesPerUsGallon";
-
-            case FuelEfficiencyUnit::MilesPerUkGallon:
-                return "MilesPerUkGallon";
-
-            case FuelEfficiencyUnit::KilometersPerLiter:
-                return "KilometersPerLiter";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -69,6 +107,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr FuelEfficiencyDto to_dto(
+            const FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometerPerLiter) const
+        {
+            return FuelEfficiencyDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr FuelEfficiency from_dto(const FuelEfficiencyDto& dto)
+        {
+            return FuelEfficiency(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const FuelEfficiencyUnit unit = FuelEfficiencyUnit::KilometerPerLiter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static FuelEfficiency from_json(const nlohmann::json& json)
+        {
+            return from_dto(FuelEfficiencyDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr FuelEfficiency operator+(const FuelEfficiency& other) const noexcept
         {
@@ -107,42 +175,42 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t liters_per100_kilometers() const
         {
-            return convert_from_base(FuelEfficiencyUnit::LitersPer100Kilometers);
+            return convert_from_base(FuelEfficiencyUnit::LiterPer100Kilometers);
         }
 
         [[nodiscard]] static constexpr FuelEfficiency from_liters_per100_kilometers(const un_scalar_t value)
         {
-            return FuelEfficiency(value, FuelEfficiencyUnit::LitersPer100Kilometers);
+            return FuelEfficiency(value, FuelEfficiencyUnit::LiterPer100Kilometers);
         }
 
         [[nodiscard]] constexpr un_scalar_t miles_per_us_gallon() const
         {
-            return convert_from_base(FuelEfficiencyUnit::MilesPerUsGallon);
+            return convert_from_base(FuelEfficiencyUnit::MilePerUsGallon);
         }
 
         [[nodiscard]] static constexpr FuelEfficiency from_miles_per_us_gallon(const un_scalar_t value)
         {
-            return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUsGallon);
+            return FuelEfficiency(value, FuelEfficiencyUnit::MilePerUsGallon);
         }
 
         [[nodiscard]] constexpr un_scalar_t miles_per_uk_gallon() const
         {
-            return convert_from_base(FuelEfficiencyUnit::MilesPerUkGallon);
+            return convert_from_base(FuelEfficiencyUnit::MilePerUkGallon);
         }
 
         [[nodiscard]] static constexpr FuelEfficiency from_miles_per_uk_gallon(const un_scalar_t value)
         {
-            return FuelEfficiency(value, FuelEfficiencyUnit::MilesPerUkGallon);
+            return FuelEfficiency(value, FuelEfficiencyUnit::MilePerUkGallon);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilometers_per_liter() const
         {
-            return convert_from_base(FuelEfficiencyUnit::KilometersPerLiter);
+            return convert_from_base(FuelEfficiencyUnit::KilometerPerLiter);
         }
 
         [[nodiscard]] static constexpr FuelEfficiency from_kilometers_per_liter(const un_scalar_t value)
         {
-            return FuelEfficiency(value, FuelEfficiencyUnit::KilometersPerLiter);
+            return FuelEfficiency(value, FuelEfficiencyUnit::KilometerPerLiter);
         }
 
         [[nodiscard]] static constexpr FuelEfficiency from_invalid()
@@ -156,16 +224,16 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case FuelEfficiencyUnit::LitersPer100Kilometers:
+            case FuelEfficiencyUnit::LiterPer100Kilometers:
                 return static_cast<un_scalar_t>(100) / value;
 
-            case FuelEfficiencyUnit::MilesPerUsGallon:
+            case FuelEfficiencyUnit::MilePerUsGallon:
                 return value * static_cast<un_scalar_t>(1.609344) / static_cast<un_scalar_t>(3.785411784);
 
-            case FuelEfficiencyUnit::MilesPerUkGallon:
+            case FuelEfficiencyUnit::MilePerUkGallon:
                 return value * static_cast<un_scalar_t>(1.609344) / static_cast<un_scalar_t>(4.54609);
 
-            case FuelEfficiencyUnit::KilometersPerLiter:
+            case FuelEfficiencyUnit::KilometerPerLiter:
                 return value;
 
             }
@@ -185,16 +253,16 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case FuelEfficiencyUnit::LitersPer100Kilometers:
+            case FuelEfficiencyUnit::LiterPer100Kilometers:
                 return static_cast<un_scalar_t>(100) / base_value;
 
-            case FuelEfficiencyUnit::MilesPerUsGallon:
+            case FuelEfficiencyUnit::MilePerUsGallon:
                 return base_value * static_cast<un_scalar_t>(3.785411784) / static_cast<un_scalar_t>(1.609344);
 
-            case FuelEfficiencyUnit::MilesPerUkGallon:
+            case FuelEfficiencyUnit::MilePerUkGallon:
                 return base_value * static_cast<un_scalar_t>(4.54609) / static_cast<un_scalar_t>(1.609344);
 
-            case FuelEfficiencyUnit::KilometersPerLiter:
+            case FuelEfficiencyUnit::KilometerPerLiter:
                 return base_value;
 
             }

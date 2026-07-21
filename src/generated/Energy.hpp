@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,47 +18,109 @@ namespace unitsnet_cpp
 {
     enum class EnergyUnit : std::uint8_t
     {
-        Joules,
-        Nanojoules,
-        Microjoules,
-        Millijoules,
-        Kilojoules,
-        Megajoules,
-        Gigajoules,
-        Terajoules,
-        Petajoules,
-        Calories,
-        Kilocalories,
-        Megacalories,
-        BritishThermalUnits,
-        KilobritishThermalUnits,
-        MegabritishThermalUnits,
-        GigabritishThermalUnits,
-        ElectronVolts,
-        KiloelectronVolts,
-        MegaelectronVolts,
-        GigaelectronVolts,
-        TeraelectronVolts,
-        FootPounds,
-        Ergs,
-        WattHours,
-        KilowattHours,
-        MegawattHours,
-        GigawattHours,
-        TerawattHours,
-        WattDays,
-        KilowattDays,
-        MegawattDays,
-        GigawattDays,
-        TerawattDays,
-        ThermsEc,
-        DecathermsEc,
-        ThermsUs,
-        DecathermsUs,
-        ThermsImperial,
-        DecathermsImperial,
-        HorsepowerHours,
+        Joule,
+        Nanojoule,
+        Microjoule,
+        Millijoule,
+        Kilojoule,
+        Megajoule,
+        Gigajoule,
+        Terajoule,
+        Petajoule,
+        Calorie,
+        Kilocalorie,
+        Megacalorie,
+        BritishThermalUnit,
+        KilobritishThermalUnit,
+        MegabritishThermalUnit,
+        GigabritishThermalUnit,
+        ElectronVolt,
+        KiloelectronVolt,
+        MegaelectronVolt,
+        GigaelectronVolt,
+        TeraelectronVolt,
+        FootPound,
+        Erg,
+        WattHour,
+        KilowattHour,
+        MegawattHour,
+        GigawattHour,
+        TerawattHour,
+        WattDay,
+        KilowattDay,
+        MegawattDay,
+        GigawattDay,
+        TerawattDay,
+        ThermEc,
+        DecathermEc,
+        ThermUs,
+        DecathermUs,
+        ThermImperial,
+        DecathermImperial,
+        HorsepowerHour,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of Energy.</summary>
+    class EnergyDto
+    {
+    public:
+        constexpr EnergyDto() noexcept
+            : value{}, unit(EnergyUnit::Joule)
+        {
+        }
+
+        constexpr EnergyDto(
+            const un_scalar_t value,
+            const EnergyUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        EnergyUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr EnergyUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<EnergyUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown Energy unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static EnergyDto from_json(const nlohmann::json& json)
+        {
+            return EnergyDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The joule, symbol J, is a derived unit of energy, work, or amount of heat in the International System of Units. It is equal to the energy transferred (or work done) when applying a force of one newton through a distance of one metre (1 newton metre or N·m), or in passing an electric current of one ampere through a resistance of one ohm for one second. Many other units of energy are included. Please do not confuse this definition of the calorie with the one colloquially used by the food industry, the large calorie, which is equivalent to 1 kcal. Thermochemical definition of the calorie is used. For BTU, the IT definition is used.</summary>
     class Energy : public UnitsNetBase
@@ -58,150 +128,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit Energy(
             const un_scalar_t value,
-            const EnergyUnit unit = EnergyUnit::Joules)
+            const EnergyUnit unit = EnergyUnit::Joule)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "Energy"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case EnergyUnit::Joules:
-                return "Joules";
-
-            case EnergyUnit::Nanojoules:
-                return "Nanojoules";
-
-            case EnergyUnit::Microjoules:
-                return "Microjoules";
-
-            case EnergyUnit::Millijoules:
-                return "Millijoules";
-
-            case EnergyUnit::Kilojoules:
-                return "Kilojoules";
-
-            case EnergyUnit::Megajoules:
-                return "Megajoules";
-
-            case EnergyUnit::Gigajoules:
-                return "Gigajoules";
-
-            case EnergyUnit::Terajoules:
-                return "Terajoules";
-
-            case EnergyUnit::Petajoules:
-                return "Petajoules";
-
-            case EnergyUnit::Calories:
-                return "Calories";
-
-            case EnergyUnit::Kilocalories:
-                return "Kilocalories";
-
-            case EnergyUnit::Megacalories:
-                return "Megacalories";
-
-            case EnergyUnit::BritishThermalUnits:
-                return "BritishThermalUnits";
-
-            case EnergyUnit::KilobritishThermalUnits:
-                return "KilobritishThermalUnits";
-
-            case EnergyUnit::MegabritishThermalUnits:
-                return "MegabritishThermalUnits";
-
-            case EnergyUnit::GigabritishThermalUnits:
-                return "GigabritishThermalUnits";
-
-            case EnergyUnit::ElectronVolts:
-                return "ElectronVolts";
-
-            case EnergyUnit::KiloelectronVolts:
-                return "KiloelectronVolts";
-
-            case EnergyUnit::MegaelectronVolts:
-                return "MegaelectronVolts";
-
-            case EnergyUnit::GigaelectronVolts:
-                return "GigaelectronVolts";
-
-            case EnergyUnit::TeraelectronVolts:
-                return "TeraelectronVolts";
-
-            case EnergyUnit::FootPounds:
-                return "FootPounds";
-
-            case EnergyUnit::Ergs:
-                return "Ergs";
-
-            case EnergyUnit::WattHours:
-                return "WattHours";
-
-            case EnergyUnit::KilowattHours:
-                return "KilowattHours";
-
-            case EnergyUnit::MegawattHours:
-                return "MegawattHours";
-
-            case EnergyUnit::GigawattHours:
-                return "GigawattHours";
-
-            case EnergyUnit::TerawattHours:
-                return "TerawattHours";
-
-            case EnergyUnit::WattDays:
-                return "WattDays";
-
-            case EnergyUnit::KilowattDays:
-                return "KilowattDays";
-
-            case EnergyUnit::MegawattDays:
-                return "MegawattDays";
-
-            case EnergyUnit::GigawattDays:
-                return "GigawattDays";
-
-            case EnergyUnit::TerawattDays:
-                return "TerawattDays";
-
-            case EnergyUnit::ThermsEc:
-                return "ThermsEc";
-
-            case EnergyUnit::DecathermsEc:
-                return "DecathermsEc";
-
-            case EnergyUnit::ThermsUs:
-                return "ThermsUs";
-
-            case EnergyUnit::DecathermsUs:
-                return "DecathermsUs";
-
-            case EnergyUnit::ThermsImperial:
-                return "ThermsImperial";
-
-            case EnergyUnit::DecathermsImperial:
-                return "DecathermsImperial";
-
-            case EnergyUnit::HorsepowerHours:
-                return "HorsepowerHours";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -213,6 +143,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr EnergyDto to_dto(
+            const EnergyUnit unit = EnergyUnit::Joule) const
+        {
+            return EnergyDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr Energy from_dto(const EnergyDto& dto)
+        {
+            return Energy(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const EnergyUnit unit = EnergyUnit::Joule) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static Energy from_json(const nlohmann::json& json)
+        {
+            return from_dto(EnergyDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr Energy operator+(const Energy& other) const noexcept
         {
@@ -251,430 +211,430 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t joules() const
         {
-            return convert_from_base(EnergyUnit::Joules);
+            return convert_from_base(EnergyUnit::Joule);
         }
 
         [[nodiscard]] static constexpr Energy from_joules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Joules);
+            return Energy(value, EnergyUnit::Joule);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanojoules() const
         {
-            return convert_from_base(EnergyUnit::Nanojoules);
+            return convert_from_base(EnergyUnit::Nanojoule);
         }
 
         [[nodiscard]] static constexpr Energy from_nanojoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Nanojoules);
+            return Energy(value, EnergyUnit::Nanojoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t microjoules() const
         {
-            return convert_from_base(EnergyUnit::Microjoules);
+            return convert_from_base(EnergyUnit::Microjoule);
         }
 
         [[nodiscard]] static constexpr Energy from_microjoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Microjoules);
+            return Energy(value, EnergyUnit::Microjoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t millijoules() const
         {
-            return convert_from_base(EnergyUnit::Millijoules);
+            return convert_from_base(EnergyUnit::Millijoule);
         }
 
         [[nodiscard]] static constexpr Energy from_millijoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Millijoules);
+            return Energy(value, EnergyUnit::Millijoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilojoules() const
         {
-            return convert_from_base(EnergyUnit::Kilojoules);
+            return convert_from_base(EnergyUnit::Kilojoule);
         }
 
         [[nodiscard]] static constexpr Energy from_kilojoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Kilojoules);
+            return Energy(value, EnergyUnit::Kilojoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t megajoules() const
         {
-            return convert_from_base(EnergyUnit::Megajoules);
+            return convert_from_base(EnergyUnit::Megajoule);
         }
 
         [[nodiscard]] static constexpr Energy from_megajoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Megajoules);
+            return Energy(value, EnergyUnit::Megajoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigajoules() const
         {
-            return convert_from_base(EnergyUnit::Gigajoules);
+            return convert_from_base(EnergyUnit::Gigajoule);
         }
 
         [[nodiscard]] static constexpr Energy from_gigajoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Gigajoules);
+            return Energy(value, EnergyUnit::Gigajoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t terajoules() const
         {
-            return convert_from_base(EnergyUnit::Terajoules);
+            return convert_from_base(EnergyUnit::Terajoule);
         }
 
         [[nodiscard]] static constexpr Energy from_terajoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Terajoules);
+            return Energy(value, EnergyUnit::Terajoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t petajoules() const
         {
-            return convert_from_base(EnergyUnit::Petajoules);
+            return convert_from_base(EnergyUnit::Petajoule);
         }
 
         [[nodiscard]] static constexpr Energy from_petajoules(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Petajoules);
+            return Energy(value, EnergyUnit::Petajoule);
         }
 
         [[nodiscard]] constexpr un_scalar_t calories() const
         {
-            return convert_from_base(EnergyUnit::Calories);
+            return convert_from_base(EnergyUnit::Calorie);
         }
 
         [[nodiscard]] static constexpr Energy from_calories(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Calories);
+            return Energy(value, EnergyUnit::Calorie);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilocalories() const
         {
-            return convert_from_base(EnergyUnit::Kilocalories);
+            return convert_from_base(EnergyUnit::Kilocalorie);
         }
 
         [[nodiscard]] static constexpr Energy from_kilocalories(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Kilocalories);
+            return Energy(value, EnergyUnit::Kilocalorie);
         }
 
         [[nodiscard]] constexpr un_scalar_t megacalories() const
         {
-            return convert_from_base(EnergyUnit::Megacalories);
+            return convert_from_base(EnergyUnit::Megacalorie);
         }
 
         [[nodiscard]] static constexpr Energy from_megacalories(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Megacalories);
+            return Energy(value, EnergyUnit::Megacalorie);
         }
 
         [[nodiscard]] constexpr un_scalar_t british_thermal_units() const
         {
-            return convert_from_base(EnergyUnit::BritishThermalUnits);
+            return convert_from_base(EnergyUnit::BritishThermalUnit);
         }
 
         [[nodiscard]] static constexpr Energy from_british_thermal_units(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::BritishThermalUnits);
+            return Energy(value, EnergyUnit::BritishThermalUnit);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilobritish_thermal_units() const
         {
-            return convert_from_base(EnergyUnit::KilobritishThermalUnits);
+            return convert_from_base(EnergyUnit::KilobritishThermalUnit);
         }
 
         [[nodiscard]] static constexpr Energy from_kilobritish_thermal_units(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::KilobritishThermalUnits);
+            return Energy(value, EnergyUnit::KilobritishThermalUnit);
         }
 
         [[nodiscard]] constexpr un_scalar_t megabritish_thermal_units() const
         {
-            return convert_from_base(EnergyUnit::MegabritishThermalUnits);
+            return convert_from_base(EnergyUnit::MegabritishThermalUnit);
         }
 
         [[nodiscard]] static constexpr Energy from_megabritish_thermal_units(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::MegabritishThermalUnits);
+            return Energy(value, EnergyUnit::MegabritishThermalUnit);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigabritish_thermal_units() const
         {
-            return convert_from_base(EnergyUnit::GigabritishThermalUnits);
+            return convert_from_base(EnergyUnit::GigabritishThermalUnit);
         }
 
         [[nodiscard]] static constexpr Energy from_gigabritish_thermal_units(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::GigabritishThermalUnits);
+            return Energy(value, EnergyUnit::GigabritishThermalUnit);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t electron_volts() const
         {
-            return convert_from_base(EnergyUnit::ElectronVolts);
+            return convert_from_base(EnergyUnit::ElectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_electron_volts(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::ElectronVolts);
+            return Energy(value, EnergyUnit::ElectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t kiloelectron_volts() const
         {
-            return convert_from_base(EnergyUnit::KiloelectronVolts);
+            return convert_from_base(EnergyUnit::KiloelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_kiloelectron_volts(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::KiloelectronVolts);
+            return Energy(value, EnergyUnit::KiloelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t megaelectron_volts() const
         {
-            return convert_from_base(EnergyUnit::MegaelectronVolts);
+            return convert_from_base(EnergyUnit::MegaelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_megaelectron_volts(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::MegaelectronVolts);
+            return Energy(value, EnergyUnit::MegaelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t gigaelectron_volts() const
         {
-            return convert_from_base(EnergyUnit::GigaelectronVolts);
+            return convert_from_base(EnergyUnit::GigaelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_gigaelectron_volts(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::GigaelectronVolts);
+            return Energy(value, EnergyUnit::GigaelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] constexpr un_scalar_t teraelectron_volts() const
         {
-            return convert_from_base(EnergyUnit::TeraelectronVolts);
+            return convert_from_base(EnergyUnit::TeraelectronVolt);
         }
 
         /// <summary>In physics, an electronvolt (symbol eV, also written electron-volt and electron volt) is the measure of an amount of kinetic energy gained by a single electron accelerating from rest through an electric potential difference of one volt in vacuum. When used as a unit of energy, the numerical value of 1 eV in joules (symbol J) is equivalent to the numerical value of the charge of an electron in coulombs (symbol C). Under the 2019 redefinition of the SI base units, this sets 1 eV equal to the exact value 1.602176634×10−19 J.</summary>
         [[nodiscard]] static constexpr Energy from_teraelectron_volts(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::TeraelectronVolts);
+            return Energy(value, EnergyUnit::TeraelectronVolt);
         }
 
         /// <summary>A pound-foot (lb⋅ft), abbreviated from pound-force foot (lbf · ft), is a unit of torque representing one pound of force acting at a perpendicular distance of one foot from a pivot point. Conversely one foot pound-force (ft · lbf) is the moment about an axis that applies one pound-force at a radius of one foot.</summary>
         [[nodiscard]] constexpr un_scalar_t foot_pounds() const
         {
-            return convert_from_base(EnergyUnit::FootPounds);
+            return convert_from_base(EnergyUnit::FootPound);
         }
 
         /// <summary>A pound-foot (lb⋅ft), abbreviated from pound-force foot (lbf · ft), is a unit of torque representing one pound of force acting at a perpendicular distance of one foot from a pivot point. Conversely one foot pound-force (ft · lbf) is the moment about an axis that applies one pound-force at a radius of one foot.</summary>
         [[nodiscard]] static constexpr Energy from_foot_pounds(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::FootPounds);
+            return Energy(value, EnergyUnit::FootPound);
         }
 
         /// <summary>The erg is a unit of energy equal to 10−7 joules (100 nJ). It originated in the Centimetre–gram–second system of units (CGS). It has the symbol erg. The erg is not an SI unit. Its name is derived from ergon (ἔργον), a Greek word meaning 'work' or 'task'.</summary>
         [[nodiscard]] constexpr un_scalar_t ergs() const
         {
-            return convert_from_base(EnergyUnit::Ergs);
+            return convert_from_base(EnergyUnit::Erg);
         }
 
         /// <summary>The erg is a unit of energy equal to 10−7 joules (100 nJ). It originated in the Centimetre–gram–second system of units (CGS). It has the symbol erg. The erg is not an SI unit. Its name is derived from ergon (ἔργον), a Greek word meaning 'work' or 'task'.</summary>
         [[nodiscard]] static constexpr Energy from_ergs(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::Ergs);
+            return Energy(value, EnergyUnit::Erg);
         }
 
         [[nodiscard]] constexpr un_scalar_t watt_hours() const
         {
-            return convert_from_base(EnergyUnit::WattHours);
+            return convert_from_base(EnergyUnit::WattHour);
         }
 
         [[nodiscard]] static constexpr Energy from_watt_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::WattHours);
+            return Energy(value, EnergyUnit::WattHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_hours() const
         {
-            return convert_from_base(EnergyUnit::KilowattHours);
+            return convert_from_base(EnergyUnit::KilowattHour);
         }
 
         [[nodiscard]] static constexpr Energy from_kilowatt_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::KilowattHours);
+            return Energy(value, EnergyUnit::KilowattHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatt_hours() const
         {
-            return convert_from_base(EnergyUnit::MegawattHours);
+            return convert_from_base(EnergyUnit::MegawattHour);
         }
 
         [[nodiscard]] static constexpr Energy from_megawatt_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::MegawattHours);
+            return Energy(value, EnergyUnit::MegawattHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_hours() const
         {
-            return convert_from_base(EnergyUnit::GigawattHours);
+            return convert_from_base(EnergyUnit::GigawattHour);
         }
 
         [[nodiscard]] static constexpr Energy from_gigawatt_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::GigawattHours);
+            return Energy(value, EnergyUnit::GigawattHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t terawatt_hours() const
         {
-            return convert_from_base(EnergyUnit::TerawattHours);
+            return convert_from_base(EnergyUnit::TerawattHour);
         }
 
         [[nodiscard]] static constexpr Energy from_terawatt_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::TerawattHours);
+            return Energy(value, EnergyUnit::TerawattHour);
         }
 
         [[nodiscard]] constexpr un_scalar_t watt_days() const
         {
-            return convert_from_base(EnergyUnit::WattDays);
+            return convert_from_base(EnergyUnit::WattDay);
         }
 
         [[nodiscard]] static constexpr Energy from_watt_days(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::WattDays);
+            return Energy(value, EnergyUnit::WattDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatt_days() const
         {
-            return convert_from_base(EnergyUnit::KilowattDays);
+            return convert_from_base(EnergyUnit::KilowattDay);
         }
 
         [[nodiscard]] static constexpr Energy from_kilowatt_days(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::KilowattDays);
+            return Energy(value, EnergyUnit::KilowattDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatt_days() const
         {
-            return convert_from_base(EnergyUnit::MegawattDays);
+            return convert_from_base(EnergyUnit::MegawattDay);
         }
 
         [[nodiscard]] static constexpr Energy from_megawatt_days(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::MegawattDays);
+            return Energy(value, EnergyUnit::MegawattDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatt_days() const
         {
-            return convert_from_base(EnergyUnit::GigawattDays);
+            return convert_from_base(EnergyUnit::GigawattDay);
         }
 
         [[nodiscard]] static constexpr Energy from_gigawatt_days(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::GigawattDays);
+            return Energy(value, EnergyUnit::GigawattDay);
         }
 
         [[nodiscard]] constexpr un_scalar_t terawatt_days() const
         {
-            return convert_from_base(EnergyUnit::TerawattDays);
+            return convert_from_base(EnergyUnit::TerawattDay);
         }
 
         [[nodiscard]] static constexpr Energy from_terawatt_days(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::TerawattDays);
+            return Energy(value, EnergyUnit::TerawattDay);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_ec() const
         {
-            return convert_from_base(EnergyUnit::ThermsEc);
+            return convert_from_base(EnergyUnit::ThermEc);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_ec(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::ThermsEc);
+            return Energy(value, EnergyUnit::ThermEc);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_ec() const
         {
-            return convert_from_base(EnergyUnit::DecathermsEc);
+            return convert_from_base(EnergyUnit::DecathermEc);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_ec(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::DecathermsEc);
+            return Energy(value, EnergyUnit::DecathermEc);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_us() const
         {
-            return convert_from_base(EnergyUnit::ThermsUs);
+            return convert_from_base(EnergyUnit::ThermUs);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_us(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::ThermsUs);
+            return Energy(value, EnergyUnit::ThermUs);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_us() const
         {
-            return convert_from_base(EnergyUnit::DecathermsUs);
+            return convert_from_base(EnergyUnit::DecathermUs);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_us(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::DecathermsUs);
+            return Energy(value, EnergyUnit::DecathermUs);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t therms_imperial() const
         {
-            return convert_from_base(EnergyUnit::ThermsImperial);
+            return convert_from_base(EnergyUnit::ThermImperial);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_therms_imperial(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::ThermsImperial);
+            return Energy(value, EnergyUnit::ThermImperial);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] constexpr un_scalar_t decatherms_imperial() const
         {
-            return convert_from_base(EnergyUnit::DecathermsImperial);
+            return convert_from_base(EnergyUnit::DecathermImperial);
         }
 
         /// <summary>The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.</summary>
         [[nodiscard]] static constexpr Energy from_decatherms_imperial(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::DecathermsImperial);
+            return Energy(value, EnergyUnit::DecathermImperial);
         }
 
         /// <summary>A horsepower-hour (symbol: hp⋅h) is an outdated unit of energy, not used in the International System of Units. The unit represents an amount of work a horse is supposed capable of delivering during an hour (1 horsepower integrated over a time interval of an hour).</summary>
         [[nodiscard]] constexpr un_scalar_t horsepower_hours() const
         {
-            return convert_from_base(EnergyUnit::HorsepowerHours);
+            return convert_from_base(EnergyUnit::HorsepowerHour);
         }
 
         /// <summary>A horsepower-hour (symbol: hp⋅h) is an outdated unit of energy, not used in the International System of Units. The unit represents an amount of work a horse is supposed capable of delivering during an hour (1 horsepower integrated over a time interval of an hour).</summary>
         [[nodiscard]] static constexpr Energy from_horsepower_hours(const un_scalar_t value)
         {
-            return Energy(value, EnergyUnit::HorsepowerHours);
+            return Energy(value, EnergyUnit::HorsepowerHour);
         }
 
         [[nodiscard]] static constexpr Energy from_invalid()
@@ -688,124 +648,124 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case EnergyUnit::Joules:
+            case EnergyUnit::Joule:
                 return value;
 
-            case EnergyUnit::Nanojoules:
+            case EnergyUnit::Nanojoule:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case EnergyUnit::Microjoules:
+            case EnergyUnit::Microjoule:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case EnergyUnit::Millijoules:
+            case EnergyUnit::Millijoule:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case EnergyUnit::Kilojoules:
+            case EnergyUnit::Kilojoule:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case EnergyUnit::Megajoules:
+            case EnergyUnit::Megajoule:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case EnergyUnit::Gigajoules:
+            case EnergyUnit::Gigajoule:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case EnergyUnit::Terajoules:
+            case EnergyUnit::Terajoule:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case EnergyUnit::Petajoules:
+            case EnergyUnit::Petajoule:
                 return (value * static_cast<un_scalar_t>(1e15));
 
-            case EnergyUnit::Calories:
+            case EnergyUnit::Calorie:
                 return value * static_cast<un_scalar_t>(4.184);
 
-            case EnergyUnit::Kilocalories:
+            case EnergyUnit::Kilocalorie:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184);
 
-            case EnergyUnit::Megacalories:
+            case EnergyUnit::Megacalorie:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(4.184);
 
-            case EnergyUnit::BritishThermalUnits:
+            case EnergyUnit::BritishThermalUnit:
                 return value * static_cast<un_scalar_t>(1055.05585262);
 
-            case EnergyUnit::KilobritishThermalUnits:
+            case EnergyUnit::KilobritishThermalUnit:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1055.05585262);
 
-            case EnergyUnit::MegabritishThermalUnits:
+            case EnergyUnit::MegabritishThermalUnit:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1055.05585262);
 
-            case EnergyUnit::GigabritishThermalUnits:
+            case EnergyUnit::GigabritishThermalUnit:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1055.05585262);
 
-            case EnergyUnit::ElectronVolts:
+            case EnergyUnit::ElectronVolt:
                 return value * static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::KiloelectronVolts:
+            case EnergyUnit::KiloelectronVolt:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::MegaelectronVolts:
+            case EnergyUnit::MegaelectronVolt:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::GigaelectronVolts:
+            case EnergyUnit::GigaelectronVolt:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::TeraelectronVolts:
+            case EnergyUnit::TeraelectronVolt:
                 return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::FootPounds:
+            case EnergyUnit::FootPound:
                 return value * static_cast<un_scalar_t>(1.3558179483314004);
 
-            case EnergyUnit::Ergs:
+            case EnergyUnit::Erg:
                 return value * static_cast<un_scalar_t>(1e-7);
 
-            case EnergyUnit::WattHours:
+            case EnergyUnit::WattHour:
                 return value * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::KilowattHours:
+            case EnergyUnit::KilowattHour:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::MegawattHours:
+            case EnergyUnit::MegawattHour:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::GigawattHours:
+            case EnergyUnit::GigawattHour:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::TerawattHours:
+            case EnergyUnit::TerawattHour:
                 return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::WattDays:
+            case EnergyUnit::WattDay:
                 return value * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::KilowattDays:
+            case EnergyUnit::KilowattDay:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::MegawattDays:
+            case EnergyUnit::MegawattDay:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::GigawattDays:
+            case EnergyUnit::GigawattDay:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::TerawattDays:
+            case EnergyUnit::TerawattDay:
                 return (value * static_cast<un_scalar_t>(1e12)) * static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::ThermsEc:
+            case EnergyUnit::ThermEc:
                 return value * static_cast<un_scalar_t>(1.05505585262e8);
 
-            case EnergyUnit::DecathermsEc:
+            case EnergyUnit::DecathermEc:
                 return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.05505585262e8);
 
-            case EnergyUnit::ThermsUs:
+            case EnergyUnit::ThermUs:
                 return value * static_cast<un_scalar_t>(1.054804e8);
 
-            case EnergyUnit::DecathermsUs:
+            case EnergyUnit::DecathermUs:
                 return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.054804e8);
 
-            case EnergyUnit::ThermsImperial:
+            case EnergyUnit::ThermImperial:
                 return value * static_cast<un_scalar_t>(1.05505585257348e8);
 
-            case EnergyUnit::DecathermsImperial:
+            case EnergyUnit::DecathermImperial:
                 return (value * static_cast<un_scalar_t>(1e1)) * static_cast<un_scalar_t>(1.05505585257348e8);
 
-            case EnergyUnit::HorsepowerHours:
+            case EnergyUnit::HorsepowerHour:
                 return value * static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(3600);
 
             }
@@ -825,124 +785,124 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case EnergyUnit::Joules:
+            case EnergyUnit::Joule:
                 return base_value;
 
-            case EnergyUnit::Nanojoules:
+            case EnergyUnit::Nanojoule:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case EnergyUnit::Microjoules:
+            case EnergyUnit::Microjoule:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case EnergyUnit::Millijoules:
+            case EnergyUnit::Millijoule:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case EnergyUnit::Kilojoules:
+            case EnergyUnit::Kilojoule:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::Megajoules:
+            case EnergyUnit::Megajoule:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::Gigajoules:
+            case EnergyUnit::Gigajoule:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case EnergyUnit::Terajoules:
+            case EnergyUnit::Terajoule:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case EnergyUnit::Petajoules:
+            case EnergyUnit::Petajoule:
                 return (base_value) / static_cast<un_scalar_t>(1e15);
 
-            case EnergyUnit::Calories:
+            case EnergyUnit::Calorie:
                 return base_value / static_cast<un_scalar_t>(4.184);
 
-            case EnergyUnit::Kilocalories:
+            case EnergyUnit::Kilocalorie:
                 return (base_value / static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::Megacalories:
+            case EnergyUnit::Megacalorie:
                 return (base_value / static_cast<un_scalar_t>(4.184)) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::BritishThermalUnits:
+            case EnergyUnit::BritishThermalUnit:
                 return base_value / static_cast<un_scalar_t>(1055.05585262);
 
-            case EnergyUnit::KilobritishThermalUnits:
+            case EnergyUnit::KilobritishThermalUnit:
                 return (base_value / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::MegabritishThermalUnits:
+            case EnergyUnit::MegabritishThermalUnit:
                 return (base_value / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::GigabritishThermalUnits:
+            case EnergyUnit::GigabritishThermalUnit:
                 return (base_value / static_cast<un_scalar_t>(1055.05585262)) / static_cast<un_scalar_t>(1e9);
 
-            case EnergyUnit::ElectronVolts:
+            case EnergyUnit::ElectronVolt:
                 return base_value / static_cast<un_scalar_t>(1.602176634e-19);
 
-            case EnergyUnit::KiloelectronVolts:
+            case EnergyUnit::KiloelectronVolt:
                 return (base_value / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::MegaelectronVolts:
+            case EnergyUnit::MegaelectronVolt:
                 return (base_value / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::GigaelectronVolts:
+            case EnergyUnit::GigaelectronVolt:
                 return (base_value / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e9);
 
-            case EnergyUnit::TeraelectronVolts:
+            case EnergyUnit::TeraelectronVolt:
                 return (base_value / static_cast<un_scalar_t>(1.602176634e-19)) / static_cast<un_scalar_t>(1e12);
 
-            case EnergyUnit::FootPounds:
+            case EnergyUnit::FootPound:
                 return base_value / static_cast<un_scalar_t>(1.3558179483314004);
 
-            case EnergyUnit::Ergs:
+            case EnergyUnit::Erg:
                 return base_value / static_cast<un_scalar_t>(1e-7);
 
-            case EnergyUnit::WattHours:
+            case EnergyUnit::WattHour:
                 return base_value / static_cast<un_scalar_t>(3600.0);
 
-            case EnergyUnit::KilowattHours:
+            case EnergyUnit::KilowattHour:
                 return (base_value / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::MegawattHours:
+            case EnergyUnit::MegawattHour:
                 return (base_value / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::GigawattHours:
+            case EnergyUnit::GigawattHour:
                 return (base_value / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e9);
 
-            case EnergyUnit::TerawattHours:
+            case EnergyUnit::TerawattHour:
                 return (base_value / static_cast<un_scalar_t>(3600.0)) / static_cast<un_scalar_t>(1e12);
 
-            case EnergyUnit::WattDays:
+            case EnergyUnit::WattDay:
                 return base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0));
 
-            case EnergyUnit::KilowattDays:
+            case EnergyUnit::KilowattDay:
                 return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e3);
 
-            case EnergyUnit::MegawattDays:
+            case EnergyUnit::MegawattDay:
                 return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e6);
 
-            case EnergyUnit::GigawattDays:
+            case EnergyUnit::GigawattDay:
                 return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e9);
 
-            case EnergyUnit::TerawattDays:
+            case EnergyUnit::TerawattDay:
                 return (base_value / (static_cast<un_scalar_t>(24) * static_cast<un_scalar_t>(3600.0))) / static_cast<un_scalar_t>(1e12);
 
-            case EnergyUnit::ThermsEc:
+            case EnergyUnit::ThermEc:
                 return base_value / static_cast<un_scalar_t>(1.05505585262e8);
 
-            case EnergyUnit::DecathermsEc:
+            case EnergyUnit::DecathermEc:
                 return (base_value / static_cast<un_scalar_t>(1.05505585262e8)) / static_cast<un_scalar_t>(1e1);
 
-            case EnergyUnit::ThermsUs:
+            case EnergyUnit::ThermUs:
                 return base_value / static_cast<un_scalar_t>(1.054804e8);
 
-            case EnergyUnit::DecathermsUs:
+            case EnergyUnit::DecathermUs:
                 return (base_value / static_cast<un_scalar_t>(1.054804e8)) / static_cast<un_scalar_t>(1e1);
 
-            case EnergyUnit::ThermsImperial:
+            case EnergyUnit::ThermImperial:
                 return base_value / static_cast<un_scalar_t>(1.05505585257348e8);
 
-            case EnergyUnit::DecathermsImperial:
+            case EnergyUnit::DecathermImperial:
                 return (base_value / static_cast<un_scalar_t>(1.05505585257348e8)) / static_cast<un_scalar_t>(1e1);
 
-            case EnergyUnit::HorsepowerHours:
+            case EnergyUnit::HorsepowerHour:
                 return base_value / (static_cast<un_scalar_t>(76.0402249) * static_cast<un_scalar_t>(9.80665) * static_cast<un_scalar_t>(3600));
 
             }

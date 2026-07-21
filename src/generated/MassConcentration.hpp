@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,56 +18,118 @@ namespace unitsnet_cpp
 {
     enum class MassConcentrationUnit : std::uint8_t
     {
-        GramsPerCubicMillimeter,
-        KilogramsPerCubicMillimeter,
-        GramsPerCubicCentimeter,
-        KilogramsPerCubicCentimeter,
-        GramsPerCubicMeter,
-        KilogramsPerCubicMeter,
-        MilligramsPerCubicMeter,
-        MicrogramsPerCubicMeter,
-        GramsPerMicroliter,
-        PicogramsPerMicroliter,
-        NanogramsPerMicroliter,
-        MicrogramsPerMicroliter,
-        MilligramsPerMicroliter,
-        CentigramsPerMicroliter,
-        DecigramsPerMicroliter,
-        GramsPerMilliliter,
-        PicogramsPerMilliliter,
-        NanogramsPerMilliliter,
-        MicrogramsPerMilliliter,
-        MilligramsPerMilliliter,
-        CentigramsPerMilliliter,
-        DecigramsPerMilliliter,
-        GramsPerDeciliter,
-        PicogramsPerDeciliter,
-        NanogramsPerDeciliter,
-        MicrogramsPerDeciliter,
-        MilligramsPerDeciliter,
-        CentigramsPerDeciliter,
-        DecigramsPerDeciliter,
-        GramsPerLiter,
-        PicogramsPerLiter,
-        NanogramsPerLiter,
-        MicrogramsPerLiter,
-        MilligramsPerLiter,
-        CentigramsPerLiter,
-        DecigramsPerLiter,
-        KilogramsPerLiter,
-        TonnesPerCubicMillimeter,
-        TonnesPerCubicCentimeter,
-        TonnesPerCubicMeter,
-        PoundsPerCubicInch,
-        KilopoundsPerCubicInch,
-        PoundsPerCubicFoot,
-        KilopoundsPerCubicFoot,
-        SlugsPerCubicFoot,
-        PoundsPerUSGallon,
-        OuncesPerUSGallon,
-        OuncesPerImperialGallon,
-        PoundsPerImperialGallon,
+        GramPerCubicMillimeter,
+        KilogramPerCubicMillimeter,
+        GramPerCubicCentimeter,
+        KilogramPerCubicCentimeter,
+        GramPerCubicMeter,
+        KilogramPerCubicMeter,
+        MilligramPerCubicMeter,
+        MicrogramPerCubicMeter,
+        GramPerMicroliter,
+        PicogramPerMicroliter,
+        NanogramPerMicroliter,
+        MicrogramPerMicroliter,
+        MilligramPerMicroliter,
+        CentigramPerMicroliter,
+        DecigramPerMicroliter,
+        GramPerMilliliter,
+        PicogramPerMilliliter,
+        NanogramPerMilliliter,
+        MicrogramPerMilliliter,
+        MilligramPerMilliliter,
+        CentigramPerMilliliter,
+        DecigramPerMilliliter,
+        GramPerDeciliter,
+        PicogramPerDeciliter,
+        NanogramPerDeciliter,
+        MicrogramPerDeciliter,
+        MilligramPerDeciliter,
+        CentigramPerDeciliter,
+        DecigramPerDeciliter,
+        GramPerLiter,
+        PicogramPerLiter,
+        NanogramPerLiter,
+        MicrogramPerLiter,
+        MilligramPerLiter,
+        CentigramPerLiter,
+        DecigramPerLiter,
+        KilogramPerLiter,
+        TonnePerCubicMillimeter,
+        TonnePerCubicCentimeter,
+        TonnePerCubicMeter,
+        PoundPerCubicInch,
+        KilopoundPerCubicInch,
+        PoundPerCubicFoot,
+        KilopoundPerCubicFoot,
+        SlugPerCubicFoot,
+        PoundPerUSGallon,
+        OuncePerUSGallon,
+        OuncePerImperialGallon,
+        PoundPerImperialGallon,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of MassConcentration.</summary>
+    class MassConcentrationDto
+    {
+    public:
+        constexpr MassConcentrationDto() noexcept
+            : value{}, unit(MassConcentrationUnit::KilogramPerCubicMeter)
+        {
+        }
+
+        constexpr MassConcentrationDto(
+            const un_scalar_t value,
+            const MassConcentrationUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        MassConcentrationUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr MassConcentrationUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<MassConcentrationUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown MassConcentration unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassConcentrationDto from_json(const nlohmann::json& json)
+        {
+            return MassConcentrationDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>In chemistry, the mass concentration ρi (or γi) is defined as the mass of a constituent mi divided by the volume of the mixture V</summary>
     class MassConcentration : public UnitsNetBase
@@ -67,177 +137,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit MassConcentration(
             const un_scalar_t value,
-            const MassConcentrationUnit unit = MassConcentrationUnit::KilogramsPerCubicMeter)
+            const MassConcentrationUnit unit = MassConcentrationUnit::KilogramPerCubicMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "MassConcentration"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case MassConcentrationUnit::GramsPerCubicMillimeter:
-                return "GramsPerCubicMillimeter";
-
-            case MassConcentrationUnit::KilogramsPerCubicMillimeter:
-                return "KilogramsPerCubicMillimeter";
-
-            case MassConcentrationUnit::GramsPerCubicCentimeter:
-                return "GramsPerCubicCentimeter";
-
-            case MassConcentrationUnit::KilogramsPerCubicCentimeter:
-                return "KilogramsPerCubicCentimeter";
-
-            case MassConcentrationUnit::GramsPerCubicMeter:
-                return "GramsPerCubicMeter";
-
-            case MassConcentrationUnit::KilogramsPerCubicMeter:
-                return "KilogramsPerCubicMeter";
-
-            case MassConcentrationUnit::MilligramsPerCubicMeter:
-                return "MilligramsPerCubicMeter";
-
-            case MassConcentrationUnit::MicrogramsPerCubicMeter:
-                return "MicrogramsPerCubicMeter";
-
-            case MassConcentrationUnit::GramsPerMicroliter:
-                return "GramsPerMicroliter";
-
-            case MassConcentrationUnit::PicogramsPerMicroliter:
-                return "PicogramsPerMicroliter";
-
-            case MassConcentrationUnit::NanogramsPerMicroliter:
-                return "NanogramsPerMicroliter";
-
-            case MassConcentrationUnit::MicrogramsPerMicroliter:
-                return "MicrogramsPerMicroliter";
-
-            case MassConcentrationUnit::MilligramsPerMicroliter:
-                return "MilligramsPerMicroliter";
-
-            case MassConcentrationUnit::CentigramsPerMicroliter:
-                return "CentigramsPerMicroliter";
-
-            case MassConcentrationUnit::DecigramsPerMicroliter:
-                return "DecigramsPerMicroliter";
-
-            case MassConcentrationUnit::GramsPerMilliliter:
-                return "GramsPerMilliliter";
-
-            case MassConcentrationUnit::PicogramsPerMilliliter:
-                return "PicogramsPerMilliliter";
-
-            case MassConcentrationUnit::NanogramsPerMilliliter:
-                return "NanogramsPerMilliliter";
-
-            case MassConcentrationUnit::MicrogramsPerMilliliter:
-                return "MicrogramsPerMilliliter";
-
-            case MassConcentrationUnit::MilligramsPerMilliliter:
-                return "MilligramsPerMilliliter";
-
-            case MassConcentrationUnit::CentigramsPerMilliliter:
-                return "CentigramsPerMilliliter";
-
-            case MassConcentrationUnit::DecigramsPerMilliliter:
-                return "DecigramsPerMilliliter";
-
-            case MassConcentrationUnit::GramsPerDeciliter:
-                return "GramsPerDeciliter";
-
-            case MassConcentrationUnit::PicogramsPerDeciliter:
-                return "PicogramsPerDeciliter";
-
-            case MassConcentrationUnit::NanogramsPerDeciliter:
-                return "NanogramsPerDeciliter";
-
-            case MassConcentrationUnit::MicrogramsPerDeciliter:
-                return "MicrogramsPerDeciliter";
-
-            case MassConcentrationUnit::MilligramsPerDeciliter:
-                return "MilligramsPerDeciliter";
-
-            case MassConcentrationUnit::CentigramsPerDeciliter:
-                return "CentigramsPerDeciliter";
-
-            case MassConcentrationUnit::DecigramsPerDeciliter:
-                return "DecigramsPerDeciliter";
-
-            case MassConcentrationUnit::GramsPerLiter:
-                return "GramsPerLiter";
-
-            case MassConcentrationUnit::PicogramsPerLiter:
-                return "PicogramsPerLiter";
-
-            case MassConcentrationUnit::NanogramsPerLiter:
-                return "NanogramsPerLiter";
-
-            case MassConcentrationUnit::MicrogramsPerLiter:
-                return "MicrogramsPerLiter";
-
-            case MassConcentrationUnit::MilligramsPerLiter:
-                return "MilligramsPerLiter";
-
-            case MassConcentrationUnit::CentigramsPerLiter:
-                return "CentigramsPerLiter";
-
-            case MassConcentrationUnit::DecigramsPerLiter:
-                return "DecigramsPerLiter";
-
-            case MassConcentrationUnit::KilogramsPerLiter:
-                return "KilogramsPerLiter";
-
-            case MassConcentrationUnit::TonnesPerCubicMillimeter:
-                return "TonnesPerCubicMillimeter";
-
-            case MassConcentrationUnit::TonnesPerCubicCentimeter:
-                return "TonnesPerCubicCentimeter";
-
-            case MassConcentrationUnit::TonnesPerCubicMeter:
-                return "TonnesPerCubicMeter";
-
-            case MassConcentrationUnit::PoundsPerCubicInch:
-                return "PoundsPerCubicInch";
-
-            case MassConcentrationUnit::KilopoundsPerCubicInch:
-                return "KilopoundsPerCubicInch";
-
-            case MassConcentrationUnit::PoundsPerCubicFoot:
-                return "PoundsPerCubicFoot";
-
-            case MassConcentrationUnit::KilopoundsPerCubicFoot:
-                return "KilopoundsPerCubicFoot";
-
-            case MassConcentrationUnit::SlugsPerCubicFoot:
-                return "SlugsPerCubicFoot";
-
-            case MassConcentrationUnit::PoundsPerUSGallon:
-                return "PoundsPerUSGallon";
-
-            case MassConcentrationUnit::OuncesPerUSGallon:
-                return "OuncesPerUSGallon";
-
-            case MassConcentrationUnit::OuncesPerImperialGallon:
-                return "OuncesPerImperialGallon";
-
-            case MassConcentrationUnit::PoundsPerImperialGallon:
-                return "PoundsPerImperialGallon";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -249,6 +152,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr MassConcentrationDto to_dto(
+            const MassConcentrationUnit unit = MassConcentrationUnit::KilogramPerCubicMeter) const
+        {
+            return MassConcentrationDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr MassConcentration from_dto(const MassConcentrationDto& dto)
+        {
+            return MassConcentration(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const MassConcentrationUnit unit = MassConcentrationUnit::KilogramPerCubicMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static MassConcentration from_json(const nlohmann::json& json)
+        {
+            return from_dto(MassConcentrationDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr MassConcentration operator+(const MassConcentration& other) const noexcept
         {
@@ -287,492 +220,492 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t grams_per_cubic_millimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerCubicMillimeter);
+            return convert_from_base(MassConcentrationUnit::GramPerCubicMillimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_cubic_millimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerCubicMillimeter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerCubicMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_cubic_millimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::KilogramsPerCubicMillimeter);
+            return convert_from_base(MassConcentrationUnit::KilogramPerCubicMillimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilograms_per_cubic_millimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilogramsPerCubicMillimeter);
+            return MassConcentration(value, MassConcentrationUnit::KilogramPerCubicMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_cubic_centimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerCubicCentimeter);
+            return convert_from_base(MassConcentrationUnit::GramPerCubicCentimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_cubic_centimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerCubicCentimeter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerCubicCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_cubic_centimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::KilogramsPerCubicCentimeter);
+            return convert_from_base(MassConcentrationUnit::KilogramPerCubicCentimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilograms_per_cubic_centimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilogramsPerCubicCentimeter);
+            return MassConcentration(value, MassConcentrationUnit::KilogramPerCubicCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_cubic_meter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerCubicMeter);
+            return convert_from_base(MassConcentrationUnit::GramPerCubicMeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_cubic_meter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerCubicMeter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_cubic_meter() const
         {
-            return convert_from_base(MassConcentrationUnit::KilogramsPerCubicMeter);
+            return convert_from_base(MassConcentrationUnit::KilogramPerCubicMeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilograms_per_cubic_meter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilogramsPerCubicMeter);
+            return MassConcentration(value, MassConcentrationUnit::KilogramPerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_cubic_meter() const
         {
-            return convert_from_base(MassConcentrationUnit::MilligramsPerCubicMeter);
+            return convert_from_base(MassConcentrationUnit::MilligramPerCubicMeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_milligrams_per_cubic_meter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MilligramsPerCubicMeter);
+            return MassConcentration(value, MassConcentrationUnit::MilligramPerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_cubic_meter() const
         {
-            return convert_from_base(MassConcentrationUnit::MicrogramsPerCubicMeter);
+            return convert_from_base(MassConcentrationUnit::MicrogramPerCubicMeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_micrograms_per_cubic_meter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MicrogramsPerCubicMeter);
+            return MassConcentration(value, MassConcentrationUnit::MicrogramPerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::GramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t picograms_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::PicogramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::PicogramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_picograms_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PicogramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::PicogramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::NanogramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::NanogramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_nanograms_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::NanogramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::NanogramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MicrogramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::MicrogramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_micrograms_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MicrogramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::MicrogramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MilligramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::MilligramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_milligrams_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MilligramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::MilligramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t centigrams_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::CentigramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::CentigramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_centigrams_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::CentigramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::CentigramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_microliter() const
         {
-            return convert_from_base(MassConcentrationUnit::DecigramsPerMicroliter);
+            return convert_from_base(MassConcentrationUnit::DecigramPerMicroliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_decigrams_per_microliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::DecigramsPerMicroliter);
+            return MassConcentration(value, MassConcentrationUnit::DecigramPerMicroliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::GramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t picograms_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::PicogramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::PicogramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_picograms_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PicogramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::PicogramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::NanogramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::NanogramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_nanograms_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::NanogramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::NanogramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MicrogramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::MicrogramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_micrograms_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MicrogramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::MicrogramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MilligramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::MilligramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_milligrams_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MilligramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::MilligramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t centigrams_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::CentigramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::CentigramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_centigrams_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::CentigramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::CentigramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_milliliter() const
         {
-            return convert_from_base(MassConcentrationUnit::DecigramsPerMilliliter);
+            return convert_from_base(MassConcentrationUnit::DecigramPerMilliliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_decigrams_per_milliliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::DecigramsPerMilliliter);
+            return MassConcentration(value, MassConcentrationUnit::DecigramPerMilliliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::GramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t picograms_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::PicogramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::PicogramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_picograms_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PicogramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::PicogramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::NanogramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::NanogramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_nanograms_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::NanogramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::NanogramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MicrogramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::MicrogramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_micrograms_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MicrogramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::MicrogramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::MilligramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::MilligramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_milligrams_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MilligramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::MilligramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t centigrams_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::CentigramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::CentigramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_centigrams_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::CentigramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::CentigramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_deciliter() const
         {
-            return convert_from_base(MassConcentrationUnit::DecigramsPerDeciliter);
+            return convert_from_base(MassConcentrationUnit::DecigramPerDeciliter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_decigrams_per_deciliter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::DecigramsPerDeciliter);
+            return MassConcentration(value, MassConcentrationUnit::DecigramPerDeciliter);
         }
 
         [[nodiscard]] constexpr un_scalar_t grams_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::GramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::GramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_grams_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::GramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::GramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t picograms_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::PicogramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::PicogramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_picograms_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PicogramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::PicogramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanograms_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::NanogramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::NanogramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_nanograms_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::NanogramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::NanogramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t micrograms_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::MicrogramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::MicrogramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_micrograms_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MicrogramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::MicrogramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::MilligramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::MilligramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_milligrams_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::MilligramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::MilligramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t centigrams_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::CentigramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::CentigramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_centigrams_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::CentigramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::CentigramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t decigrams_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::DecigramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::DecigramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_decigrams_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::DecigramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::DecigramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_per_liter() const
         {
-            return convert_from_base(MassConcentrationUnit::KilogramsPerLiter);
+            return convert_from_base(MassConcentrationUnit::KilogramPerLiter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilograms_per_liter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilogramsPerLiter);
+            return MassConcentration(value, MassConcentrationUnit::KilogramPerLiter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_per_cubic_millimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::TonnesPerCubicMillimeter);
+            return convert_from_base(MassConcentrationUnit::TonnePerCubicMillimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_tonnes_per_cubic_millimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::TonnesPerCubicMillimeter);
+            return MassConcentration(value, MassConcentrationUnit::TonnePerCubicMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_per_cubic_centimeter() const
         {
-            return convert_from_base(MassConcentrationUnit::TonnesPerCubicCentimeter);
+            return convert_from_base(MassConcentrationUnit::TonnePerCubicCentimeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_tonnes_per_cubic_centimeter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::TonnesPerCubicCentimeter);
+            return MassConcentration(value, MassConcentrationUnit::TonnePerCubicCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_per_cubic_meter() const
         {
-            return convert_from_base(MassConcentrationUnit::TonnesPerCubicMeter);
+            return convert_from_base(MassConcentrationUnit::TonnePerCubicMeter);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_tonnes_per_cubic_meter(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::TonnesPerCubicMeter);
+            return MassConcentration(value, MassConcentrationUnit::TonnePerCubicMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_cubic_inch() const
         {
-            return convert_from_base(MassConcentrationUnit::PoundsPerCubicInch);
+            return convert_from_base(MassConcentrationUnit::PoundPerCubicInch);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_pounds_per_cubic_inch(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PoundsPerCubicInch);
+            return MassConcentration(value, MassConcentrationUnit::PoundPerCubicInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_per_cubic_inch() const
         {
-            return convert_from_base(MassConcentrationUnit::KilopoundsPerCubicInch);
+            return convert_from_base(MassConcentrationUnit::KilopoundPerCubicInch);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilopounds_per_cubic_inch(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilopoundsPerCubicInch);
+            return MassConcentration(value, MassConcentrationUnit::KilopoundPerCubicInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_cubic_foot() const
         {
-            return convert_from_base(MassConcentrationUnit::PoundsPerCubicFoot);
+            return convert_from_base(MassConcentrationUnit::PoundPerCubicFoot);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_pounds_per_cubic_foot(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PoundsPerCubicFoot);
+            return MassConcentration(value, MassConcentrationUnit::PoundPerCubicFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_per_cubic_foot() const
         {
-            return convert_from_base(MassConcentrationUnit::KilopoundsPerCubicFoot);
+            return convert_from_base(MassConcentrationUnit::KilopoundPerCubicFoot);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_kilopounds_per_cubic_foot(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::KilopoundsPerCubicFoot);
+            return MassConcentration(value, MassConcentrationUnit::KilopoundPerCubicFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t slugs_per_cubic_foot() const
         {
-            return convert_from_base(MassConcentrationUnit::SlugsPerCubicFoot);
+            return convert_from_base(MassConcentrationUnit::SlugPerCubicFoot);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_slugs_per_cubic_foot(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::SlugsPerCubicFoot);
+            return MassConcentration(value, MassConcentrationUnit::SlugPerCubicFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_u_s_gallon() const
         {
-            return convert_from_base(MassConcentrationUnit::PoundsPerUSGallon);
+            return convert_from_base(MassConcentrationUnit::PoundPerUSGallon);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_pounds_per_u_s_gallon(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PoundsPerUSGallon);
+            return MassConcentration(value, MassConcentrationUnit::PoundPerUSGallon);
         }
 
         [[nodiscard]] constexpr un_scalar_t ounces_per_u_s_gallon() const
         {
-            return convert_from_base(MassConcentrationUnit::OuncesPerUSGallon);
+            return convert_from_base(MassConcentrationUnit::OuncePerUSGallon);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_ounces_per_u_s_gallon(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::OuncesPerUSGallon);
+            return MassConcentration(value, MassConcentrationUnit::OuncePerUSGallon);
         }
 
         [[nodiscard]] constexpr un_scalar_t ounces_per_imperial_gallon() const
         {
-            return convert_from_base(MassConcentrationUnit::OuncesPerImperialGallon);
+            return convert_from_base(MassConcentrationUnit::OuncePerImperialGallon);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_ounces_per_imperial_gallon(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::OuncesPerImperialGallon);
+            return MassConcentration(value, MassConcentrationUnit::OuncePerImperialGallon);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_imperial_gallon() const
         {
-            return convert_from_base(MassConcentrationUnit::PoundsPerImperialGallon);
+            return convert_from_base(MassConcentrationUnit::PoundPerImperialGallon);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_pounds_per_imperial_gallon(const un_scalar_t value)
         {
-            return MassConcentration(value, MassConcentrationUnit::PoundsPerImperialGallon);
+            return MassConcentration(value, MassConcentrationUnit::PoundPerImperialGallon);
         }
 
         [[nodiscard]] static constexpr MassConcentration from_invalid()
@@ -786,151 +719,151 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassConcentrationUnit::GramsPerCubicMillimeter:
+            case MassConcentrationUnit::GramPerCubicMillimeter:
                 return value / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::KilogramsPerCubicMillimeter:
+            case MassConcentrationUnit::KilogramPerCubicMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::GramsPerCubicCentimeter:
+            case MassConcentrationUnit::GramPerCubicCentimeter:
                 return value / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::KilogramsPerCubicCentimeter:
+            case MassConcentrationUnit::KilogramPerCubicCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::GramsPerCubicMeter:
+            case MassConcentrationUnit::GramPerCubicMeter:
                 return value / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::KilogramsPerCubicMeter:
+            case MassConcentrationUnit::KilogramPerCubicMeter:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::MilligramsPerCubicMeter:
+            case MassConcentrationUnit::MilligramPerCubicMeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::MicrogramsPerCubicMeter:
+            case MassConcentrationUnit::MicrogramPerCubicMeter:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::GramsPerMicroliter:
+            case MassConcentrationUnit::GramPerMicroliter:
                 return value / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::PicogramsPerMicroliter:
+            case MassConcentrationUnit::PicogramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::NanogramsPerMicroliter:
+            case MassConcentrationUnit::NanogramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MicrogramsPerMicroliter:
+            case MassConcentrationUnit::MicrogramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MilligramsPerMicroliter:
+            case MassConcentrationUnit::MilligramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::CentigramsPerMicroliter:
+            case MassConcentrationUnit::CentigramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::DecigramsPerMicroliter:
+            case MassConcentrationUnit::DecigramPerMicroliter:
                 return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::GramsPerMilliliter:
+            case MassConcentrationUnit::GramPerMilliliter:
                 return value / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::PicogramsPerMilliliter:
+            case MassConcentrationUnit::PicogramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::NanogramsPerMilliliter:
+            case MassConcentrationUnit::NanogramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::MicrogramsPerMilliliter:
+            case MassConcentrationUnit::MicrogramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::MilligramsPerMilliliter:
+            case MassConcentrationUnit::MilligramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::CentigramsPerMilliliter:
+            case MassConcentrationUnit::CentigramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::DecigramsPerMilliliter:
+            case MassConcentrationUnit::DecigramPerMilliliter:
                 return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::GramsPerDeciliter:
+            case MassConcentrationUnit::GramPerDeciliter:
                 return value / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::PicogramsPerDeciliter:
+            case MassConcentrationUnit::PicogramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-12)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::NanogramsPerDeciliter:
+            case MassConcentrationUnit::NanogramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-9)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::MicrogramsPerDeciliter:
+            case MassConcentrationUnit::MicrogramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::MilligramsPerDeciliter:
+            case MassConcentrationUnit::MilligramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::CentigramsPerDeciliter:
+            case MassConcentrationUnit::CentigramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-2)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::DecigramsPerDeciliter:
+            case MassConcentrationUnit::DecigramPerDeciliter:
                 return (value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::GramsPerLiter:
+            case MassConcentrationUnit::GramPerLiter:
                 return value;
 
-            case MassConcentrationUnit::PicogramsPerLiter:
+            case MassConcentrationUnit::PicogramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-12));
 
-            case MassConcentrationUnit::NanogramsPerLiter:
+            case MassConcentrationUnit::NanogramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case MassConcentrationUnit::MicrogramsPerLiter:
+            case MassConcentrationUnit::MicrogramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case MassConcentrationUnit::MilligramsPerLiter:
+            case MassConcentrationUnit::MilligramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case MassConcentrationUnit::CentigramsPerLiter:
+            case MassConcentrationUnit::CentigramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-2));
 
-            case MassConcentrationUnit::DecigramsPerLiter:
+            case MassConcentrationUnit::DecigramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e-1));
 
-            case MassConcentrationUnit::KilogramsPerLiter:
+            case MassConcentrationUnit::KilogramPerLiter:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case MassConcentrationUnit::TonnesPerCubicMillimeter:
+            case MassConcentrationUnit::TonnePerCubicMillimeter:
                 return value / static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::TonnesPerCubicCentimeter:
+            case MassConcentrationUnit::TonnePerCubicCentimeter:
                 return value / static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::TonnesPerCubicMeter:
+            case MassConcentrationUnit::TonnePerCubicMeter:
                 return value / static_cast<un_scalar_t>(0.001);
 
-            case MassConcentrationUnit::PoundsPerCubicInch:
+            case MassConcentrationUnit::PoundPerCubicInch:
                 return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1.6387064e-5);
 
-            case MassConcentrationUnit::KilopoundsPerCubicInch:
+            case MassConcentrationUnit::KilopoundPerCubicInch:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(1.6387064e-5);
 
-            case MassConcentrationUnit::PoundsPerCubicFoot:
+            case MassConcentrationUnit::PoundPerCubicFoot:
                 return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
-            case MassConcentrationUnit::KilopoundsPerCubicFoot:
+            case MassConcentrationUnit::KilopoundPerCubicFoot:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.028316846592);
 
-            case MassConcentrationUnit::SlugsPerCubicFoot:
+            case MassConcentrationUnit::SlugPerCubicFoot:
                 return value * (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665)) / (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592));
 
-            case MassConcentrationUnit::PoundsPerUSGallon:
+            case MassConcentrationUnit::PoundPerUSGallon:
                 return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.003785411784);
 
-            case MassConcentrationUnit::OuncesPerUSGallon:
+            case MassConcentrationUnit::OuncePerUSGallon:
                 return value * static_cast<un_scalar_t>(0.028349523125) / static_cast<un_scalar_t>(0.003785411784);
 
-            case MassConcentrationUnit::OuncesPerImperialGallon:
+            case MassConcentrationUnit::OuncePerImperialGallon:
                 return value * static_cast<un_scalar_t>(0.028349523125) / static_cast<un_scalar_t>(0.00454609);
 
-            case MassConcentrationUnit::PoundsPerImperialGallon:
+            case MassConcentrationUnit::PoundPerImperialGallon:
                 return value * static_cast<un_scalar_t>(0.45359237) / static_cast<un_scalar_t>(0.00454609);
 
             }
@@ -950,151 +883,151 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case MassConcentrationUnit::GramsPerCubicMillimeter:
+            case MassConcentrationUnit::GramPerCubicMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::KilogramsPerCubicMillimeter:
+            case MassConcentrationUnit::KilogramPerCubicMillimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::GramsPerCubicCentimeter:
+            case MassConcentrationUnit::GramPerCubicCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::KilogramsPerCubicCentimeter:
+            case MassConcentrationUnit::KilogramPerCubicCentimeter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::GramsPerCubicMeter:
+            case MassConcentrationUnit::GramPerCubicMeter:
                 return base_value * static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::KilogramsPerCubicMeter:
+            case MassConcentrationUnit::KilogramPerCubicMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::MilligramsPerCubicMeter:
+            case MassConcentrationUnit::MilligramPerCubicMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::MicrogramsPerCubicMeter:
+            case MassConcentrationUnit::MicrogramPerCubicMeter:
                 return (base_value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::GramsPerMicroliter:
+            case MassConcentrationUnit::GramPerMicroliter:
                 return base_value * static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::PicogramsPerMicroliter:
+            case MassConcentrationUnit::PicogramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::NanogramsPerMicroliter:
+            case MassConcentrationUnit::NanogramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::MicrogramsPerMicroliter:
+            case MassConcentrationUnit::MicrogramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MilligramsPerMicroliter:
+            case MassConcentrationUnit::MilligramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::CentigramsPerMicroliter:
+            case MassConcentrationUnit::CentigramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-2);
 
-            case MassConcentrationUnit::DecigramsPerMicroliter:
+            case MassConcentrationUnit::DecigramPerMicroliter:
                 return (base_value * static_cast<un_scalar_t>(1e-6)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::GramsPerMilliliter:
+            case MassConcentrationUnit::GramPerMilliliter:
                 return base_value * static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::PicogramsPerMilliliter:
+            case MassConcentrationUnit::PicogramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::NanogramsPerMilliliter:
+            case MassConcentrationUnit::NanogramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::MicrogramsPerMilliliter:
+            case MassConcentrationUnit::MicrogramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MilligramsPerMilliliter:
+            case MassConcentrationUnit::MilligramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::CentigramsPerMilliliter:
+            case MassConcentrationUnit::CentigramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-2);
 
-            case MassConcentrationUnit::DecigramsPerMilliliter:
+            case MassConcentrationUnit::DecigramPerMilliliter:
                 return (base_value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::GramsPerDeciliter:
+            case MassConcentrationUnit::GramPerDeciliter:
                 return base_value * static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::PicogramsPerDeciliter:
+            case MassConcentrationUnit::PicogramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::NanogramsPerDeciliter:
+            case MassConcentrationUnit::NanogramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::MicrogramsPerDeciliter:
+            case MassConcentrationUnit::MicrogramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MilligramsPerDeciliter:
+            case MassConcentrationUnit::MilligramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::CentigramsPerDeciliter:
+            case MassConcentrationUnit::CentigramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-2);
 
-            case MassConcentrationUnit::DecigramsPerDeciliter:
+            case MassConcentrationUnit::DecigramPerDeciliter:
                 return (base_value * static_cast<un_scalar_t>(1e-1)) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::GramsPerLiter:
+            case MassConcentrationUnit::GramPerLiter:
                 return base_value;
 
-            case MassConcentrationUnit::PicogramsPerLiter:
+            case MassConcentrationUnit::PicogramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::NanogramsPerLiter:
+            case MassConcentrationUnit::NanogramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::MicrogramsPerLiter:
+            case MassConcentrationUnit::MicrogramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case MassConcentrationUnit::MilligramsPerLiter:
+            case MassConcentrationUnit::MilligramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case MassConcentrationUnit::CentigramsPerLiter:
+            case MassConcentrationUnit::CentigramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-2);
 
-            case MassConcentrationUnit::DecigramsPerLiter:
+            case MassConcentrationUnit::DecigramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e-1);
 
-            case MassConcentrationUnit::KilogramsPerLiter:
+            case MassConcentrationUnit::KilogramPerLiter:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::TonnesPerCubicMillimeter:
+            case MassConcentrationUnit::TonnePerCubicMillimeter:
                 return base_value * static_cast<un_scalar_t>(1e-12);
 
-            case MassConcentrationUnit::TonnesPerCubicCentimeter:
+            case MassConcentrationUnit::TonnePerCubicCentimeter:
                 return base_value * static_cast<un_scalar_t>(1e-9);
 
-            case MassConcentrationUnit::TonnesPerCubicMeter:
+            case MassConcentrationUnit::TonnePerCubicMeter:
                 return base_value * static_cast<un_scalar_t>(0.001);
 
-            case MassConcentrationUnit::PoundsPerCubicInch:
+            case MassConcentrationUnit::PoundPerCubicInch:
                 return base_value * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237);
 
-            case MassConcentrationUnit::KilopoundsPerCubicInch:
+            case MassConcentrationUnit::KilopoundPerCubicInch:
                 return (base_value * static_cast<un_scalar_t>(1.6387064e-5) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::PoundsPerCubicFoot:
+            case MassConcentrationUnit::PoundPerCubicFoot:
                 return base_value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237);
 
-            case MassConcentrationUnit::KilopoundsPerCubicFoot:
+            case MassConcentrationUnit::KilopoundPerCubicFoot:
                 return (base_value * static_cast<un_scalar_t>(0.028316846592) / static_cast<un_scalar_t>(0.45359237)) / static_cast<un_scalar_t>(1e3);
 
-            case MassConcentrationUnit::SlugsPerCubicFoot:
+            case MassConcentrationUnit::SlugPerCubicFoot:
                 return base_value * (static_cast<un_scalar_t>(0.3048) * static_cast<un_scalar_t>(0.028316846592)) / (static_cast<un_scalar_t>(0.45359237) * static_cast<un_scalar_t>(9.80665));
 
-            case MassConcentrationUnit::PoundsPerUSGallon:
+            case MassConcentrationUnit::PoundPerUSGallon:
                 return base_value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.45359237);
 
-            case MassConcentrationUnit::OuncesPerUSGallon:
+            case MassConcentrationUnit::OuncePerUSGallon:
                 return base_value * static_cast<un_scalar_t>(0.003785411784) / static_cast<un_scalar_t>(0.028349523125);
 
-            case MassConcentrationUnit::OuncesPerImperialGallon:
+            case MassConcentrationUnit::OuncePerImperialGallon:
                 return base_value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.028349523125);
 
-            case MassConcentrationUnit::PoundsPerImperialGallon:
+            case MassConcentrationUnit::PoundPerImperialGallon:
                 return base_value * static_cast<un_scalar_t>(0.00454609) / static_cast<un_scalar_t>(0.45359237);
 
             }

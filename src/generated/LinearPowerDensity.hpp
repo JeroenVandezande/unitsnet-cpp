@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,32 +18,94 @@ namespace unitsnet_cpp
 {
     enum class LinearPowerDensityUnit : std::uint8_t
     {
-        WattsPerMeter,
-        MilliwattsPerMeter,
-        KilowattsPerMeter,
-        MegawattsPerMeter,
-        GigawattsPerMeter,
-        WattsPerCentimeter,
-        MilliwattsPerCentimeter,
-        KilowattsPerCentimeter,
-        MegawattsPerCentimeter,
-        GigawattsPerCentimeter,
-        WattsPerMillimeter,
-        MilliwattsPerMillimeter,
-        KilowattsPerMillimeter,
-        MegawattsPerMillimeter,
-        GigawattsPerMillimeter,
-        WattsPerInch,
-        MilliwattsPerInch,
-        KilowattsPerInch,
-        MegawattsPerInch,
-        GigawattsPerInch,
-        WattsPerFoot,
-        MilliwattsPerFoot,
-        KilowattsPerFoot,
-        MegawattsPerFoot,
-        GigawattsPerFoot,
+        WattPerMeter,
+        MilliwattPerMeter,
+        KilowattPerMeter,
+        MegawattPerMeter,
+        GigawattPerMeter,
+        WattPerCentimeter,
+        MilliwattPerCentimeter,
+        KilowattPerCentimeter,
+        MegawattPerCentimeter,
+        GigawattPerCentimeter,
+        WattPerMillimeter,
+        MilliwattPerMillimeter,
+        KilowattPerMillimeter,
+        MegawattPerMillimeter,
+        GigawattPerMillimeter,
+        WattPerInch,
+        MilliwattPerInch,
+        KilowattPerInch,
+        MegawattPerInch,
+        GigawattPerInch,
+        WattPerFoot,
+        MilliwattPerFoot,
+        KilowattPerFoot,
+        MegawattPerFoot,
+        GigawattPerFoot,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of LinearPowerDensity.</summary>
+    class LinearPowerDensityDto
+    {
+    public:
+        constexpr LinearPowerDensityDto() noexcept
+            : value{}, unit(LinearPowerDensityUnit::WattPerMeter)
+        {
+        }
+
+        constexpr LinearPowerDensityDto(
+            const un_scalar_t value,
+            const LinearPowerDensityUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        LinearPowerDensityUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr LinearPowerDensityUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<LinearPowerDensityUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown LinearPowerDensity unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static LinearPowerDensityDto from_json(const nlohmann::json& json)
+        {
+            return LinearPowerDensityDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>The Linear Power Density of a substance is its power per unit length.  The term linear density is most often used when describing the characteristics of one-dimensional objects, although linear density can also be used to describe the density of a three-dimensional quantity along one particular dimension.</summary>
     class LinearPowerDensity : public UnitsNetBase
@@ -43,105 +113,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit LinearPowerDensity(
             const un_scalar_t value,
-            const LinearPowerDensityUnit unit = LinearPowerDensityUnit::WattsPerMeter)
+            const LinearPowerDensityUnit unit = LinearPowerDensityUnit::WattPerMeter)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "LinearPowerDensity"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case LinearPowerDensityUnit::WattsPerMeter:
-                return "WattsPerMeter";
-
-            case LinearPowerDensityUnit::MilliwattsPerMeter:
-                return "MilliwattsPerMeter";
-
-            case LinearPowerDensityUnit::KilowattsPerMeter:
-                return "KilowattsPerMeter";
-
-            case LinearPowerDensityUnit::MegawattsPerMeter:
-                return "MegawattsPerMeter";
-
-            case LinearPowerDensityUnit::GigawattsPerMeter:
-                return "GigawattsPerMeter";
-
-            case LinearPowerDensityUnit::WattsPerCentimeter:
-                return "WattsPerCentimeter";
-
-            case LinearPowerDensityUnit::MilliwattsPerCentimeter:
-                return "MilliwattsPerCentimeter";
-
-            case LinearPowerDensityUnit::KilowattsPerCentimeter:
-                return "KilowattsPerCentimeter";
-
-            case LinearPowerDensityUnit::MegawattsPerCentimeter:
-                return "MegawattsPerCentimeter";
-
-            case LinearPowerDensityUnit::GigawattsPerCentimeter:
-                return "GigawattsPerCentimeter";
-
-            case LinearPowerDensityUnit::WattsPerMillimeter:
-                return "WattsPerMillimeter";
-
-            case LinearPowerDensityUnit::MilliwattsPerMillimeter:
-                return "MilliwattsPerMillimeter";
-
-            case LinearPowerDensityUnit::KilowattsPerMillimeter:
-                return "KilowattsPerMillimeter";
-
-            case LinearPowerDensityUnit::MegawattsPerMillimeter:
-                return "MegawattsPerMillimeter";
-
-            case LinearPowerDensityUnit::GigawattsPerMillimeter:
-                return "GigawattsPerMillimeter";
-
-            case LinearPowerDensityUnit::WattsPerInch:
-                return "WattsPerInch";
-
-            case LinearPowerDensityUnit::MilliwattsPerInch:
-                return "MilliwattsPerInch";
-
-            case LinearPowerDensityUnit::KilowattsPerInch:
-                return "KilowattsPerInch";
-
-            case LinearPowerDensityUnit::MegawattsPerInch:
-                return "MegawattsPerInch";
-
-            case LinearPowerDensityUnit::GigawattsPerInch:
-                return "GigawattsPerInch";
-
-            case LinearPowerDensityUnit::WattsPerFoot:
-                return "WattsPerFoot";
-
-            case LinearPowerDensityUnit::MilliwattsPerFoot:
-                return "MilliwattsPerFoot";
-
-            case LinearPowerDensityUnit::KilowattsPerFoot:
-                return "KilowattsPerFoot";
-
-            case LinearPowerDensityUnit::MegawattsPerFoot:
-                return "MegawattsPerFoot";
-
-            case LinearPowerDensityUnit::GigawattsPerFoot:
-                return "GigawattsPerFoot";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -153,6 +128,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr LinearPowerDensityDto to_dto(
+            const LinearPowerDensityUnit unit = LinearPowerDensityUnit::WattPerMeter) const
+        {
+            return LinearPowerDensityDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr LinearPowerDensity from_dto(const LinearPowerDensityDto& dto)
+        {
+            return LinearPowerDensity(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const LinearPowerDensityUnit unit = LinearPowerDensityUnit::WattPerMeter) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static LinearPowerDensity from_json(const nlohmann::json& json)
+        {
+            return from_dto(LinearPowerDensityDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr LinearPowerDensity operator+(const LinearPowerDensity& other) const noexcept
         {
@@ -191,252 +196,252 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t watts_per_meter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::WattsPerMeter);
+            return convert_from_base(LinearPowerDensityUnit::WattPerMeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_watts_per_meter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::WattsPerMeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::WattPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_meter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MilliwattsPerMeter);
+            return convert_from_base(LinearPowerDensityUnit::MilliwattPerMeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_milliwatts_per_meter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattsPerMeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_meter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::KilowattsPerMeter);
+            return convert_from_base(LinearPowerDensityUnit::KilowattPerMeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_kilowatts_per_meter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattsPerMeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_meter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MegawattsPerMeter);
+            return convert_from_base(LinearPowerDensityUnit::MegawattPerMeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_megawatts_per_meter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattsPerMeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_meter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::GigawattsPerMeter);
+            return convert_from_base(LinearPowerDensityUnit::GigawattPerMeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_gigawatts_per_meter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattsPerMeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattPerMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t watts_per_centimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::WattsPerCentimeter);
+            return convert_from_base(LinearPowerDensityUnit::WattPerCentimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_watts_per_centimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::WattsPerCentimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::WattPerCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_centimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MilliwattsPerCentimeter);
+            return convert_from_base(LinearPowerDensityUnit::MilliwattPerCentimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_milliwatts_per_centimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattsPerCentimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattPerCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_centimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::KilowattsPerCentimeter);
+            return convert_from_base(LinearPowerDensityUnit::KilowattPerCentimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_kilowatts_per_centimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattsPerCentimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattPerCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_centimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MegawattsPerCentimeter);
+            return convert_from_base(LinearPowerDensityUnit::MegawattPerCentimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_megawatts_per_centimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattsPerCentimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattPerCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_centimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::GigawattsPerCentimeter);
+            return convert_from_base(LinearPowerDensityUnit::GigawattPerCentimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_gigawatts_per_centimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattsPerCentimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattPerCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t watts_per_millimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::WattsPerMillimeter);
+            return convert_from_base(LinearPowerDensityUnit::WattPerMillimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_watts_per_millimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::WattsPerMillimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::WattPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_millimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MilliwattsPerMillimeter);
+            return convert_from_base(LinearPowerDensityUnit::MilliwattPerMillimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_milliwatts_per_millimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattsPerMillimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_millimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::KilowattsPerMillimeter);
+            return convert_from_base(LinearPowerDensityUnit::KilowattPerMillimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_kilowatts_per_millimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattsPerMillimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_millimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MegawattsPerMillimeter);
+            return convert_from_base(LinearPowerDensityUnit::MegawattPerMillimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_megawatts_per_millimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattsPerMillimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_millimeter() const
         {
-            return convert_from_base(LinearPowerDensityUnit::GigawattsPerMillimeter);
+            return convert_from_base(LinearPowerDensityUnit::GigawattPerMillimeter);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_gigawatts_per_millimeter(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattsPerMillimeter);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattPerMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t watts_per_inch() const
         {
-            return convert_from_base(LinearPowerDensityUnit::WattsPerInch);
+            return convert_from_base(LinearPowerDensityUnit::WattPerInch);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_watts_per_inch(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::WattsPerInch);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::WattPerInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_inch() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MilliwattsPerInch);
+            return convert_from_base(LinearPowerDensityUnit::MilliwattPerInch);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_milliwatts_per_inch(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattsPerInch);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattPerInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_inch() const
         {
-            return convert_from_base(LinearPowerDensityUnit::KilowattsPerInch);
+            return convert_from_base(LinearPowerDensityUnit::KilowattPerInch);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_kilowatts_per_inch(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattsPerInch);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattPerInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_inch() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MegawattsPerInch);
+            return convert_from_base(LinearPowerDensityUnit::MegawattPerInch);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_megawatts_per_inch(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattsPerInch);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattPerInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_inch() const
         {
-            return convert_from_base(LinearPowerDensityUnit::GigawattsPerInch);
+            return convert_from_base(LinearPowerDensityUnit::GigawattPerInch);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_gigawatts_per_inch(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattsPerInch);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattPerInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t watts_per_foot() const
         {
-            return convert_from_base(LinearPowerDensityUnit::WattsPerFoot);
+            return convert_from_base(LinearPowerDensityUnit::WattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_watts_per_foot(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::WattsPerFoot);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::WattPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t milliwatts_per_foot() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MilliwattsPerFoot);
+            return convert_from_base(LinearPowerDensityUnit::MilliwattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_milliwatts_per_foot(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattsPerFoot);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MilliwattPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilowatts_per_foot() const
         {
-            return convert_from_base(LinearPowerDensityUnit::KilowattsPerFoot);
+            return convert_from_base(LinearPowerDensityUnit::KilowattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_kilowatts_per_foot(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattsPerFoot);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::KilowattPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t megawatts_per_foot() const
         {
-            return convert_from_base(LinearPowerDensityUnit::MegawattsPerFoot);
+            return convert_from_base(LinearPowerDensityUnit::MegawattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_megawatts_per_foot(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattsPerFoot);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::MegawattPerFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigawatts_per_foot() const
         {
-            return convert_from_base(LinearPowerDensityUnit::GigawattsPerFoot);
+            return convert_from_base(LinearPowerDensityUnit::GigawattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_gigawatts_per_foot(const un_scalar_t value)
         {
-            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattsPerFoot);
+            return LinearPowerDensity(value, LinearPowerDensityUnit::GigawattPerFoot);
         }
 
         [[nodiscard]] static constexpr LinearPowerDensity from_invalid()
@@ -450,79 +455,79 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case LinearPowerDensityUnit::WattsPerMeter:
+            case LinearPowerDensityUnit::WattPerMeter:
                 return value;
 
-            case LinearPowerDensityUnit::MilliwattsPerMeter:
+            case LinearPowerDensityUnit::MilliwattPerMeter:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case LinearPowerDensityUnit::KilowattsPerMeter:
+            case LinearPowerDensityUnit::KilowattPerMeter:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case LinearPowerDensityUnit::MegawattsPerMeter:
+            case LinearPowerDensityUnit::MegawattPerMeter:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case LinearPowerDensityUnit::GigawattsPerMeter:
+            case LinearPowerDensityUnit::GigawattPerMeter:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case LinearPowerDensityUnit::WattsPerCentimeter:
+            case LinearPowerDensityUnit::WattPerCentimeter:
                 return value * static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::MilliwattsPerCentimeter:
+            case LinearPowerDensityUnit::MilliwattPerCentimeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::KilowattsPerCentimeter:
+            case LinearPowerDensityUnit::KilowattPerCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::MegawattsPerCentimeter:
+            case LinearPowerDensityUnit::MegawattPerCentimeter:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::GigawattsPerCentimeter:
+            case LinearPowerDensityUnit::GigawattPerCentimeter:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::WattsPerMillimeter:
+            case LinearPowerDensityUnit::WattPerMillimeter:
                 return value * static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MilliwattsPerMillimeter:
+            case LinearPowerDensityUnit::MilliwattPerMillimeter:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::KilowattsPerMillimeter:
+            case LinearPowerDensityUnit::KilowattPerMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerMillimeter:
+            case LinearPowerDensityUnit::MegawattPerMillimeter:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::GigawattsPerMillimeter:
+            case LinearPowerDensityUnit::GigawattPerMillimeter:
                 return (value * static_cast<un_scalar_t>(1e9)) * static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::WattsPerInch:
+            case LinearPowerDensityUnit::WattPerInch:
                 return value / static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::MilliwattsPerInch:
+            case LinearPowerDensityUnit::MilliwattPerInch:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::KilowattsPerInch:
+            case LinearPowerDensityUnit::KilowattPerInch:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::MegawattsPerInch:
+            case LinearPowerDensityUnit::MegawattPerInch:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::GigawattsPerInch:
+            case LinearPowerDensityUnit::GigawattPerInch:
                 return (value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::WattsPerFoot:
+            case LinearPowerDensityUnit::WattPerFoot:
                 return value / static_cast<un_scalar_t>(0.3048);
 
-            case LinearPowerDensityUnit::MilliwattsPerFoot:
+            case LinearPowerDensityUnit::MilliwattPerFoot:
                 return (value * static_cast<un_scalar_t>(1e-3)) / static_cast<un_scalar_t>(0.3048);
 
-            case LinearPowerDensityUnit::KilowattsPerFoot:
+            case LinearPowerDensityUnit::KilowattPerFoot:
                 return (value * static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(0.3048);
 
-            case LinearPowerDensityUnit::MegawattsPerFoot:
+            case LinearPowerDensityUnit::MegawattPerFoot:
                 return (value * static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(0.3048);
 
-            case LinearPowerDensityUnit::GigawattsPerFoot:
+            case LinearPowerDensityUnit::GigawattPerFoot:
                 return (value * static_cast<un_scalar_t>(1e9)) / static_cast<un_scalar_t>(0.3048);
 
             }
@@ -542,79 +547,79 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case LinearPowerDensityUnit::WattsPerMeter:
+            case LinearPowerDensityUnit::WattPerMeter:
                 return base_value;
 
-            case LinearPowerDensityUnit::MilliwattsPerMeter:
+            case LinearPowerDensityUnit::MilliwattPerMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case LinearPowerDensityUnit::KilowattsPerMeter:
+            case LinearPowerDensityUnit::KilowattPerMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerMeter:
+            case LinearPowerDensityUnit::MegawattPerMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case LinearPowerDensityUnit::GigawattsPerMeter:
+            case LinearPowerDensityUnit::GigawattPerMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case LinearPowerDensityUnit::WattsPerCentimeter:
+            case LinearPowerDensityUnit::WattPerCentimeter:
                 return base_value / static_cast<un_scalar_t>(1e2);
 
-            case LinearPowerDensityUnit::MilliwattsPerCentimeter:
+            case LinearPowerDensityUnit::MilliwattPerCentimeter:
                 return (base_value / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e-3);
 
-            case LinearPowerDensityUnit::KilowattsPerCentimeter:
+            case LinearPowerDensityUnit::KilowattPerCentimeter:
                 return (base_value / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerCentimeter:
+            case LinearPowerDensityUnit::MegawattPerCentimeter:
                 return (base_value / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e6);
 
-            case LinearPowerDensityUnit::GigawattsPerCentimeter:
+            case LinearPowerDensityUnit::GigawattPerCentimeter:
                 return (base_value / static_cast<un_scalar_t>(1e2)) / static_cast<un_scalar_t>(1e9);
 
-            case LinearPowerDensityUnit::WattsPerMillimeter:
+            case LinearPowerDensityUnit::WattPerMillimeter:
                 return base_value / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MilliwattsPerMillimeter:
+            case LinearPowerDensityUnit::MilliwattPerMillimeter:
                 return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case LinearPowerDensityUnit::KilowattsPerMillimeter:
+            case LinearPowerDensityUnit::KilowattPerMillimeter:
                 return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerMillimeter:
+            case LinearPowerDensityUnit::MegawattPerMillimeter:
                 return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e6);
 
-            case LinearPowerDensityUnit::GigawattsPerMillimeter:
+            case LinearPowerDensityUnit::GigawattPerMillimeter:
                 return (base_value / static_cast<un_scalar_t>(1e3)) / static_cast<un_scalar_t>(1e9);
 
-            case LinearPowerDensityUnit::WattsPerInch:
+            case LinearPowerDensityUnit::WattPerInch:
                 return base_value * static_cast<un_scalar_t>(2.54e-2);
 
-            case LinearPowerDensityUnit::MilliwattsPerInch:
+            case LinearPowerDensityUnit::MilliwattPerInch:
                 return (base_value * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e-3);
 
-            case LinearPowerDensityUnit::KilowattsPerInch:
+            case LinearPowerDensityUnit::KilowattPerInch:
                 return (base_value * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerInch:
+            case LinearPowerDensityUnit::MegawattPerInch:
                 return (base_value * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e6);
 
-            case LinearPowerDensityUnit::GigawattsPerInch:
+            case LinearPowerDensityUnit::GigawattPerInch:
                 return (base_value * static_cast<un_scalar_t>(2.54e-2)) / static_cast<un_scalar_t>(1e9);
 
-            case LinearPowerDensityUnit::WattsPerFoot:
+            case LinearPowerDensityUnit::WattPerFoot:
                 return base_value * static_cast<un_scalar_t>(0.3048);
 
-            case LinearPowerDensityUnit::MilliwattsPerFoot:
+            case LinearPowerDensityUnit::MilliwattPerFoot:
                 return (base_value * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e-3);
 
-            case LinearPowerDensityUnit::KilowattsPerFoot:
+            case LinearPowerDensityUnit::KilowattPerFoot:
                 return (base_value * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e3);
 
-            case LinearPowerDensityUnit::MegawattsPerFoot:
+            case LinearPowerDensityUnit::MegawattPerFoot:
                 return (base_value * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e6);
 
-            case LinearPowerDensityUnit::GigawattsPerFoot:
+            case LinearPowerDensityUnit::GigawattPerFoot:
                 return (base_value * static_cast<un_scalar_t>(0.3048)) / static_cast<un_scalar_t>(1e9);
 
             }

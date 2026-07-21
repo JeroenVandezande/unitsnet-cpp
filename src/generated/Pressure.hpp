@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,57 +18,119 @@ namespace unitsnet_cpp
 {
     enum class PressureUnit : std::uint8_t
     {
-        Pascals,
-        Micropascals,
-        Millipascals,
-        Decapascals,
-        Hectopascals,
-        Kilopascals,
-        Megapascals,
-        Gigapascals,
-        Atmospheres,
-        Bars,
-        Microbars,
-        Millibars,
-        Centibars,
-        Decibars,
-        Kilobars,
-        Megabars,
-        KilogramsForcePerSquareMeter,
-        KilogramsForcePerSquareCentimeter,
-        KilogramsForcePerSquareMillimeter,
-        NewtonsPerSquareMeter,
-        KilonewtonsPerSquareMeter,
-        MeganewtonsPerSquareMeter,
-        NewtonsPerSquareCentimeter,
-        KilonewtonsPerSquareCentimeter,
-        NewtonsPerSquareMillimeter,
-        KilonewtonsPerSquareMillimeter,
-        TechnicalAtmospheres,
-        Torrs,
-        Millitorrs,
-        PoundsForcePerSquareInch,
-        KilopoundsForcePerSquareInch,
-        PoundsForcePerSquareMil,
-        KilopoundsForcePerSquareMil,
-        PoundsForcePerSquareFoot,
-        KilopoundsForcePerSquareFoot,
-        TonnesForcePerSquareMillimeter,
-        TonnesForcePerSquareMeter,
-        MetersOfHead,
-        TonnesForcePerSquareCentimeter,
-        FeetOfHead,
-        MillimetersOfMercury,
-        InchesOfMercury,
-        DynesPerSquareCentimeter,
-        PoundsPerInchSecondSquared,
-        MetersOfWaterColumn,
-        MillimetersOfWaterColumn,
-        CentimetersOfWaterColumn,
-        InchesOfWaterColumn,
-        MilligramsForcePerSquareMeter,
-        MilligramsForcePerSquareFoot,
+        Pascal,
+        Micropascal,
+        Millipascal,
+        Decapascal,
+        Hectopascal,
+        Kilopascal,
+        Megapascal,
+        Gigapascal,
+        Atmosphere,
+        Bar,
+        Microbar,
+        Millibar,
+        Centibar,
+        Decibar,
+        Kilobar,
+        Megabar,
+        KilogramForcePerSquareMeter,
+        KilogramForcePerSquareCentimeter,
+        KilogramForcePerSquareMillimeter,
+        NewtonPerSquareMeter,
+        KilonewtonPerSquareMeter,
+        MeganewtonPerSquareMeter,
+        NewtonPerSquareCentimeter,
+        KilonewtonPerSquareCentimeter,
+        NewtonPerSquareMillimeter,
+        KilonewtonPerSquareMillimeter,
+        TechnicalAtmosphere,
+        Torr,
+        Millitorr,
+        PoundForcePerSquareInch,
+        KilopoundForcePerSquareInch,
+        PoundForcePerSquareMil,
+        KilopoundForcePerSquareMil,
+        PoundForcePerSquareFoot,
+        KilopoundForcePerSquareFoot,
+        TonneForcePerSquareMillimeter,
+        TonneForcePerSquareMeter,
+        MeterOfHead,
+        TonneForcePerSquareCentimeter,
+        FootOfHead,
+        MillimeterOfMercury,
+        InchOfMercury,
+        DynePerSquareCentimeter,
+        PoundPerInchSecondSquared,
+        MeterOfWaterColumn,
+        MillimeterOfWaterColumn,
+        CentimeterOfWaterColumn,
+        InchOfWaterColumn,
+        MilligramForcePerSquareMeter,
+        MilligramForcePerSquareFoot,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of Pressure.</summary>
+    class PressureDto
+    {
+    public:
+        constexpr PressureDto() noexcept
+            : value{}, unit(PressureUnit::Pascal)
+        {
+        }
+
+        constexpr PressureDto(
+            const un_scalar_t value,
+            const PressureUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        PressureUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr PressureUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<PressureUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown Pressure unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static PressureDto from_json(const nlohmann::json& json)
+        {
+            return PressureDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Pressure (symbol: P or p) is the ratio of force to the area over which that force is distributed. Pressure is force per unit area applied in a direction perpendicular to the surface of an object. Gauge pressure (also spelled gage pressure)[a] is the pressure relative to the local atmospheric or ambient pressure. Pressure is measured in any unit of force divided by any unit of area. The SI unit of pressure is the newton per square metre, which is called the pascal (Pa) after the seventeenth-century philosopher and scientist Blaise Pascal. A pressure of 1 Pa is small; it approximately equals the pressure exerted by a dollar bill resting flat on a table. Everyday pressures are often stated in kilopascals (1 kPa = 1000 Pa).</summary>
     class Pressure : public UnitsNetBase
@@ -68,180 +138,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit Pressure(
             const un_scalar_t value,
-            const PressureUnit unit = PressureUnit::Pascals)
+            const PressureUnit unit = PressureUnit::Pascal)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "Pressure"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case PressureUnit::Pascals:
-                return "Pascals";
-
-            case PressureUnit::Micropascals:
-                return "Micropascals";
-
-            case PressureUnit::Millipascals:
-                return "Millipascals";
-
-            case PressureUnit::Decapascals:
-                return "Decapascals";
-
-            case PressureUnit::Hectopascals:
-                return "Hectopascals";
-
-            case PressureUnit::Kilopascals:
-                return "Kilopascals";
-
-            case PressureUnit::Megapascals:
-                return "Megapascals";
-
-            case PressureUnit::Gigapascals:
-                return "Gigapascals";
-
-            case PressureUnit::Atmospheres:
-                return "Atmospheres";
-
-            case PressureUnit::Bars:
-                return "Bars";
-
-            case PressureUnit::Microbars:
-                return "Microbars";
-
-            case PressureUnit::Millibars:
-                return "Millibars";
-
-            case PressureUnit::Centibars:
-                return "Centibars";
-
-            case PressureUnit::Decibars:
-                return "Decibars";
-
-            case PressureUnit::Kilobars:
-                return "Kilobars";
-
-            case PressureUnit::Megabars:
-                return "Megabars";
-
-            case PressureUnit::KilogramsForcePerSquareMeter:
-                return "KilogramsForcePerSquareMeter";
-
-            case PressureUnit::KilogramsForcePerSquareCentimeter:
-                return "KilogramsForcePerSquareCentimeter";
-
-            case PressureUnit::KilogramsForcePerSquareMillimeter:
-                return "KilogramsForcePerSquareMillimeter";
-
-            case PressureUnit::NewtonsPerSquareMeter:
-                return "NewtonsPerSquareMeter";
-
-            case PressureUnit::KilonewtonsPerSquareMeter:
-                return "KilonewtonsPerSquareMeter";
-
-            case PressureUnit::MeganewtonsPerSquareMeter:
-                return "MeganewtonsPerSquareMeter";
-
-            case PressureUnit::NewtonsPerSquareCentimeter:
-                return "NewtonsPerSquareCentimeter";
-
-            case PressureUnit::KilonewtonsPerSquareCentimeter:
-                return "KilonewtonsPerSquareCentimeter";
-
-            case PressureUnit::NewtonsPerSquareMillimeter:
-                return "NewtonsPerSquareMillimeter";
-
-            case PressureUnit::KilonewtonsPerSquareMillimeter:
-                return "KilonewtonsPerSquareMillimeter";
-
-            case PressureUnit::TechnicalAtmospheres:
-                return "TechnicalAtmospheres";
-
-            case PressureUnit::Torrs:
-                return "Torrs";
-
-            case PressureUnit::Millitorrs:
-                return "Millitorrs";
-
-            case PressureUnit::PoundsForcePerSquareInch:
-                return "PoundsForcePerSquareInch";
-
-            case PressureUnit::KilopoundsForcePerSquareInch:
-                return "KilopoundsForcePerSquareInch";
-
-            case PressureUnit::PoundsForcePerSquareMil:
-                return "PoundsForcePerSquareMil";
-
-            case PressureUnit::KilopoundsForcePerSquareMil:
-                return "KilopoundsForcePerSquareMil";
-
-            case PressureUnit::PoundsForcePerSquareFoot:
-                return "PoundsForcePerSquareFoot";
-
-            case PressureUnit::KilopoundsForcePerSquareFoot:
-                return "KilopoundsForcePerSquareFoot";
-
-            case PressureUnit::TonnesForcePerSquareMillimeter:
-                return "TonnesForcePerSquareMillimeter";
-
-            case PressureUnit::TonnesForcePerSquareMeter:
-                return "TonnesForcePerSquareMeter";
-
-            case PressureUnit::MetersOfHead:
-                return "MetersOfHead";
-
-            case PressureUnit::TonnesForcePerSquareCentimeter:
-                return "TonnesForcePerSquareCentimeter";
-
-            case PressureUnit::FeetOfHead:
-                return "FeetOfHead";
-
-            case PressureUnit::MillimetersOfMercury:
-                return "MillimetersOfMercury";
-
-            case PressureUnit::InchesOfMercury:
-                return "InchesOfMercury";
-
-            case PressureUnit::DynesPerSquareCentimeter:
-                return "DynesPerSquareCentimeter";
-
-            case PressureUnit::PoundsPerInchSecondSquared:
-                return "PoundsPerInchSecondSquared";
-
-            case PressureUnit::MetersOfWaterColumn:
-                return "MetersOfWaterColumn";
-
-            case PressureUnit::MillimetersOfWaterColumn:
-                return "MillimetersOfWaterColumn";
-
-            case PressureUnit::CentimetersOfWaterColumn:
-                return "CentimetersOfWaterColumn";
-
-            case PressureUnit::InchesOfWaterColumn:
-                return "InchesOfWaterColumn";
-
-            case PressureUnit::MilligramsForcePerSquareMeter:
-                return "MilligramsForcePerSquareMeter";
-
-            case PressureUnit::MilligramsForcePerSquareFoot:
-                return "MilligramsForcePerSquareFoot";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -253,6 +153,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr PressureDto to_dto(
+            const PressureUnit unit = PressureUnit::Pascal) const
+        {
+            return PressureDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr Pressure from_dto(const PressureDto& dto)
+        {
+            return Pressure(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const PressureUnit unit = PressureUnit::Pascal) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static Pressure from_json(const nlohmann::json& json)
+        {
+            return from_dto(PressureDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr Pressure operator+(const Pressure& other) const noexcept
         {
@@ -291,538 +221,538 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t pascals() const
         {
-            return convert_from_base(PressureUnit::Pascals);
+            return convert_from_base(PressureUnit::Pascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_pascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Pascals);
+            return Pressure(value, PressureUnit::Pascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t micropascals() const
         {
-            return convert_from_base(PressureUnit::Micropascals);
+            return convert_from_base(PressureUnit::Micropascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_micropascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Micropascals);
+            return Pressure(value, PressureUnit::Micropascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t millipascals() const
         {
-            return convert_from_base(PressureUnit::Millipascals);
+            return convert_from_base(PressureUnit::Millipascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_millipascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Millipascals);
+            return Pressure(value, PressureUnit::Millipascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t decapascals() const
         {
-            return convert_from_base(PressureUnit::Decapascals);
+            return convert_from_base(PressureUnit::Decapascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_decapascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Decapascals);
+            return Pressure(value, PressureUnit::Decapascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t hectopascals() const
         {
-            return convert_from_base(PressureUnit::Hectopascals);
+            return convert_from_base(PressureUnit::Hectopascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_hectopascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Hectopascals);
+            return Pressure(value, PressureUnit::Hectopascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopascals() const
         {
-            return convert_from_base(PressureUnit::Kilopascals);
+            return convert_from_base(PressureUnit::Kilopascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilopascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Kilopascals);
+            return Pressure(value, PressureUnit::Kilopascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t megapascals() const
         {
-            return convert_from_base(PressureUnit::Megapascals);
+            return convert_from_base(PressureUnit::Megapascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_megapascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Megapascals);
+            return Pressure(value, PressureUnit::Megapascal);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigapascals() const
         {
-            return convert_from_base(PressureUnit::Gigapascals);
+            return convert_from_base(PressureUnit::Gigapascal);
         }
 
         [[nodiscard]] static constexpr Pressure from_gigapascals(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Gigapascals);
+            return Pressure(value, PressureUnit::Gigapascal);
         }
 
         /// <summary>The standard atmosphere (symbol: atm) is a unit of pressure defined as 101325 Pa. It is sometimes used as a reference pressure or standard pressure. It is approximately equal to Earth's average atmospheric pressure at sea level.</summary>
         [[nodiscard]] constexpr un_scalar_t atmospheres() const
         {
-            return convert_from_base(PressureUnit::Atmospheres);
+            return convert_from_base(PressureUnit::Atmosphere);
         }
 
         /// <summary>The standard atmosphere (symbol: atm) is a unit of pressure defined as 101325 Pa. It is sometimes used as a reference pressure or standard pressure. It is approximately equal to Earth's average atmospheric pressure at sea level.</summary>
         [[nodiscard]] static constexpr Pressure from_atmospheres(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Atmospheres);
+            return Pressure(value, PressureUnit::Atmosphere);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t bars() const
         {
-            return convert_from_base(PressureUnit::Bars);
+            return convert_from_base(PressureUnit::Bar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_bars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Bars);
+            return Pressure(value, PressureUnit::Bar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t microbars() const
         {
-            return convert_from_base(PressureUnit::Microbars);
+            return convert_from_base(PressureUnit::Microbar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_microbars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Microbars);
+            return Pressure(value, PressureUnit::Microbar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t millibars() const
         {
-            return convert_from_base(PressureUnit::Millibars);
+            return convert_from_base(PressureUnit::Millibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_millibars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Millibars);
+            return Pressure(value, PressureUnit::Millibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t centibars() const
         {
-            return convert_from_base(PressureUnit::Centibars);
+            return convert_from_base(PressureUnit::Centibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_centibars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Centibars);
+            return Pressure(value, PressureUnit::Centibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t decibars() const
         {
-            return convert_from_base(PressureUnit::Decibars);
+            return convert_from_base(PressureUnit::Decibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_decibars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Decibars);
+            return Pressure(value, PressureUnit::Decibar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t kilobars() const
         {
-            return convert_from_base(PressureUnit::Kilobars);
+            return convert_from_base(PressureUnit::Kilobar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_kilobars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Kilobars);
+            return Pressure(value, PressureUnit::Kilobar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] constexpr un_scalar_t megabars() const
         {
-            return convert_from_base(PressureUnit::Megabars);
+            return convert_from_base(PressureUnit::Megabar);
         }
 
         /// <summary>The bar is a metric unit of pressure defined as 100,000 Pa (100 kPa), though not part of the International System of Units (SI). A pressure of 1 bar is slightly less than the current average atmospheric pressure on Earth at sea level (approximately 1.013 bar).</summary>
         [[nodiscard]] static constexpr Pressure from_megabars(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Megabars);
+            return Pressure(value, PressureUnit::Megabar);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::KilogramsForcePerSquareMeter);
+            return convert_from_base(PressureUnit::KilogramForcePerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilogramsForcePerSquareMeter);
+            return Pressure(value, PressureUnit::KilogramForcePerSquareMeter);
         }
 
         /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_centimeter() const
         {
-            return convert_from_base(PressureUnit::KilogramsForcePerSquareCentimeter);
+            return convert_from_base(PressureUnit::KilogramForcePerSquareCentimeter);
         }
 
         /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_centimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilogramsForcePerSquareCentimeter);
+            return Pressure(value, PressureUnit::KilogramForcePerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilograms_force_per_square_millimeter() const
         {
-            return convert_from_base(PressureUnit::KilogramsForcePerSquareMillimeter);
+            return convert_from_base(PressureUnit::KilogramForcePerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilograms_force_per_square_millimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilogramsForcePerSquareMillimeter);
+            return Pressure(value, PressureUnit::KilogramForcePerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t newtons_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::NewtonsPerSquareMeter);
+            return convert_from_base(PressureUnit::NewtonPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_newtons_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::NewtonsPerSquareMeter);
+            return Pressure(value, PressureUnit::NewtonPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::KilonewtonsPerSquareMeter);
+            return convert_from_base(PressureUnit::KilonewtonPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilonewtonsPerSquareMeter);
+            return Pressure(value, PressureUnit::KilonewtonPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t meganewtons_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::MeganewtonsPerSquareMeter);
+            return convert_from_base(PressureUnit::MeganewtonPerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_meganewtons_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MeganewtonsPerSquareMeter);
+            return Pressure(value, PressureUnit::MeganewtonPerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t newtons_per_square_centimeter() const
         {
-            return convert_from_base(PressureUnit::NewtonsPerSquareCentimeter);
+            return convert_from_base(PressureUnit::NewtonPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_newtons_per_square_centimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::NewtonsPerSquareCentimeter);
+            return Pressure(value, PressureUnit::NewtonPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_centimeter() const
         {
-            return convert_from_base(PressureUnit::KilonewtonsPerSquareCentimeter);
+            return convert_from_base(PressureUnit::KilonewtonPerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_centimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilonewtonsPerSquareCentimeter);
+            return Pressure(value, PressureUnit::KilonewtonPerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t newtons_per_square_millimeter() const
         {
-            return convert_from_base(PressureUnit::NewtonsPerSquareMillimeter);
+            return convert_from_base(PressureUnit::NewtonPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_newtons_per_square_millimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::NewtonsPerSquareMillimeter);
+            return Pressure(value, PressureUnit::NewtonPerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilonewtons_per_square_millimeter() const
         {
-            return convert_from_base(PressureUnit::KilonewtonsPerSquareMillimeter);
+            return convert_from_base(PressureUnit::KilonewtonPerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilonewtons_per_square_millimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilonewtonsPerSquareMillimeter);
+            return Pressure(value, PressureUnit::KilonewtonPerSquareMillimeter);
         }
 
         /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] constexpr un_scalar_t technical_atmospheres() const
         {
-            return convert_from_base(PressureUnit::TechnicalAtmospheres);
+            return convert_from_base(PressureUnit::TechnicalAtmosphere);
         }
 
         /// <summary>A kilogram-force per centimetre square (kgf/cm2), often just kilogram per square centimetre (kg/cm2), or kilopond per centimetre square (kp/cm2) is a deprecated unit of pressure using metric units. It is not a part of the International System of Units (SI), the modern metric system. 1 kgf/cm2 equals 98.0665 kPa (kilopascals). It is also known as a technical atmosphere (symbol: at).</summary>
         [[nodiscard]] static constexpr Pressure from_technical_atmospheres(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::TechnicalAtmospheres);
+            return Pressure(value, PressureUnit::TechnicalAtmosphere);
         }
 
         /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] constexpr un_scalar_t torrs() const
         {
-            return convert_from_base(PressureUnit::Torrs);
+            return convert_from_base(PressureUnit::Torr);
         }
 
         /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] static constexpr Pressure from_torrs(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Torrs);
+            return Pressure(value, PressureUnit::Torr);
         }
 
         /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] constexpr un_scalar_t millitorrs() const
         {
-            return convert_from_base(PressureUnit::Millitorrs);
+            return convert_from_base(PressureUnit::Millitorr);
         }
 
         /// <summary>The torr (symbol: Torr) is a unit of pressure based on an absolute scale, defined as exactly 1/760 of a standard atmosphere (101325 Pa). Thus one torr is exactly 101325/760 pascals (≈ 133.32 Pa).</summary>
         [[nodiscard]] static constexpr Pressure from_millitorrs(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::Millitorrs);
+            return Pressure(value, PressureUnit::Millitorr);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_inch() const
         {
-            return convert_from_base(PressureUnit::PoundsForcePerSquareInch);
+            return convert_from_base(PressureUnit::PoundForcePerSquareInch);
         }
 
         [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_inch(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::PoundsForcePerSquareInch);
+            return Pressure(value, PressureUnit::PoundForcePerSquareInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_inch() const
         {
-            return convert_from_base(PressureUnit::KilopoundsForcePerSquareInch);
+            return convert_from_base(PressureUnit::KilopoundForcePerSquareInch);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_inch(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilopoundsForcePerSquareInch);
+            return Pressure(value, PressureUnit::KilopoundForcePerSquareInch);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_mil() const
         {
-            return convert_from_base(PressureUnit::PoundsForcePerSquareMil);
+            return convert_from_base(PressureUnit::PoundForcePerSquareMil);
         }
 
         [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_mil(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::PoundsForcePerSquareMil);
+            return Pressure(value, PressureUnit::PoundForcePerSquareMil);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_mil() const
         {
-            return convert_from_base(PressureUnit::KilopoundsForcePerSquareMil);
+            return convert_from_base(PressureUnit::KilopoundForcePerSquareMil);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_mil(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilopoundsForcePerSquareMil);
+            return Pressure(value, PressureUnit::KilopoundForcePerSquareMil);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_force_per_square_foot() const
         {
-            return convert_from_base(PressureUnit::PoundsForcePerSquareFoot);
+            return convert_from_base(PressureUnit::PoundForcePerSquareFoot);
         }
 
         [[nodiscard]] static constexpr Pressure from_pounds_force_per_square_foot(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::PoundsForcePerSquareFoot);
+            return Pressure(value, PressureUnit::PoundForcePerSquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilopounds_force_per_square_foot() const
         {
-            return convert_from_base(PressureUnit::KilopoundsForcePerSquareFoot);
+            return convert_from_base(PressureUnit::KilopoundForcePerSquareFoot);
         }
 
         [[nodiscard]] static constexpr Pressure from_kilopounds_force_per_square_foot(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::KilopoundsForcePerSquareFoot);
+            return Pressure(value, PressureUnit::KilopoundForcePerSquareFoot);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_millimeter() const
         {
-            return convert_from_base(PressureUnit::TonnesForcePerSquareMillimeter);
+            return convert_from_base(PressureUnit::TonneForcePerSquareMillimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_millimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::TonnesForcePerSquareMillimeter);
+            return Pressure(value, PressureUnit::TonneForcePerSquareMillimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::TonnesForcePerSquareMeter);
+            return convert_from_base(PressureUnit::TonneForcePerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::TonnesForcePerSquareMeter);
+            return Pressure(value, PressureUnit::TonneForcePerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t meters_of_head() const
         {
-            return convert_from_base(PressureUnit::MetersOfHead);
+            return convert_from_base(PressureUnit::MeterOfHead);
         }
 
         [[nodiscard]] static constexpr Pressure from_meters_of_head(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MetersOfHead);
+            return Pressure(value, PressureUnit::MeterOfHead);
         }
 
         [[nodiscard]] constexpr un_scalar_t tonnes_force_per_square_centimeter() const
         {
-            return convert_from_base(PressureUnit::TonnesForcePerSquareCentimeter);
+            return convert_from_base(PressureUnit::TonneForcePerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_tonnes_force_per_square_centimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::TonnesForcePerSquareCentimeter);
+            return Pressure(value, PressureUnit::TonneForcePerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t feet_of_head() const
         {
-            return convert_from_base(PressureUnit::FeetOfHead);
+            return convert_from_base(PressureUnit::FootOfHead);
         }
 
         [[nodiscard]] static constexpr Pressure from_feet_of_head(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::FeetOfHead);
+            return Pressure(value, PressureUnit::FootOfHead);
         }
 
         /// <summary>A millimetre of mercury is a manometric unit of pressure, formerly defined as the extra pressure generated by a column of mercury one millimetre high, and currently defined as exactly 133.322387415 pascals.</summary>
         [[nodiscard]] constexpr un_scalar_t millimeters_of_mercury() const
         {
-            return convert_from_base(PressureUnit::MillimetersOfMercury);
+            return convert_from_base(PressureUnit::MillimeterOfMercury);
         }
 
         /// <summary>A millimetre of mercury is a manometric unit of pressure, formerly defined as the extra pressure generated by a column of mercury one millimetre high, and currently defined as exactly 133.322387415 pascals.</summary>
         [[nodiscard]] static constexpr Pressure from_millimeters_of_mercury(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MillimetersOfMercury);
+            return Pressure(value, PressureUnit::MillimeterOfMercury);
         }
 
         /// <summary>Inch of mercury (inHg and ″Hg) is a non-SI unit of measurement for pressure. It is used for barometric pressure in weather reports, refrigeration and aviation in the United States. It is the pressure exerted by a column of mercury 1 inch (25.4 mm) in height at the standard acceleration of gravity.</summary>
         [[nodiscard]] constexpr un_scalar_t inches_of_mercury() const
         {
-            return convert_from_base(PressureUnit::InchesOfMercury);
+            return convert_from_base(PressureUnit::InchOfMercury);
         }
 
         /// <summary>Inch of mercury (inHg and ″Hg) is a non-SI unit of measurement for pressure. It is used for barometric pressure in weather reports, refrigeration and aviation in the United States. It is the pressure exerted by a column of mercury 1 inch (25.4 mm) in height at the standard acceleration of gravity.</summary>
         [[nodiscard]] static constexpr Pressure from_inches_of_mercury(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::InchesOfMercury);
+            return Pressure(value, PressureUnit::InchOfMercury);
         }
 
         [[nodiscard]] constexpr un_scalar_t dynes_per_square_centimeter() const
         {
-            return convert_from_base(PressureUnit::DynesPerSquareCentimeter);
+            return convert_from_base(PressureUnit::DynePerSquareCentimeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_dynes_per_square_centimeter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::DynesPerSquareCentimeter);
+            return Pressure(value, PressureUnit::DynePerSquareCentimeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t pounds_per_inch_second_squared() const
         {
-            return convert_from_base(PressureUnit::PoundsPerInchSecondSquared);
+            return convert_from_base(PressureUnit::PoundPerInchSecondSquared);
         }
 
         [[nodiscard]] static constexpr Pressure from_pounds_per_inch_second_squared(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::PoundsPerInchSecondSquared);
+            return Pressure(value, PressureUnit::PoundPerInchSecondSquared);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t meters_of_water_column() const
         {
-            return convert_from_base(PressureUnit::MetersOfWaterColumn);
+            return convert_from_base(PressureUnit::MeterOfWaterColumn);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_meters_of_water_column(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MetersOfWaterColumn);
+            return Pressure(value, PressureUnit::MeterOfWaterColumn);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t millimeters_of_water_column() const
         {
-            return convert_from_base(PressureUnit::MillimetersOfWaterColumn);
+            return convert_from_base(PressureUnit::MillimeterOfWaterColumn);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_millimeters_of_water_column(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MillimetersOfWaterColumn);
+            return Pressure(value, PressureUnit::MillimeterOfWaterColumn);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] constexpr un_scalar_t centimeters_of_water_column() const
         {
-            return convert_from_base(PressureUnit::CentimetersOfWaterColumn);
+            return convert_from_base(PressureUnit::CentimeterOfWaterColumn);
         }
 
         /// <summary>A centimetre of water is defined as the pressure exerted by a column of water of 1 cm in height at 4 °C (temperature of maximum density) at the standard acceleration of gravity, so that 1 cmH2O (4°C) = 999.9720 kg/m3 × 9.80665 m/s2 × 1 cm = 98.063754138 Pa, but conventionally a nominal maximum water density of 1000 kg/m3 is used, giving 98.0665 Pa.</summary>
         [[nodiscard]] static constexpr Pressure from_centimeters_of_water_column(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::CentimetersOfWaterColumn);
+            return Pressure(value, PressureUnit::CentimeterOfWaterColumn);
         }
 
         /// <summary>Inches of water is a non-SI unit for pressure. It is defined as the pressure exerted by a column of water of 1 inch in height at defined conditions. At a temperature of 4 °C (39.2 °F) pure water has its highest density (1000 kg/m3). At that temperature and assuming the standard acceleration of gravity, 1 inAq is approximately 249.082 pascals (0.0361263 psi).</summary>
         [[nodiscard]] constexpr un_scalar_t inches_of_water_column() const
         {
-            return convert_from_base(PressureUnit::InchesOfWaterColumn);
+            return convert_from_base(PressureUnit::InchOfWaterColumn);
         }
 
         /// <summary>Inches of water is a non-SI unit for pressure. It is defined as the pressure exerted by a column of water of 1 inch in height at defined conditions. At a temperature of 4 °C (39.2 °F) pure water has its highest density (1000 kg/m3). At that temperature and assuming the standard acceleration of gravity, 1 inAq is approximately 249.082 pascals (0.0361263 psi).</summary>
         [[nodiscard]] static constexpr Pressure from_inches_of_water_column(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::InchesOfWaterColumn);
+            return Pressure(value, PressureUnit::InchOfWaterColumn);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_force_per_square_meter() const
         {
-            return convert_from_base(PressureUnit::MilligramsForcePerSquareMeter);
+            return convert_from_base(PressureUnit::MilligramForcePerSquareMeter);
         }
 
         [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_meter(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MilligramsForcePerSquareMeter);
+            return Pressure(value, PressureUnit::MilligramForcePerSquareMeter);
         }
 
         [[nodiscard]] constexpr un_scalar_t milligrams_force_per_square_foot() const
         {
-            return convert_from_base(PressureUnit::MilligramsForcePerSquareFoot);
+            return convert_from_base(PressureUnit::MilligramForcePerSquareFoot);
         }
 
         [[nodiscard]] static constexpr Pressure from_milligrams_force_per_square_foot(const un_scalar_t value)
         {
-            return Pressure(value, PressureUnit::MilligramsForcePerSquareFoot);
+            return Pressure(value, PressureUnit::MilligramForcePerSquareFoot);
         }
 
         [[nodiscard]] static constexpr Pressure from_invalid()
@@ -836,154 +766,154 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case PressureUnit::Pascals:
+            case PressureUnit::Pascal:
                 return value;
 
-            case PressureUnit::Micropascals:
+            case PressureUnit::Micropascal:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case PressureUnit::Millipascals:
+            case PressureUnit::Millipascal:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case PressureUnit::Decapascals:
+            case PressureUnit::Decapascal:
                 return (value * static_cast<un_scalar_t>(1e1));
 
-            case PressureUnit::Hectopascals:
+            case PressureUnit::Hectopascal:
                 return (value * static_cast<un_scalar_t>(1e2));
 
-            case PressureUnit::Kilopascals:
+            case PressureUnit::Kilopascal:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case PressureUnit::Megapascals:
+            case PressureUnit::Megapascal:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case PressureUnit::Gigapascals:
+            case PressureUnit::Gigapascal:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case PressureUnit::Atmospheres:
+            case PressureUnit::Atmosphere:
                 return value * static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Bars:
+            case PressureUnit::Bar:
                 return value * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Microbars:
+            case PressureUnit::Microbar:
                 return (value * static_cast<un_scalar_t>(1e-6)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Millibars:
+            case PressureUnit::Millibar:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Centibars:
+            case PressureUnit::Centibar:
                 return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Decibars:
+            case PressureUnit::Decibar:
                 return (value * static_cast<un_scalar_t>(1e-1)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Kilobars:
+            case PressureUnit::Kilobar:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Megabars:
+            case PressureUnit::Megabar:
                 return (value * static_cast<un_scalar_t>(1e6)) * static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::KilogramsForcePerSquareMeter:
+            case PressureUnit::KilogramForcePerSquareMeter:
                 return value * static_cast<un_scalar_t>(9.80665);
 
-            case PressureUnit::KilogramsForcePerSquareCentimeter:
+            case PressureUnit::KilogramForcePerSquareCentimeter:
                 return value * static_cast<un_scalar_t>(9.80665e4);
 
-            case PressureUnit::KilogramsForcePerSquareMillimeter:
+            case PressureUnit::KilogramForcePerSquareMillimeter:
                 return value * static_cast<un_scalar_t>(9.80665e6);
 
-            case PressureUnit::NewtonsPerSquareMeter:
+            case PressureUnit::NewtonPerSquareMeter:
                 return value;
 
-            case PressureUnit::KilonewtonsPerSquareMeter:
+            case PressureUnit::KilonewtonPerSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case PressureUnit::MeganewtonsPerSquareMeter:
+            case PressureUnit::MeganewtonPerSquareMeter:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case PressureUnit::NewtonsPerSquareCentimeter:
+            case PressureUnit::NewtonPerSquareCentimeter:
                 return value * static_cast<un_scalar_t>(1e4);
 
-            case PressureUnit::KilonewtonsPerSquareCentimeter:
+            case PressureUnit::KilonewtonPerSquareCentimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e4);
 
-            case PressureUnit::NewtonsPerSquareMillimeter:
+            case PressureUnit::NewtonPerSquareMillimeter:
                 return value * static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::KilonewtonsPerSquareMillimeter:
+            case PressureUnit::KilonewtonPerSquareMillimeter:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::TechnicalAtmospheres:
+            case PressureUnit::TechnicalAtmosphere:
                 return value * static_cast<un_scalar_t>(9.80665e4);
 
-            case PressureUnit::Torrs:
+            case PressureUnit::Torr:
                 return value * static_cast<un_scalar_t>(101325) / static_cast<un_scalar_t>(760);
 
-            case PressureUnit::Millitorrs:
+            case PressureUnit::Millitorr:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(101325) / static_cast<un_scalar_t>(760);
 
-            case PressureUnit::PoundsForcePerSquareInch:
+            case PressureUnit::PoundForcePerSquareInch:
                 return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
-            case PressureUnit::KilopoundsForcePerSquareInch:
+            case PressureUnit::KilopoundForcePerSquareInch:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516);
 
-            case PressureUnit::PoundsForcePerSquareMil:
+            case PressureUnit::PoundForcePerSquareMil:
                 return value * static_cast<un_scalar_t>(4.4482216152605) / (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5));
 
-            case PressureUnit::KilopoundsForcePerSquareMil:
+            case PressureUnit::KilopoundForcePerSquareMil:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5));
 
-            case PressureUnit::PoundsForcePerSquareFoot:
+            case PressureUnit::PoundForcePerSquareFoot:
                 return value * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(9.290304e-2);
 
-            case PressureUnit::KilopoundsForcePerSquareFoot:
+            case PressureUnit::KilopoundForcePerSquareFoot:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(9.290304e-2);
 
-            case PressureUnit::TonnesForcePerSquareMillimeter:
+            case PressureUnit::TonneForcePerSquareMillimeter:
                 return value * static_cast<un_scalar_t>(9.80665e9);
 
-            case PressureUnit::TonnesForcePerSquareMeter:
+            case PressureUnit::TonneForcePerSquareMeter:
                 return value * static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::MetersOfHead:
+            case PressureUnit::MeterOfHead:
                 return value * static_cast<un_scalar_t>(9804.139432);
 
-            case PressureUnit::TonnesForcePerSquareCentimeter:
+            case PressureUnit::TonneForcePerSquareCentimeter:
                 return value * static_cast<un_scalar_t>(9.80665e7);
 
-            case PressureUnit::FeetOfHead:
+            case PressureUnit::FootOfHead:
                 return value * static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048);
 
-            case PressureUnit::MillimetersOfMercury:
+            case PressureUnit::MillimeterOfMercury:
                 return value * static_cast<un_scalar_t>(133.322387415);
 
-            case PressureUnit::InchesOfMercury:
+            case PressureUnit::InchOfMercury:
                 return value * static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415);
 
-            case PressureUnit::DynesPerSquareCentimeter:
+            case PressureUnit::DynePerSquareCentimeter:
                 return value * static_cast<un_scalar_t>(1.0e-1);
 
-            case PressureUnit::PoundsPerInchSecondSquared:
+            case PressureUnit::PoundPerInchSecondSquared:
                 return value * (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516)) / static_cast<un_scalar_t>(386.0886);
 
-            case PressureUnit::MetersOfWaterColumn:
+            case PressureUnit::MeterOfWaterColumn:
                 return value * static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::MillimetersOfWaterColumn:
+            case PressureUnit::MillimeterOfWaterColumn:
                 return (value * static_cast<un_scalar_t>(1e-3)) * static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::CentimetersOfWaterColumn:
+            case PressureUnit::CentimeterOfWaterColumn:
                 return (value * static_cast<un_scalar_t>(1e-2)) * static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::InchesOfWaterColumn:
+            case PressureUnit::InchOfWaterColumn:
                 return value * static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::MilligramsForcePerSquareMeter:
+            case PressureUnit::MilligramForcePerSquareMeter:
                 return value * static_cast<un_scalar_t>(9.80665e-6);
 
-            case PressureUnit::MilligramsForcePerSquareFoot:
+            case PressureUnit::MilligramForcePerSquareFoot:
                 return value * static_cast<un_scalar_t>(9.80665e-6) / static_cast<un_scalar_t>(9.290304e-2);
 
             }
@@ -1003,154 +933,154 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case PressureUnit::Pascals:
+            case PressureUnit::Pascal:
                 return base_value;
 
-            case PressureUnit::Micropascals:
+            case PressureUnit::Micropascal:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case PressureUnit::Millipascals:
+            case PressureUnit::Millipascal:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case PressureUnit::Decapascals:
+            case PressureUnit::Decapascal:
                 return (base_value) / static_cast<un_scalar_t>(1e1);
 
-            case PressureUnit::Hectopascals:
+            case PressureUnit::Hectopascal:
                 return (base_value) / static_cast<un_scalar_t>(1e2);
 
-            case PressureUnit::Kilopascals:
+            case PressureUnit::Kilopascal:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::Megapascals:
+            case PressureUnit::Megapascal:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::Gigapascals:
+            case PressureUnit::Gigapascal:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case PressureUnit::Atmospheres:
+            case PressureUnit::Atmosphere:
                 return base_value / (static_cast<un_scalar_t>(1.01325) * static_cast<un_scalar_t>(1e5));
 
-            case PressureUnit::Bars:
+            case PressureUnit::Bar:
                 return base_value / static_cast<un_scalar_t>(1e5);
 
-            case PressureUnit::Microbars:
+            case PressureUnit::Microbar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-6);
 
-            case PressureUnit::Millibars:
+            case PressureUnit::Millibar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-3);
 
-            case PressureUnit::Centibars:
+            case PressureUnit::Centibar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-2);
 
-            case PressureUnit::Decibars:
+            case PressureUnit::Decibar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e-1);
 
-            case PressureUnit::Kilobars:
+            case PressureUnit::Kilobar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::Megabars:
+            case PressureUnit::Megabar:
                 return (base_value / static_cast<un_scalar_t>(1e5)) / static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::KilogramsForcePerSquareMeter:
+            case PressureUnit::KilogramForcePerSquareMeter:
                 return base_value / static_cast<un_scalar_t>(9.80665);
 
-            case PressureUnit::KilogramsForcePerSquareCentimeter:
+            case PressureUnit::KilogramForcePerSquareCentimeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e4);
 
-            case PressureUnit::KilogramsForcePerSquareMillimeter:
+            case PressureUnit::KilogramForcePerSquareMillimeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e6);
 
-            case PressureUnit::NewtonsPerSquareMeter:
+            case PressureUnit::NewtonPerSquareMeter:
                 return base_value;
 
-            case PressureUnit::KilonewtonsPerSquareMeter:
+            case PressureUnit::KilonewtonPerSquareMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::MeganewtonsPerSquareMeter:
+            case PressureUnit::MeganewtonPerSquareMeter:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::NewtonsPerSquareCentimeter:
+            case PressureUnit::NewtonPerSquareCentimeter:
                 return base_value / static_cast<un_scalar_t>(1e4);
 
-            case PressureUnit::KilonewtonsPerSquareCentimeter:
+            case PressureUnit::KilonewtonPerSquareCentimeter:
                 return (base_value / static_cast<un_scalar_t>(1e4)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::NewtonsPerSquareMillimeter:
+            case PressureUnit::NewtonPerSquareMillimeter:
                 return base_value / static_cast<un_scalar_t>(1e6);
 
-            case PressureUnit::KilonewtonsPerSquareMillimeter:
+            case PressureUnit::KilonewtonPerSquareMillimeter:
                 return (base_value / static_cast<un_scalar_t>(1e6)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::TechnicalAtmospheres:
+            case PressureUnit::TechnicalAtmosphere:
                 return base_value / static_cast<un_scalar_t>(9.80665e4);
 
-            case PressureUnit::Torrs:
+            case PressureUnit::Torr:
                 return base_value * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325);
 
-            case PressureUnit::Millitorrs:
+            case PressureUnit::Millitorr:
                 return (base_value * static_cast<un_scalar_t>(760) / static_cast<un_scalar_t>(101325)) / static_cast<un_scalar_t>(1e-3);
 
-            case PressureUnit::PoundsForcePerSquareInch:
+            case PressureUnit::PoundForcePerSquareInch:
                 return base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605);
 
-            case PressureUnit::KilopoundsForcePerSquareInch:
+            case PressureUnit::KilopoundForcePerSquareInch:
                 return (base_value * static_cast<un_scalar_t>(0.00064516) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::PoundsForcePerSquareMil:
+            case PressureUnit::PoundForcePerSquareMil:
                 return base_value * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605);
 
-            case PressureUnit::KilopoundsForcePerSquareMil:
+            case PressureUnit::KilopoundForcePerSquareMil:
                 return (base_value * (static_cast<un_scalar_t>(2.54e-5) * static_cast<un_scalar_t>(2.54e-5)) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::PoundsForcePerSquareFoot:
+            case PressureUnit::PoundForcePerSquareFoot:
                 return base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605);
 
-            case PressureUnit::KilopoundsForcePerSquareFoot:
+            case PressureUnit::KilopoundForcePerSquareFoot:
                 return (base_value * static_cast<un_scalar_t>(9.290304e-2) / static_cast<un_scalar_t>(4.4482216152605)) / static_cast<un_scalar_t>(1e3);
 
-            case PressureUnit::TonnesForcePerSquareMillimeter:
+            case PressureUnit::TonneForcePerSquareMillimeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e9);
 
-            case PressureUnit::TonnesForcePerSquareMeter:
+            case PressureUnit::TonneForcePerSquareMeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::MetersOfHead:
+            case PressureUnit::MeterOfHead:
                 return base_value / static_cast<un_scalar_t>(9804.139432);
 
-            case PressureUnit::TonnesForcePerSquareCentimeter:
+            case PressureUnit::TonneForcePerSquareCentimeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e7);
 
-            case PressureUnit::FeetOfHead:
+            case PressureUnit::FootOfHead:
                 return base_value / (static_cast<un_scalar_t>(9804.139432) * static_cast<un_scalar_t>(0.3048));
 
-            case PressureUnit::MillimetersOfMercury:
+            case PressureUnit::MillimeterOfMercury:
                 return base_value / static_cast<un_scalar_t>(133.322387415);
 
-            case PressureUnit::InchesOfMercury:
+            case PressureUnit::InchOfMercury:
                 return base_value / (static_cast<un_scalar_t>(2.54e1) * static_cast<un_scalar_t>(133.322387415));
 
-            case PressureUnit::DynesPerSquareCentimeter:
+            case PressureUnit::DynePerSquareCentimeter:
                 return base_value / static_cast<un_scalar_t>(1.0e-1);
 
-            case PressureUnit::PoundsPerInchSecondSquared:
+            case PressureUnit::PoundPerInchSecondSquared:
                 return base_value * static_cast<un_scalar_t>(386.0886) / (static_cast<un_scalar_t>(4.4482216152605) / static_cast<un_scalar_t>(0.00064516));
 
-            case PressureUnit::MetersOfWaterColumn:
+            case PressureUnit::MeterOfWaterColumn:
                 return base_value / static_cast<un_scalar_t>(9.80665e3);
 
-            case PressureUnit::MillimetersOfWaterColumn:
+            case PressureUnit::MillimeterOfWaterColumn:
                 return (base_value / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-3);
 
-            case PressureUnit::CentimetersOfWaterColumn:
+            case PressureUnit::CentimeterOfWaterColumn:
                 return (base_value / static_cast<un_scalar_t>(9.80665e3)) / static_cast<un_scalar_t>(1e-2);
 
-            case PressureUnit::InchesOfWaterColumn:
+            case PressureUnit::InchOfWaterColumn:
                 return base_value / (static_cast<un_scalar_t>(2.54e-2) * static_cast<un_scalar_t>(9.80665e3));
 
-            case PressureUnit::MilligramsForcePerSquareMeter:
+            case PressureUnit::MilligramForcePerSquareMeter:
                 return base_value / static_cast<un_scalar_t>(9.80665e-6);
 
-            case PressureUnit::MilligramsForcePerSquareFoot:
+            case PressureUnit::MilligramForcePerSquareFoot:
                 return base_value / static_cast<un_scalar_t>(9.80665e-6) * static_cast<un_scalar_t>(9.290304e-2);
 
             }

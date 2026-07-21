@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -10,16 +18,78 @@ namespace unitsnet_cpp
 {
     enum class SpecificEntropyUnit : std::uint8_t
     {
-        JoulesPerKilogramKelvin,
-        KilojoulesPerKilogramKelvin,
-        MegajoulesPerKilogramKelvin,
-        JoulesPerKilogramDegreeCelsius,
-        KilojoulesPerKilogramDegreeCelsius,
-        MegajoulesPerKilogramDegreeCelsius,
-        CaloriesPerGramKelvin,
-        KilocaloriesPerGramKelvin,
-        BtusPerPoundFahrenheit,
+        JoulePerKilogramKelvin,
+        KilojoulePerKilogramKelvin,
+        MegajoulePerKilogramKelvin,
+        JoulePerKilogramDegreeCelsius,
+        KilojoulePerKilogramDegreeCelsius,
+        MegajoulePerKilogramDegreeCelsius,
+        CaloriePerGramKelvin,
+        KilocaloriePerGramKelvin,
+        BtuPerPoundFahrenheit,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of SpecificEntropy.</summary>
+    class SpecificEntropyDto
+    {
+    public:
+        constexpr SpecificEntropyDto() noexcept
+            : value{}, unit(SpecificEntropyUnit::JoulePerKilogramKelvin)
+        {
+        }
+
+        constexpr SpecificEntropyDto(
+            const un_scalar_t value,
+            const SpecificEntropyUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        SpecificEntropyUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr SpecificEntropyUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<SpecificEntropyUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown SpecificEntropy unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificEntropyDto from_json(const nlohmann::json& json)
+        {
+            return SpecificEntropyDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Specific entropy is an amount of energy required to raise temperature of a substance by 1 Kelvin per unit mass.</summary>
     class SpecificEntropy : public UnitsNetBase
@@ -27,57 +97,10 @@ namespace unitsnet_cpp
     public:
         constexpr explicit SpecificEntropy(
             const un_scalar_t value,
-            const SpecificEntropyUnit unit = SpecificEntropyUnit::JoulesPerKilogramKelvin)
+            const SpecificEntropyUnit unit = SpecificEntropyUnit::JoulePerKilogramKelvin)
         {
             value_ = value;
             value_unit_type_ = unit;
-        }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "SpecificEntropy"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case SpecificEntropyUnit::JoulesPerKilogramKelvin:
-                return "JoulesPerKilogramKelvin";
-
-            case SpecificEntropyUnit::KilojoulesPerKilogramKelvin:
-                return "KilojoulesPerKilogramKelvin";
-
-            case SpecificEntropyUnit::MegajoulesPerKilogramKelvin:
-                return "MegajoulesPerKilogramKelvin";
-
-            case SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius:
-                return "JoulesPerKilogramDegreeCelsius";
-
-            case SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius:
-                return "KilojoulesPerKilogramDegreeCelsius";
-
-            case SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius:
-                return "MegajoulesPerKilogramDegreeCelsius";
-
-            case SpecificEntropyUnit::CaloriesPerGramKelvin:
-                return "CaloriesPerGramKelvin";
-
-            case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
-                return "KilocaloriesPerGramKelvin";
-
-            case SpecificEntropyUnit::BtusPerPoundFahrenheit:
-                return "BtusPerPoundFahrenheit";
-
-            }
-            
-            return {};
         }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
@@ -89,6 +112,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr SpecificEntropyDto to_dto(
+            const SpecificEntropyUnit unit = SpecificEntropyUnit::JoulePerKilogramKelvin) const
+        {
+            return SpecificEntropyDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr SpecificEntropy from_dto(const SpecificEntropyDto& dto)
+        {
+            return SpecificEntropy(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const SpecificEntropyUnit unit = SpecificEntropyUnit::JoulePerKilogramKelvin) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static SpecificEntropy from_json(const nlohmann::json& json)
+        {
+            return from_dto(SpecificEntropyDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr SpecificEntropy operator+(const SpecificEntropy& other) const noexcept
         {
@@ -127,92 +180,92 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t joules_per_kilogram_kelvin() const
         {
-            return convert_from_base(SpecificEntropyUnit::JoulesPerKilogramKelvin);
+            return convert_from_base(SpecificEntropyUnit::JoulePerKilogramKelvin);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_joules_per_kilogram_kelvin(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::JoulesPerKilogramKelvin);
+            return SpecificEntropy(value, SpecificEntropyUnit::JoulePerKilogramKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_kilogram_kelvin() const
         {
-            return convert_from_base(SpecificEntropyUnit::KilojoulesPerKilogramKelvin);
+            return convert_from_base(SpecificEntropyUnit::KilojoulePerKilogramKelvin);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_kilojoules_per_kilogram_kelvin(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::KilojoulesPerKilogramKelvin);
+            return SpecificEntropy(value, SpecificEntropyUnit::KilojoulePerKilogramKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t megajoules_per_kilogram_kelvin() const
         {
-            return convert_from_base(SpecificEntropyUnit::MegajoulesPerKilogramKelvin);
+            return convert_from_base(SpecificEntropyUnit::MegajoulePerKilogramKelvin);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_megajoules_per_kilogram_kelvin(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::MegajoulesPerKilogramKelvin);
+            return SpecificEntropy(value, SpecificEntropyUnit::MegajoulePerKilogramKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t joules_per_kilogram_degree_celsius() const
         {
-            return convert_from_base(SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius);
+            return convert_from_base(SpecificEntropyUnit::JoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_joules_per_kilogram_degree_celsius(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius);
+            return SpecificEntropy(value, SpecificEntropyUnit::JoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilojoules_per_kilogram_degree_celsius() const
         {
-            return convert_from_base(SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius);
+            return convert_from_base(SpecificEntropyUnit::KilojoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_kilojoules_per_kilogram_degree_celsius(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius);
+            return SpecificEntropy(value, SpecificEntropyUnit::KilojoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] constexpr un_scalar_t megajoules_per_kilogram_degree_celsius() const
         {
-            return convert_from_base(SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius);
+            return convert_from_base(SpecificEntropyUnit::MegajoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_megajoules_per_kilogram_degree_celsius(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius);
+            return SpecificEntropy(value, SpecificEntropyUnit::MegajoulePerKilogramDegreeCelsius);
         }
 
         [[nodiscard]] constexpr un_scalar_t calories_per_gram_kelvin() const
         {
-            return convert_from_base(SpecificEntropyUnit::CaloriesPerGramKelvin);
+            return convert_from_base(SpecificEntropyUnit::CaloriePerGramKelvin);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_calories_per_gram_kelvin(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::CaloriesPerGramKelvin);
+            return SpecificEntropy(value, SpecificEntropyUnit::CaloriePerGramKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilocalories_per_gram_kelvin() const
         {
-            return convert_from_base(SpecificEntropyUnit::KilocaloriesPerGramKelvin);
+            return convert_from_base(SpecificEntropyUnit::KilocaloriePerGramKelvin);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_kilocalories_per_gram_kelvin(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::KilocaloriesPerGramKelvin);
+            return SpecificEntropy(value, SpecificEntropyUnit::KilocaloriePerGramKelvin);
         }
 
         [[nodiscard]] constexpr un_scalar_t btus_per_pound_fahrenheit() const
         {
-            return convert_from_base(SpecificEntropyUnit::BtusPerPoundFahrenheit);
+            return convert_from_base(SpecificEntropyUnit::BtuPerPoundFahrenheit);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_btus_per_pound_fahrenheit(const un_scalar_t value)
         {
-            return SpecificEntropy(value, SpecificEntropyUnit::BtusPerPoundFahrenheit);
+            return SpecificEntropy(value, SpecificEntropyUnit::BtuPerPoundFahrenheit);
         }
 
         [[nodiscard]] static constexpr SpecificEntropy from_invalid()
@@ -226,31 +279,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificEntropyUnit::JoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::JoulePerKilogramKelvin:
                 return value;
 
-            case SpecificEntropyUnit::KilojoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::KilojoulePerKilogramKelvin:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case SpecificEntropyUnit::MegajoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::MegajoulePerKilogramKelvin:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::JoulePerKilogramDegreeCelsius:
                 return value;
 
-            case SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::KilojoulePerKilogramDegreeCelsius:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::MegajoulePerKilogramDegreeCelsius:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case SpecificEntropyUnit::CaloriesPerGramKelvin:
+            case SpecificEntropyUnit::CaloriePerGramKelvin:
                 return value * static_cast<un_scalar_t>(4.184e3);
 
-            case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
+            case SpecificEntropyUnit::KilocaloriePerGramKelvin:
                 return (value * static_cast<un_scalar_t>(1e3)) * static_cast<un_scalar_t>(4.184e3);
 
-            case SpecificEntropyUnit::BtusPerPoundFahrenheit:
+            case SpecificEntropyUnit::BtuPerPoundFahrenheit:
                 return value * static_cast<un_scalar_t>(4.1868e3);
 
             }
@@ -270,31 +323,31 @@ namespace unitsnet_cpp
             switch (unit)
             {
 
-            case SpecificEntropyUnit::JoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::JoulePerKilogramKelvin:
                 return base_value;
 
-            case SpecificEntropyUnit::KilojoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::KilojoulePerKilogramKelvin:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case SpecificEntropyUnit::MegajoulesPerKilogramKelvin:
+            case SpecificEntropyUnit::MegajoulePerKilogramKelvin:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case SpecificEntropyUnit::JoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::JoulePerKilogramDegreeCelsius:
                 return base_value;
 
-            case SpecificEntropyUnit::KilojoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::KilojoulePerKilogramDegreeCelsius:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case SpecificEntropyUnit::MegajoulesPerKilogramDegreeCelsius:
+            case SpecificEntropyUnit::MegajoulePerKilogramDegreeCelsius:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case SpecificEntropyUnit::CaloriesPerGramKelvin:
+            case SpecificEntropyUnit::CaloriePerGramKelvin:
                 return base_value / static_cast<un_scalar_t>(4.184e3);
 
-            case SpecificEntropyUnit::KilocaloriesPerGramKelvin:
+            case SpecificEntropyUnit::KilocaloriePerGramKelvin:
                 return (base_value / static_cast<un_scalar_t>(4.184e3)) / static_cast<un_scalar_t>(1e3);
 
-            case SpecificEntropyUnit::BtusPerPoundFahrenheit:
+            case SpecificEntropyUnit::BtuPerPoundFahrenheit:
                 return base_value / static_cast<un_scalar_t>(4.1868e3);
 
             }

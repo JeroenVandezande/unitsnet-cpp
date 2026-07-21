@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -18,15 +26,77 @@ namespace unitsnet_cpp
         Megasiemens,
         Gigasiemens,
         Terasiemens,
-        Mhos,
-        Nanomhos,
-        Micromhos,
-        Millimhos,
-        Kilomhos,
-        Megamhos,
-        Gigamhos,
-        Teramhos,
+        Mho,
+        Nanomho,
+        Micromho,
+        Millimho,
+        Kilomho,
+        Megamho,
+        Gigamho,
+        Teramho,
     };
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of ElectricSusceptance.</summary>
+    class ElectricSusceptanceDto
+    {
+    public:
+        constexpr ElectricSusceptanceDto() noexcept
+            : value{}, unit(ElectricSusceptanceUnit::Siemens)
+        {
+        }
+
+        constexpr ElectricSusceptanceDto(
+            const un_scalar_t value,
+            const ElectricSusceptanceUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        ElectricSusceptanceUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr ElectricSusceptanceUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<ElectricSusceptanceUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown ElectricSusceptance unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricSusceptanceDto from_json(const nlohmann::json& json)
+        {
+            return ElectricSusceptanceDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
 
     /// <summary>Electrical susceptance is the imaginary part of admittance, where the real part is conductance.</summary>
     class ElectricSusceptance : public UnitsNetBase
@@ -39,74 +109,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "ElectricSusceptance"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case ElectricSusceptanceUnit::Siemens:
-                return "Siemens";
-
-            case ElectricSusceptanceUnit::Nanosiemens:
-                return "Nanosiemens";
-
-            case ElectricSusceptanceUnit::Microsiemens:
-                return "Microsiemens";
-
-            case ElectricSusceptanceUnit::Millisiemens:
-                return "Millisiemens";
-
-            case ElectricSusceptanceUnit::Kilosiemens:
-                return "Kilosiemens";
-
-            case ElectricSusceptanceUnit::Megasiemens:
-                return "Megasiemens";
-
-            case ElectricSusceptanceUnit::Gigasiemens:
-                return "Gigasiemens";
-
-            case ElectricSusceptanceUnit::Terasiemens:
-                return "Terasiemens";
-
-            case ElectricSusceptanceUnit::Mhos:
-                return "Mhos";
-
-            case ElectricSusceptanceUnit::Nanomhos:
-                return "Nanomhos";
-
-            case ElectricSusceptanceUnit::Micromhos:
-                return "Micromhos";
-
-            case ElectricSusceptanceUnit::Millimhos:
-                return "Millimhos";
-
-            case ElectricSusceptanceUnit::Kilomhos:
-                return "Kilomhos";
-
-            case ElectricSusceptanceUnit::Megamhos:
-                return "Megamhos";
-
-            case ElectricSusceptanceUnit::Gigamhos:
-                return "Gigamhos";
-
-            case ElectricSusceptanceUnit::Teramhos:
-                return "Teramhos";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -117,6 +119,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr ElectricSusceptanceDto to_dto(
+            const ElectricSusceptanceUnit unit = ElectricSusceptanceUnit::Siemens) const
+        {
+            return ElectricSusceptanceDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr ElectricSusceptance from_dto(const ElectricSusceptanceDto& dto)
+        {
+            return ElectricSusceptance(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const ElectricSusceptanceUnit unit = ElectricSusceptanceUnit::Siemens) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static ElectricSusceptance from_json(const nlohmann::json& json)
+        {
+            return from_dto(ElectricSusceptanceDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr ElectricSusceptance operator+(const ElectricSusceptance& other) const noexcept
         {
@@ -235,82 +267,82 @@ namespace unitsnet_cpp
 
         [[nodiscard]] constexpr un_scalar_t mhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Mhos);
+            return convert_from_base(ElectricSusceptanceUnit::Mho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_mhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Mhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Mho);
         }
 
         [[nodiscard]] constexpr un_scalar_t nanomhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Nanomhos);
+            return convert_from_base(ElectricSusceptanceUnit::Nanomho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_nanomhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Nanomhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Nanomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t micromhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Micromhos);
+            return convert_from_base(ElectricSusceptanceUnit::Micromho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_micromhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Micromhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Micromho);
         }
 
         [[nodiscard]] constexpr un_scalar_t millimhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Millimhos);
+            return convert_from_base(ElectricSusceptanceUnit::Millimho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_millimhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Millimhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Millimho);
         }
 
         [[nodiscard]] constexpr un_scalar_t kilomhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Kilomhos);
+            return convert_from_base(ElectricSusceptanceUnit::Kilomho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_kilomhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Kilomhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Kilomho);
         }
 
         [[nodiscard]] constexpr un_scalar_t megamhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Megamhos);
+            return convert_from_base(ElectricSusceptanceUnit::Megamho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_megamhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Megamhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Megamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t gigamhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Gigamhos);
+            return convert_from_base(ElectricSusceptanceUnit::Gigamho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_gigamhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Gigamhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Gigamho);
         }
 
         [[nodiscard]] constexpr un_scalar_t teramhos() const
         {
-            return convert_from_base(ElectricSusceptanceUnit::Teramhos);
+            return convert_from_base(ElectricSusceptanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_teramhos(const un_scalar_t value)
         {
-            return ElectricSusceptance(value, ElectricSusceptanceUnit::Teramhos);
+            return ElectricSusceptance(value, ElectricSusceptanceUnit::Teramho);
         }
 
         [[nodiscard]] static constexpr ElectricSusceptance from_invalid()
@@ -348,28 +380,28 @@ namespace unitsnet_cpp
             case ElectricSusceptanceUnit::Terasiemens:
                 return (value * static_cast<un_scalar_t>(1e12));
 
-            case ElectricSusceptanceUnit::Mhos:
+            case ElectricSusceptanceUnit::Mho:
                 return value;
 
-            case ElectricSusceptanceUnit::Nanomhos:
+            case ElectricSusceptanceUnit::Nanomho:
                 return (value * static_cast<un_scalar_t>(1e-9));
 
-            case ElectricSusceptanceUnit::Micromhos:
+            case ElectricSusceptanceUnit::Micromho:
                 return (value * static_cast<un_scalar_t>(1e-6));
 
-            case ElectricSusceptanceUnit::Millimhos:
+            case ElectricSusceptanceUnit::Millimho:
                 return (value * static_cast<un_scalar_t>(1e-3));
 
-            case ElectricSusceptanceUnit::Kilomhos:
+            case ElectricSusceptanceUnit::Kilomho:
                 return (value * static_cast<un_scalar_t>(1e3));
 
-            case ElectricSusceptanceUnit::Megamhos:
+            case ElectricSusceptanceUnit::Megamho:
                 return (value * static_cast<un_scalar_t>(1e6));
 
-            case ElectricSusceptanceUnit::Gigamhos:
+            case ElectricSusceptanceUnit::Gigamho:
                 return (value * static_cast<un_scalar_t>(1e9));
 
-            case ElectricSusceptanceUnit::Teramhos:
+            case ElectricSusceptanceUnit::Teramho:
                 return (value * static_cast<un_scalar_t>(1e12));
 
             }
@@ -413,28 +445,28 @@ namespace unitsnet_cpp
             case ElectricSusceptanceUnit::Terasiemens:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
-            case ElectricSusceptanceUnit::Mhos:
+            case ElectricSusceptanceUnit::Mho:
                 return base_value;
 
-            case ElectricSusceptanceUnit::Nanomhos:
+            case ElectricSusceptanceUnit::Nanomho:
                 return (base_value) / static_cast<un_scalar_t>(1e-9);
 
-            case ElectricSusceptanceUnit::Micromhos:
+            case ElectricSusceptanceUnit::Micromho:
                 return (base_value) / static_cast<un_scalar_t>(1e-6);
 
-            case ElectricSusceptanceUnit::Millimhos:
+            case ElectricSusceptanceUnit::Millimho:
                 return (base_value) / static_cast<un_scalar_t>(1e-3);
 
-            case ElectricSusceptanceUnit::Kilomhos:
+            case ElectricSusceptanceUnit::Kilomho:
                 return (base_value) / static_cast<un_scalar_t>(1e3);
 
-            case ElectricSusceptanceUnit::Megamhos:
+            case ElectricSusceptanceUnit::Megamho:
                 return (base_value) / static_cast<un_scalar_t>(1e6);
 
-            case ElectricSusceptanceUnit::Gigamhos:
+            case ElectricSusceptanceUnit::Gigamho:
                 return (base_value) / static_cast<un_scalar_t>(1e9);
 
-            case ElectricSusceptanceUnit::Teramhos:
+            case ElectricSusceptanceUnit::Teramho:
                 return (base_value) / static_cast<un_scalar_t>(1e12);
 
             }

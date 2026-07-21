@@ -3,6 +3,14 @@
 #include <cstdint>
 #include <numbers>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+#include <magic_enum/magic_enum.hpp>
+#endif
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+#include <nlohmann/json.hpp>
+#endif
 #include "UnitsNetConfig.h"
 #include "UnitsNetBase.h"
 
@@ -18,6 +26,68 @@ namespace unitsnet_cpp
         PpmPerDegreeFahrenheit,
     };
 
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+    /// <summary>A data-transfer representation of CoefficientOfThermalExpansion.</summary>
+    class CoefficientOfThermalExpansionDto
+    {
+    public:
+        constexpr CoefficientOfThermalExpansionDto() noexcept
+            : value{}, unit(CoefficientOfThermalExpansionUnit::PerKelvin)
+        {
+        }
+
+        constexpr CoefficientOfThermalExpansionDto(
+            const un_scalar_t value,
+            const CoefficientOfThermalExpansionUnit unit) noexcept
+            : value(value), unit(unit)
+        {
+        }
+
+        /// <summary>The numeric value of the quantity.</summary>
+        un_scalar_t value;
+
+        /// <summary>The unit in which value is expressed.</summary>
+        CoefficientOfThermalExpansionUnit unit;
+
+        /// <summary>The stable UnitsNet name used for cross-language serialization.</summary>
+        [[nodiscard]] constexpr std::string_view unit_name() const noexcept
+        {
+            return magic_enum::enum_name(unit);
+        }
+
+        /// <summary>Converts a stable UnitsNet unit name to its strongly typed enum.</summary>
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansionUnit unit_from_name(const std::string_view name)
+        {
+            const auto unit = magic_enum::enum_cast<CoefficientOfThermalExpansionUnit>(name);
+            if (unit.has_value())
+            {
+                return *unit;
+            }
+
+            throw std::invalid_argument("Unknown CoefficientOfThermalExpansion unit name.");
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this DTO to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json() const
+        {
+            return nlohmann::json{
+                {"value", value},
+                {"unit", unit_name()}
+            };
+        }
+
+        /// <summary>Creates a DTO from a nlohmann JSON object.</summary>
+        [[nodiscard]] static CoefficientOfThermalExpansionDto from_json(const nlohmann::json& json)
+        {
+            return CoefficientOfThermalExpansionDto(
+                json.at("value").get<un_scalar_t>(),
+                unit_from_name(json.at("unit").get<std::string>()));
+        }
+#endif
+    };
+#endif
+
     /// <summary>A unit that represents a fractional change in size in response to a change in temperature.</summary>
     class CoefficientOfThermalExpansion : public UnitsNetBase
     {
@@ -29,44 +99,6 @@ namespace unitsnet_cpp
             value_ = value;
             value_unit_type_ = unit;
         }
-        
-        [[nodiscard]] constexpr un_scalar_t stored_value() const noexcept override
-        {
-           return value_; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view quantity_name() const noexcept override
-        {
-           return "CoefficientOfThermalExpansion"; 
-        }
-        
-        [[nodiscard]] constexpr std::string_view unit_name() const noexcept override
-        {
-            switch (value_unit_type_)
-            {
-
-            case CoefficientOfThermalExpansionUnit::PerKelvin:
-                return "PerKelvin";
-
-            case CoefficientOfThermalExpansionUnit::PerDegreeCelsius:
-                return "PerDegreeCelsius";
-
-            case CoefficientOfThermalExpansionUnit::PerDegreeFahrenheit:
-                return "PerDegreeFahrenheit";
-
-            case CoefficientOfThermalExpansionUnit::PpmPerKelvin:
-                return "PpmPerKelvin";
-
-            case CoefficientOfThermalExpansionUnit::PpmPerDegreeCelsius:
-                return "PpmPerDegreeCelsius";
-
-            case CoefficientOfThermalExpansionUnit::PpmPerDegreeFahrenheit:
-                return "PpmPerDegreeFahrenheit";
-
-            }
-            
-            return {};
-        }
                 
         [[nodiscard]] constexpr un_scalar_t base_value() const noexcept
         {
@@ -77,6 +109,36 @@ namespace unitsnet_cpp
         {
             return convert_from_base(unit);
         }
+
+#if defined(UNITSNET_ENABLE_DTO) || defined(UNITSNET_ENABLE_NLOHMANN_JSON)
+        /// <summary>Creates a DTO, expressed in the requested unit.</summary>
+        [[nodiscard]] constexpr CoefficientOfThermalExpansionDto to_dto(
+            const CoefficientOfThermalExpansionUnit unit = CoefficientOfThermalExpansionUnit::PerKelvin) const
+        {
+            return CoefficientOfThermalExpansionDto(value(unit), unit);
+        }
+
+        /// <summary>Creates a quantity from its DTO representation.</summary>
+        [[nodiscard]] static constexpr CoefficientOfThermalExpansion from_dto(const CoefficientOfThermalExpansionDto& dto)
+        {
+            return CoefficientOfThermalExpansion(dto.value, dto.unit);
+        }
+
+#ifdef UNITSNET_ENABLE_NLOHMANN_JSON
+        /// <summary>Serializes this quantity to a nlohmann JSON object.</summary>
+        [[nodiscard]] nlohmann::json to_json(
+            const CoefficientOfThermalExpansionUnit unit = CoefficientOfThermalExpansionUnit::PerKelvin) const
+        {
+            return to_dto(unit).to_json();
+        }
+
+        /// <summary>Creates a quantity from a nlohmann JSON object.</summary>
+        [[nodiscard]] static CoefficientOfThermalExpansion from_json(const nlohmann::json& json)
+        {
+            return from_dto(CoefficientOfThermalExpansionDto::from_json(json));
+        }
+#endif
+#endif
 
         [[nodiscard]] constexpr CoefficientOfThermalExpansion operator+(const CoefficientOfThermalExpansion& other) const noexcept
         {
