@@ -1,5 +1,8 @@
 # unitsnet-cpp
 
+[![Tests](https://github.com/JeroenVandezande/unitsnet-cpp/actions/workflows/tests.yml/badge.svg)](https://github.com/JeroenVandezande/unitsnet-cpp/actions/workflows/tests.yml)
+[![CPM.cmake ready](https://img.shields.io/badge/CPM.cmake-ready-blue.svg)](https://github.com/cpm-cmake/CPM.cmake)
+
 A header-only C++20 port of [UnitsNet](https://github.com/angularsen/UnitsNet), inspired by the API and approach of [unitsnet-js](https://github.com/haimkastner/unitsnet-js).
 
 `unitsnet-cpp` provides strongly typed quantities and unit conversions without a runtime dependency. The quantity headers are generated from the upstream UnitsNet definitions.
