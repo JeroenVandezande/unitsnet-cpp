@@ -187,6 +187,17 @@ The C# generator is a maintainer tool only. It is not configured, built, or exec
 
 Maintainers who want to update the generated headers need the .NET 10 SDK. NuGet restores the generator's Scriban dependency from [`codegen.csproj`](codegen/codegen.csproj).
 
+## Units.NET on other platforms
+
+Get the same strongly typed units on other platforms, based on the same [unit definitions](/Common/UnitDefinitions).
+
+| Language                   | Name        | Package                                           					 | Repository                                           | Maintainers  |
+|----------------------------|-------------|---------------------------------------------------------------------|------------------------------------------------------|--------------|
+| C#                         | UnitsNet    | [nuget](https://www.nuget.org/packages/UnitsNet/) 					 | [github](https://github.com/angularsen/UnitsNet)     | @angularsen  |
+| JavaScript /<br>TypeScript | unitsnet-js | [npm](https://www.npmjs.com/package/unitsnet-js)  					 | [github](https://github.com/haimkastner/unitsnet-js) | @haimkastner |
+| Python                     | unitsnet-py | [pypi](https://pypi.org/project/unitsnet-py)      					 | [github](https://github.com/haimkastner/unitsnet-py) | @haimkastner |
+| Golang                     | unitsnet-go | [pkg.go.dev](https://pkg.go.dev/github.com/haimkastner/unitsnet-go) | [github](https://github.com/haimkastner/unitsnet-go) | @haimkastner |
+
 ## Project status
 
 The current release focuses on generated quantity types, conversions, same-quantity arithmetic, comparisons, and optional DTO serialization. Some functionality available in UnitsNet—such as string parsing, formatting, localization, runtime quantity discovery, and cross-quantity operators—is not yet implemented.
