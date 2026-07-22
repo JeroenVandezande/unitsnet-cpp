@@ -63,6 +63,20 @@ namespace
         quoted += '\"';
         return quoted;
     }
+
+    int run_command(const std::string& command)
+    {
+#ifdef _WIN32
+        // std::system() uses cmd.exe on Windows. When a command starts with a
+        // quoted executable path, cmd.exe requires another pair of quotes
+        // around the complete command line or it treats the first space as
+        // the end of the executable name (for example, "C:/Program").
+        const std::string windows_command = "\"" + command + "\"";
+        return std::system(windows_command.c_str());
+#else
+        return std::system(command.c_str());
+#endif
+    }
 }
 
 TEST_CASE("Length conversions and arithmetic", "[length][arithmetic]")
@@ -173,7 +187,7 @@ TEST_CASE("Length JSON round-trips through unitsnet-py", "[dto][json][python][in
         shell_quote(output_path.string());
 
     INFO("Python command: " << command);
-    REQUIRE(std::system(command.c_str()) == 0);
+    REQUIRE(run_command(command) == 0);
 
     nlohmann::json returned_json;
     {
@@ -212,7 +226,7 @@ TEST_CASE("Length JSON round-trips through UnitsNet C#", "[dto][json][csharp][in
         shell_quote(output_path.string());
 
     INFO("C# command: " << command);
-    REQUIRE(std::system(command.c_str()) == 0);
+    REQUIRE(run_command(command) == 0);
 
     nlohmann::json returned_json;
     {
