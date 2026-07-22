@@ -186,3 +186,42 @@ TEST_CASE("Length JSON round-trips through unitsnet-py", "[dto][json][python][in
     const auto tripled = Length::from_json(returned_json);
     check_near(tripled.kilometers(), original.kilometers() * 3.0, 1e-12);
 }
+
+TEST_CASE("Length JSON round-trips through UnitsNet C#", "[dto][json][csharp][integration]")
+{
+    using namespace unitsnet_cpp;
+    namespace fs = std::filesystem;
+
+    const fs::path work_directory = UNITSNET_TEST_INTEROP_WORK_DIR;
+    const fs::path input_path = work_directory / (std::string(UNITSNET_TEST_VARIANT) + "_csharp_input.json");
+    const fs::path output_path = work_directory / (std::string(UNITSNET_TEST_VARIANT) + "_csharp_output.json");
+    fs::create_directories(work_directory);
+
+    const auto original = Length::from_kilometers(2.5);
+    {
+        std::ofstream output(input_path);
+        REQUIRE(output);
+        output << original.to_json(LengthUnit::Kilometer).dump(2) << '\n';
+        REQUIRE(output.good());
+    }
+
+    const std::string command =
+        shell_quote(UNITSNET_TEST_DOTNET_EXECUTABLE) + " " +
+        shell_quote(UNITSNET_TEST_CSHARP_INTEROP_DLL) + " " +
+        shell_quote(input_path.string()) + " " +
+        shell_quote(output_path.string());
+
+    INFO("C# command: " << command);
+    REQUIRE(std::system(command.c_str()) == 0);
+
+    nlohmann::json returned_json;
+    {
+        std::ifstream input(output_path);
+        REQUIRE(input);
+        input >> returned_json;
+    }
+
+    CHECK(returned_json.at("unit").get<std::string>() == "Kilometer");
+    const auto tripled = Length::from_json(returned_json);
+    check_near(tripled.kilometers(), original.kilometers() * 3.0, 1e-12);
+}

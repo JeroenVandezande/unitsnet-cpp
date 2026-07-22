@@ -6,6 +6,7 @@ project(
 )
 
 find_package(Python3 3.8 REQUIRED COMPONENTS Interpreter)
+find_program(DOTNET_EXECUTABLE NAMES dotnet REQUIRED)
 
 # Permit configuring this directory directly with: cmake -S tests -B build
 if (PROJECT_IS_TOP_LEVEL)
@@ -56,6 +57,27 @@ CPMAddPackage(
         DOWNLOAD_ONLY YES
 )
 
+set(UNITSNET_CSHARP_INTEROP_PROJECT "${CMAKE_CURRENT_LIST_DIR}/csharp/UnitsNet.CSharpInterop.csproj")
+set(UNITSNET_CSHARP_INTEROP_SOURCE "${CMAKE_CURRENT_LIST_DIR}/csharp/Program.cs")
+set(UNITSNET_CSHARP_INTEROP_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/csharp_interop")
+set(UNITSNET_CSHARP_INTEROP_DLL "${UNITSNET_CSHARP_INTEROP_OUTPUT_DIR}/UnitsNet.CSharpInterop.dll")
+
+add_custom_command(
+        OUTPUT "${UNITSNET_CSHARP_INTEROP_DLL}"
+        COMMAND "${CMAKE_COMMAND}" -E make_directory "${UNITSNET_CSHARP_INTEROP_OUTPUT_DIR}"
+        COMMAND
+        "${DOTNET_EXECUTABLE}" build "${UNITSNET_CSHARP_INTEROP_PROJECT}"
+        --configuration Release
+        --output "${UNITSNET_CSHARP_INTEROP_OUTPUT_DIR}"
+        --nologo
+        DEPENDS
+        "${UNITSNET_CSHARP_INTEROP_PROJECT}"
+        "${UNITSNET_CSHARP_INTEROP_SOURCE}"
+        COMMENT "Building the UnitsNet C# interoperability helper"
+        VERBATIM
+)
+add_custom_target(unitsnet_csharp_interop DEPENDS "${UNITSNET_CSHARP_INTEROP_DLL}")
+
 # This interface target is the test fixture for optional library features.
 # It enables DTO and JSON APIs without changing the public library target.
 add_library(unitsnet_cpp_test_features INTERFACE)
@@ -103,9 +125,12 @@ function(unitsnet_cpp_add_test_target target_name test_prefix)
             UNITSNET_TEST_PYTHON_EXECUTABLE="${Python3_EXECUTABLE}"
             UNITSNET_TEST_PYTHON_SCRIPT="${CMAKE_CURRENT_LIST_DIR}/python/unitsnet_interop.py"
             UNITSNET_TEST_UNITSNET_PY_SOURCE_DIR="${unitsnet_py_SOURCE_DIR}"
+            UNITSNET_TEST_DOTNET_EXECUTABLE="${DOTNET_EXECUTABLE}"
+            UNITSNET_TEST_CSHARP_INTEROP_DLL="${UNITSNET_CSHARP_INTEROP_DLL}"
             UNITSNET_TEST_INTEROP_WORK_DIR="${CMAKE_CURRENT_BINARY_DIR}/python_interop"
             UNITSNET_TEST_VARIANT="${target_name}"
     )
+    add_dependencies(${target_name} unitsnet_csharp_interop)
     unitsnet_cpp_enable_test_warnings(${target_name})
 
     catch_discover_tests(

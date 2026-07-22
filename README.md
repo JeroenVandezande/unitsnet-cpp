@@ -153,7 +153,7 @@ cmake --build build --target unitsnet_cpp_compile_check
 
 The Catch2 test suite covers representative linear and affine conversions, enum-based conversion, arithmetic, comparisons, DTOs, `magic_enum`, JSON round-trips, and invalid-unit handling. Every C++ test is compiled and run twice: once with the default `double` representation and once with `UNITSNET_CPP_USE_FLOAT`. Catch2 discovers the individual cases through CTest, which is also used by the GitHub Actions workflow.
 
-A cross-language integration test writes a Length DTO with C++, reads it with [unitsnet-py](https://github.com/haimkastner/unitsnet-py), multiplies its value by three in Python, writes it back as JSON, and verifies the result with C++. The tagged Python source is fetched test-only and loaded through `PYTHONPATH`; it is not installed globally and is never pulled into consumer builds.
+Cross-language integration tests write a Length DTO with C++ and round-trip it through both [unitsnet-py](https://github.com/haimkastner/unitsnet-py) and the original [UnitsNet C#](https://github.com/angularsen/UnitsNet) library. Each foreign implementation creates a real Length, multiplies it by three, writes it back as JSON, and C++ verifies the result. The Python source and C# NuGet package are test-only dependencies and are never pulled into consumer builds.
 
 Tests are enabled by default when building `unitsnet-cpp` directly and disabled by default when it is included as a dependency through CPM. To build and run them explicitly:
 

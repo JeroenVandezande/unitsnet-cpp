@@ -1,2 +1,4 @@
 codegen/bin/
 codegen/obj/
+
+tests/csharp/obj/
