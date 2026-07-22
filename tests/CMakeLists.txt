@@ -5,6 +5,8 @@ project(
         LANGUAGES CXX
 )
 
+find_package(Python3 3.8 REQUIRED COMPONENTS Interpreter)
+
 # Permit configuring this directory directly with: cmake -S tests -B build
 if (PROJECT_IS_TOP_LEVEL)
     set(UNITSNET_CPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -47,6 +49,13 @@ if (NOT TARGET Catch2::Catch2WithMain)
     )
 endif ()
 
+CPMAddPackage(
+        NAME unitsnet_py
+        GITHUB_REPOSITORY haimkastner/unitsnet-py
+        GIT_TAG 1.0.5
+        DOWNLOAD_ONLY YES
+)
+
 # This interface target is the test fixture for optional library features.
 # It enables DTO and JSON APIs without changing the public library target.
 add_library(unitsnet_cpp_test_features INTERFACE)
@@ -87,6 +96,16 @@ function(unitsnet_cpp_add_test_target target_name test_prefix)
     )
 
     target_compile_features(${target_name} PRIVATE cxx_std_20)
+    target_compile_definitions(
+            ${target_name}
+            PRIVATE
+            UNITSNET_TEST_CMAKE_COMMAND="${CMAKE_COMMAND}"
+            UNITSNET_TEST_PYTHON_EXECUTABLE="${Python3_EXECUTABLE}"
+            UNITSNET_TEST_PYTHON_SCRIPT="${CMAKE_CURRENT_LIST_DIR}/python/unitsnet_interop.py"
+            UNITSNET_TEST_UNITSNET_PY_SOURCE_DIR="${unitsnet_py_SOURCE_DIR}"
+            UNITSNET_TEST_INTEROP_WORK_DIR="${CMAKE_CURRENT_BINARY_DIR}/python_interop"
+            UNITSNET_TEST_VARIANT="${target_name}"
+    )
     unitsnet_cpp_enable_test_warnings(${target_name})
 
     catch_discover_tests(

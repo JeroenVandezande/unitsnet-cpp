@@ -12,6 +12,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
 #include <numbers>
 #include <stdexcept>
 #include <string>
@@ -41,6 +44,24 @@ namespace
         CHECK_THAT(
             actual,
             Catch::Matchers::WithinAbs(expected, adjusted_tolerance(expected, tolerance)));
+    }
+
+    std::string shell_quote(const std::string& value)
+    {
+        std::string quoted = "\"";
+        for (const char character : value)
+        {
+            if (character == '\"')
+            {
+                quoted += "\\\"";
+            }
+            else
+            {
+                quoted += character;
+            }
+        }
+        quoted += '\"';
+        return quoted;
     }
 }
 
@@ -123,4 +144,45 @@ TEST_CASE("DTO and quantity JSON APIs round-trip", "[dto][json]")
         {"unit", "NotAUnit"}
     };
     CHECK_THROWS_AS(LengthDto::from_json(invalid), std::invalid_argument);
+}
+
+TEST_CASE("Length JSON round-trips through unitsnet-py", "[dto][json][python][integration]")
+{
+    using namespace unitsnet_cpp;
+    namespace fs = std::filesystem;
+
+    const fs::path work_directory = UNITSNET_TEST_INTEROP_WORK_DIR;
+    const fs::path input_path = work_directory / (std::string(UNITSNET_TEST_VARIANT) + "_cpp_length.json");
+    const fs::path output_path = work_directory / (std::string(UNITSNET_TEST_VARIANT) + "_python_length.json");
+    fs::create_directories(work_directory);
+
+    const auto original = Length::from_kilometers(2.5);
+    {
+        std::ofstream output(input_path);
+        REQUIRE(output);
+        output << original.to_json(LengthUnit::Inch).dump(2) << '\n';
+        REQUIRE(output.good());
+    }
+
+    const std::string command =
+        shell_quote(UNITSNET_TEST_CMAKE_COMMAND) + " -E env " +
+        shell_quote(std::string("PYTHONPATH=") + UNITSNET_TEST_UNITSNET_PY_SOURCE_DIR) + " " +
+        shell_quote(UNITSNET_TEST_PYTHON_EXECUTABLE) + " " +
+        shell_quote(UNITSNET_TEST_PYTHON_SCRIPT) + " " +
+        shell_quote(input_path.string()) + " " +
+        shell_quote(output_path.string());
+
+    INFO("Python command: " << command);
+    REQUIRE(std::system(command.c_str()) == 0);
+
+    nlohmann::json returned_json;
+    {
+        std::ifstream input(output_path);
+        REQUIRE(input);
+        input >> returned_json;
+    }
+
+    CHECK(returned_json.at("unit").get<std::string>() == "Kilometer");
+    const auto tripled = Length::from_json(returned_json);
+    check_near(tripled.kilometers(), original.kilometers() * 3.0, 1e-12);
 }
