@@ -64,15 +64,17 @@ endforeach ()
 # Header-only library
 # ---------------------------------------------------------------------------
 
-# Download CPM.cmake
-set(CPM_VERSION 0.43.1)
-message("Downloading CPM Package Manager version ${CPM_VERSION}")
-file(
-        DOWNLOAD
-        https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_VERSION}/CPM.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake
-)
-include("${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake")
+if (NOT COMMAND CPMAddPackage)
+    # Download CPM.cmake
+    set(CPM_VERSION 0.43.1)
+    message("Downloading CPM Package Manager version ${CPM_VERSION}")
+    file(
+            DOWNLOAD
+            https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_VERSION}/CPM.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake
+    )
+    include("${CMAKE_CURRENT_BINARY_DIR}/CPM_${CPM_VERSION}.cmake")
+endif ()
 
 if (UNITSNET_ENABLE_DTO AND NOT TARGET magic_enum::magic_enum)
     CPMAddPackage(
@@ -128,8 +130,8 @@ if (UNITSNET_ENABLE_NLOHMANN_JSON)
     )
 
     target_compile_definitions(
-        unitsnet_cpp
-        INTERFACE
+            unitsnet_cpp
+            INTERFACE
             UNITSNET_ENABLE_NLOHMANN_JSON
     )
 endif ()
